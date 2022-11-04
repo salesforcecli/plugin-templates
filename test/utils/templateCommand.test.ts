@@ -98,12 +98,12 @@ describe('TemplateCommand', () => {
   describe('Custom templates', () => {
     const LOCAL_CUSTOM_TEMPLATES = path.join(__dirname, '../../../test/custom-templates');
     const TEST_CUSTOM_TEMPLATES_REPO =
-      'https://github.com/forcedotcom/salesforcedx-templates/tree/main/packages/templates/test/custom-templates';
+      'https://github.com/salesforcecli/plugin-templates/tree/main/packages/templates/test/custom-templates';
     const NON_EXISTENT_LOCAL_PATH = 'this-folder-does-not-exist';
     const NON_EXISTENT_REPO = 'https://github.com/forcedotcom/this-repo-does-not-exist';
-    const INVALID_URL_REPO = 'https://github.com/forcedotcom/salesforcedx-templates/invalid-url';
+    const INVALID_URL_REPO = 'https://github.com/salesforcecli/plugin-templates/invalid-url';
     const HTTP_REPO =
-      'http://github.com/forcedotcom/salesforcedx-templates/tree/main/packages/templates/test/custom-templates';
+      'http://github.com/salesforcecli/plugin-templates/tree/main/packages/templates/test/custom-templates';
     const GITLAB_REPO =
       'https://gitlab.com/forcedotcom/salesforcedx-templates/tree/main/packages/templates/test/custom-templates';
 
