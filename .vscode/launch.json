@@ -15,9 +15,30 @@
       "name": "Run All Tests",
       "type": "node",
       "request": "launch",
-      "cwd": "${workspaceFolder}",
-      "runtimeExecutable": "yarn",
-      "runtimeArgs": ["test"],
+      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+      "args": ["--inspect", "--no-timeouts", "--colors", "test/**/*.test.ts"],
+      "env": {
+        "NODE_ENV": "development",
+        "SFDX_ENV": "development"
+      },
+      "sourceMaps": true,
+      "smartStep": true,
+      "internalConsoleOptions": "openOnSessionStart",
+      "preLaunchTask": "Compile"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Run Current Test",
+      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+      "args": ["--inspect", "--no-timeouts", "--colors", "${file}"],
+      "env": {
+        "NODE_ENV": "development",
+        "SFDX_ENV": "development"
+      },
+      "sourceMaps": true,
+      "smartStep": true,
+      "internalConsoleOptions": "openOnSessionStart",
       "preLaunchTask": "Compile"
     }
   ]

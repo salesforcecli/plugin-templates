@@ -103,7 +103,7 @@ $ sfdx hello:org -u myOrg@example.com --dev-suspend
 Alternatively, to call your command using the `bin/run` script, set the `NODE_OPTIONS` environment variable to `--inspect-brk` when starting the debugger:
 
 ```sh-session
-$ NODE_OPTIONS=--inspect-brk bin/run hello:org -u myOrg@example.com
+$ NODE_OPTIONS=--inspect-brk ./bin/run force:apex:class:create --classname 'TestClass' --template 'DefaultApexClass' --outputdir ./testsoutput/myApex/
 ```
 
 2. Set some breakpoints in your command code.
