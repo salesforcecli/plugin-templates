@@ -117,7 +117,7 @@ describe('TemplateCommand', () => {
       .command(['force:apex:class:create', '--classname', 'foo'])
       .it('should create custom template from git repo', (ctx) => {
         assert.file(['foo.cls', 'foo.cls-meta.xml']);
-        assert.fileContent('foo.cls', 'public with sharing class Customfoo');
+        assert.fileContent('foo.cls', 'public with sharing class foo');
       });
 
     test
@@ -145,7 +145,7 @@ describe('TemplateCommand', () => {
       .command(['force:apex:class:create', '--classname', 'foo'])
       .it('should create custom template from local folder', (ctx) => {
         assert.file(['foo.cls', 'foo.cls-meta.xml']);
-        assert.fileContent('foo.cls', 'public with sharing class Customfoo');
+        assert.fileContent('foo.cls', 'public with sharing class foo');
       });
 
     test
