@@ -4,6 +4,7 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
+import * as path from 'path';
 import { test } from '@salesforce/command/lib/test';
 import { ConfigAggregator, SfdxPropertyKeys } from '@salesforce/core';
 import { ForceGeneratorAdapter, Log } from '@salesforce/templates/lib/utils';
@@ -11,17 +12,27 @@ import * as assert from 'yeoman-assert';
 
 import { nls } from '@salesforce/templates/lib/i18n';
 import { expect } from 'chai';
-import * as path from 'path';
 import { stub } from 'sinon';
 import { TemplateCommand } from '../../src/utils';
+
+interface cliOutput {
+  status: string;
+  result: {
+    outputDir: string;
+    created: [];
+    rawOutput: string;
+  };
+}
 
 /* tslint:disable: no-unused-expression */
 describe('TemplateCommand', () => {
   describe('getDefaultApiVersion', () => {
     it('should parse apiVersion using the major version number of the package.json', async () => {
+      // eslint-disable-next-line
       const { version } = require('../../package.json');
       expect(version).to.not.be.undefined;
-      const major = version.trim().split('.')[0];
+      // eslint-disable-next-line
+      const major: string = version?.trim().split('.')[0];
       const apiVersion = await TemplateCommand.getApiVersion();
       expect(apiVersion).to.equal(`${major}.0`);
     });
@@ -79,7 +90,7 @@ describe('TemplateCommand', () => {
       .stdout()
       .command(['force:apex:class:create', '--classname', 'foo', '--json'])
       .it('should log json output when flag is specified', (output) => {
-        const jsonOutput = JSON.parse(output.stdout);
+        const jsonOutput = JSON.parse(output.stdout) as cliOutput;
         expect(jsonOutput).to.haveOwnProperty('status');
         expect(jsonOutput.status).to.equal(0);
         expect(jsonOutput).to.haveOwnProperty('result');

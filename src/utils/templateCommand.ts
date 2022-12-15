@@ -17,6 +17,8 @@ import * as yeomanGenerator from 'yeoman-generator';
 
 import { MessageUtil } from './messageUtil';
 export abstract class TemplateCommand extends SfdxCommand {
+  private static aggregator?: ConfigAggregator;
+
   public static buildJson(adapter: ForceGeneratorAdapter, targetDir: string): CreateOutput {
     const cleanOutput = adapter.log.getCleanOutput();
     const rawOutput = `target dir = ${targetDir}\n${adapter.log.getOutput()}`;
@@ -28,17 +30,10 @@ export abstract class TemplateCommand extends SfdxCommand {
     return output;
   }
 
-  private static aggregator?: ConfigAggregator;
-  private static async getConfigAggregator(): Promise<ConfigAggregator> {
-    if (!TemplateCommand.aggregator) {
-      TemplateCommand.aggregator = await ConfigAggregator.create();
-    }
-    return TemplateCommand.aggregator;
-  }
-
   public static getDefaultApiVersion(): string {
-    const packageJsonPath = path.join('..', '..', 'package.json');
-    const versionTrimmed = require(packageJsonPath).version.trim();
+    const packageJsonPath: string = path.join('..', '..', 'package.json');
+    // eslint-disable-next-line
+    const versionTrimmed: string = require(packageJsonPath).version.trim();
     return `${versionTrimmed.split('.')[0]}.0`;
   }
 
@@ -52,7 +47,7 @@ export abstract class TemplateCommand extends SfdxCommand {
     }
   }
 
-  public static async getCustomTemplates() {
+  public static async getCustomTemplates(): Promise<string | undefined> {
     try {
       const aggregator = await TemplateCommand.getConfigAggregator();
       // we're still accessing the old `customOrgMetadataTemplates` key, but this is deprecated and we'll use the new key to access the value
@@ -65,8 +60,14 @@ export abstract class TemplateCommand extends SfdxCommand {
     }
   }
 
-  public abstract run(): Promise<AnyJson>;
+  private static async getConfigAggregator(): Promise<ConfigAggregator> {
+    if (!TemplateCommand.aggregator) {
+      TemplateCommand.aggregator = await ConfigAggregator.create();
+    }
+    return TemplateCommand.aggregator;
+  }
 
+  // eslint-disable-next-line
   public async runGenerator(generator: yeomanGenerator.GeneratorConstructor) {
     // Can't specify a default value the normal way for apiversion, so set it here
     if (!this.flags.apiversion) {
@@ -85,6 +86,7 @@ export abstract class TemplateCommand extends SfdxCommand {
 
     // @ts-ignore env.run should have a callback param. This should all go away if switched to lib implementation
     const result = await env.run('generator', this.flags);
+    // eslint-disable-next-line
     const targetDir = path.resolve(this.flags.outputdir);
     if (this.flags.json) {
       return TemplateCommand.buildJson(adapter, targetDir);
@@ -94,4 +96,6 @@ export abstract class TemplateCommand extends SfdxCommand {
       return {};
     }
   }
+
+  public abstract run(): Promise<AnyJson>;
 }

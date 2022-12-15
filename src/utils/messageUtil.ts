@@ -12,6 +12,8 @@ export type Token = string | number | boolean;
 
 // TODO: Update util when sfdxdocgen is updated to support oclif
 export class MessageUtil {
+  private static messages = Messages.loadMessages('@salesforce/plugin-templates', 'messages');
+
   /**
    * Get the message for a given key
    *
@@ -37,7 +39,7 @@ export class MessageUtil {
     extra?: string
   ): string {
     return (
-      this.messages.getMessage(descriptionKey, tokens) + '\n' + this.getHelpHead(isLightningBundle) + (extra || '')
+      this.messages.getMessage(descriptionKey, tokens) + '\n' + this.getHelpHead(isLightningBundle) + (extra ?? '')
     );
   }
 
@@ -55,13 +57,11 @@ export class MessageUtil {
   public static buildHelpText(examples: string[], isLightningBundle: boolean, extra?: string): string {
     return (
       this.getHelpHead(isLightningBundle) +
-      (extra || '') +
+      (extra ?? '') +
       this.messages.getMessage('HelpExamplesTitle') +
       examples.reduce((acc, current) => acc + `   ${current}\n`, '')
     );
   }
-
-  private static messages = Messages.loadMessages('@salesforce/plugin-templates', 'messages');
 
   private static getHelpHead(isLightning: boolean): string {
     return (

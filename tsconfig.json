@@ -23,5 +23,5 @@
     // if we import metadatainfos.json
     // "composite": true
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*", "./test/**/*"]
 }
