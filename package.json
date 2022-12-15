@@ -84,10 +84,20 @@
     ],
     "topics": {
       "force": {
+        "description": "commands to create salesforce metadata",
         "external": true,
         "subtopics": {
           "apex": {
-            "external": true
+            "description": "work with apex",
+            "external": true,
+            "subtopics": {
+              "class": {
+                "description": "create apex class"
+              },
+              "trigger": {
+                "description": "create apex trigger"
+              }
+            }
           },
           "analytics": {
             "description": "work with analytics assets",
@@ -100,19 +110,45 @@
             }
           },
           "lightning": {
-            "external": true
+            "description": "work with lwc and aura components",
+            "external": true,
+            "subtopics": {
+              "app": {
+                "description": "create app (aura or lwc)"
+              },
+              "component": {
+                "description": "create component (aura or lwc)"
+              },
+              "event": {
+                "description": "create aura event"
+              },
+              "interface": {
+                "description": "create aura interface"
+              },
+              "test": {
+                "description": "create lwc test"
+              }
+            }
           },
           "project": {
-            "external": true,
-            "subtopics": {}
+            "description": "work with sfdx projects",
+            "external": true
           },
           "visualforce": {
+            "description": "work with visualforce components",
             "external": true,
-            "subtopics": {}
+            "subtopics": {
+              "component": {
+                "description": "create a visualforce"
+              },
+              "page": {
+                "description": "create a visualforce page"
+              }
+            }
           },
           "staticresource": {
-            "external": true,
-            "subtopics": {}
+            "description": "work with static resources",
+            "external": true
           }
         }
       }
@@ -132,7 +168,7 @@
     "docs": "sf-docs",
     "format": "sf-format",
     "lint": "sf-lint",
-    "lint:fix": "eslint -c .eslintrc.js --ext .ts ./src ./test --fix",
+    "lint:fix": "eslint 'src/**/*.ts' 'test/**/*.ts'  --fix",
     "manifest:generate": "oclif manifest",
     "manifest:remove": "shx rm -f oclif.manifest.json",
     "posttest": "yarn lint && yarn test:deprecation-policy && yarn test:command-reference",
