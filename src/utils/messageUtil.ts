@@ -14,6 +14,7 @@ export type Token = string | number | boolean;
 export class MessageUtil {
   /**
    * Get the message for a given key
+   *
    * @param key The key of the message
    * @param tokens The values to substitute in the message
    */
@@ -23,6 +24,7 @@ export class MessageUtil {
 
   /**
    * Get the description used in the --help output for the command
+   *
    * @param descriptionKey The message key for the description text
    * @param isLightningBundle If the command is for a lightning bundle
    * @param tokens The values to substitute in the message
@@ -45,6 +47,7 @@ export class MessageUtil {
    * **USE `buildDescription` FOR SETTING THE `description` PROPERTY OF
    * A COMMAND. THIS IS EXCLUSIVELY USED TO SET THE `help` PROPERTY ON THE COMMAND FOR
    * DOC GENERATING PURPOSES AND IS NOT SHOWN IN THE --help OUTPUT.**
+   *
    * @param examples Example uses of the command
    * @param isLightningBundle If the command is for a lightning bundle
    * @param extra Extra text to append to the help message before the examples

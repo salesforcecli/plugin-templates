@@ -5,13 +5,13 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
+import * as path from 'path';
 import { SfdxCommand } from '@salesforce/command';
 import { OrgConfigProperties, ConfigAggregator, SfdxPropertyKeys } from '@salesforce/core';
 import { TemplateService } from '@salesforce/templates';
 import { ForceGeneratorAdapter } from '@salesforce/templates/lib/utils';
 import { CreateOutput } from '@salesforce/templates/lib/utils/types';
 import { AnyJson } from '@salesforce/ts-types';
-import * as path from 'path';
 import * as yeoman from 'yeoman-environment';
 import * as yeomanGenerator from 'yeoman-generator';
 
