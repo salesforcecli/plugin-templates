@@ -96,14 +96,17 @@
             }
           },
           "lightning": {
-            "external": true
+            "external": true,
+            "description": "Commands to create Aura components and Lightning web components."
           },
           "project": {
             "external": true,
+            "description": "Commands to set up a Salesforce DX project.",
             "subtopics": {}
           },
           "visualforce": {
             "external": true,
+            "description": "Commands to create Visualforce pages and components.",
             "subtopics": {}
           },
           "staticresource": {
