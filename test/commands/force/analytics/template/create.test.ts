@@ -4,9 +4,9 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
+import * as path from 'path';
 import test, { expect } from '@salesforce/command/lib/test';
 import { nls } from '@salesforce/templates/lib/i18n';
-import * as path from 'path';
 import * as assert from 'yeoman-assert';
 
 describe('Analytics template creation tests:', () => {

@@ -67,7 +67,7 @@ export default class Project extends TemplateCommand {
   };
   public async run(): Promise<AnyJson> {
     // namespace is a reserved keyword for the generator
-
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     this.flags.ns = this.flags.namespace;
 
     return this.runGenerator(ProjectGenerator);

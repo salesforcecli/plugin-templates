@@ -4,11 +4,11 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
+import * as fs from 'fs';
+import * as path from 'path';
 import { expect, test } from '@salesforce/command/lib/test';
 import { Messages } from '@salesforce/core';
 import { nls } from '@salesforce/templates/lib/i18n';
-import * as fs from 'fs';
-import * as path from 'path';
 import * as assert from 'yeoman-assert';
 
 Messages.importMessagesDirectory(__dirname);

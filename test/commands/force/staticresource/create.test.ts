@@ -4,10 +4,10 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-import { expect, test } from '@salesforce/command/lib/test';
-import { nls } from '@salesforce/templates/lib/i18n';
 import * as fs from 'fs';
 import * as path from 'path';
+import { expect, test } from '@salesforce/command/lib/test';
+import { nls } from '@salesforce/templates/lib/i18n';
 import * as assert from 'yeoman-assert';
 
 describe('Static resource creation tests:', () => {
@@ -52,7 +52,7 @@ describe('Static resource creation tests:', () => {
         assert.file(['foo.json', 'foo.resource-meta.xml']);
         assert.fileContent(
           path.join(process.cwd(), 'foo.json'),
-          `{\n  "__info": "Replace the contents of this file with your static resource"\n}\n`
+          '{\n  "__info": "Replace the contents of this file with your static resource"\n}\n'
         );
       });
 
