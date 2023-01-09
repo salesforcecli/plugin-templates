@@ -52,7 +52,7 @@ describe('Static resource creation tests:', () => {
         assert.file(['foo.json', 'foo.resource-meta.xml']);
         assert.fileContent(
           path.join(process.cwd(), 'foo.json'),
-          `{\n  "__info": "Replace the contents of this file with your static resource"\n}\n`
+          '{\n  "__info": "Replace the contents of this file with your static resource"\n}\n'
         );
       });
 

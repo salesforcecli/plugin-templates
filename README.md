@@ -1,9 +1,9 @@
 # plugin-templates
 
-This repository provides a series of commands, templates, and generators for various metadata types. It is bundled with the [salesforcedx plugin](https://www.npmjs.com/package/salesforcedx).
+This repository provides a series of commands, templates, and generators for various metadata types.
 
-[![Known Vulnerabilities](https://snyk.io/test/github/forcedotcom/salesforcedx-templates/badge.svg)](https://snyk.io/test/github/forcedotcom/salesforcedx-templates)
-[![License](https://img.shields.io/npm/l/salesforcedx-templates.svg)](https://github.com/salesforcecli/plugin-templates/blob/master/package.json)
+[![Known Vulnerabilities](https://snyk.io/test/github/salesforcecli/plugin-templates/badge.svg)](https://snyk.io/test/github/salesforcecli/plugin-templates)
+[![License](https://img.shields.io/npm/l/@salesforce/plugin-templates.svg)](https://github.com/salesforcecli/plugin-templates/blob/master/package.json)
 
 # Getting Started
 
@@ -68,10 +68,10 @@ Agreement. You can do so by going to https://cla.salesforce.com/sign-cla.
 
 ## Developing Plugin
 
-To test plugin locally, use `bin/run` in place of `sfdx`. For example:
+To test plugin locally, use `bin/dev` in place of `sfdx`. For example:
 
 ```sh
-./bin/run force:apex:class:create --classname 'TestClass' --template 'DefaultApexClass' --outputdir ./testsoutput/myApex/
+./bin/dev force:apex:class:create --classname 'TestClass' --template 'DefaultApexClass' --outputdir ./testsoutput/myApex/
 ```
 
 Link your plugin to Salesforce CLI:
@@ -100,10 +100,10 @@ To debug the `hello:org` command:
 $ sfdx hello:org -u myOrg@example.com --dev-suspend
 ```
 
-Alternatively, to call your command using the `bin/run` script, set the `NODE_OPTIONS` environment variable to `--inspect-brk` when starting the debugger:
+Alternatively, to call your command using the `bin/dev` script, set the `NODE_OPTIONS` environment variable to `--inspect-brk` when starting the debugger:
 
 ```sh-session
-$ NODE_OPTIONS=--inspect-brk ./bin/run force:apex:class:create --classname 'TestClass' --template 'DefaultApexClass' --outputdir ./testsoutput/myApex/
+$ NODE_OPTIONS=--inspect-brk ./bin/dev force:apex:class:create --classname 'TestClass' --template 'DefaultApexClass' --outputdir ./testsoutput/myApex/
 ```
 
 2. Set some breakpoints in your command code.

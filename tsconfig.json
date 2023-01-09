@@ -1,5 +1,5 @@
 {
-  "extends": "./node_modules/@salesforce/dev-config/tsconfig",
+  "extends": "@salesforce/dev-config/tsconfig",
   "compilerOptions": {
     "module": "commonjs",
     "target": "es6",
@@ -23,5 +23,5 @@
     // if we import metadatainfos.json
     // "composite": true
   },
-  "include": ["./src/**/*", "./test/**/*"]
+  "include": ["./src/**/*.ts"]
 }

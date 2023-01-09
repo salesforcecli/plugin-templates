@@ -5,32 +5,15 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 module.exports = {
-  extends: [
-    'eslint-config-salesforce-typescript', 
-    'eslint-config-salesforce-license', 
-    'plugin:sf-plugin/recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended'
-  ],
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    ecmaVersion: 6,
-    sourceType: 'module',
-    project: ['./tsconfig.json']
-  },
-  plugins: [
-    '@typescript-eslint', 
-    'jsdoc', 
-    'eslint-plugin-header',
-  ],
+  extends: ['eslint-config-salesforce-typescript', 'eslint-config-salesforce-license', 'plugin:sf-plugin/recommended'],
   rules: {
     'ban-ts-ignore': 'off',
     '@typescript-eslint/ban-ts-ignore': 'off',
-    'camelcase': 'off',
+    camelcase: 'off',
     '@typescript-eslint/camelcase': 'off',
     'constructor-super': 'warn',
-    'curly': 'error',
-    'eqeqeq': 'error',
+    curly: 'error',
+    eqeqeq: 'error',
     'no-buffer-constructor': 'error',
     'no-caller': 'error',
     'no-debugger': 'warn',
@@ -43,17 +26,7 @@ module.exports = {
     'no-throw-literal': 'error',
     'no-unsafe-finally': 'warn',
     'no-unused-labels': 'warn',
-    'no-restricted-globals': [
-      'warn',
-      'name',
-      'length',
-      'event',
-      'closed',
-      'external',
-      'status',
-      'origin',
-      'context'
-    ], // non-complete list of globals that are easy to access unintentionally
+    'no-restricted-globals': ['warn', 'name', 'length', 'event', 'closed', 'external', 'status', 'origin', 'context'], // non-complete list of globals that are easy to access unintentionally
     'no-var': 'error',
     'jsdoc/no-types': 'warn',
     '@typescript-eslint/semi': 'warn',
@@ -61,16 +34,16 @@ module.exports = {
       2,
       'block',
       [
-        "",
+        '',
         {
-          'pattern': ' \\* Copyright \\(c\\) \\d{4}, salesforce\\.com, inc\\.',
-          'template': ' * Copyright (c) 2022, salesforce.com, inc.'
+          pattern: ' \\* Copyright \\(c\\) \\d{4}, salesforce\\.com, inc\\.',
+          template: ' * Copyright (c) 2022, salesforce.com, inc.',
         },
         ' * All rights reserved.',
         ' * Licensed under the BSD 3-Clause license.',
         ' * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause',
-        ' '
-      ]
+        ' ',
+      ],
     ],
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': ['off'],
@@ -78,6 +51,6 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': ['off'],
     '@typescript-eslint/ban-ts-comment': ['off'],
     '@typescript-eslint/no-non-null-assertion': ['off'],
-    '@typescript-eslint/no-var-requires': ['off']
+    '@typescript-eslint/no-var-requires': ['off'],
   },
 };
