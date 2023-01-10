@@ -115,7 +115,7 @@
             }
           },
           "lightning": {
-            "description": "work with lwc and aura components",
+            "description": "Commands to create Aura components and Lightning web components.",
             "external": true,
             "subtopics": {
               "app": {
@@ -136,11 +136,11 @@
             }
           },
           "project": {
-            "description": "work with sfdx projects",
+            "description": "Commands to set up a Salesforce DX project.",
             "external": true
           },
           "visualforce": {
-            "description": "work with visualforce components",
+            "description": "Commands to create Visualforce pages and components.",
             "external": true,
             "subtopics": {
               "component": {
