@@ -12,8 +12,11 @@ export type Token = string | number | boolean;
 
 // TODO: Update util when sfdxdocgen is updated to support oclif
 export class MessageUtil {
+  private static messages = Messages.loadMessages('@salesforce/plugin-templates', 'messages');
+
   /**
    * Get the message for a given key
+   *
    * @param key The key of the message
    * @param tokens The values to substitute in the message
    */
@@ -23,6 +26,7 @@ export class MessageUtil {
 
   /**
    * Get the description used in the --help output for the command
+   *
    * @param descriptionKey The message key for the description text
    * @param isLightningBundle If the command is for a lightning bundle
    * @param tokens The values to substitute in the message
@@ -35,7 +39,7 @@ export class MessageUtil {
     extra?: string
   ): string {
     return (
-      this.messages.getMessage(descriptionKey, tokens) + '\n' + this.getHelpHead(isLightningBundle) + (extra || '')
+      this.messages.getMessage(descriptionKey, tokens) + '\n' + this.getHelpHead(isLightningBundle) + (extra ?? '')
     );
   }
 
@@ -45,6 +49,7 @@ export class MessageUtil {
    * **USE `buildDescription` FOR SETTING THE `description` PROPERTY OF
    * A COMMAND. THIS IS EXCLUSIVELY USED TO SET THE `help` PROPERTY ON THE COMMAND FOR
    * DOC GENERATING PURPOSES AND IS NOT SHOWN IN THE --help OUTPUT.**
+   *
    * @param examples Example uses of the command
    * @param isLightningBundle If the command is for a lightning bundle
    * @param extra Extra text to append to the help message before the examples
@@ -52,13 +57,11 @@ export class MessageUtil {
   public static buildHelpText(examples: string[], isLightningBundle: boolean, extra?: string): string {
     return (
       this.getHelpHead(isLightningBundle) +
-      (extra || '') +
+      (extra ?? '') +
       this.messages.getMessage('HelpExamplesTitle') +
       examples.reduce((acc, current) => acc + `   ${current}\n`, '')
     );
   }
-
-  private static messages = Messages.loadMessages('@salesforce/plugin-templates', 'messages');
 
   private static getHelpHead(isLightning: boolean): string {
     return (
