@@ -1,4 +1,13 @@
-# 55.2.0 (2023-01-18)
+## [55.2.1](https://github.com/salesforcecli/plugin-templates/compare/55.2.0...55.2.1) (2023-01-19)
+
+
+### Bug Fixes
+
+* **deps:** bump @salesforce/core from 3.25.1 to 3.32.14 ([545f07c](https://github.com/salesforcecli/plugin-templates/commit/545f07cda8f6679ce46d832f231c08e99df01c1d))
+
+
+
+# [55.2.0](https://github.com/salesforcecli/plugin-templates/compare/8006edb600bcb9118446419e28637c2fed71badc...55.2.0) (2023-01-18)
 
 
 ### Bug Fixes
