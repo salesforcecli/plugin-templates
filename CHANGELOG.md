@@ -1,3 +1,12 @@
+## [55.2.3](https://github.com/salesforcecli/plugin-templates/compare/55.2.2...55.2.3) (2023-01-22)
+
+
+### Bug Fixes
+
+* **deps:** bump yeoman-environment from 3.9.1 to 3.13.0 ([08a7821](https://github.com/salesforcecli/plugin-templates/commit/08a78217a0e36196c470e99f14de6062727f2530))
+
+
+
 ## [55.2.2](https://github.com/salesforcecli/plugin-templates/compare/55.2.1...55.2.2) (2023-01-22)
 
 
