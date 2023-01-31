@@ -4,51 +4,61 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-import { flags } from '@salesforce/command';
+import { Flags, loglevel, SfCommand, orgApiVersionFlagWithDeprecations, Ux } from '@salesforce/sf-plugins-core';
+import { CreateOutput, LightningTestOptions } from '@salesforce/templates';
 import LightningTestGenerator from '@salesforce/templates/lib/generators/lightningTestGenerator';
 import { CreateUtil } from '@salesforce/templates/lib/utils';
-import { AnyJson } from '@salesforce/ts-types';
-import { MessageUtil, TemplateCommand } from '../../../../utils';
-
+import { Messages } from '@salesforce/core';
+import { getCustomTemplates, runGenerator } from '../../../../utils/templateCommand';
+import { internalFlag, outputDirFlagLightning } from '../../../../utils/flags';
 const lightningTestFileSuffix = /.resource$/;
 
-export default class LightningTest extends TemplateCommand {
-  public static description = MessageUtil.buildDescription('LightningTestDescription', false);
-  public static examples = [
-    '$ sfdx force:lightning:test:create -n MyLightningTest',
-    '$ sfdx force:lightning:test:create -n MyLightningTest -d lightningTests',
-  ];
-  public static help = MessageUtil.buildHelpText(LightningTest.examples, false);
-  public static longDescription = MessageUtil.get('LightningTestLongDescription');
+Messages.importMessagesDirectory(__dirname);
+const messages = Messages.loadMessages('@salesforce/plugin-templates', 'lightningTest');
+const lightningMessages = Messages.loadMessages('@salesforce/plugin-templates', 'lightning');
+export default class LightningTest extends SfCommand<CreateOutput> {
+  public static readonly summary = messages.getMessage('summary');
+  public static readonly description = messages.getMessage('description');
+  public static readonly examples = messages.getMessages('examples');
 
-  protected static flagsConfig = {
-    testname: flags.string({
+  public static readonly flags = {
+    name: Flags.string({
       char: 'n',
-      description: MessageUtil.get('LightningNameFlagDescription', [MessageUtil.get('Test')]),
-      longDescription: MessageUtil.get('LightningTestNameFlagLongDescription'),
+      summary: lightningMessages.getMessage('flags.name', ['Test']),
+      description: messages.getMessage('flags.name.description'),
       required: true,
+      aliases: ['testname'],
+      deprecateAliases: true,
     }),
-    template: flags.string({
+    template: Flags.string({
       char: 't',
-      description: MessageUtil.get('TemplateFlagDescription'),
-      longDescription: MessageUtil.get('TemplateFlagLongDescription'),
+      summary: lightningMessages.getMessage('flags.template'),
+      description: lightningMessages.getMessage('flags.template.description'),
       default: 'DefaultLightningTest',
       options: CreateUtil.getCommandTemplatesForFiletype(lightningTestFileSuffix, 'lightningtest'),
     }),
-    outputdir: flags.string({
-      char: 'd',
-      description: MessageUtil.get('OutputDirFlagDescription'),
-      longDescription: MessageUtil.get('OutputDirFlagLongDescription'),
-      default: '.',
-    }),
-    internal: flags.boolean({
-      char: 'i',
-      description: MessageUtil.get('LightningInternalFlagDescription'),
-      hidden: true,
-    }),
+    'output-dir': outputDirFlagLightning,
+    internal: internalFlag,
+    'api-version': orgApiVersionFlagWithDeprecations,
+    loglevel,
   };
 
-  public async run(): Promise<AnyJson> {
-    return this.runGenerator(LightningTestGenerator);
+  public async run(): Promise<CreateOutput> {
+    const { flags } = await this.parse(LightningTest);
+
+    // translate the new flags to the old ones the generator expects
+    const flagsAsOptions: LightningTestOptions = {
+      testname: flags.name,
+      template: 'DefaultLightningTest' as LightningTestOptions['template'],
+      outputdir: flags['output-dir'],
+      internal: flags.internal,
+      ...(typeof flags['api-version'] === 'string' ? { apiversion: flags['api-version'] } : {}),
+    };
+    return runGenerator({
+      generator: LightningTestGenerator,
+      opts: flagsAsOptions,
+      ux: new Ux({ jsonEnabled: this.jsonEnabled() }),
+      templates: getCustomTemplates(this.configAggregator),
+    });
   }
 }

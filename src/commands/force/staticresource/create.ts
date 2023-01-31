@@ -4,43 +4,54 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-import { flags } from '@salesforce/command';
+import { Flags, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
+import { CreateOutput, StaticResourceOptions } from '@salesforce/templates';
 import StaticResourceGenerator from '@salesforce/templates/lib/generators/staticResourceGenerator';
-import { AnyJson } from '@salesforce/ts-types';
-import { MessageUtil, TemplateCommand } from '../../../utils';
+import { Messages } from '@salesforce/core';
+import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand';
 
-export default class StaticResource extends TemplateCommand {
-  public static description = MessageUtil.buildDescription('StaticResourceDescription', false);
-  public static examples = [
-    '$ sfdx force:staticresource:create -n MyResource',
-    '$ sfdx force:staticresource:create -n MyResource --contenttype application/json',
-    '$ sfdx force:staticresource:create -n MyResource -d staticresources',
-  ];
-  public static help = MessageUtil.buildHelpText(StaticResource.examples, false);
-  public static longDescription = MessageUtil.get('StaticResourceLongDescription');
+Messages.importMessagesDirectory(__dirname);
+const messages = Messages.loadMessages('@salesforce/plugin-templates', 'staticResource');
+export default class StaticResource extends SfCommand<CreateOutput> {
+  public static readonly summary = messages.getMessage('summary');
+  public static readonly description = messages.getMessage('description');
+  public static readonly examples = messages.getMessages('examples');
 
-  protected static flagsConfig = {
-    resourcename: flags.string({
+  public static readonly flags = {
+    name: Flags.string({
       char: 'n',
-      description: MessageUtil.get('StaticResourceNameFlagDescription'),
-      longDescription: MessageUtil.get('StaticResourceNameFlagLongDescription'),
+      summary: messages.getMessage('flags.name.summary'),
+      description: messages.getMessage('flags.name.description'),
       required: true,
+      aliases: ['resourcename'],
+      deprecateAliases: true,
     }),
-    contenttype: flags.string({
-      description: MessageUtil.get('StaticResourceContentTypeFlagDescription'),
-      longDescription: MessageUtil.get('StaticResourceContentTypeFlagLongDescription'),
+    type: Flags.string({
+      summary: messages.getMessage('flags.type.summary'),
+      description: messages.getMessage('flags.type.description'),
       default: 'application/zip',
+      aliases: ['contenttype'],
+      deprecateAliases: true,
     }),
-    outputdir: flags.string({
-      char: 'd',
-      description: MessageUtil.get('OutputDirFlagDescription'),
-      longDescription: MessageUtil.get('OutputDirFlagLongDescription'),
-      default: '.',
-    }),
-    apiversion: flags.builtin(),
+    apiversion: orgApiVersionFlagWithDeprecations,
   };
 
-  public async run(): Promise<AnyJson> {
-    return this.runGenerator(StaticResourceGenerator);
+  public async run(): Promise<CreateOutput> {
+    const { flags } = await this.parse(StaticResource);
+    // translate the new flags to the old ones the generator expects
+    const flagsAsOptions: StaticResourceOptions = {
+      resourcename: flags.name,
+      contenttype: flags.type,
+      template: 'empty',
+      // outputdir: flags['output-dir'],
+      ...(typeof flags['api-version'] === 'string' ? { apiversion: flags['api-version'] } : {}),
+    };
+
+    return runGenerator({
+      generator: StaticResourceGenerator,
+      opts: flagsAsOptions,
+      ux: new Ux({ jsonEnabled: this.jsonEnabled() }),
+      templates: getCustomTemplates(this.configAggregator),
+    });
   }
 }

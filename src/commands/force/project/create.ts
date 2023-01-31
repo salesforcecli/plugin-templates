@@ -4,72 +4,85 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-import { flags } from '@salesforce/command';
+import { Flags, SfCommand, Ux } from '@salesforce/sf-plugins-core';
+import { CreateOutput, ProjectOptions } from '@salesforce/templates';
 import ProjectGenerator from '@salesforce/templates/lib/generators/projectGenerator';
-import { AnyJson } from '@salesforce/ts-types';
-import { MessageUtil, TemplateCommand } from '../../../utils';
+import { Messages } from '@salesforce/core';
+import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand';
+import { outputDirFlag } from '../../../utils/flags';
 
-export default class Project extends TemplateCommand {
-  public static description = MessageUtil.buildDescription('ProjectDescription', false);
-  public static examples = [
-    '$ sfdx force:project:create --projectname mywork',
-    '$ sfdx force:project:create --projectname mywork --defaultpackagedir myapp',
-    '$ sfdx force:project:create --projectname mywork --defaultpackagedir myapp --manifest',
-    '$ sfdx force:project:create --projectname mywork --template empty',
-  ];
-  public static help = MessageUtil.buildHelpText(Project.examples, false);
-  public static longDescription = MessageUtil.get('ProjectLongDescription');
+Messages.importMessagesDirectory(__dirname);
+const messages = Messages.loadMessages('@salesforce/plugin-templates', 'project');
+export default class Project extends SfCommand<CreateOutput> {
+  public static readonly summary = messages.getMessage('summary');
+  public static readonly description = messages.getMessage('description');
+  public static readonly examples = messages.getMessages('examples');
 
-  protected static flagsConfig = {
-    projectname: flags.string({
+  public static readonly flags = {
+    name: Flags.string({
       char: 'n',
-      description: MessageUtil.get('ProjectNameFlagDescription'),
-      longDescription: MessageUtil.get('ProjectNameFlagLongDescription'),
+      summary: messages.getMessage('flags.name'),
+      description: messages.getMessage('flags.name.description'),
       required: true,
+      aliases: ['projectname'],
+      deprecateAliases: true,
     }),
-    template: flags.string({
+    template: Flags.string({
       char: 't',
-      description: MessageUtil.get('ProjectTemplateFlagDescription'),
-      longDescription: MessageUtil.get('ProjectTemplateFlagLongDescription'),
+      summary: messages.getMessage('flags.template'),
+      description: messages.getMessage('flags.template.description'),
       default: 'standard',
       options: ['standard', 'empty', 'analytics'],
     }),
-    outputdir: flags.string({
-      char: 'd',
-      description: MessageUtil.get('OutputDirFlagDescription'),
-      longDescription: MessageUtil.get('OutputDirFlagLongDescription'),
-      default: '.',
-    }),
-    namespace: flags.string({
+    'output-dir': outputDirFlag,
+    namespace: Flags.string({
       char: 's',
-      description: MessageUtil.get('ProjectNamespaceFlagDescription'),
-      longDescription: MessageUtil.get('ProjectNamespaceFlagLongDescription'),
+      summary: messages.getMessage('flags.namespace'),
+      description: messages.getMessage('flags.namespace.description'),
       default: '',
     }),
-    defaultpackagedir: flags.string({
+    'default-package-dir': Flags.string({
       char: 'p',
-      description: MessageUtil.get('ProjectPackageFlagDescription'),
-      longDescription: MessageUtil.get('ProjectPackageFlagLongDescription'),
+      summary: messages.getMessage('flags.packagedir'),
+      description: messages.getMessage('flags.packagedir.description'),
       default: 'force-app',
+      aliases: ['defaultpackagedir'],
+      deprecateAliases: true,
     }),
-    manifest: flags.boolean({
+    manifest: Flags.boolean({
       char: 'x',
-      description: MessageUtil.get('ProjectManifestFlagDescription'),
-      longDescription: MessageUtil.get('ProjectManifestFlagLongDescription'),
+      summary: messages.getMessage('flags.manifest'),
+      description: messages.getMessage('flags.manifest.description'),
     }),
-    loginurl: flags.string({
+    'login-url': Flags.string({
       char: 'l',
-      description: MessageUtil.get('ProjectLoginUrlDescription'),
-      longDescription: MessageUtil.get('ProjectLoginUrlLongDescription'),
+      summary: messages.getMessage('flags.loginurl'),
+      description: messages.getMessage('flags.loginurl.description'),
       default: 'https://login.salesforce.com',
       hidden: true,
+      aliases: ['loginurl'],
+      deprecateAliases: true,
     }),
   };
-  public async run(): Promise<AnyJson> {
-    // namespace is a reserved keyword for the generator
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    this.flags.ns = this.flags.namespace;
+  public async run(): Promise<CreateOutput> {
+    const { flags } = await this.parse(Project);
+    flags.ns = flags.namespace;
 
-    return this.runGenerator(ProjectGenerator);
+    const flagsAsOptions: ProjectOptions = {
+      projectname: flags.name,
+      outputdir: flags['output-dir'],
+      manifest: flags.manifest,
+      loginurl: flags['login-url'],
+      template: flags.template as 'standard' | 'empty' | 'analytics',
+      // namespace is a reserved keyword for the generator
+      ns: flags.namespace,
+      defaultpackagedir: flags['default-package-dir'],
+    };
+    return runGenerator({
+      generator: ProjectGenerator,
+      opts: flagsAsOptions,
+      ux: new Ux({ jsonEnabled: this.jsonEnabled() }),
+      templates: getCustomTemplates(this.configAggregator),
+    });
   }
 }

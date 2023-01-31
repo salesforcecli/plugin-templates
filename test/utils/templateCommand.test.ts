@@ -13,7 +13,7 @@ import * as assert from 'yeoman-assert';
 import { nls } from '@salesforce/templates/lib/i18n';
 import { expect } from 'chai';
 import { stub } from 'sinon';
-import { TemplateCommand } from '../../src/utils';
+import { buildJson } from '../../src/utils/templateCommand';
 
 interface cliOutput {
   status: string;
@@ -26,29 +26,6 @@ interface cliOutput {
 
 /* tslint:disable: no-unused-expression */
 describe('TemplateCommand', () => {
-  describe('getDefaultApiVersion', () => {
-    it('should parse apiVersion using the major version number of the package.json', async () => {
-      // eslint-disable-next-line
-      const { version } = require('../../package.json');
-      expect(version).to.not.be.undefined;
-      // eslint-disable-next-line
-      const major: string = version?.trim().split('.')[0];
-      const apiVersion = await TemplateCommand.getApiVersion();
-      expect(apiVersion).to.equal(`${major}.0`);
-    });
-
-    it('should parse apiVersion using the value from the ConfigAggregator', async () => {
-      const configStub = stub(ConfigAggregator.prototype, 'getPropertyValue').callsFake((key: string) => {
-        if (key === SfdxPropertyKeys.API_VERSION) {
-          return '50.0';
-        }
-      });
-      const apiVersion = await TemplateCommand.getApiVersion();
-      expect(apiVersion).to.equal('50.0');
-      configStub.restore();
-    });
-  });
-
   describe('buildJson', () => {
     it('should build json output in the correct format', () => {
       const adapter = new ForceGeneratorAdapter();
@@ -65,7 +42,7 @@ describe('TemplateCommand', () => {
         rawOutput: targetDirOutput,
       };
 
-      const result = TemplateCommand.buildJson(adapter, targetDir);
+      const result = buildJson(adapter, targetDir);
       expect(result).to.eql(expOutput);
       cleanOutputStub.restore();
       outputStub.restore();

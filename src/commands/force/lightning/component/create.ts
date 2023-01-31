@@ -7,70 +7,68 @@
 
 // tslint:disable:no-unused-expression
 
-import { flags } from '@salesforce/command';
+import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
+import { CreateOutput, LightningComponentOptions } from '@salesforce/templates';
 import LightningComponentGenerator from '@salesforce/templates/lib/generators/lightningComponentGenerator';
-import { AnyJson } from '@salesforce/ts-types';
-import { MessageUtil, TemplateCommand } from '../../../../utils';
+import { Messages } from '@salesforce/core';
+import { getCustomTemplates, runGenerator } from '../../../../utils/templateCommand';
+import { internalFlag, outputDirFlagLightning } from '../../../../utils/flags';
 
-const BUNDLE_TYPE = MessageUtil.get('Component');
+const BUNDLE_TYPE = 'Component';
 
-export default class LightningComponent extends TemplateCommand {
-  public static description = MessageUtil.buildDescription(
-    'LightningCmpDescription',
-    true,
-    undefined,
-    MessageUtil.get('LightningCmpHelpExtra')
-  );
-  public static examples = [
-    '$ sfdx force:lightning:component:create -n mycomponent',
-    '$ sfdx force:lightning:component:create -n mycomponent --type lwc',
-    '$ sfdx force:lightning:component:create -n mycomponent -d aura',
-    '$ sfdx force:lightning:component:create -n mycomponent --type lwc -d lwc',
-  ];
-  public static help = MessageUtil.buildHelpText(
-    LightningComponent.examples,
-    true,
-    MessageUtil.get('LightningCmpHelpExtra')
-  );
-  public static longDescription = MessageUtil.get('LightningCmpLongDescription');
+Messages.importMessagesDirectory(__dirname);
+const messages = Messages.loadMessages('@salesforce/plugin-templates', 'lightningCmp');
+const lightningCommon = Messages.loadMessages('@salesforce/plugin-templates', 'lightning');
+export default class LightningComponent extends SfCommand<CreateOutput> {
+  public static readonly summary = messages.getMessage('summary');
+  public static readonly description = messages.getMessage('description');
 
-  protected static flagsConfig = {
-    componentname: flags.string({
+  public static readonly examples = messages.getMessages('examples');
+
+  public static readonly flags = {
+    name: Flags.string({
       char: 'n',
-      description: MessageUtil.get('LightningNameFlagDescription', [BUNDLE_TYPE]),
-      longDescription: MessageUtil.get('LightningNameFlagLongDescription', [BUNDLE_TYPE]),
+      summary: lightningCommon.getMessage('flags.name', [BUNDLE_TYPE]),
+      description: lightningCommon.getMessage('flags.name.description', [BUNDLE_TYPE]),
       required: true,
+      aliases: ['componentname'],
+      deprecateAliases: true,
     }),
-    template: flags.string({
+    template: Flags.string({
       char: 't',
-      description: MessageUtil.get('TemplateFlagDescription'),
-      longDescription: MessageUtil.get('TemplateFlagLongDescription'),
+      summary: lightningCommon.getMessage('flags.template'),
+      description: lightningCommon.getMessage('flags.template.description'),
       default: 'default',
       // Note: keep this list here and LightningComponentOptions#template in-sync with the
       // templates/lightningcomponents/[aura|lwc]/* folders
       options: ['default', 'analyticsDashboard', 'analyticsDashboardWithStep'],
     }),
-    outputdir: flags.string({
-      char: 'd',
-      description: MessageUtil.get('OutputDirFlagDescription'),
-      longDescription: MessageUtil.get('OutputDirFlagLongDescription'),
-      default: '.',
-    }),
-    apiversion: flags.builtin(),
-    type: flags.string({
-      description: MessageUtil.get('LightningCmpTypeFlagDescription'),
-      longDescription: MessageUtil.get('LightningCmpTypeFlagLongDescription'),
+    'output-dir': outputDirFlagLightning,
+    'api-version': orgApiVersionFlagWithDeprecations,
+    type: Flags.string({
+      summary: messages.getMessage('flags.type'),
       options: ['aura', 'lwc'],
       default: 'aura',
     }),
-    internal: flags.boolean({
-      char: 'i',
-      description: MessageUtil.get('LightningInternalFlagDescription'),
-      hidden: true,
-    }),
+    internal: internalFlag,
+    loglevel,
   };
 
-  public async run(): Promise<AnyJson> {
-    return this.runGenerator(LightningComponentGenerator);
+  public async run(): Promise<CreateOutput> {
+    const { flags } = await this.parse(LightningComponent);
+    const flagsAsOptions: LightningComponentOptions = {
+      componentname: flags.name,
+      template: flags.template as 'default' | 'analyticsDashboard' | 'analyticsDashboardWithStep',
+      outputdir: flags['output-dir'],
+      apiversion: flags['api-version'],
+      internal: flags.internal,
+      type: flags.type as 'aura' | 'lwc',
+    };
+    return runGenerator({
+      generator: LightningComponentGenerator,
+      opts: flagsAsOptions,
+      ux: new Ux({ jsonEnabled: this.jsonEnabled() }),
+      templates: getCustomTemplates(this.configAggregator),
+    });
   }
 }

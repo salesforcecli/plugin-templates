@@ -4,53 +4,61 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-import { flags } from '@salesforce/command';
+import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
+import { CreateOutput, LightningAppOptions } from '@salesforce/templates';
 import LightningAppGenerator from '@salesforce/templates/lib/generators/lightningAppGenerator';
 import { CreateUtil } from '@salesforce/templates/lib/utils';
-import { AnyJson } from '@salesforce/ts-types';
-import { MessageUtil, TemplateCommand } from '../../../../utils';
+import { Messages } from '@salesforce/core';
+import { getCustomTemplates, runGenerator } from '../../../../utils/templateCommand';
+import { internalFlag, outputDirFlagLightning } from '../../../../utils/flags';
 
+Messages.importMessagesDirectory(__dirname);
+const lightningCommonMessages = Messages.loadMessages('@salesforce/plugin-templates', 'lightning');
+const lightningAppMessages = Messages.loadMessages('@salesforce/plugin-templates', 'lightningApp');
 const lightningAppFileSuffix = /.app$/;
-const BUNDLE_TYPE = MessageUtil.get('App');
+const BUNDLE_TYPE = 'App';
 
-export default class LightningApp extends TemplateCommand {
-  public static description = MessageUtil.buildDescription('LightningDescription', true, [BUNDLE_TYPE]);
-  public static examples = [
-    '$ sfdx force:lightning:app:create -n myapp',
-    '$ sfdx force:lightning:app:create -n myapp -d aura',
-  ];
-  public static help = MessageUtil.buildHelpText(LightningApp.examples, true);
-  public static longDescription = MessageUtil.get('LightningLongDescription', [BUNDLE_TYPE]);
+export default class LightningApp extends SfCommand<CreateOutput> {
+  public static readonly summary = lightningCommonMessages.getMessage('summary', [BUNDLE_TYPE]);
+  public static readonly description = lightningCommonMessages.getMessage('description', [BUNDLE_TYPE]);
+  public static readonly examples = lightningAppMessages.getMessages('examples');
 
-  protected static flagsConfig = {
-    appname: flags.string({
+  public static readonly flags = {
+    name: Flags.string({
       char: 'n',
-      description: MessageUtil.get('LightningNameFlagDescription', [BUNDLE_TYPE]),
-      longDescription: MessageUtil.get('LightningNameFlagLongDescription', [BUNDLE_TYPE]),
+      summary: lightningCommonMessages.getMessage('flags.name', [BUNDLE_TYPE]),
+      description: lightningCommonMessages.getMessage('flags.name.description', [BUNDLE_TYPE]),
       required: true,
+      aliases: ['appname'],
+      deprecateAliases: true,
     }),
-    template: flags.string({
+    template: Flags.string({
       char: 't',
-      description: MessageUtil.get('TemplateFlagDescription'),
-      longDescription: MessageUtil.get('TemplateFlagLongDescription'),
+      summary: lightningCommonMessages.getMessage('flags.template'),
+      description: lightningCommonMessages.getMessage('flags.template.description'),
       default: 'DefaultLightningApp',
       options: CreateUtil.getCommandTemplatesForFiletype(lightningAppFileSuffix, 'lightningapp'),
     }),
-    outputdir: flags.string({
-      char: 'd',
-      description: MessageUtil.get('OutputDirFlagDescription'),
-      longDescription: MessageUtil.get('OutputDirFlagLongDescription'),
-      default: '.',
-    }),
-    apiversion: flags.builtin(),
-    internal: flags.boolean({
-      char: 'i',
-      description: MessageUtil.get('LightningInternalFlagDescription'),
-      hidden: true,
-    }),
+    'output-dir': outputDirFlagLightning,
+    'api-version': orgApiVersionFlagWithDeprecations,
+    internal: internalFlag,
+    loglevel,
   };
 
-  public async run(): Promise<AnyJson> {
-    return this.runGenerator(LightningAppGenerator);
+  public async run(): Promise<CreateOutput> {
+    const { flags } = await this.parse(LightningApp);
+    const flagsAsOptions: LightningAppOptions = {
+      appname: flags.name,
+      apiversion: flags['api-version'],
+      outputdir: flags['output-dir'],
+      template: 'DefaultLightningApp',
+      internal: flags.internal,
+    };
+    return runGenerator({
+      generator: LightningAppGenerator,
+      opts: flagsAsOptions,
+      ux: new Ux({ jsonEnabled: this.jsonEnabled() }),
+      templates: getCustomTemplates(this.configAggregator),
+    });
   }
 }
