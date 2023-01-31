@@ -1,3 +1,12 @@
+# [55.3.0](https://github.com/salesforcecli/plugin-templates/compare/55.2.3...55.3.0) (2023-01-31)
+
+
+### Features
+
+* use latest oclif/core ([636fc68](https://github.com/salesforcecli/plugin-templates/commit/636fc68e38091dcfdba990011eaa300430e050fd))
+
+
+
 ## [55.2.3](https://github.com/salesforcecli/plugin-templates/compare/55.2.2...55.2.3) (2023-01-22)
 
 
