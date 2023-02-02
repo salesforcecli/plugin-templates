@@ -36,6 +36,7 @@ export default class AnalyticsTemplate extends SfCommand<CreateOutput> {
     const flagsAsOptions: AnalyticsTemplateOptions = {
       apiversion: flags['api-version'],
       templatename: flags.name,
+      outputdir: flags['output-dir'],
     };
 
     return runGenerator({

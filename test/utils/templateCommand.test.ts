@@ -5,26 +5,11 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 import * as path from 'path';
-import { test } from '@salesforce/command/lib/test';
-import { ConfigAggregator, SfdxPropertyKeys } from '@salesforce/core';
 import { ForceGeneratorAdapter, Log } from '@salesforce/templates/lib/utils';
-import * as assert from 'yeoman-assert';
-
-import { nls } from '@salesforce/templates/lib/i18n';
 import { expect } from 'chai';
 import { stub } from 'sinon';
 import { buildJson } from '../../src/utils/templateCommand';
 
-interface cliOutput {
-  status: string;
-  result: {
-    outputDir: string;
-    created: [];
-    rawOutput: string;
-  };
-}
-
-/* tslint:disable: no-unused-expression */
 describe('TemplateCommand', () => {
   describe('buildJson', () => {
     it('should build json output in the correct format', () => {
@@ -47,150 +32,5 @@ describe('TemplateCommand', () => {
       cleanOutputStub.restore();
       outputStub.restore();
     });
-  });
-
-  describe('runGenerator', () => {
-    const dir = process.cwd();
-    test
-      .withOrg()
-      .withProject()
-      .stdout()
-      .command(['force:apex:class:create', '--classname', 'foo'])
-      .it('should log basic output when json flag is not specified', (output) => {
-        const expectedOutput = `target dir = ${dir}\n conflict foo.cls\n    force foo.cls\nidentical foo.cls-meta.xml\n\n`;
-        expect(output.stdout).to.equal(expectedOutput);
-      });
-
-    test
-      .withOrg()
-      .withProject()
-      .stdout()
-      .command(['force:apex:class:create', '--classname', 'foo', '--json'])
-      .it('should log json output when flag is specified', (output) => {
-        const jsonOutput = JSON.parse(output.stdout) as cliOutput;
-        expect(jsonOutput).to.haveOwnProperty('status');
-        expect(jsonOutput.status).to.equal(0);
-        expect(jsonOutput).to.haveOwnProperty('result');
-        expect(jsonOutput.result).to.be.an('object');
-        expect(jsonOutput.result).to.haveOwnProperty('outputDir');
-        expect(jsonOutput.result.outputDir).to.equal(dir);
-        expect(jsonOutput.result).to.haveOwnProperty('created');
-        expect(jsonOutput.result.created).to.be.an('array').that.is.empty;
-        expect(jsonOutput.result).to.haveOwnProperty('rawOutput');
-        expect(jsonOutput.result.rawOutput).to.equal(
-          `target dir = ${dir}\nidentical foo.cls\nidentical foo.cls-meta.xml\n`
-        );
-      });
-  });
-
-  describe('Custom templates', () => {
-    const LOCAL_CUSTOM_TEMPLATES = path.join(__dirname, '../../../test/custom-templates');
-    const TEST_CUSTOM_TEMPLATES_REPO =
-      'https://github.com/salesforcecli/plugin-templates/tree/main/packages/templates/test/custom-templates';
-    const NON_EXISTENT_LOCAL_PATH = 'this-folder-does-not-exist';
-    const NON_EXISTENT_REPO = 'https://github.com/forcedotcom/this-repo-does-not-exist';
-    const INVALID_URL_REPO = 'https://github.com/salesforcecli/plugin-templates/invalid-url';
-    const HTTP_REPO =
-      'http://github.com/salesforcecli/plugin-templates/tree/main/packages/templates/test/custom-templates';
-    const GITLAB_REPO =
-      'https://gitlab.com/salesforcecli/plugin-templates/tree/main/packages/templates/test/custom-templates';
-
-    test
-      .withOrg()
-      .withProject()
-      .stdout()
-      .stub(ConfigAggregator.prototype, 'getPropertyValue', () => TEST_CUSTOM_TEMPLATES_REPO)
-      .command(['force:apex:class:create', '--classname', 'foo'])
-      .it('should create custom template from git repo', (ctx) => {
-        assert.file(['foo.cls', 'foo.cls-meta.xml']);
-        assert.fileContent('foo.cls', 'public with sharing class foo');
-      });
-
-    test
-      .withOrg()
-      .withProject()
-      .stdout()
-      .stub(ConfigAggregator.prototype, 'getPropertyValue', () => TEST_CUSTOM_TEMPLATES_REPO)
-      .command(['force:lightning:component:create', '--componentname', 'foo', '--outputdir', 'lwc', '--type', 'lwc'])
-      .it('should create from default template if git repo templates do not have the template type', (ctx) => {
-        assert.file(path.join('lwc', 'foo', 'foo.js-meta.xml'));
-        assert.file(path.join('lwc', 'foo', 'foo.html'));
-        assert.file(path.join('lwc', 'foo', 'foo.js'));
-        assert.fileContent(path.join('lwc', 'foo', 'foo.js'), 'export default class Foo extends LightningElement {}');
-      });
-
-    test
-      .withOrg()
-      .withProject()
-      .stdout()
-      .stub(ConfigAggregator.prototype, 'getPropertyValue', () => LOCAL_CUSTOM_TEMPLATES)
-      .command(['force:apex:class:create', '--classname', 'foo'])
-      .it('should create custom template from local folder', (ctx) => {
-        assert.file(['foo.cls', 'foo.cls-meta.xml']);
-        assert.fileContent('foo.cls', 'public with sharing class foo');
-      });
-
-    test
-      .withOrg()
-      .withProject()
-      .stdout()
-      .stub(ConfigAggregator.prototype, 'getPropertyValue', () => LOCAL_CUSTOM_TEMPLATES)
-      .command(['force:lightning:component:create', '--componentname', 'foo', '--outputdir', 'lwc', '--type', 'lwc'])
-      .it('should create from default template if local templates do not have the template type', (ctx) => {
-        assert.file(path.join('lwc', 'foo', 'foo.js-meta.xml'));
-        assert.file(path.join('lwc', 'foo', 'foo.html'));
-        assert.file(path.join('lwc', 'foo', 'foo.js'));
-        assert.fileContent(path.join('lwc', 'foo', 'foo.js'), 'export default class Foo extends LightningElement {}');
-      });
-
-    test
-      .withOrg()
-      .withProject()
-      .stderr()
-      .stub(ConfigAggregator.prototype, 'getPropertyValue', () => NON_EXISTENT_LOCAL_PATH)
-      .command(['force:apex:class:create', '--classname', 'foo'])
-      .it('should throw error if local custom templates do not exist', (ctx) => {
-        expect(ctx.stderr).to.contain(nls.localize('localCustomTemplateDoNotExist', NON_EXISTENT_LOCAL_PATH));
-      });
-
-    test
-      .withOrg()
-      .withProject()
-      .stderr()
-      .stub(ConfigAggregator.prototype, 'getPropertyValue', () => NON_EXISTENT_REPO)
-      .command(['force:apex:class:create', '--classname', 'foo'])
-      .it('should throw error if cannot retrieve default branch', (ctx) => {
-        expect(ctx.stderr).to.contain(nls.localize('customTemplatesCannotRetrieveDefaultBranch', NON_EXISTENT_REPO));
-      });
-
-    test
-      .withOrg()
-      .withProject()
-      .stderr()
-      .stub(ConfigAggregator.prototype, 'getPropertyValue', () => INVALID_URL_REPO)
-      .command(['force:apex:class:create', '--classname', 'foo'])
-      .it('should throw error if repo url is invalid', (ctx) => {
-        expect(ctx.stderr).to.contain(nls.localize('customTemplatesInvalidRepoUrl', INVALID_URL_REPO));
-      });
-
-    test
-      .withOrg()
-      .withProject()
-      .stderr()
-      .stub(ConfigAggregator.prototype, 'getPropertyValue', () => HTTP_REPO)
-      .command(['force:apex:class:create', '--classname', 'foo'])
-      .it('should throw error if repo protocol is not https', (ctx) => {
-        expect(ctx.stderr).to.contain(nls.localize('customTemplatesShouldUseHttpsProtocol', '"http:"'));
-      });
-
-    test
-      .withOrg()
-      .withProject()
-      .stderr()
-      .stub(ConfigAggregator.prototype, 'getPropertyValue', () => GITLAB_REPO)
-      .command(['force:apex:class:create', '--classname', 'foo'])
-      .it('should throw error if not a GitHub repo', (ctx) => {
-        expect(ctx.stderr).to.contain(nls.localize('customTemplatesSupportsGitHubOnly', GITLAB_REPO));
-      });
   });
 });

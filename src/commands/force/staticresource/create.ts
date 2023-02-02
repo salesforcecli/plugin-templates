@@ -4,10 +4,11 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-import { Flags, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
+import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { CreateOutput, StaticResourceOptions } from '@salesforce/templates';
 import StaticResourceGenerator from '@salesforce/templates/lib/generators/staticResourceGenerator';
 import { Messages } from '@salesforce/core';
+import { outputDirFlag } from '../../../utils/flags';
 import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand';
 
 Messages.importMessagesDirectory(__dirname);
@@ -33,7 +34,9 @@ export default class StaticResource extends SfCommand<CreateOutput> {
       aliases: ['contenttype'],
       deprecateAliases: true,
     }),
-    apiversion: orgApiVersionFlagWithDeprecations,
+    'output-dir': outputDirFlag,
+    'api-version': orgApiVersionFlagWithDeprecations,
+    loglevel,
   };
 
   public async run(): Promise<CreateOutput> {
@@ -43,7 +46,7 @@ export default class StaticResource extends SfCommand<CreateOutput> {
       resourcename: flags.name,
       contenttype: flags.type,
       template: 'empty',
-      // outputdir: flags['output-dir'],
+      outputdir: flags['output-dir'],
       ...(typeof flags['api-version'] === 'string' ? { apiversion: flags['api-version'] } : {}),
     };
 
