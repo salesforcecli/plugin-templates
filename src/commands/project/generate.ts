@@ -8,8 +8,8 @@ import { Flags, loglevel, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { CreateOutput, ProjectOptions } from '@salesforce/templates';
 import ProjectGenerator from '@salesforce/templates/lib/generators/projectGenerator';
 import { Messages } from '@salesforce/core';
-import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand';
-import { outputDirFlag } from '../../../utils/flags';
+import { getCustomTemplates, runGenerator } from '../../utils/templateCommand';
+import { outputDirFlag } from '../../utils/flags';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-templates', 'project');
@@ -17,7 +17,8 @@ export default class Project extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
-
+  public static readonly aliases = ['force:project:create'];
+  public static readonly deprecateAliases = true;
   public static readonly flags = {
     name: Flags.string({
       char: 'n',

@@ -9,8 +9,8 @@ import { CreateOutput, LightningInterfaceOptions } from '@salesforce/templates';
 import LightningInterfaceGenerator from '@salesforce/templates/lib/generators/lightningInterfaceGenerator';
 import { CreateUtil } from '@salesforce/templates/lib/utils';
 import { Messages } from '@salesforce/core';
-import { getCustomTemplates, runGenerator } from '../../../../utils/templateCommand';
-import { internalFlag, outputDirFlagLightning } from '../../../../utils/flags';
+import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand';
+import { internalFlag, outputDirFlagLightning } from '../../../utils/flags';
 const lightningInterfaceFileSuffix = /.intf$/;
 const BUNDLE_TYPE = 'Interface';
 
@@ -22,7 +22,8 @@ export default class LightningInterface extends SfCommand<CreateOutput> {
   public static readonly summary = lightningCommon.getMessage('summary', [BUNDLE_TYPE]);
   public static readonly description = lightningCommon.getMessage('description', [BUNDLE_TYPE]);
   public static readonly examples = messages.getMessages('examples');
-
+  public static readonly aliases = ['force:lightning:interface:create'];
+  public static readonly deprecateAliases = true;
   public static readonly flags = {
     name: Flags.string({
       char: 'n',

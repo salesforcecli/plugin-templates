@@ -9,8 +9,8 @@ import { ApexClassOptions, CreateOutput } from '@salesforce/templates';
 import ApexClassGenerator from '@salesforce/templates/lib/generators/apexClassGenerator';
 import { CreateUtil } from '@salesforce/templates/lib/utils';
 import { Messages } from '@salesforce/core';
-import { runGenerator, getCustomTemplates } from '../../../../utils/templateCommand';
-import { outputDirFlag } from '../../../../utils/flags';
+import { runGenerator, getCustomTemplates } from '../../../utils/templateCommand';
+import { outputDirFlag } from '../../../utils/flags';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-templates', 'apexClass');
@@ -21,7 +21,8 @@ export default class ApexClass extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
-
+  public static readonly aliases = ['force:apex:class:create'];
+  public static readonly deprecateAliases = true;
   public static readonly flags = {
     name: Flags.string({
       char: 'n',

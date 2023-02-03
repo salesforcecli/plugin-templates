@@ -9,8 +9,8 @@ import { CreateOutput, LightningEventOptions } from '@salesforce/templates';
 import LightningEventGenerator from '@salesforce/templates/lib/generators/lightningEventGenerator';
 import { CreateUtil } from '@salesforce/templates/lib/utils';
 import { Messages } from '@salesforce/core';
-import { getCustomTemplates, runGenerator } from '../../../../utils/templateCommand';
-import { internalFlag, outputDirFlagLightning } from '../../../../utils/flags';
+import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand';
+import { internalFlag, outputDirFlagLightning } from '../../../utils/flags';
 
 const lightningEventFileSuffix = /.evt$/;
 const BUNDLE_TYPE = 'Event';
@@ -24,7 +24,8 @@ export default class LightningEvent extends SfCommand<CreateOutput> {
   public static readonly summary = lightningCommon.getMessage('summary', [BUNDLE_TYPE]);
   public static readonly description = lightningCommon.getMessage('description', [BUNDLE_TYPE]);
   public static readonly examples = messages.getMessages('examples');
-
+  public static readonly aliases = ['force:lightning:event:create'];
+  public static readonly deprecateAliases = true;
   public static readonly flags = {
     name: Flags.string({
       char: 'n',

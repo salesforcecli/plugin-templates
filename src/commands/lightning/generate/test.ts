@@ -9,8 +9,8 @@ import { CreateOutput, LightningTestOptions } from '@salesforce/templates';
 import LightningTestGenerator from '@salesforce/templates/lib/generators/lightningTestGenerator';
 import { CreateUtil } from '@salesforce/templates/lib/utils';
 import { Messages } from '@salesforce/core';
-import { getCustomTemplates, runGenerator } from '../../../../utils/templateCommand';
-import { internalFlag, outputDirFlagLightning } from '../../../../utils/flags';
+import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand';
+import { internalFlag, outputDirFlagLightning } from '../../../utils/flags';
 const lightningTestFileSuffix = /.resource$/;
 
 Messages.importMessagesDirectory(__dirname);
@@ -20,7 +20,8 @@ export default class LightningTest extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
-
+  public static readonly aliases = ['force:lightning:test:create'];
+  public static readonly deprecateAliases = true;
   public static readonly flags = {
     name: Flags.string({
       char: 'n',
@@ -52,7 +53,7 @@ export default class LightningTest extends SfCommand<CreateOutput> {
       template: 'DefaultLightningTest' as LightningTestOptions['template'],
       outputdir: flags['output-dir'],
       internal: flags.internal,
-      ...(typeof flags['api-version'] === 'string' ? { apiversion: flags['api-version'] } : {}),
+      apiversion: flags['api-version'],
     };
     return runGenerator({
       generator: LightningTestGenerator,

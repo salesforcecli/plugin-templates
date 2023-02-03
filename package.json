@@ -93,72 +93,46 @@
       "@salesforce/plugin-settings"
     ],
     "topics": {
-      "force": {
+      "apex": {
         "external": true,
         "subtopics": {
-          "apex": {
-            "external": true,
-            "subtopics": {
-              "class": {
-                "description": "create apex class"
-              },
-              "trigger": {
-                "description": "create apex trigger"
-              }
-            }
-          },
-          "analytics": {
-            "description": "work with analytics assets",
-            "longDescription": "Work with analytics assets.",
-            "subtopics": {
-              "template": {
-                "description": "work with analytics templates",
-                "longDescription": "Work with analytics templates."
-              }
-            }
-          },
-          "lightning": {
-            "description": "work with lwc and aura components",
-            "external": true,
-            "subtopics": {
-              "app": {
-                "description": "create app (aura or lwc)"
-              },
-              "component": {
-                "description": "create component (aura or lwc)"
-              },
-              "event": {
-                "description": "create aura event"
-              },
-              "interface": {
-                "description": "create aura interface"
-              },
-              "test": {
-                "description": "create lwc test"
-              }
-            }
-          },
-          "project": {
-            "description": "work with sfdx projects",
-            "external": true
-          },
-          "visualforce": {
-            "description": "work with visualforce components",
-            "external": true,
-            "subtopics": {
-              "component": {
-                "description": "create a visualforce"
-              },
-              "page": {
-                "description": "create a visualforce page"
-              }
-            }
-          },
-          "staticresource": {
-            "description": "work with static resources",
-            "external": true
+          "generate": {
+            "description": "create an apex class or trigger"
           }
         }
+      },
+      "analytics": {
+        "external": true,
+        "description": "work with analytics assets",
+        "longDescription": "Work with analytics assets.",
+        "subtopics": {
+          "generate": {
+            "description": "create analytics templates"
+          }
+        }
+      },
+      "lightning": {
+        "description": "work with lwc and aura components",
+        "external": true,
+        "subtopics": {
+          "generate": {
+            "description": "create aura/lwc components and associated metadata"
+          }
+        }
+      },
+      "project": {
+        "description": "work with sfdx projects"
+      },
+      "visualforce": {
+        "description": "work with visualforce components",
+        "subtopics": {
+          "generate": {
+            "description": "create a visualforce page or component"
+          }
+        }
+      },
+      "static-resource": {
+        "description": "create a static resources"
       }
     }
   },

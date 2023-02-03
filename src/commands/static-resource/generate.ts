@@ -8,8 +8,8 @@ import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } fro
 import { CreateOutput, StaticResourceOptions } from '@salesforce/templates';
 import StaticResourceGenerator from '@salesforce/templates/lib/generators/staticResourceGenerator';
 import { Messages } from '@salesforce/core';
-import { outputDirFlag } from '../../../utils/flags';
-import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand';
+import { outputDirFlag } from '../../utils/flags';
+import { getCustomTemplates, runGenerator } from '../../utils/templateCommand';
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-templates', 'staticResource');
@@ -17,7 +17,8 @@ export default class StaticResource extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
-
+  public static readonly aliases = ['force:staticresource:create'];
+  public static readonly deprecateAliases = true;
   public static readonly flags = {
     name: Flags.string({
       char: 'n',
@@ -47,7 +48,7 @@ export default class StaticResource extends SfCommand<CreateOutput> {
       contenttype: flags.type,
       template: 'empty',
       outputdir: flags['output-dir'],
-      ...(typeof flags['api-version'] === 'string' ? { apiversion: flags['api-version'] } : {}),
+      apiversion: flags['api-version'],
     };
 
     return runGenerator({

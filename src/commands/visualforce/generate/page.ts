@@ -8,8 +8,8 @@ import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } fro
 import VisualforcePageGenerator from '@salesforce/templates/lib/generators/visualforcePageGenerator';
 import { CreateOutput, CreateUtil, VisualforcePageOptions } from '@salesforce/templates';
 import { Messages } from '@salesforce/core';
-import { getCustomTemplates, runGenerator } from '../../../../utils/templateCommand';
-import { outputDirFlag } from '../../../../utils/flags';
+import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand';
+import { outputDirFlag } from '../../../utils/flags';
 const visualforcePageFileSuffix = /.page$/;
 const VF_TYPE = 'Page';
 
@@ -20,7 +20,8 @@ export default class VisualforcePage extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary', [VF_TYPE]);
   public static readonly description = messages.getMessage('description', [VF_TYPE, VF_TYPE]);
   public static readonly examples = messages.getMessages('examples.page');
-
+  public static readonly aliases = ['force:visualforce:page:create'];
+  public static readonly deprecateAliases = true;
   public static readonly flags = {
     name: Flags.string({
       char: 'n',
@@ -59,7 +60,7 @@ export default class VisualforcePage extends SfCommand<CreateOutput> {
       label: flags.label,
       template: 'DefaultVFPage' as VisualforcePageOptions['template'],
       outputdir: flags['output-dir'],
-      ...(typeof flags['api-version'] === 'string' ? { apiversion: flags['api-version'] } : {}),
+      apiversion: flags['api-version'],
     };
     return runGenerator({
       generator: VisualforcePageGenerator,

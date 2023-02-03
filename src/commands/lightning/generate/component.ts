@@ -11,8 +11,8 @@ import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } fro
 import { CreateOutput, LightningComponentOptions } from '@salesforce/templates';
 import LightningComponentGenerator from '@salesforce/templates/lib/generators/lightningComponentGenerator';
 import { Messages } from '@salesforce/core';
-import { getCustomTemplates, runGenerator } from '../../../../utils/templateCommand';
-import { internalFlag, outputDirFlagLightning } from '../../../../utils/flags';
+import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand';
+import { internalFlag, outputDirFlagLightning } from '../../../utils/flags';
 
 const BUNDLE_TYPE = 'Component';
 
@@ -22,9 +22,9 @@ const lightningCommon = Messages.loadMessages('@salesforce/plugin-templates', 'l
 export default class LightningComponent extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
-
   public static readonly examples = messages.getMessages('examples');
-
+  public static readonly aliases = ['force:lightning:component:create'];
+  public static readonly deprecateAliases = true;
   public static readonly flags = {
     name: Flags.string({
       char: 'n',
