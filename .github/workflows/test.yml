@@ -14,7 +14,9 @@ jobs:
   windows-unit-tests:
     needs: linux-unit-tests
     uses: salesforcecli/github-workflows/.github/workflows/unitTestsWindows.yml@main
+  # nuts in the repo are non-org, local-fs style nuts.  There's no reason to postpone them given the small size of the UT suite
   nuts:
+    needs: yarn-lockfile-check
     uses: salesforcecli/github-workflows/.github/workflows/nut.yml@main
     secrets: inherit
     strategy:
