@@ -186,6 +186,7 @@
     "test:deprecation-policy": "wireit",
     "test:json-schema": "wireit",
     "test:only": "wireit",
+    "test:nuts": "wireit",
     "version": "oclif readme && git add README.md"
   },
   "config": {
@@ -245,6 +246,17 @@
         "lint",
         "test:json-schema"
       ]
+    },
+    "test:nuts": {
+      "command": "nyc mocha \"test/**/*.nut.ts\" --parallel --timeout 5000000",
+      "files": [
+        "test/**/*.nut.ts",
+        "src/**/*.ts",
+        "messages",
+        "tsconfig.json",
+        "test/tsconfig.json"
+      ],
+      "output": []
     },
     "test:only": {
       "command": "nyc mocha \"test/**/*.test.ts\"",

@@ -19,7 +19,7 @@ describe('Apex class creation tests:', () => {
     });
   });
   after(async () => {
-    // await session?.clean();
+    await session?.clean();
   });
 
   describe('Check apex class creation', () => {
