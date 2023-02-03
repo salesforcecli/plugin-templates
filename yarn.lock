@@ -1198,19 +1198,7 @@
   resolved "https://registry.yarnpkg.com/@salesforce/schemas/-/schemas-1.4.0.tgz#7dff427c8059895d8108176047aee600703c82d6"
   integrity sha512-BJ25uphssN42Zy6kksheFHMTLiR98AAHe/Wxnv0T4dYxtrEbUjSXVAGKZqfewJPFXA4xB5gxC+rQZtfz6xKCFg==
 
-"@salesforce/sf-plugins-core@^2.0.0-beta.8":
-  version "2.0.0-beta.8"
-  resolved "https://registry.yarnpkg.com/@salesforce/sf-plugins-core/-/sf-plugins-core-2.0.0-beta.8.tgz#b6a775b1ed209e9fce13ce4ddf19e4323b148cd5"
-  integrity sha512-5jFFotkAlCxg9fqpCIVXnpoejpJ97mloYUL9/9ZPtc1teBIabwMT+k3g12LmcMa0CXd8YumKhnkOIbsvjh29LQ==
-  dependencies:
-    "@oclif/core" "^2.0.7"
-    "@salesforce/core" "^3.32.12"
-    "@salesforce/kit" "^1.8.3"
-    "@salesforce/ts-types" "^1.7.1"
-    chalk "^4"
-    inquirer "^8.2.5"
-
-"@salesforce/sf-plugins-core@^2.0.1":
+"@salesforce/sf-plugins-core@^2.0.0-beta.8", "@salesforce/sf-plugins-core@^2.0.1":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@salesforce/sf-plugins-core/-/sf-plugins-core-2.0.1.tgz#079d6cc200ea53ce7fb60aafb5eaf5f2b48e46c9"
   integrity sha512-vT4Y9n/4lStSWrfMAlgQB/XzwJAYK6ibcsFykHNCl86NCoebVGzg5KDIxYjHpidrt2PG/nPk7NL9iBtTH/p8Yg==
@@ -1722,23 +1710,15 @@
     semver "^7.3.7"
     tsutils "^3.21.0"
 
-"@typescript-eslint/parser@^5.48.2":
-  version "5.48.2"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/parser/-/parser-5.48.2.tgz#c9edef2a0922d26a37dba03be20c5fff378313b3"
-  integrity sha512-38zMsKsG2sIuM5Oi/olurGwYJXzmtdsHhn5mI/pQogP+BjYVkK5iRazCQ8RGS0V+YLk282uWElN70zAAUmaYHw==
+"@typescript-eslint/parser@^5.49.0":
+  version "5.49.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/parser/-/parser-5.49.0.tgz#d699734b2f20e16351e117417d34a2bc9d7c4b90"
+  integrity sha512-veDlZN9mUhGqU31Qiv2qEp+XrJj5fgZpJ8PW30sHU+j/8/e5ruAhLaVDAeznS7A7i4ucb/s8IozpDtt9NqCkZg==
   dependencies:
-    "@typescript-eslint/scope-manager" "5.48.2"
-    "@typescript-eslint/types" "5.48.2"
-    "@typescript-eslint/typescript-estree" "5.48.2"
+    "@typescript-eslint/scope-manager" "5.49.0"
+    "@typescript-eslint/types" "5.49.0"
+    "@typescript-eslint/typescript-estree" "5.49.0"
     debug "^4.3.4"
-
-"@typescript-eslint/scope-manager@5.48.2":
-  version "5.48.2"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/scope-manager/-/scope-manager-5.48.2.tgz#bb7676cb78f1e94921eaab637a4b5d596f838abc"
-  integrity sha512-zEUFfonQid5KRDKoI3O+uP1GnrFd4tIHlvs+sTJXiWuypUWMuDaottkJuR612wQfOkjYbsaskSIURV9xo4f+Fw==
-  dependencies:
-    "@typescript-eslint/types" "5.48.2"
-    "@typescript-eslint/visitor-keys" "5.48.2"
 
 "@typescript-eslint/scope-manager@5.49.0":
   version "5.49.0"
@@ -1758,28 +1738,10 @@
     debug "^4.3.4"
     tsutils "^3.21.0"
 
-"@typescript-eslint/types@5.48.2":
-  version "5.48.2"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/types/-/types-5.48.2.tgz#635706abb1ec164137f92148f06f794438c97b8e"
-  integrity sha512-hE7dA77xxu7ByBc6KCzikgfRyBCTst6dZQpwaTy25iMYOnbNljDT4hjhrGEJJ0QoMjrfqrx+j1l1B9/LtKeuqA==
-
 "@typescript-eslint/types@5.49.0":
   version "5.49.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/types/-/types-5.49.0.tgz#ad66766cb36ca1c89fcb6ac8b87ec2e6dac435c3"
   integrity sha512-7If46kusG+sSnEpu0yOz2xFv5nRz158nzEXnJFCGVEHWnuzolXKwrH5Bsf9zsNlOQkyZuk0BZKKoJQI+1JPBBg==
-
-"@typescript-eslint/typescript-estree@5.48.2":
-  version "5.48.2"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/typescript-estree/-/typescript-estree-5.48.2.tgz#6e206b462942b32383582a6c9251c05021cc21b0"
-  integrity sha512-bibvD3z6ilnoVxUBFEgkO0k0aFvUc4Cttt0dAreEr+nrAHhWzkO83PEVVuieK3DqcgL6VAK5dkzK8XUVja5Zcg==
-  dependencies:
-    "@typescript-eslint/types" "5.48.2"
-    "@typescript-eslint/visitor-keys" "5.48.2"
-    debug "^4.3.4"
-    globby "^11.1.0"
-    is-glob "^4.0.3"
-    semver "^7.3.7"
-    tsutils "^3.21.0"
 
 "@typescript-eslint/typescript-estree@5.49.0":
   version "5.49.0"
@@ -1807,14 +1769,6 @@
     eslint-scope "^5.1.1"
     eslint-utils "^3.0.0"
     semver "^7.3.7"
-
-"@typescript-eslint/visitor-keys@5.48.2":
-  version "5.48.2"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/visitor-keys/-/visitor-keys-5.48.2.tgz#c247582a0bcce467461d7b696513bf9455000060"
-  integrity sha512-z9njZLSkwmjFWUelGEwEbdf4NwKvfHxvGC0OcGN1Hp/XNDIcJ7D5DpPNPv6x6/mFvc1tQHsaWmpD/a4gOvvCJQ==
-  dependencies:
-    "@typescript-eslint/types" "5.48.2"
-    eslint-visitor-keys "^3.3.0"
 
 "@typescript-eslint/visitor-keys@5.49.0":
   version "5.49.0"
@@ -2005,26 +1959,13 @@ archiver-utils@^2.1.0:
     normalize-path "^3.0.0"
     readable-stream "^2.0.0"
 
-archiver@^5.2.0:
+archiver@^5.2.0, archiver@^5.3.0:
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/archiver/-/archiver-5.3.1.tgz#21e92811d6f09ecfce649fbefefe8c79e57cbbb6"
   integrity sha512-8KyabkmbYrH+9ibcTScQ1xCJC/CGcugdVIwB+53f5sZziXgwUh3iXlAlANMxcZyDEfTHMe6+Z5FofV8nopXP7w==
   dependencies:
     archiver-utils "^2.1.0"
     async "^3.2.3"
-    buffer-crc32 "^0.2.1"
-    readable-stream "^3.6.0"
-    readdir-glob "^1.0.0"
-    tar-stream "^2.2.0"
-    zip-stream "^4.1.0"
-
-archiver@^5.3.0:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/archiver/-/archiver-5.3.0.tgz#dd3e097624481741df626267564f7dd8640a45ba"
-  integrity sha512-iUw+oDwK0fgNpvveEsdQ0Ase6IIKztBJU2U0E9MzszMfmVVUyv1QJhS2ITW9ZCqx8dktAxVAjWWkKehuZE8OPg==
-  dependencies:
-    archiver-utils "^2.1.0"
-    async "^3.2.0"
     buffer-crc32 "^0.2.1"
     readable-stream "^3.6.0"
     readdir-glob "^1.0.0"
@@ -2149,7 +2090,7 @@ ast-types@^0.13.2:
   dependencies:
     tslib "^2.0.1"
 
-async@^3.2.0, async@^3.2.3:
+async@^3.2.3:
   version "3.2.3"
   resolved "https://registry.yarnpkg.com/async/-/async-3.2.3.tgz#ac53dafd3f4720ee9e8a160628f18ea91df196c9"
   integrity sha512-spZRyzKL5l5BZQrr/6m/SqFdBN0q3OCI0f9rjfBzCMBIP4p75P620rR3gTmaksNOhmzgdxcaxdNfMy6anrbM0g==
@@ -6988,7 +6929,7 @@ prelude-ls@~1.1.2:
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.1.2.tgz#21932a549f5e52ffd9a827f570e04be62a97da54"
   integrity sha512-ESF23V4SKG6lVSGZgYNpbsiaAkdab6ZgOxe52p7+Kid3W3u3bxR4Vfd/o21dmN7jSt0IwgZ4v5MUd26FEtXE9w==
 
-prettier@^2.7.1:
+prettier@^2.7.1, prettier@^2.8.3:
   version "2.8.3"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.8.3.tgz#ab697b1d3dd46fb4626fbe2f543afe0cc98d8632"
   integrity sha512-tJ/oJ4amDihPoufT5sM0Z1SKEuKay8LfVAMlbbhnnkvt6BUserZylqo2PN+p9KeljLr0OHa2rXHU1T8reeoTrw==
