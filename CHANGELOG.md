@@ -1,3 +1,12 @@
+## [55.3.1](https://github.com/salesforcecli/plugin-templates/compare/55.3.0...55.3.1) (2023-02-05)
+
+
+### Bug Fixes
+
+* **deps:** bump http-cache-semantics from 4.1.0 to 4.1.1 ([6ef8924](https://github.com/salesforcecli/plugin-templates/commit/6ef89241c354934d8b7ccbe4c40280712cde34af))
+
+
+
 # [55.3.0](https://github.com/salesforcecli/plugin-templates/compare/55.2.3...55.3.0) (2023-01-31)
 
 
