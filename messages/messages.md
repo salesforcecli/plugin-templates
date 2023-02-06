@@ -22,30 +22,6 @@ The template to use to create the file. Supplied parameter values or default val
 
 target dir = %s
 
-# App
-
-app
-
-# Event
-
-event
-
-# Interface
-
-interface
-
-# Test
-
-test
-
-# Component
-
-component
-
-# Page
-
-page
-
 # MissingAuraFolder
 
 Lightning bundles must have a parent folder named 'aura'.
