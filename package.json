@@ -9,7 +9,7 @@
     "@oclif/core": "^2.0.7",
     "@salesforce/command": "^5.2.1",
     "@salesforce/core": "^3.33.1",
-    "@salesforce/sf-plugins-core": "^2.0.0-beta.8",
+    "@salesforce/sf-plugins-core": "^2.0.1",
     "@salesforce/templates": "^57.1.0",
     "tslib": "^2",
     "yeoman-environment": "^3.13.0",
