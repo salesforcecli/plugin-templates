@@ -39,7 +39,6 @@ export default class Project extends SfCommand<CreateOutput> {
     namespace: Flags.string({
       char: 's',
       summary: messages.getMessage('flags.namespace'),
-      description: messages.getMessage('flags.namespace.description'),
       default: '',
     }),
     'default-package-dir': Flags.string({
