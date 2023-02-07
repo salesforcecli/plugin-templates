@@ -1,6 +1,6 @@
 # summary
 
-create a Lightning %s
+Create a Lightning %s.
 
 # description
 
@@ -8,20 +8,20 @@ Creates a Lightning %s bundle in the specified directory or the current working 
 
 # flags.name
 
-name of the generated Lightning %s
+Name of the generated Lightning %s.
 
 # flags.name.description
 
-The Lightning %s name. The name can be up to 40 characters and must start with a letter.
+The name can be up to 40 characters and must start with a letter.
 
 # flags.internal
 
-create lightning bundles without creating a -meta.xml file
+Create lightning bundles without creating a -meta.xml file.
 
 # flags.template
 
-template to use for file creation
+Template to use for file creation.
 
 # flags.template.description
 
-The template to use to create the file. Supplied parameter values or default values are filled into a copy of the template.
+Supplied parameter values or default values are filled into a copy of the template.

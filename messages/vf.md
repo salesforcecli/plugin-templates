@@ -1,29 +1,39 @@
 # summary
 
-create a Visualforce %s
+Create a Visualforce %s.
 
 # description
 
-Creates a Visualforce %s in the specified directory or the current working directory. The command creates the .%s file and associated metadata file.
+The command creates the .%s file and associated metadata file in the specified directory or the current working directory by default.
 
 # flags.name
 
-name of the generated Visualforce %s
+Name of the generated Visualforce %s.
 
 # flags.name.description
 
-The Visualforce %s name. The name can be up to 40 characters and must start with a letter.
+The name can be up to 40 characters and must start with a letter.
 
 # flags.label
 
-Visualforce %s label
+Visualforce %s label.
 
 # examples.component
 
-- $ <%= config.bin %> <%= command.id %> -n mycomponent -l mylabel
-- $ <%= config.bin %> <%= command.id %> -n mycomponent -l mylabel -d components
+- Create the metadata files for a Visualforce component in the current directory:
+
+  <%= config.bin %> <%= command.id %> --name mycomponent --label mylabel
+
+- Similar to previous example, but create the files in the directory "force-app/main/default/components":
+
+  <%= config.bin %> <%= command.id %> --name mycomponent --label mylabel --output-dir components
 
 # examples.page
 
-- $ <%= config.bin %> <%= command.id %> -n mypage -l mylabel
-- $ <%= config.bin %> <%= command.id %> -n mypage -l mylabel -d pages
+- Create the metadata files for a Visualforce page in the current directory:
+
+  <%= config.bin %> <%= command.id %> --name mypage --label mylabel
+
+- Similar to previous example, but create the files in the directory "force-app/main/default/pages":
+
+  <%= config.bin %> <%= command.id %> --name mypage --label mylabel --output-dir pages
