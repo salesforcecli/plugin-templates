@@ -152,6 +152,7 @@
     "lint:fix": "eslint 'src/**/*.ts' 'test/**/*.ts'  --fix",
     "manifest:generate": "oclif manifest",
     "manifest:remove": "shx rm -f oclif.manifest.json",
+    "prepare": "sf-install",
     "prepack": "sf-prepack",
     "test": "wireit",
     "test:command-reference": "wireit",
