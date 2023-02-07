@@ -144,7 +144,6 @@
     "clean": "sf-clean",
     "clean-all": "sf-clean all",
     "clean:lib": "shx rm -rf lib && shx rm -rf coverage && shx rm -rf .nyc_output && shx rm -f oclif.manifest.json",
-    "commit": "git-cz",
     "compile": "wireit",
     "docs": "sf-docs",
     "format": "wireit",
@@ -152,8 +151,9 @@
     "lint:fix": "eslint 'src/**/*.ts' 'test/**/*.ts'  --fix",
     "manifest:generate": "oclif manifest",
     "manifest:remove": "shx rm -f oclif.manifest.json",
-    "prepare": "sf-install",
+    "postpack": "shx rm -f oclif.manifest.json",
     "prepack": "sf-prepack",
+    "prepare": "sf-install",
     "test": "wireit",
     "test:command-reference": "wireit",
     "test:compile": "wireit",
@@ -161,12 +161,7 @@
     "test:json-schema": "wireit",
     "test:only": "wireit",
     "test:nuts": "wireit",
-    "version": "oclif readme && git add README.md"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
+    "version": "oclif readme"
   },
   "wireit": {
     "build": {
