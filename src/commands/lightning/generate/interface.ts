@@ -15,7 +15,7 @@ const lightningInterfaceFileSuffix = /.intf$/;
 const BUNDLE_TYPE = 'Interface';
 
 Messages.importMessagesDirectory(__dirname);
-const messages = Messages.loadMessages('@salesforce/plugin-templates', 'lightningCmp');
+const messages = Messages.loadMessages('@salesforce/plugin-templates', 'lightningInterface');
 const lightningCommon = Messages.loadMessages('@salesforce/plugin-templates', 'lightning');
 
 export default class LightningInterface extends SfCommand<CreateOutput> {

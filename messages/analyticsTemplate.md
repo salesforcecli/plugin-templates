@@ -1,15 +1,17 @@
 # summary
 
-add an Analytics template to your workspace
+Create a simple Analytics template. 
 
 # description
 
-Creates a simple Analytics template in the specified directory. If you don’t explicitly set the API version, it defaults to the current API version. The associated metadata files are created.
+The metadata files associated with the Analytics template must be contained in a parent directory called "waveTemplates" in your package directory. Either run this command from an existing directory of this name, or use the --output-dir flag to create one or point to an existing one. 
 
 # flags.name.summary
 
-name of the Analytics template
+Name of the Analytics template.
 
 # examples
 
-- $ <%= config.bin %> <%= command.id %> -n myTemplate -d outputdir
+- Create the metadata files for a simple Analytics template file called myTemplate in the force-app/main/default/waveTemplates directory:
+
+  <%= config.bin %> <%= command.id %> --name myTemplate --output-dir force-app/main/default/waveTemplates

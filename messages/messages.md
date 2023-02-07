@@ -1,10 +1,10 @@
 # flags.outputdir
 
-folder for saving the created files
+Directory for saving the created files.
 
 # flags.outputdir.description
 
-The directory to store the newly created files. The location can be an absolute path or relative to the current working directory. The default is the current directory.
+The location can be an absolute path or relative to the current working directory. The default is the current directory.
 
 # flags.outputdirLighting.description
 

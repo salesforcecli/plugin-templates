@@ -1,29 +1,40 @@
 # summary
 
-create an Apex trigger
+Create an Apex trigger.
 
 # description
 
-Creates an Apex trigger in the specified directory or the current working directory. If you don’t explicitly set the API version, it defaults to the current API version. The .trigger file and associated metadata file are created.
+Creates the Apex trigger *.trigger file and associated metadata file. These files must be contained in a parent directory called "triggers" in your package directory. Either run this command from an existing directory of this name, or use the --output-dir flag to create one or point to an existing one. 
+
+If you don't specify the --sobject flag, the .trigger file contains the generic placeholder SOBJECT; replace it with the Salesforce object you want to create a trigger for. If you don't specify --event, "before insert" is used. 
 
 # flags.event
 
-events that fire the trigger
+Events that fire the trigger.
 
 # flags.name
 
-name of the generated Apex trigger
+Name of the generated Apex trigger
 
 # flags.name.description
 
-The name of the new Apex trigger. The name can be up to 40 characters and must start with a letter.
+The name can be up to 40 characters and must start with a letter.
 
 # flags.sobject
 
-sObject to create a trigger on
+Salesforce object to create a trigger on.
 
 # examples
 
-- $ <%= config.bin %> <%= command.id %> -n MyTrigger
-- $ <%= config.bin %> <%= command.id %> -n MyTrigger -s Account -e before insert,after insert",
-- $ <%= config.bin %> <%= command.id %> -n MyTrigger -d triggers,
+- Create two files associated with the MyTrigger Apex trigger (MyTrigger.trigger and MyTrigger.trigger-meta.xml) in the current directory:
+
+  <%= config.bin %> <%= command.id %> --name MyTrigger
+
+- Similar to the previous example, but create the files in the "force-app/main/default/triggers" directory:
+
+  <%= config.bin %> <%= command.id %> --name MyTrigger --output-dir force-app/main/default/triggers
+
+- Generate files to create a trigger that fires on the Account object before and after an insert:
+
+  <%= config.bin %> <%= command.id %> --name MyTrigger --sobject Account --event "before insert,after insert"
+
