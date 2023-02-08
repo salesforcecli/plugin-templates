@@ -94,44 +94,44 @@
     "topics": {
       "apex": {
         "external": true,
+        "description": "Work with Apex classes and triggers.",
         "subtopics": {
           "generate": {
-            "description": "create an apex class or trigger"
+            "description": "Create an apex class or trigger."
           }
         }
       },
       "analytics": {
         "external": true,
-        "description": "work with analytics assets",
-        "longDescription": "Work with analytics assets.",
+        "description": "Work with analytics assets.",
         "subtopics": {
           "generate": {
-            "description": "create analytics templates"
+            "description": "Create analytics templates."
           }
         }
       },
       "lightning": {
-        "description": "work with lwc and aura components",
+        "description": "Work with Lightning Web and Aura components.",
         "external": true,
         "subtopics": {
           "generate": {
-            "description": "create aura/lwc components and associated metadata"
+            "description": "Create LWC and Aura components and associated metadata."
           }
         }
       },
       "project": {
-        "description": "work with sfdx projects"
+        "description": "Work with projects."
       },
       "visualforce": {
-        "description": "work with visualforce components",
+        "description": "Work with Visualforce components.",
         "subtopics": {
           "generate": {
-            "description": "create a visualforce page or component"
+            "description": "Create a Visualforce page or component."
           }
         }
       },
       "static-resource": {
-        "description": "create a static resources"
+        "description": "Work with static resources."
       }
     }
   },
