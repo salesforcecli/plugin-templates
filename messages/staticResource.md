@@ -1,14 +1,14 @@
 # summary
 
-Create a static resource.
+Generate a static resource.
 
 # description
 
-Creates the metadata resource file in the specified directory or the current working directory. Static resource files must be contained in a parent directory called "staticresources" in your package directory. Either run this command from an existing directory of this name, or use the --output-dir flag to create one or point to an existing one.
+Generates the metadata resource file in the specified directory or the current working directory. Static resource files must be contained in a parent directory called "staticresources" in your package directory. Either run this command from an existing directory of this name, or use the --output-dir flag to create one or point to an existing one.
 
 # examples
 
-- Create the metadata file for a static resource called MyResource in the current directory:
+- Generate the metadata file for a static resource called MyResource in the current directory:
 
   <%= config.bin %> <%= command.id %> --name MyResource
 
@@ -16,7 +16,7 @@ Creates the metadata resource file in the specified directory or the current wor
 
   <%= config.bin %> <%= command.id %> --name MyResource --type application/json
 
-- Create the resource file in the "force-app/main/default/staticresources" directory:
+- Generate the resource file in the "force-app/main/default/staticresources" directory:
 
   <%= config.bin %> <%= command.id %> --name MyResource --output-dir force-app/main/default/staticresources
 

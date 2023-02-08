@@ -12,11 +12,11 @@ If you don’t specify an outputdir, we create a subfolder in your current worki
 
 # flags.template
 
-template to use for file creation
+Template to use for file creation.
 
 # flags.template.description
 
-The template to use to create the file. Supplied parameter values or default values are filled into a copy of the template.
+Supplied parameter values or default values are filled into a copy of the template.
 
 # TargetDirOutput
 
