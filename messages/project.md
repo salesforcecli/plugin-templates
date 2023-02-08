@@ -1,28 +1,28 @@
 # summary
 
-Create a Salesforce DX project.
+Generate a Salesforce DX project.
 
 # description
 
-A Salesforce DX project has a specific structure and a configuration file (sfdx-project.json) that identifies the directory as a Salesforce DX project. This command creates the necessary configuration files and directories to get you started.
+A Salesforce DX project has a specific structure and a configuration file (sfdx-project.json) that identifies the directory as a Salesforce DX project. This command generates the necessary configuration files and directories to get you started.
 
 By default, the generated sfdx-project.json file sets the sourceApiVersion property to the default API version currently used by Salesforce CLI. To specify a different version, set the apiVersion configuration variable. For example: "sf config set apiVersion=57.0 --global".
 
 # examples
 
-- Create a project called "mywork":
+- Generate a project called "mywork":
 
   <%= config.bin %> <%= command.id %> --name mywork
 
-- Similar to previous example, but create the files in a directory called "myapp":
+- Similar to previous example, but generate the files in a directory called "myapp":
 
   <%= config.bin %> <%= command.id %> --name mywork --default-package-dir myapp
 
-- Similar to prevoius example, but also create a default package.xml manifest file:
+- Similar to prevoius example, but also generate a default package.xml manifest file:
 
   <%= config.bin %> <%= command.id %> --name mywork --default-package-dir myapp --manifest
 
-- Create a project with the minimum files and directories:
+- Generate a project with the minimum files and directories:
 
   <%= config.bin %> <%= command.id %> --name mywork --template empty
 
@@ -32,7 +32,7 @@ Name of the generated project.
 
 # flags.name.description
 
-Creates a project directory with this name; any valid directory name is accepted. Also sets the "name" property in the sfdx-project.json file to this name.
+Generates a project directory with this name; any valid directory name is accepted. Also sets the "name" property in the sfdx-project.json file to this name.
 
 # flags.template
 
