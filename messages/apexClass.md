@@ -1,10 +1,10 @@
 # summary
 
-Create an Apex class.
+Generate an Apex class.
 
 # description
 
-Creates the Apex *.cls file and associated metadata file. These files must be contained in a parent directory called "classes" in your package directory. Either run this command from an existing directory of this name, or use the --output-dir flag to create one or point to an existing one. 
+Generates the Apex *.cls file and associated metadata file. These files must be contained in a parent directory called "classes" in your package directory. Either run this command from an existing directory of this name, or use the --output-dir flag to generate one or point to an existing one. 
 
 # flags.name.summary
 
@@ -16,10 +16,10 @@ The name can be up to 40 characters and must start with a letter.
 
 # examples
 
-- Create two metadata files associated with the MyClass Apex class (MyClass.cls and MyClass.cls-meta.xml) in the current directory:
+- Generate two metadata files associated with the MyClass Apex class (MyClass.cls and MyClass.cls-meta.xml) in the current directory:
 
   <%= config.bin %> <%= command.id %> --name MyClass
 
-- Similar to previous example, but creates the files in the "force-app/main/default/classes" directory:
+- Similar to previous example, but generates the files in the "force-app/main/default/classes" directory:
 
   <%= config.bin %> <%= command.id %> --name MyClass --output-dir force-app/main/default/classes
