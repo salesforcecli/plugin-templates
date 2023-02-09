@@ -24,11 +24,6 @@ import LightningEventGenerator from '@salesforce/templates/lib/generators/lightn
 import AnalyticsTemplateGenerator from '@salesforce/templates/lib/generators/analyticsTemplateGenerator';
 import LightningComponentGenerator from '@salesforce/templates/lib/generators/lightningComponentGenerator';
 import ApexTriggerGenerator from '@salesforce/templates/lib/generators/apexTriggerGenerator';
-// TODO: do something clever here to avoid hardcoding apiVersion.  Maybe look in the auth files, or do what SDR does
-// TODO: put this smartness into a shared flag all the commands that need it can use
-// const getApiVersion = async (): Promise<string> => Promise.resolve('57.0');
-
-// TODO: make this type more dynamic
 
 Messages.importMessagesDirectory(__dirname);
 const messages = Messages.loadMessages('@salesforce/plugin-templates', 'messages');
@@ -95,7 +90,6 @@ export async function runGenerator({ ux, templates, generator, opts }: generator
   const adapter = new ForceGeneratorAdapter();
   // @ts-expect-error the adapter doesn't fully implement the yeoman adapter interface
   const env = yeoman.createEnv(undefined, undefined, adapter);
-  // @ts-expect-error the constructor isn't typed correctly
   env.registerStub(generator, 'generator');
 
   await env.run('generator', opts);
