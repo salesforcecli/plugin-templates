@@ -1,44 +1,48 @@
-# TypeScript generated files
-dist/
-out/
-lib/
+# -- CLEAN
 tmp/
+# use yarn by default, so ignore npm
+package-lock.json
 
-# Logs
-*.log
+# never checkin npm config
+.npmrc
 
-# Dependency directories
-node_modules/
+# debug logs
+npm-error.log
+yarn-error.log
 
-# Ignore artifacts
+
+# compile source
+lib
+
+# test artifacts
+*xunit.xml
+*checkstyle.xml
+*unitcoverage
+.nyc_output
+coverage
+test_session*
+
+# generated docs
+docs
+
+# ignore sfdx-trust files
 *.tgz
 *.sig
-package.json.bak
+package.json.bak.
 
-# MacOS folder atttribute tracking
-**/.DS_Store
+# -- CLEAN ALL
+*.tsbuildinfo
+.eslintcache
+.wireit
+node_modules
 
-# test results
-test-results.xml
-xunit.xml
-xunit-unitTests.xml
-xunit-integrationTests.xml
-xunit-vscodeIntegrationTests.xml
-junit-custom.xml
-junit-custom-unitTests.xml
-junit-custom-integrationTests.xml
-junit-custom-vscodeIntegrationTests.xml
-testsoutput/
-testpage/
-folder space/
-foo*
-analytics1/
-GitIgnoreTest/
-GitIgnoreTest2/
+# --
+# put files here you don't want cleaned with sf-clean
 
-# nyc test coverage
-.nyc_output
+# os specific files
+.DS_Store
+.idea
 
-# Coverage directory used by tools like istanbul
-coverage
-coverage.lcov
+oclif.manifest.json
+.sfdx
+.sf

@@ -6,10 +6,10 @@
   "author": "Salesforce",
   "bugs": "https://github.com/salesforcecli/plugin-templates/issues",
   "dependencies": {
-    "@oclif/core": "^2.0.7",
-    "@salesforce/command": "^5.2.1",
-    "@salesforce/core": "^3.32.14",
-    "@salesforce/templates": "55.1.0",
+    "@oclif/core": "^2.0.10",
+    "@salesforce/core": "^3.33.1",
+    "@salesforce/sf-plugins-core": "^2.0.2",
+    "@salesforce/templates": "^57.1.1",
     "tslib": "^2",
     "yeoman-environment": "^3.13.0",
     "yeoman-generator": "^5.7.0"
@@ -17,20 +17,21 @@
   "devDependencies": {
     "@oclif/plugin-command-snapshot": "^3.2.11",
     "@oclif/plugin-help": "^5.1.12",
-    "@salesforce/dev-config": "^3.0.0",
-    "@salesforce/dev-scripts": "^2.0.4",
-    "@salesforce/plugin-command-reference": "^1.3.0",
+    "@salesforce/cli-plugins-testkit": "^3.2.20",
+    "@salesforce/dev-config": "^3.1.0",
+    "@salesforce/dev-scripts": "^4.0.0-beta.9",
+    "@salesforce/plugin-command-reference": "^2.3.0",
+    "@salesforce/plugin-settings": "^1.2.0",
     "@salesforce/prettier-config": "^0.0.2",
     "@salesforce/ts-sinon": "^1.2.2",
     "@swc/core": "^1.3.27",
     "@types/mkdirp": "^0.5.2",
     "@types/yeoman-assert": "^3.1.1",
     "@types/yeoman-generator": "^5.2.11",
-    "@typescript-eslint/eslint-plugin": "^5.30.7",
+    "@typescript-eslint/eslint-plugin": "^5.33.0",
     "@typescript-eslint/parser": "^5.49.0",
     "chai": "^4.3.7",
     "commitizen": "^4.3.0",
-    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.33.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-salesforce": "^1.1.0",
@@ -39,18 +40,18 @@
     "eslint-plugin-header": "^3.0.0",
     "eslint-plugin-import": "2.26.0",
     "eslint-plugin-jsdoc": "^39.6.6",
-    "eslint-plugin-prettier": "^3.1.3",
-    "eslint-plugin-sf-plugin": "^1.7.0",
+    "eslint-plugin-sf-plugin": "^1.8.0",
     "husky": "^7.0.4",
     "mocha": "^9.1.3",
     "nyc": "^15.1.0",
-    "oclif": "^3.4.3",
+    "oclif": "^3.6.1",
     "prettier": "^2.8.3",
     "pretty-quick": "^3.1.0",
     "shx": "^0.3.4",
     "sinon": "10.0.0",
     "ts-node": "^10.0.0",
-    "typescript": "^4.4.4",
+    "typescript": "^4.9.4",
+    "wireit": "^0.9.3",
     "yeoman-assert": "^3.1.1",
     "yeoman-test": "^6.3.0"
   },
@@ -87,75 +88,50 @@
     "devPlugins": [
       "@oclif/plugin-help",
       "@oclif/plugin-command-snapshot",
-      "@salesforce/plugin-command-reference"
+      "@salesforce/plugin-command-reference",
+      "@salesforce/plugin-settings"
     ],
     "topics": {
-      "force": {
+      "apex": {
         "external": true,
+        "description": "Work with Apex classes and triggers.",
         "subtopics": {
-          "apex": {
-            "external": true,
-            "subtopics": {
-              "class": {
-                "description": "create apex class"
-              },
-              "trigger": {
-                "description": "create apex trigger"
-              }
-            }
-          },
-          "analytics": {
-            "description": "work with analytics assets",
-            "longDescription": "Work with analytics assets.",
-            "subtopics": {
-              "template": {
-                "description": "work with analytics templates",
-                "longDescription": "Work with analytics templates."
-              }
-            }
-          },
-          "lightning": {
-            "description": "work with lwc and aura components",
-            "external": true,
-            "subtopics": {
-              "app": {
-                "description": "create app (aura or lwc)"
-              },
-              "component": {
-                "description": "create component (aura or lwc)"
-              },
-              "event": {
-                "description": "create aura event"
-              },
-              "interface": {
-                "description": "create aura interface"
-              },
-              "test": {
-                "description": "create lwc test"
-              }
-            }
-          },
-          "project": {
-            "description": "work with sfdx projects",
-            "external": true
-          },
-          "visualforce": {
-            "description": "work with visualforce components",
-            "external": true,
-            "subtopics": {
-              "component": {
-                "description": "create a visualforce"
-              },
-              "page": {
-                "description": "create a visualforce page"
-              }
-            }
-          },
-          "staticresource": {
-            "description": "work with static resources",
-            "external": true
+          "generate": {
+            "description": "Create an apex class or trigger."
           }
         }
+      },
+      "analytics": {
+        "external": true,
+        "description": "Work with analytics assets.",
+        "subtopics": {
+          "generate": {
+            "description": "Create analytics templates."
+          }
+        }
+      },
+      "lightning": {
+        "description": "Work with Lightning Web and Aura components.",
+        "external": true,
+        "subtopics": {
+          "generate": {
+            "description": "Create LWC and Aura components and associated metadata."
+          }
+        }
+      },
+      "project": {
+        "description": "Work with projects."
+      },
+      "visualforce": {
+        "description": "Work with Visualforce components.",
+        "subtopics": {
+          "generate": {
+            "description": "Create a Visualforce page or component."
+          }
+        }
+      },
+      "static-resource": {
+        "description": "Work with static resources."
       }
     }
   },
@@ -164,29 +140,130 @@
   },
   "repository": "salesforcecli/plugin-templates",
   "scripts": {
-    "build": "sf-build",
+    "build": "wireit",
     "clean": "sf-clean",
     "clean-all": "sf-clean all",
     "clean:lib": "shx rm -rf lib && shx rm -rf coverage && shx rm -rf .nyc_output && shx rm -f oclif.manifest.json",
-    "compile": "sf-compile",
-    "commit": "git-cz",
+    "compile": "wireit",
     "docs": "sf-docs",
-    "format": "sf-format",
-    "lint": "sf-lint",
+    "format": "wireit",
+    "lint": "wireit",
     "lint:fix": "eslint 'src/**/*.ts' 'test/**/*.ts'  --fix",
     "manifest:generate": "oclif manifest",
     "manifest:remove": "shx rm -f oclif.manifest.json",
-    "posttest": "yarn lint && yarn test:deprecation-policy && yarn test:command-reference",
+    "postpack": "shx rm -f oclif.manifest.json",
     "prepack": "sf-prepack",
-    "pretest": "sf-compile-test",
-    "test": "sf-test",
-    "test:command-reference": "./bin/dev commandreference:generate -p @salesforce/plugin-templates --erroronwarnings",
-    "test:deprecation-policy": "./bin/dev snapshot:compare",
-    "version": "oclif readme && git add README.md"
+    "prepare": "sf-install",
+    "test": "wireit",
+    "test:command-reference": "wireit",
+    "test:compile": "wireit",
+    "test:deprecation-policy": "wireit",
+    "test:json-schema": "wireit",
+    "test:only": "wireit",
+    "test:nuts": "wireit",
+    "version": "oclif readme"
   },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
+  "wireit": {
+    "build": {
+      "dependencies": [
+        "compile",
+        "lint"
+      ]
+    },
+    "compile": {
+      "command": "tsc -p . --pretty --incremental",
+      "files": [
+        "src/**/*.ts",
+        "tsconfig.json",
+        "messages/**"
+      ],
+      "output": [
+        "lib/**",
+        "*.tsbuildinfo"
+      ],
+      "clean": "if-file-deleted"
+    },
+    "format": {
+      "command": "prettier --write \"+(src|test|schemas)/**/*.+(ts|js|json)|command-snapshot.json\""
+    },
+    "lint": {
+      "command": "eslint src test --color --cache --cache-location .eslintcache",
+      "files": [
+        "src/**/*.ts",
+        "test/**/*.ts",
+        "messages/**",
+        ".eslintignore",
+        ".eslintrc.js"
+      ],
+      "output": []
+    },
+    "test:compile": {
+      "command": "tsc -p \"./test\" --pretty",
+      "files": [
+        "test/**/*.ts",
+        "tsconfig.json",
+        "test/tsconfig.json"
+      ],
+      "output": []
+    },
+    "test": {
+      "dependencies": [
+        "test:compile",
+        "test:only",
+        "test:command-reference",
+        "test:deprecation-policy",
+        "lint",
+        "test:json-schema"
+      ]
+    },
+    "test:nuts": {
+      "command": "nyc mocha \"test/**/*.nut.ts\" --parallel --jobs 30 --timeout 5000000 ",
+      "files": [
+        "test/**/*.nut.ts",
+        "src/**/*.ts",
+        "messages",
+        "tsconfig.json",
+        "test/tsconfig.json"
+      ],
+      "output": []
+    },
+    "test:only": {
+      "command": "nyc mocha \"test/**/*.test.ts\"",
+      "files": [
+        "test/**/*.ts",
+        "src/**/*.ts",
+        "tsconfig.json",
+        "test/tsconfig.json"
+      ],
+      "output": []
+    },
+    "test:command-reference": {
+      "command": "\"./bin/dev\" commandreference:generate --erroronwarnings",
+      "files": [
+        "src/**/*.ts",
+        "messages/**"
+      ],
+      "output": [
+        "tmp/root"
+      ]
+    },
+    "test:deprecation-policy": {
+      "command": "\"./bin/dev\" snapshot:compare",
+      "files": [
+        "src/**/*.ts"
+      ],
+      "output": [],
+      "dependencies": [
+        "compile"
+      ]
+    },
+    "test:json-schema": {
+      "command": "\"./bin/dev\" schema:compare",
+      "files": [
+        "src/**/*.ts",
+        "schemas"
+      ],
+      "output": []
     }
   }
 }
