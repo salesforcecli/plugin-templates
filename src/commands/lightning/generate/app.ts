@@ -28,7 +28,7 @@ export default class LightningApp extends SfCommand<CreateOutput> {
     name: Flags.string({
       char: 'n',
       summary: lightningCommonMessages.getMessage('flags.name', [BUNDLE_TYPE]),
-      description: lightningCommonMessages.getMessage('flags.name.description', [BUNDLE_TYPE]),
+      description: lightningCommonMessages.getMessage('flags.name.description'),
       required: true,
       aliases: ['appname'],
       deprecateAliases: true,

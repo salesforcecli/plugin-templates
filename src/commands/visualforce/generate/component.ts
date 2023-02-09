@@ -21,7 +21,7 @@ const messages = Messages.loadMessages('@salesforce/plugin-templates', 'vf');
 
 export default class VisualforceComponent extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary', [VF_TYPE]);
-  public static readonly description = messages.getMessage('description', [VF_TYPE, VF_TYPE]);
+  public static readonly description = messages.getMessage('description', [VF_TYPE]);
   public static readonly examples = messages.getMessages('examples.component');
   public static readonly aliases = ['force:visualforce:component:create'];
   public static readonly deprecateAliases = true;
@@ -29,7 +29,7 @@ export default class VisualforceComponent extends SfCommand<CreateOutput> {
     name: Flags.string({
       char: 'n',
       summary: messages.getMessage('flags.name', [VF_TYPE]),
-      description: messages.getMessage('flags.name.description', [VF_TYPE]),
+      description: messages.getMessage('flags.name.description'),
       required: true,
       aliases: ['componentname'],
       deprecateAliases: true,

@@ -30,7 +30,7 @@ export default class LightningEvent extends SfCommand<CreateOutput> {
     name: Flags.string({
       char: 'n',
       summary: lightningCommon.getMessage('flags.name', [BUNDLE_TYPE]),
-      description: lightningCommon.getMessage('flags.name.description', [BUNDLE_TYPE]),
+      description: lightningCommon.getMessage('flags.name.description'),
       required: true,
       aliases: ['eventname'],
       deprecateAliases: true,
