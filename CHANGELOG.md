@@ -1,3 +1,20 @@
+# [55.4.0](https://github.com/salesforcecli/plugin-templates/compare/55.3.1...55.4.0) (2023-02-09)
+
+
+### Bug Fixes
+
+* edit messages ([7836c94](https://github.com/salesforcecli/plugin-templates/commit/7836c94cb3d951eff97fd29656b4176281e51ebb))
+* remove extra msg token ([ea2bd61](https://github.com/salesforcecli/plugin-templates/commit/ea2bd61828549bacb9bc4a22605299f0dd57da7e))
+* update package.json topic desc ([22e1925](https://github.com/salesforcecli/plugin-templates/commit/22e19258ee4e29ec484feffd0d237a2124933c0c))
+* use "generate" instead of "create" in help ([3673ac5](https://github.com/salesforcecli/plugin-templates/commit/3673ac53467fe8bea4b0d3972e363cb02f72bcc7))
+
+
+### Features
+
+* **wip:** compiles ([12a3639](https://github.com/salesforcecli/plugin-templates/commit/12a3639c33f0e976ef71409327a8a75d39338d1d))
+
+
+
 ## [55.3.1](https://github.com/salesforcecli/plugin-templates/compare/55.3.0...55.3.1) (2023-02-05)
 
 
