@@ -8609,10 +8609,10 @@ yeoman-environment@^3.11.1, yeoman-environment@^3.13.0, yeoman-environment@^3.9.
     textextensions "^5.12.0"
     untildify "^4.0.0"
 
-yeoman-generator@^5.6.1, yeoman-generator@^5.7.0:
-  version "5.7.0"
-  resolved "https://registry.yarnpkg.com/yeoman-generator/-/yeoman-generator-5.7.0.tgz#5cf24b9fca331646263749121d4f8d477698a83a"
-  integrity sha512-z9ZwgKoDOd+llPDCwn8Ax2l4In5FMhlslxdeByW4AMxhT+HbTExXKEAahsClHSbwZz1i5OzRwLwRIUdOJBr5Bw==
+yeoman-generator@^5.6.1, yeoman-generator@^5.8.0:
+  version "5.8.0"
+  resolved "https://registry.yarnpkg.com/yeoman-generator/-/yeoman-generator-5.8.0.tgz#a1951ce0d95555f94adc5975a517d4741b5ce24d"
+  integrity sha512-dsrwFn9/c2/MOe80sa2nKfbZd/GaPTgmmehdgkFifs1VN/I7qPsW2xcBfvSkHNGK+PZly7uHyH8kaVYSFNUDhQ==
   dependencies:
     chalk "^4.1.0"
     dargs "^7.0.0"
@@ -8620,6 +8620,7 @@ yeoman-generator@^5.6.1, yeoman-generator@^5.7.0:
     execa "^5.1.1"
     github-username "^6.0.0"
     lodash "^4.17.11"
+    mem-fs-editor "^9.0.0"
     minimist "^1.2.5"
     read-pkg-up "^7.0.1"
     run-async "^2.0.0"
