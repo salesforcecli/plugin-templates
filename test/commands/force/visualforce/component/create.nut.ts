@@ -44,7 +44,7 @@ describe('Visualforce component creation tests:', () => {
     });
 
     it('should create foo component in custom folder name that has a space in it', () => {
-      execCmd('force:visualforce:component:create --componentname foo --outputdir "classes create" --label label', {
+      execCmd("force:visualforce:component:create --componentname foo --outputdir 'classes create' --label label", {
         ensureExitCode: 0,
       });
       assert.file(

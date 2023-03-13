@@ -89,7 +89,7 @@ describe('Static resource creation tests:', () => {
     });
 
     it('should create foo static resource in custom folder name that has a space in it', () => {
-      execCmd('force:staticresource:create --resourcename foo --outputdir "staticresource create"', {
+      execCmd("force:staticresource:create --resourcename foo --outputdir 'staticresource create'", {
         ensureExitCode: 0,
       });
       assert.file(

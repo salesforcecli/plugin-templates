@@ -47,7 +47,7 @@ describe('Apex class creation tests:', () => {
     });
 
     it('should create foo class in custom folder name that has a space in it', () => {
-      execCmd('force:apex:class:create --classname foo --outputdir "classes create"', { ensureExitCode: 0 });
+      execCmd("force:apex:class:create --classname foo --outputdir 'classes create'", { ensureExitCode: 0 });
       assert.file([
         path.join(session.project.dir, 'classes create', 'foo.cls'),
         path.join(session.project.dir, 'classes create', 'foo.cls-meta.xml'),

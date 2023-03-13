@@ -90,7 +90,7 @@ describe('Project creation tests:', () => {
     });
 
     it('should create project with default values and foo name in a custom output directory with spaces in its name', () => {
-      execCmd('force:project:create --projectname foo --outputdir "test outputdir"', { ensureExitCode: 0 });
+      execCmd("force:project:create --projectname foo --outputdir 'test outputdir'", { ensureExitCode: 0 });
       assert.file([path.join(session.project.dir, 'test outputdir', 'foo', 'config', 'project-scratch-def.json')]);
       assert.file([path.join(session.project.dir, 'test outputdir', 'foo', 'README.md')]);
       assert.file([path.join(session.project.dir, 'test outputdir', 'foo', 'sfdx-project.json')]);
@@ -132,7 +132,7 @@ describe('Project creation tests:', () => {
     });
 
     it('should not create duplicate project in the directory where command is executed', () => {
-      execCmd('force:project:create --projectname duplicate-project-test --outputdir "test outputdir"', {
+      execCmd("force:project:create --projectname duplicate-project-test --outputdir 'test outputdir'", {
         ensureExitCode: 0,
       });
       assert.file(path.join(session.project.dir, 'test outputdir', 'duplicate-project-test', 'force-app'));

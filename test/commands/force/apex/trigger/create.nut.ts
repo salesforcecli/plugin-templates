@@ -46,7 +46,7 @@ describe('Apex trigger creation tests:', () => {
     });
 
     it('should override foo trigger with a different sobject and triggerevent', () => {
-      execCmd('force:apex:trigger:create --triggername foo --sobject override --triggerevents "after insert"', {
+      execCmd("force:apex:trigger:create --triggername foo --sobject override --triggerevents 'after insert'", {
         ensureExitCode: 0,
       });
       assert.file(['foo.trigger', 'foo.trigger-meta.xml'].map((f) => path.join(session.project.dir, f)));
@@ -54,7 +54,7 @@ describe('Apex trigger creation tests:', () => {
     });
 
     it('should create foo trigger in custom folder name that has a space in it', () => {
-      execCmd('force:apex:trigger:create --triggername foo --outputdir "classes create"', { ensureExitCode: 0 });
+      execCmd("force:apex:trigger:create --triggername foo --outputdir 'classes create'", { ensureExitCode: 0 });
       assert.file(
         [path.join('classes create', 'foo.trigger'), path.join('classes create', 'foo.trigger-meta.xml')].map((f) =>
           path.join(session.project.dir, f)

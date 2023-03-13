@@ -43,7 +43,7 @@ describe('Visualforce page creation tests:', () => {
     });
 
     it('should create foo page in custom folder name that has a space in it', () => {
-      execCmd('force:visualforce:page:create --pagename foo --outputdir "folder space" --label label', {
+      execCmd("force:visualforce:page:create --pagename foo --outputdir 'folder space' --label label", {
         ensureExitCode: 0,
       });
       assert.file(
