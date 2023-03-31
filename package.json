@@ -94,7 +94,6 @@
     "topics": {
       "apex": {
         "external": true,
-        "description": "Work with Apex classes and triggers.",
         "subtopics": {
           "generate": {
             "description": "Create an apex class or trigger."
@@ -120,7 +119,7 @@
         }
       },
       "project": {
-        "description": "Work with projects."
+        "description": "Work with projects, such as deploy and retrieve metadata."
       },
       "visualforce": {
         "description": "Work with Visualforce components.",
