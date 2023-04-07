@@ -1,3 +1,12 @@
+## [55.4.6](https://github.com/salesforcecli/plugin-templates/compare/55.4.5...55.4.6) (2023-04-07)
+
+
+### Bug Fixes
+
+* update package.json for correct help and command ref ([acf9f48](https://github.com/salesforcecli/plugin-templates/commit/acf9f489749e32ba4f4156d17ea3ef6164f138df))
+
+
+
 ## [55.4.5](https://github.com/salesforcecli/plugin-templates/compare/55.4.4...55.4.5) (2023-03-26)
 
 
