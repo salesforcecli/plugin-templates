@@ -1,3 +1,12 @@
+## [55.4.7](https://github.com/salesforcecli/plugin-templates/compare/55.4.6...55.4.7) (2023-04-08)
+
+
+### Bug Fixes
+
+* **deps:** bump vm2 from 3.9.11 to 3.9.15 ([d99acaa](https://github.com/salesforcecli/plugin-templates/commit/d99acaa4c8741275e6939a36429f5a6a37aa77f5))
+
+
+
 ## [55.4.6](https://github.com/salesforcecli/plugin-templates/compare/55.4.5...55.4.6) (2023-04-07)
 
 
