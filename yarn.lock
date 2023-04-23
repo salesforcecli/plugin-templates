@@ -1002,12 +1002,12 @@
     mkdirp "^1.0.4"
     tslib "^2"
 
-"@salesforce/plugin-settings@^1.4.4":
-  version "1.4.4"
-  resolved "https://registry.yarnpkg.com/@salesforce/plugin-settings/-/plugin-settings-1.4.4.tgz#4c9bc518525d93e94b979d4d7f3c1398406cf5de"
-  integrity sha512-M6buobvUoPJOUtWl0YvCXz/HCsv37BmPByrHd//GI+N1O/s19xZKGkc2SsPzEDaEku0XRR4C2iBbI9JbI9Z65Q==
+"@salesforce/plugin-settings@^1.4.5":
+  version "1.4.5"
+  resolved "https://registry.yarnpkg.com/@salesforce/plugin-settings/-/plugin-settings-1.4.5.tgz#21dab331376097a07d77d32f958ca908207218d6"
+  integrity sha512-63dqzTRaW/Kq4VvwMM/f9ngqhQ3j+tKOK0h6tbI5IEwYEgT2P69ZaHzmloTwriQVm6Tam/BhTf2eT9tFemjEoA==
   dependencies:
-    "@oclif/core" "^2.8.0"
+    "@oclif/core" "^2.8.2"
     "@salesforce/core" "^3.34.6"
     "@salesforce/sf-plugins-core" "^2.2.4"
     fast-levenshtein "^3.0.0"
