@@ -1,3 +1,12 @@
+## [55.4.12](https://github.com/salesforcecli/plugin-templates/compare/55.4.11...55.4.12) (2023-04-28)
+
+
+### Bug Fixes
+
+* **deps:** update non-dev-deps ([5dfcdd2](https://github.com/salesforcecli/plugin-templates/commit/5dfcdd2c6f76b6390031357865dee37be72994ff))
+
+
+
 ## [55.4.11](https://github.com/salesforcecli/plugin-templates/compare/55.4.10...55.4.11) (2023-04-23)
 
 
