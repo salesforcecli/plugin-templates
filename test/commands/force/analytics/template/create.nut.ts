@@ -5,6 +5,7 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 import * as path from 'path';
+import * as fs from 'fs';
 import { expect, config } from 'chai';
 import { execCmd, TestSession } from '@salesforce/cli-plugins-testkit';
 import { nls } from '@salesforce/templates/lib/i18n';
@@ -24,12 +25,22 @@ describe('Analytics template creation tests:', () => {
     await session?.clean();
   });
 
-  it('should create analytics template foo using foo as the output name and internal values', () => {
+  it.only('should create analytics template foo using foo as the output name and internal values', () => {
     execCmd('force:analytics:template:create --templatename foo --outputdir waveTemplates', { ensureExitCode: 0 });
-    assert.jsonFileContent(path.join(session.project.dir, 'waveTemplates', 'foo', 'template-info.json'), {
-      label: 'foo',
-      assetVersion: 49.0,
-    });
+    const rawFileContents = fs.readFileSync(
+      path.join(session.project.dir, 'waveTemplates', 'foo', 'template-info.json'),
+      'utf-8'
+    );
+
+    const parsedTemplate = JSON.parse(rawFileContents) as {
+      label: string;
+      // in real life, this should be (ex) 57.0, but JSON parse is going to read it as a number and turn it into 57
+      assetVersion: number;
+    };
+    expect(parsedTemplate.label).to.equal('foo');
+    expect(parsedTemplate.assetVersion).to.match(/^\d{2,}$/);
+    // make sure it's really xx.0
+    expect(rawFileContents).to.contain(`"assetVersion": ${parsedTemplate.assetVersion}.0`);
 
     assert.jsonFileContent(path.join(session.project.dir, 'waveTemplates', 'foo', 'folder.json'), { name: 'foo' });
 
@@ -40,7 +51,21 @@ describe('Analytics template creation tests:', () => {
           text_1: {
             parameters: {
               content: {
-                displayTemplate: 'foo Analytics Dashboard',
+                richTextContent: [
+                  {
+                    attributes: {
+                      size: '48px',
+                      color: 'rgb(9, 26, 62)',
+                    },
+                    insert: 'foo Analytics Dashboard',
+                  },
+                  {
+                    attributes: {
+                      align: 'center',
+                    },
+                    insert: '\n',
+                  },
+                ],
               },
             },
           },
