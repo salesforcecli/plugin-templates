@@ -1,3 +1,12 @@
+## [55.4.14](https://github.com/salesforcecli/plugin-templates/compare/55.4.13...55.4.14) (2023-05-12)
+
+
+### Bug Fixes
+
+* **deps:** new analytics template from library ([9f05d05](https://github.com/salesforcecli/plugin-templates/commit/9f05d05469e7761ee5199e41215861d492da6d3e))
+
+
+
 ## [55.4.13](https://github.com/salesforcecli/plugin-templates/compare/55.4.12...55.4.13) (2023-04-30)
 
 
