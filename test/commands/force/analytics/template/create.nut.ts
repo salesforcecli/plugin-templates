@@ -25,7 +25,7 @@ describe('Analytics template creation tests:', () => {
     await session?.clean();
   });
 
-  it.only('should create analytics template foo using foo as the output name and internal values', () => {
+  it('should create analytics template foo using foo as the output name and internal values', () => {
     execCmd('force:analytics:template:create --templatename foo --outputdir waveTemplates', { ensureExitCode: 0 });
     const rawFileContents = fs.readFileSync(
       path.join(session.project.dir, 'waveTemplates', 'foo', 'template-info.json'),
