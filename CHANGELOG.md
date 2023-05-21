@@ -1,3 +1,12 @@
+## [55.4.16](https://github.com/salesforcecli/plugin-templates/compare/55.4.15...55.4.16) (2023-05-21)
+
+
+### Bug Fixes
+
+* **deps:** bump tslib from 2.5.0 to 2.5.2 ([71ace09](https://github.com/salesforcecli/plugin-templates/commit/71ace09504d0bef4cf468365d7fe956923b2b052))
+
+
+
 ## [55.4.15](https://github.com/salesforcecli/plugin-templates/compare/55.4.14...55.4.15) (2023-05-16)
 
 
