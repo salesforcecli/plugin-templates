@@ -12,7 +12,7 @@
     "@salesforce/templates": "^57.1.2",
     "tslib": "^2",
     "yeoman-environment": "^3.15.1",
-    "yeoman-generator": "^5.8.0"
+    "yeoman-generator": "^5.9.0"
   },
   "devDependencies": {
     "@oclif/plugin-command-snapshot": "^3.3.15",
