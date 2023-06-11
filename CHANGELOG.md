@@ -1,3 +1,12 @@
+## [55.4.21](https://github.com/salesforcecli/plugin-templates/compare/55.4.20...55.4.21) (2023-06-11)
+
+
+### Bug Fixes
+
+* **deps:** bump @salesforce/core from 4.1.0 to 4.2.1 ([2811f6b](https://github.com/salesforcecli/plugin-templates/commit/2811f6b8d21c1c97fcbc5328a36cee8adf59ffd8))
+
+
+
 ## [55.4.20](https://github.com/salesforcecli/plugin-templates/compare/55.4.19...55.4.20) (2023-06-04)
 
 
