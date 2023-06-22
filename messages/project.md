@@ -62,6 +62,10 @@ The analytics template provides similar files and the force-app/main/default/wav
 
 Namespace associated with this project and any connected scratch orgs.
 
+# flags.api-version.summary
+
+Will set this version as sourceApiVersion in the sfdx-project.json file
+
 # flags.packagedir
 
 Default package directory name.

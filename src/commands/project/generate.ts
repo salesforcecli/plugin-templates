@@ -64,6 +64,9 @@ export default class Project extends SfCommand<CreateOutput> {
       deprecateAliases: true,
     }),
     loglevel,
+    'api-version': Flags.orgApiVersion({
+      summary: messages.getMessage('flags.api-version.summary'),
+    }),
   };
   public async run(): Promise<CreateOutput> {
     const { flags } = await this.parse(Project);
@@ -78,6 +81,7 @@ export default class Project extends SfCommand<CreateOutput> {
       // namespace is a reserved keyword for the generator
       ns: flags.namespace,
       defaultpackagedir: flags['default-package-dir'],
+      apiversion: flags['api-version'],
     };
     return runGenerator({
       generator: ProjectGenerator,
