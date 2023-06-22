@@ -67,6 +67,7 @@
     "command": "project:generate",
     "plugin": "@salesforce/plugin-templates",
     "flags": [
+      "api-version",
       "default-package-dir",
       "json",
       "login-url",
