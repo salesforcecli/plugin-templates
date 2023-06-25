@@ -1094,14 +1094,14 @@
     handlebars "^4.7.7"
     tslib "^2"
 
-"@salesforce/plugin-settings@^1.4.12":
-  version "1.4.12"
-  resolved "https://registry.yarnpkg.com/@salesforce/plugin-settings/-/plugin-settings-1.4.12.tgz#2638cea162e7d5d129cd9c9e735dc7da88793091"
-  integrity sha512-yzVzmq+nM6bghs22PXggwQzQjw/ETMZGa690HfEKn/LuLOyJf14lFKGfnWlzVLCAfeM3u/WuzWUqi6Ec2LQ8Pw==
+"@salesforce/plugin-settings@^1.4.15":
+  version "1.4.15"
+  resolved "https://registry.yarnpkg.com/@salesforce/plugin-settings/-/plugin-settings-1.4.15.tgz#acf3c241fee1f0fcbdc93af330f2ef98fceb22c4"
+  integrity sha512-I54kwWjRxzeo7Zzhq3/92c42chKJH8YCyZuMOg3JAAr8KDC/SsfV9mxl3B4Bq/qh496qHDxgEdWTG3Q2WMurxA==
   dependencies:
     "@oclif/core" "^2.8.2"
     "@salesforce/core" "^4.0.1"
-    "@salesforce/sf-plugins-core" "^3.0.4"
+    "@salesforce/sf-plugins-core" "^3.1.0"
     fast-levenshtein "^3.0.0"
     tslib "^2"
 
@@ -1115,7 +1115,7 @@
   resolved "https://registry.yarnpkg.com/@salesforce/schemas/-/schemas-1.5.1.tgz#2d1bfdcf593caaa04cd4b3e6fe621097ff7f28fe"
   integrity sha512-MRqU+tn8w5IFvZ0Lm9YKLgxYxr2MQMI+fXXsTrwfUnijsps+ybF9IOTu6MOMxxl2vCUkO8XDjA435wXlWSLI6g==
 
-"@salesforce/sf-plugins-core@^3.0.4", "@salesforce/sf-plugins-core@^3.1.2":
+"@salesforce/sf-plugins-core@^3.0.4", "@salesforce/sf-plugins-core@^3.1.0", "@salesforce/sf-plugins-core@^3.1.2":
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/@salesforce/sf-plugins-core/-/sf-plugins-core-3.1.2.tgz#d0706c734c15ff996e4dd85dac66e10566d59e8c"
   integrity sha512-V43KB8wDC/lHwcSwO3UB4PplMROGwvJ64NK14v2QgwySrAbaLjDBhJW3lX1nkLqugwu8855NEOWL7T35SgdmWw==
