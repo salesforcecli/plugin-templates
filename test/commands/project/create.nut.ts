@@ -158,6 +158,14 @@ describe('Project creation tests:', () => {
       }
     });
 
+    it('should create a project with specified api version', () => {
+      execCmd('force:project:create --projectname apiVersionTest --api-version 50.0', { ensureExitCode: 0 });
+      assert.fileContent(
+        path.join(session.project.dir, 'apiVersionTest', 'sfdx-project.json'),
+        '"sourceApiVersion": "50.0"'
+      );
+    });
+
     it('should create project with footest name and manifest folder', () => {
       execCmd('force:project:create --projectname footest --manifest', { ensureExitCode: 0 });
       assert.file([path.join(session.project.dir, 'footest', 'manifest', 'package.xml')]);
