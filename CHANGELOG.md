@@ -1,3 +1,12 @@
+# [55.5.0](https://github.com/salesforcecli/plugin-templates/compare/55.4.23...55.5.0) (2023-06-26)
+
+
+### Features
+
+* specify the api version when generating a project ([cbe372f](https://github.com/salesforcecli/plugin-templates/commit/cbe372f95db4eaeb5afa164e7f22eaeac394f6f0))
+
+
+
 ## [55.4.23](https://github.com/salesforcecli/plugin-templates/compare/55.4.22...55.4.23) (2023-06-25)
 
 
