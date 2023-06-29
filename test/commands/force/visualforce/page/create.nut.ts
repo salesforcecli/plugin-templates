@@ -5,6 +5,7 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 import * as path from 'path';
+import * as fs from 'fs';
 import { expect, config } from 'chai';
 import { TestSession, execCmd } from '@salesforce/cli-plugins-testkit';
 import { nls } from '@salesforce/templates/lib/i18n';
@@ -16,13 +17,39 @@ describe('Visualforce page creation tests:', () => {
   let session: TestSession;
   before(async () => {
     session = await TestSession.create({
-      project: {},
-      devhubAuthStrategy: 'NONE',
+      project: {
+        gitClone: 'https://github.com/trailheadapps/dreamhouse-lwc.git',
+      },
+      scratchOrgs: [{ setDefault: true, config: path.join('config', 'project-scratch-def.json') }],
+      devhubAuthStrategy: 'AUTO',
     });
   });
+
   after(async () => {
     await session?.clean();
   });
+
+  it('round-trips to the server with consistent file formatting', () => {
+    execCmd('visualforce:generate:page --name test --label lab', { ensureExitCode: 0 });
+    assert.file(['test.page', 'test.page-meta.xml'].map((f) => path.join(session.project.dir, f)));
+    const content = `<apex:page>
+<!-- Begin Default Content REMOVE THIS -->
+<h1>Congratulations</h1>
+This is your new Page
+<!-- End Default Content REMOVE THIS -->
+</apex:page>`;
+    expect(fs.readFileSync(path.join(session.project.dir, 'test.page'), 'utf8')).to.equal(content);
+
+    // deploy and retrieve it from the org
+    execCmd('project:deploy:start --source-dir test.page', {
+      ensureExitCode: 0,
+    });
+    execCmd('project:retrieve:start --source-dir test.page', {
+      ensureExitCode: 0,
+    });
+    expect(fs.readFileSync(path.join(session.project.dir, 'test.page'), 'utf8')).to.equal(content);
+  });
+
   describe('Check visualforce page creation', () => {
     it('should create foo page using DefaultVFPage template and default output directory', () => {
       execCmd('force:visualforce:page:create --pagename foo --label testlabel', { ensureExitCode: 0 });

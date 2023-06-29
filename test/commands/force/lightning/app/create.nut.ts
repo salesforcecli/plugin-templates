@@ -5,6 +5,7 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 import * as path from 'path';
+import * as fs from 'fs';
 import { expect, config } from 'chai';
 import { TestSession, execCmd } from '@salesforce/cli-plugins-testkit';
 import { Messages } from '@salesforce/core';
@@ -20,8 +21,11 @@ describe('Lightning app creation tests:', () => {
   let session: TestSession;
   before(async () => {
     session = await TestSession.create({
-      project: {},
-      devhubAuthStrategy: 'NONE',
+      project: {
+        gitClone: 'https://github.com/trailheadapps/dreamhouse-lwc.git',
+      },
+      scratchOrgs: [{ setDefault: true, config: path.join('config', 'project-scratch-def.json') }],
+      devhubAuthStrategy: 'AUTO',
     });
   });
   after(async () => {
@@ -32,6 +36,46 @@ describe('Lightning app creation tests:', () => {
     ['.app', '.auradoc', '.css', 'Controller.js', 'Helper.js', 'Renderer.js', '.svg'].map((suffix) =>
       path.join(session.project.dir, 'aura', pathway, filename + suffix)
     );
+
+  it('round-trips to the server with consistent file formatting', () => {
+    execCmd(
+      `lightning generate app --name test --template DefaultLightningApp --output-dir ${path.join(
+        'force-app',
+        'main',
+        'default',
+        'aura'
+      )}`,
+      { ensureExitCode: 0 }
+    );
+    const testDir = path.join(session.project.dir, 'force-app', 'main', 'default', 'aura', 'test');
+    const testFile = (file: string) => path.join(testDir, file);
+    // pick a handful of files to ensure no changes, can hash the dir as well
+    const testAppContent = `<aura:application>
+
+</aura:application>\t
+`;
+    const testAuradocContent = `<aura:documentation>
+\t<aura:description>Documentation</aura:description>
+\t<aura:example name="ExampleName" ref="exampleComponentName" label="Label">
+\t\tExample Description
+\t</aura:example>
+</aura:documentation>`;
+    const dirSize = fs.statSync(testDir).size;
+
+    expect(fs.readFileSync(testFile('test.app'), 'utf8')).to.equal(testAppContent);
+    expect(fs.readFileSync(testFile('test.auraDoc'), 'utf8')).to.equal(testAuradocContent);
+
+    // deploy and retrieve it from the org
+    execCmd(`project:deploy:start --source-dir ${testDir}`, {
+      ensureExitCode: 0,
+    });
+    execCmd(`project:retrieve:start --source-dir ${testDir}`, {
+      ensureExitCode: 0,
+    });
+    expect(fs.readFileSync(testFile('test.app'), 'utf8')).to.equal(testAppContent);
+    expect(fs.readFileSync(testFile('test.auraDoc'), 'utf8')).to.equal(testAuradocContent);
+    expect(fs.statSync(testDir).size).to.equal(dirSize);
+  });
 
   describe('Check lightning app creation', () => {
     const name = 'foo';

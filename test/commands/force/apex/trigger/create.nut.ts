@@ -5,6 +5,7 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 import * as path from 'path';
+import * as fs from 'fs';
 import { expect } from 'chai';
 import { TestSession, execCmd } from '@salesforce/cli-plugins-testkit';
 import { nls } from '@salesforce/templates/lib/i18n';
@@ -14,12 +15,33 @@ describe('Apex trigger creation tests:', () => {
   let session: TestSession;
   before(async () => {
     session = await TestSession.create({
-      project: {},
-      devhubAuthStrategy: 'NONE',
+      project: {
+        gitClone: 'https://github.com/trailheadapps/dreamhouse-lwc.git',
+      },
+      scratchOrgs: [{ setDefault: true, config: path.join('config', 'project-scratch-def.json') }],
+      devhubAuthStrategy: 'AUTO',
     });
   });
   after(async () => {
     await session?.clean();
+  });
+
+  it('round-trips to the server with consistent file formatting', () => {
+    execCmd('force:apex:trigger:create --name foo --sobject ACCOUNT', { ensureExitCode: 0 });
+    assert.file(['foo.trigger', 'foo.trigger-meta.xml'].map((f) => path.join(session.project.dir, f)));
+    const content = `trigger foo on ACCOUNT (before insert) {
+
+}`;
+    expect(fs.readFileSync(path.join(session.project.dir, 'foo.trigger'), 'utf8')).to.equal(content);
+
+    // deploy and retrieve it from the org
+    execCmd('project:deploy:start --source-dir foo.trigger', {
+      ensureExitCode: 0,
+    });
+    execCmd('project:retrieve:start --source-dir foo.trigger', {
+      ensureExitCode: 0,
+    });
+    expect(fs.readFileSync(path.join(session.project.dir, 'foo.trigger'), 'utf8')).to.equal(content);
   });
 
   describe('Check apex trigger creation', () => {
