@@ -27,14 +27,27 @@ describe('Apex class creation tests:', () => {
   });
 
   it('round-trips to the server with consistent file formatting', () => {
-    execCmd('force:apex:class:create --classname foo', { ensureExitCode: 0 });
-    assert.file(['foo.cls', 'foo.cls-meta.xml'].map((f) => path.join(session.project.dir, f)));
-    const content = `public with sharing class post {
-    public post() {
+    execCmd(
+      `force:apex:class:create --classname foo --output-dir ${path.join('force-app', 'main', 'default', 'classes')}`,
+      { ensureExitCode: 0 }
+    );
+    assert.file(
+      [
+        path.join('force-app', 'main', 'default', 'classes', 'foo.cls'),
+        path.join('force-app', 'main', 'default', 'classes', 'foo.cls-meta.xml'),
+      ].map((f) => path.join(session.project.dir, f))
+    );
+    const content = `public with sharing class foo {
+    public foo() {
 
     }
 }`;
-    expect(fs.readFileSync(path.join(session.project.dir, 'foo.cls'), 'utf8')).to.equal(content);
+    expect(
+      fs.readFileSync(
+        path.join(session.project.dir, path.join('force-app', 'main', 'default', 'classes', 'foo.cls')),
+        'utf8'
+      )
+    ).to.equal(content);
 
     // deploy and retrieve it from the org
     execCmd('project:deploy:start --source-dir foo.cls', {
@@ -43,7 +56,12 @@ describe('Apex class creation tests:', () => {
     execCmd('project:retrieve:start --source-dir foo.cls', {
       ensureExitCode: 0,
     });
-    expect(fs.readFileSync(path.join(session.project.dir, 'foo.cls'), 'utf8')).to.equal(content);
+    expect(
+      fs.readFileSync(
+        path.join(session.project.dir, path.join('force-app', 'main', 'default', 'classes', 'foo.cls')),
+        'utf8'
+      )
+    ).to.equal(content);
   });
 
   describe('Check apex class creation', () => {

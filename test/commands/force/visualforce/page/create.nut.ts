@@ -30,15 +30,30 @@ describe('Visualforce page creation tests:', () => {
   });
 
   it('round-trips to the server with consistent file formatting', () => {
-    execCmd('visualforce:generate:page --name test --label lab', { ensureExitCode: 0 });
-    assert.file(['test.page', 'test.page-meta.xml'].map((f) => path.join(session.project.dir, f)));
+    execCmd(
+      `visualforce:generate:page --name test --label lab --output-dir ${path.join(
+        'force-app',
+        'main',
+        'default',
+        'pages'
+      )}`,
+      { ensureExitCode: 0 }
+    );
+    assert.file(
+      [
+        path.join('force-app', 'main', 'default', 'pages', 'test.page'),
+        path.join('force-app', 'main', 'default', 'pages', 'test.page-meta.xml'),
+      ].map((f) => path.join(session.project.dir, f))
+    );
     const content = `<apex:page>
 <!-- Begin Default Content REMOVE THIS -->
 <h1>Congratulations</h1>
 This is your new Page
 <!-- End Default Content REMOVE THIS -->
 </apex:page>`;
-    expect(fs.readFileSync(path.join(session.project.dir, 'test.page'), 'utf8')).to.equal(content);
+    expect(
+      fs.readFileSync(path.join(session.project.dir, 'force-app', 'main', 'default', 'pages', 'test.page'), 'utf8')
+    ).to.equal(content);
 
     // deploy and retrieve it from the org
     execCmd('project:deploy:start --source-dir test.page', {
@@ -47,7 +62,9 @@ This is your new Page
     execCmd('project:retrieve:start --source-dir test.page', {
       ensureExitCode: 0,
     });
-    expect(fs.readFileSync(path.join(session.project.dir, 'test.page'), 'utf8')).to.equal(content);
+    expect(
+      fs.readFileSync(path.join(session.project.dir, 'force-app', 'main', 'default', 'pages', 'test.page'), 'utf8')
+    ).to.equal(content);
   });
 
   describe('Check visualforce page creation', () => {

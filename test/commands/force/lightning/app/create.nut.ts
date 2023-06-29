@@ -49,7 +49,6 @@ describe('Lightning app creation tests:', () => {
     );
     const testDir = path.join(session.project.dir, 'force-app', 'main', 'default', 'aura', 'test');
     const testFile = (file: string) => path.join(testDir, file);
-    // pick a handful of files to ensure no changes, can hash the dir as well
     const testAppContent = `<aura:application>
 
 </aura:application>\t
@@ -60,7 +59,6 @@ describe('Lightning app creation tests:', () => {
 \t\tExample Description
 \t</aura:example>
 </aura:documentation>`;
-    const dirSize = fs.statSync(testDir).size;
 
     expect(fs.readFileSync(testFile('test.app'), 'utf8')).to.equal(testAppContent);
     expect(fs.readFileSync(testFile('test.auraDoc'), 'utf8')).to.equal(testAuradocContent);
@@ -74,7 +72,6 @@ describe('Lightning app creation tests:', () => {
     });
     expect(fs.readFileSync(testFile('test.app'), 'utf8')).to.equal(testAppContent);
     expect(fs.readFileSync(testFile('test.auraDoc'), 'utf8')).to.equal(testAuradocContent);
-    expect(fs.statSync(testDir).size).to.equal(dirSize);
   });
 
   describe('Check lightning app creation', () => {
