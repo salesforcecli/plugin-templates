@@ -38,11 +38,11 @@ describe('Lightning app creation tests:', () => {
     );
 
   it('round-trips to the server with consistent file formatting', () => {
-    const testDir = path.join(session.dir, 'force-app', 'main', 'default', 'aura', 'test');
+    const testDir = path.join(session.project.dir, 'force-app', 'main', 'default', 'aura', 'testApp');
     const testFile = (file: string) => path.join(testDir, file);
 
     execCmd(
-      `lightning generate app --name test --template DefaultLightningApp --output-dir ${path.join(
+      `lightning:generate:app --name testApp --template DefaultLightningApp --output-dir ${path.join(
         'force-app',
         'main',
         'default',
@@ -62,8 +62,8 @@ describe('Lightning app creation tests:', () => {
 \t</aura:example>
 </aura:documentation>`;
 
-    expect(fs.readFileSync(testFile('test.app'), 'utf8')).to.equal(testAppContent);
-    expect(fs.readFileSync(testFile('test.auraDoc'), 'utf8')).to.equal(testAuradocContent);
+    expect(fs.readFileSync(testFile('testApp.app'), 'utf8')).to.equal(testAppContent);
+    expect(fs.readFileSync(testFile('testApp.auraDoc'), 'utf8')).to.equal(testAuradocContent);
 
     // deploy and retrieve it from the org
     execCmd(`project:deploy:start --source-dir ${testDir}`, {
@@ -72,8 +72,8 @@ describe('Lightning app creation tests:', () => {
     execCmd(`project:retrieve:start --source-dir ${testDir}`, {
       ensureExitCode: 0,
     });
-    expect(fs.readFileSync(testFile('test.app'), 'utf8')).to.equal(testAppContent);
-    expect(fs.readFileSync(testFile('test.auraDoc'), 'utf8')).to.equal(testAuradocContent);
+    expect(fs.readFileSync(testFile('testApp.app'), 'utf8')).to.equal(testAppContent);
+    expect(fs.readFileSync(testFile('testApp.auraDoc'), 'utf8')).to.equal(testAuradocContent);
   });
 
   describe('Check lightning app creation', () => {
