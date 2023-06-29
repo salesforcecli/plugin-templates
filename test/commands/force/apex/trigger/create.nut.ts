@@ -27,6 +27,7 @@ describe('Apex trigger creation tests:', () => {
   });
 
   it('round-trips to the server with consistent file formatting', () => {
+    const triggerPath = path.join('force-app', 'main', 'default', 'triggers', 'foo.trigger');
     execCmd(
       `force:apex:trigger:create --name foo --sobject ACCOUNT --output-dir ${path.join(
         'force-app',
@@ -37,28 +38,23 @@ describe('Apex trigger creation tests:', () => {
       { ensureExitCode: 0 }
     );
     assert.file(
-      [
-        path.join('force-app', 'main', 'default', 'triggers', 'foo.trigger'),
-        path.join('force-app', 'main', 'default', 'triggers', 'foo.trigger-meta.xml'),
-      ].map((f) => path.join(session.project.dir, f))
+      [triggerPath, path.join('force-app', 'main', 'default', 'triggers', 'foo.trigger-meta.xml')].map((f) =>
+        path.join(session.project.dir, f)
+      )
     );
     const content = `trigger foo on ACCOUNT (before insert) {
 
 }`;
-    expect(
-      fs.readFileSync(path.join(session.project.dir, 'force-app', 'main', 'default', 'triggers', 'foo.trigger'), 'utf8')
-    ).to.equal(content);
+    expect(fs.readFileSync(path.join(session.project.dir, triggerPath), 'utf8')).to.equal(content);
 
     // deploy and retrieve it from the org
-    execCmd('project:deploy:start --source-dir foo.trigger', {
+    execCmd(`project:deploy:start --source-dir ${triggerPath}`, {
       ensureExitCode: 0,
     });
-    execCmd('project:retrieve:start --source-dir foo.trigger', {
+    execCmd(`project:retrieve:start --source-dir ${triggerPath}`, {
       ensureExitCode: 0,
     });
-    expect(
-      fs.readFileSync(path.join(session.project.dir, 'force-app', 'main', 'default', 'triggers', 'foo.trigger'), 'utf8')
-    ).to.equal(content);
+    expect(fs.readFileSync(path.join(session.project.dir, triggerPath), 'utf8')).to.equal(content);
   });
 
   describe('Check apex trigger creation', () => {

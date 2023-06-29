@@ -30,6 +30,7 @@ describe('Visualforce page creation tests:', () => {
   });
 
   it('round-trips to the server with consistent file formatting', () => {
+    const pagePath = path.join('force-app', 'main', 'default', 'pages', 'test.page');
     execCmd(
       `visualforce:generate:page --name test --label lab --output-dir ${path.join(
         'force-app',
@@ -40,10 +41,9 @@ describe('Visualforce page creation tests:', () => {
       { ensureExitCode: 0 }
     );
     assert.file(
-      [
-        path.join('force-app', 'main', 'default', 'pages', 'test.page'),
-        path.join('force-app', 'main', 'default', 'pages', 'test.page-meta.xml'),
-      ].map((f) => path.join(session.project.dir, f))
+      [pagePath, path.join('force-app', 'main', 'default', 'pages', 'test.page-meta.xml')].map((f) =>
+        path.join(session.project.dir, f)
+      )
     );
     const content = `<apex:page>
 <!-- Begin Default Content REMOVE THIS -->
@@ -51,20 +51,16 @@ describe('Visualforce page creation tests:', () => {
 This is your new Page
 <!-- End Default Content REMOVE THIS -->
 </apex:page>`;
-    expect(
-      fs.readFileSync(path.join(session.project.dir, 'force-app', 'main', 'default', 'pages', 'test.page'), 'utf8')
-    ).to.equal(content);
+    expect(fs.readFileSync(path.join(session.project.dir, pagePath), 'utf8')).to.equal(content);
 
     // deploy and retrieve it from the org
-    execCmd('project:deploy:start --source-dir test.page', {
+    execCmd(`project:deploy:start --source-dir ${pagePath}`, {
       ensureExitCode: 0,
     });
-    execCmd('project:retrieve:start --source-dir test.page', {
+    execCmd(`project:retrieve:start --source-dir ${pagePath}`, {
       ensureExitCode: 0,
     });
-    expect(
-      fs.readFileSync(path.join(session.project.dir, 'force-app', 'main', 'default', 'pages', 'test.page'), 'utf8')
-    ).to.equal(content);
+    expect(fs.readFileSync(path.join(session.project.dir, pagePath), 'utf8')).to.equal(content);
   });
 
   describe('Check visualforce page creation', () => {

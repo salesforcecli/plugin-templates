@@ -38,6 +38,9 @@ describe('Lightning app creation tests:', () => {
     );
 
   it('round-trips to the server with consistent file formatting', () => {
+    const testDir = path.join(session.dir, 'force-app', 'main', 'default', 'aura', 'test');
+    const testFile = (file: string) => path.join(testDir, file);
+
     execCmd(
       `lightning generate app --name test --template DefaultLightningApp --output-dir ${path.join(
         'force-app',
@@ -47,8 +50,7 @@ describe('Lightning app creation tests:', () => {
       )}`,
       { ensureExitCode: 0 }
     );
-    const testDir = path.join(session.project.dir, 'force-app', 'main', 'default', 'aura', 'test');
-    const testFile = (file: string) => path.join(testDir, file);
+
     const testAppContent = `<aura:application>
 
 </aura:application>\t

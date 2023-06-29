@@ -27,41 +27,25 @@ describe('Apex class creation tests:', () => {
   });
 
   it('round-trips to the server with consistent file formatting', () => {
-    execCmd(
-      `force:apex:class:create --classname foo --output-dir ${path.join('force-app', 'main', 'default', 'classes')}`,
-      { ensureExitCode: 0 }
-    );
-    assert.file(
-      [
-        path.join('force-app', 'main', 'default', 'classes', 'foo.cls'),
-        path.join('force-app', 'main', 'default', 'classes', 'foo.cls-meta.xml'),
-      ].map((f) => path.join(session.project.dir, f))
-    );
+    const classPath = path.join('force-app', 'main', 'default', 'classes', 'foo.cls');
+    const classDir = path.join('force-app', 'main', 'default', 'classes');
+    execCmd(`force:apex:class:create --classname foo --output-dir ${classDir}`, { ensureExitCode: 0 });
+    assert.file([classPath, path.join(classDir, 'foo.cls-meta.xml')].map((f) => path.join(session.project.dir, f)));
     const content = `public with sharing class foo {
     public foo() {
 
     }
 }`;
-    expect(
-      fs.readFileSync(
-        path.join(session.project.dir, path.join('force-app', 'main', 'default', 'classes', 'foo.cls')),
-        'utf8'
-      )
-    ).to.equal(content);
+    expect(fs.readFileSync(path.join(session.project.dir, classPath), 'utf8')).to.equal(content);
 
     // deploy and retrieve it from the org
-    execCmd('project:deploy:start --source-dir foo.cls', {
+    execCmd(`project:deploy:start --source-dir ${classPath}`, {
       ensureExitCode: 0,
     });
-    execCmd('project:retrieve:start --source-dir foo.cls', {
+    execCmd(`project:retrieve:start --source-dir ${classPath}`, {
       ensureExitCode: 0,
     });
-    expect(
-      fs.readFileSync(
-        path.join(session.project.dir, path.join('force-app', 'main', 'default', 'classes', 'foo.cls')),
-        'utf8'
-      )
-    ).to.equal(content);
+    expect(fs.readFileSync(path.join(session.project.dir, classPath), 'utf8')).to.equal(content);
   });
 
   describe('Check apex class creation', () => {
