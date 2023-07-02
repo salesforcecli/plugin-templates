@@ -1,3 +1,12 @@
+## [55.5.1](https://github.com/salesforcecli/plugin-templates/compare/55.5.0...55.5.1) (2023-07-02)
+
+
+### Bug Fixes
+
+* **deps:** bump @oclif/core from 2.8.7 to 2.8.11 ([9878ec9](https://github.com/salesforcecli/plugin-templates/commit/9878ec9f2bd00d232d9bea91083a2086cd8d01bc))
+
+
+
 # [55.5.0](https://github.com/salesforcecli/plugin-templates/compare/55.4.23...55.5.0) (2023-06-26)
 
 
