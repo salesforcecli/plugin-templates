@@ -1,3 +1,12 @@
+## [55.5.3](https://github.com/salesforcecli/plugin-templates/compare/55.5.2...55.5.3) (2023-07-09)
+
+
+### Bug Fixes
+
+* **deps:** bump tough-cookie from 4.0.0 to 4.1.3 ([ea816d0](https://github.com/salesforcecli/plugin-templates/commit/ea816d0caf643ed86d5f27105f82af567c7f26e5))
+
+
+
 ## [55.5.2](https://github.com/salesforcecli/plugin-templates/compare/55.5.1...55.5.2) (2023-07-03)
 
 
