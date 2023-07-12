@@ -1,3 +1,12 @@
+## [55.5.5](https://github.com/salesforcecli/plugin-templates/compare/55.5.4...55.5.5) (2023-07-12)
+
+
+### Bug Fixes
+
+* **deps:** bump semver from 5.7.1 to 5.7.2 ([a6759c4](https://github.com/salesforcecli/plugin-templates/commit/a6759c4f2bef5a374a5fc581f410035557b2813c))
+
+
+
 ## [55.5.4](https://github.com/salesforcecli/plugin-templates/compare/55.5.3...55.5.4) (2023-07-10)
 
 
