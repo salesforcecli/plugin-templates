@@ -32,7 +32,7 @@ export default class ApexTrigger extends SfCommand<CreateOutput> {
   public static readonly flags = {
     name: Flags.string({
       char: 'n',
-      summary: messages.getMessage('flags.name'),
+      summary: messages.getMessage('flags.name.summary'),
       description: messages.getMessage('flags.name.description'),
       required: true,
       aliases: ['triggername'],
@@ -40,7 +40,7 @@ export default class ApexTrigger extends SfCommand<CreateOutput> {
     }),
     template: Flags.string({
       char: 't',
-      summary: commonMessages.getMessage('flags.template'),
+      summary: commonMessages.getMessage('flags.template.summary'),
       description: commonMessages.getMessage('flags.template.description'),
       default: 'ApexTrigger',
       options: CreateUtil.getCommandTemplatesForFiletype(apexTriggerFileSuffix, 'apextrigger'),
@@ -49,14 +49,14 @@ export default class ApexTrigger extends SfCommand<CreateOutput> {
     'api-version': orgApiVersionFlagWithDeprecations,
     sobject: Flags.string({
       char: 's',
-      summary: messages.getMessage('flags.sobject'),
+      summary: messages.getMessage('flags.sobject.summary'),
       default: 'SOBJECT',
     }),
     event: arrayWithDeprecation({
       char: 'e',
       aliases: ['triggerevents'],
       deprecateAliases: true,
-      summary: messages.getMessage('flags.event'),
+      summary: messages.getMessage('flags.event.summary'),
       default: ['before insert'],
       options: [
         'before insert',

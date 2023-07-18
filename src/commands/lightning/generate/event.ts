@@ -29,7 +29,7 @@ export default class LightningEvent extends SfCommand<CreateOutput> {
   public static readonly flags = {
     name: Flags.string({
       char: 'n',
-      summary: lightningCommon.getMessage('flags.name', [BUNDLE_TYPE]),
+      summary: lightningCommon.getMessage('flags.name.summary', [BUNDLE_TYPE]),
       description: lightningCommon.getMessage('flags.name.description'),
       required: true,
       aliases: ['eventname'],
@@ -37,7 +37,7 @@ export default class LightningEvent extends SfCommand<CreateOutput> {
     }),
     template: Flags.string({
       char: 't',
-      summary: lightningCommon.getMessage('flags.template'),
+      summary: lightningCommon.getMessage('flags.template.summary'),
       description: lightningCommon.getMessage('flags.template.description'),
       default: 'DefaultLightningEvt',
       options: CreateUtil.getCommandTemplatesForFiletype(lightningEventFileSuffix, 'lightningevent'),

@@ -26,7 +26,7 @@ By default, the generated sfdx-project.json file sets the sourceApiVersion prope
 
   <%= config.bin %> <%= command.id %> --name mywork --template empty
 
-# flags.name
+# flags.name.summary
 
 Name of the generated project.
 
@@ -34,7 +34,7 @@ Name of the generated project.
 
 Generates a project directory with this name; any valid directory name is accepted. Also sets the "name" property in the sfdx-project.json file to this name.
 
-# flags.template
+# flags.template.summary
 
 Template to use for project creation.
 
@@ -58,7 +58,7 @@ The standard template provides a complete force-app directory structure so you k
 
 The analytics template provides similar files and the force-app/main/default/waveTemplates directory.
 
-# flags.namespace
+# flags.namespace.summary
 
 Namespace associated with this project and any connected scratch orgs.
 
@@ -66,7 +66,7 @@ Namespace associated with this project and any connected scratch orgs.
 
 Will set this version as sourceApiVersion in the sfdx-project.json file
 
-# flags.packagedir
+# flags.packagedir.summary
 
 Default package directory name.
 
@@ -74,7 +74,7 @@ Default package directory name.
 
 Metadata items such as classes and Lightning bundles are placed inside this folder.
 
-# flags.manifest
+# flags.manifest.summary
 
 Generate a manifest (package.xml) for change-set based development.
 
@@ -82,7 +82,7 @@ Generate a manifest (package.xml) for change-set based development.
 
 Generates a default manifest (package.xml) for fetching Apex, Visualforce, Lightning components, and static resources.
 
-# flags.loginurl
+# flags.loginurl.summary
 
 Salesforce instance login URL.
 

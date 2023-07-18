@@ -6,7 +6,7 @@ Generate a Visualforce %s.
 
 The command generates the .%s file and associated metadata file in the specified directory or the current working directory by default.
 
-# flags.name
+# flags.name.summary
 
 Name of the generated Visualforce %s.
 
@@ -14,7 +14,7 @@ Name of the generated Visualforce %s.
 
 The name can be up to 40 characters and must start with a letter.
 
-# flags.label
+# flags.label.summary
 
 Visualforce %s label.
 
