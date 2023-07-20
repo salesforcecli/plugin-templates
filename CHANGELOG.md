@@ -1,3 +1,12 @@
+## [55.5.6](https://github.com/salesforcecli/plugin-templates/compare/55.5.5...55.5.6) (2023-07-20)
+
+
+### Bug Fixes
+
+* **deps:** bump word-wrap from 1.2.3 to 1.2.4 ([fcc6b66](https://github.com/salesforcecli/plugin-templates/commit/fcc6b66a6aaec91d8e6eee805ffd3e5ca6cd4335))
+
+
+
 ## [55.5.5](https://github.com/salesforcecli/plugin-templates/compare/55.5.4...55.5.5) (2023-07-12)
 
 
