@@ -760,7 +760,7 @@
     widest-line "^3.1.0"
     wrap-ansi "^7.0.0"
 
-"@oclif/core@^2.8.11", "@oclif/core@^2.8.2", "@oclif/core@^2.8.4", "@oclif/core@^2.8.7", "@oclif/core@^2.9.4":
+"@oclif/core@^2.8.11", "@oclif/core@^2.8.4", "@oclif/core@^2.8.7", "@oclif/core@^2.9.4":
   version "2.9.4"
   resolved "https://registry.yarnpkg.com/@oclif/core/-/core-2.9.4.tgz#5b22415e238fc3e0db08b0350b85b417ead6e6ff"
   integrity sha512-eFRRpV+tJ6nMkhay2M9IppjSF3atRrgj6Qo83qUslaFSAW3NAl4mIhx1mKmTwQx5rgSrar03xICtSAWJ6gZtag==
@@ -1100,12 +1100,12 @@
     handlebars "^4.7.7"
     tslib "^2"
 
-"@salesforce/plugin-settings@^1.4.15":
-  version "1.4.15"
-  resolved "https://registry.yarnpkg.com/@salesforce/plugin-settings/-/plugin-settings-1.4.15.tgz#acf3c241fee1f0fcbdc93af330f2ef98fceb22c4"
-  integrity sha512-I54kwWjRxzeo7Zzhq3/92c42chKJH8YCyZuMOg3JAAr8KDC/SsfV9mxl3B4Bq/qh496qHDxgEdWTG3Q2WMurxA==
+"@salesforce/plugin-settings@^1.4.21":
+  version "1.4.21"
+  resolved "https://registry.yarnpkg.com/@salesforce/plugin-settings/-/plugin-settings-1.4.21.tgz#1a27999a838d14783d2971513f3fe26bb0db3dec"
+  integrity sha512-UJk4vYf+toA9ERBW1hn/GAkCLduq79rwdckrphubgOdAkAHfTGhb+sUQmvRpHhkjSa6SDBOLHD0bqbXH/k+zjg==
   dependencies:
-    "@oclif/core" "^2.8.2"
+    "@oclif/core" "^2.8.11"
     "@salesforce/core" "^4.0.1"
     "@salesforce/sf-plugins-core" "^3.1.0"
     fast-levenshtein "^3.0.0"
