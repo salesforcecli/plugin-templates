@@ -22,7 +22,7 @@ export default class Project extends SfCommand<CreateOutput> {
   public static readonly flags = {
     name: Flags.string({
       char: 'n',
-      summary: messages.getMessage('flags.name'),
+      summary: messages.getMessage('flags.name.summary'),
       description: messages.getMessage('flags.name.description'),
       required: true,
       aliases: ['projectname'],
@@ -30,7 +30,7 @@ export default class Project extends SfCommand<CreateOutput> {
     }),
     template: Flags.string({
       char: 't',
-      summary: messages.getMessage('flags.template'),
+      summary: messages.getMessage('flags.template.summary'),
       description: messages.getMessage('flags.template.description'),
       default: 'standard',
       options: ['standard', 'empty', 'analytics'],
@@ -38,12 +38,12 @@ export default class Project extends SfCommand<CreateOutput> {
     'output-dir': outputDirFlag,
     namespace: Flags.string({
       char: 's',
-      summary: messages.getMessage('flags.namespace'),
+      summary: messages.getMessage('flags.namespace.summary'),
       default: '',
     }),
     'default-package-dir': Flags.string({
       char: 'p',
-      summary: messages.getMessage('flags.packagedir'),
+      summary: messages.getMessage('flags.packagedir.summary'),
       description: messages.getMessage('flags.packagedir.description'),
       default: 'force-app',
       aliases: ['defaultpackagedir'],
@@ -51,12 +51,12 @@ export default class Project extends SfCommand<CreateOutput> {
     }),
     manifest: Flags.boolean({
       char: 'x',
-      summary: messages.getMessage('flags.manifest'),
+      summary: messages.getMessage('flags.manifest.summary'),
       description: messages.getMessage('flags.manifest.description'),
     }),
     'login-url': Flags.string({
       char: 'l',
-      summary: messages.getMessage('flags.loginurl'),
+      summary: messages.getMessage('flags.loginurl.summary'),
       description: messages.getMessage('flags.loginurl.description'),
       default: 'https://login.salesforce.com',
       hidden: true,

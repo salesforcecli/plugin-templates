@@ -27,7 +27,7 @@ export default class LightningApp extends SfCommand<CreateOutput> {
   public static readonly flags = {
     name: Flags.string({
       char: 'n',
-      summary: lightningCommonMessages.getMessage('flags.name', [BUNDLE_TYPE]),
+      summary: lightningCommonMessages.getMessage('flags.name.summary', [BUNDLE_TYPE]),
       description: lightningCommonMessages.getMessage('flags.name.description'),
       required: true,
       aliases: ['appname'],
@@ -35,7 +35,7 @@ export default class LightningApp extends SfCommand<CreateOutput> {
     }),
     template: Flags.string({
       char: 't',
-      summary: lightningCommonMessages.getMessage('flags.template'),
+      summary: lightningCommonMessages.getMessage('flags.template.summary'),
       description: lightningCommonMessages.getMessage('flags.template.description'),
       default: 'DefaultLightningApp',
       options: CreateUtil.getCommandTemplatesForFiletype(lightningAppFileSuffix, 'lightningapp'),

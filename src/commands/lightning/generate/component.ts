@@ -28,7 +28,7 @@ export default class LightningComponent extends SfCommand<CreateOutput> {
   public static readonly flags = {
     name: Flags.string({
       char: 'n',
-      summary: lightningCommon.getMessage('flags.name', [BUNDLE_TYPE]),
+      summary: lightningCommon.getMessage('flags.name.summary', [BUNDLE_TYPE]),
       description: lightningCommon.getMessage('flags.name.description'),
       required: true,
       aliases: ['componentname'],
@@ -36,7 +36,7 @@ export default class LightningComponent extends SfCommand<CreateOutput> {
     }),
     template: Flags.string({
       char: 't',
-      summary: lightningCommon.getMessage('flags.template'),
+      summary: lightningCommon.getMessage('flags.template.summary'),
       description: lightningCommon.getMessage('flags.template.description'),
       default: 'default',
       // Note: keep this list here and LightningComponentOptions#template in-sync with the
@@ -46,7 +46,7 @@ export default class LightningComponent extends SfCommand<CreateOutput> {
     'output-dir': outputDirFlagLightning,
     'api-version': orgApiVersionFlagWithDeprecations,
     type: Flags.string({
-      summary: messages.getMessage('flags.type'),
+      summary: messages.getMessage('flags.type.summary'),
       options: ['aura', 'lwc'],
       default: 'aura',
     }),

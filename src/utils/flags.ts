@@ -13,7 +13,7 @@ const lightningMessages = Messages.loadMessages('@salesforce/plugin-templates', 
 
 export const outputDirFlag = Flags.string({
   char: 'd',
-  summary: messages.getMessage('flags.outputdir'),
+  summary: messages.getMessage('flags.outputdir.summary'),
   description: messages.getMessage('flags.outputdir.description'),
   default: '.',
   deprecateAliases: true,
@@ -22,7 +22,7 @@ export const outputDirFlag = Flags.string({
 
 export const outputDirFlagLightning = Flags.string({
   char: 'd',
-  summary: messages.getMessage('flags.outputdir'),
+  summary: messages.getMessage('flags.outputdir.summary'),
   description: messages.getMessage('flags.outputdir.description'),
   default: '.',
   deprecateAliases: true,
@@ -31,6 +31,6 @@ export const outputDirFlagLightning = Flags.string({
 
 export const internalFlag = Flags.boolean({
   char: 'i',
-  summary: lightningMessages.getMessage('flags.internal'),
+  summary: lightningMessages.getMessage('flags.internal.summary'),
   hidden: true,
 });

@@ -6,7 +6,7 @@ Generate a Lightning %s.
 
 Generates a Lightning %s bundle in the specified directory or the current working directory. The bundle consists of multiple files in a folder with the designated name.
 
-# flags.name
+# flags.name.summary
 
 Name of the generated Lightning %s.
 
@@ -14,11 +14,11 @@ Name of the generated Lightning %s.
 
 The name can be up to 40 characters and must start with a letter.
 
-# flags.internal
+# flags.internal.summary
 
 Generate lightning bundles without creating a -meta.xml file.
 
-# flags.template
+# flags.template.summary
 
 Template to use for file creation.
 

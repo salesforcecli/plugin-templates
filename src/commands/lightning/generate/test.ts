@@ -25,7 +25,7 @@ export default class LightningTest extends SfCommand<CreateOutput> {
   public static readonly flags = {
     name: Flags.string({
       char: 'n',
-      summary: lightningMessages.getMessage('flags.name', ['Test']),
+      summary: lightningMessages.getMessage('flags.name.summary', ['Test']),
       description: messages.getMessage('flags.name.description'),
       required: true,
       aliases: ['testname'],
@@ -33,7 +33,7 @@ export default class LightningTest extends SfCommand<CreateOutput> {
     }),
     template: Flags.string({
       char: 't',
-      summary: lightningMessages.getMessage('flags.template'),
+      summary: lightningMessages.getMessage('flags.template.summary'),
       description: lightningMessages.getMessage('flags.template.description'),
       default: 'DefaultLightningTest',
       options: CreateUtil.getCommandTemplatesForFiletype(lightningTestFileSuffix, 'lightningtest'),

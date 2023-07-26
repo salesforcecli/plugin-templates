@@ -34,7 +34,7 @@ export default class ApexClass extends SfCommand<CreateOutput> {
     }),
     template: Flags.string({
       char: 't',
-      summary: commonMessages.getMessage('flags.template'),
+      summary: commonMessages.getMessage('flags.template.summary'),
       description: commonMessages.getMessage('flags.template.description'),
       default: 'DefaultApexClass',
       options: CreateUtil.getCommandTemplatesForFiletype(apexClassFileSuffix, 'apexclass'),

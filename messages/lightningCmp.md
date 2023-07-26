@@ -22,10 +22,10 @@ Generate a bundle for an Aura component or a Lightning web component.
 
 # description
 
-Generates the bundle in the specified directory or the current working directory. The bundle consists of multiple files in a directory with the designated name.  Lightning web components are contained in the directory with name "lwc", Aura components in "aura".
+Generates the bundle in the specified directory or the current working directory. The bundle consists of multiple files in a directory with the designated name. Lightning web components are contained in the directory with name "lwc", Aura components in "aura".
 
 To generate a Lightning web component, pass "--type lwc" to the command. If you don’t specify --type, Salesforce CLI generates an Aura component by default.
 
-# flags.type
+# flags.type.summary
 
 Type of the component bundle.

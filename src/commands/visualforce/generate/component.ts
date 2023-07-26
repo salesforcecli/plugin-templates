@@ -28,7 +28,7 @@ export default class VisualforceComponent extends SfCommand<CreateOutput> {
   public static readonly flags = {
     name: Flags.string({
       char: 'n',
-      summary: messages.getMessage('flags.name', [VF_TYPE]),
+      summary: messages.getMessage('flags.name.summary', [VF_TYPE]),
       description: messages.getMessage('flags.name.description'),
       required: true,
       aliases: ['componentname'],
@@ -36,7 +36,7 @@ export default class VisualforceComponent extends SfCommand<CreateOutput> {
     }),
     template: Flags.string({
       char: 't',
-      summary: commonMessages.getMessage('flags.template'),
+      summary: commonMessages.getMessage('flags.template.summary'),
       description: commonMessages.getMessage('flags.template.description'),
       default: 'DefaultVFComponent',
       options: CreateUtil.getCommandTemplatesForFiletype(visualforceComponentFileSuffix, 'visualforcecomponent'),
@@ -45,7 +45,7 @@ export default class VisualforceComponent extends SfCommand<CreateOutput> {
     'api-version': orgApiVersionFlagWithDeprecations,
     label: Flags.string({
       char: 'l',
-      summary: messages.getMessage('flags.label', [VF_TYPE]),
+      summary: messages.getMessage('flags.label.summary', [VF_TYPE]),
       required: true,
     }),
     loglevel,
