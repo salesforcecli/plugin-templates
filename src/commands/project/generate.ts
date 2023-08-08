@@ -43,8 +43,8 @@ export default class Project extends SfCommand<CreateOutput> {
     }),
     'default-package-dir': Flags.string({
       char: 'p',
-      summary: messages.getMessage('flags.packagedir.summary'),
-      description: messages.getMessage('flags.packagedir.description'),
+      summary: messages.getMessage('flags.default-package-dir.summary'),
+      description: messages.getMessage('flags.default-package-dir.description'),
       default: 'force-app',
       aliases: ['defaultpackagedir'],
       deprecateAliases: true,
@@ -56,8 +56,8 @@ export default class Project extends SfCommand<CreateOutput> {
     }),
     'login-url': Flags.string({
       char: 'l',
-      summary: messages.getMessage('flags.loginurl.summary'),
-      description: messages.getMessage('flags.loginurl.description'),
+      summary: messages.getMessage('flags.login-url.summary'),
+      description: messages.getMessage('flags.login-url.description'),
       default: 'https://login.salesforce.com',
       hidden: true,
       aliases: ['loginurl'],
