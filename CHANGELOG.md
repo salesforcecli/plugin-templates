@@ -1,3 +1,12 @@
+## [55.5.9](https://github.com/salesforcecli/plugin-templates/compare/55.5.8...55.5.9) (2023-08-08)
+
+
+### Bug Fixes
+
+* core5 ([4b197bc](https://github.com/salesforcecli/plugin-templates/commit/4b197bc84938ac78f1e5c9a860b578294211e0ac))
+
+
+
 ## [55.5.8](https://github.com/salesforcecli/plugin-templates/compare/55.5.7...55.5.8) (2023-08-06)
 
 
