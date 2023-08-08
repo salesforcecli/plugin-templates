@@ -66,11 +66,11 @@ Namespace associated with this project and any connected scratch orgs.
 
 Will set this version as sourceApiVersion in the sfdx-project.json file
 
-# flags.packagedir.summary
+# flags.default-package-dir.summary
 
 Default package directory name.
 
-# flags.packagedir.description
+# flags.default-package-dir.description
 
 Metadata items such as classes and Lightning bundles are placed inside this folder.
 
@@ -82,10 +82,10 @@ Generate a manifest (package.xml) for change-set based development.
 
 Generates a default manifest (package.xml) for fetching Apex, Visualforce, Lightning components, and static resources.
 
-# flags.loginurl.summary
+# flags.login-url.summary
 
 Salesforce instance login URL.
 
-# flags.loginurl.description
+# flags.login-url.description
 
 Normally defaults to https://login.salesforce.com.
