@@ -1,3 +1,12 @@
+## [55.5.10](https://github.com/salesforcecli/plugin-templates/compare/55.5.9...55.5.10) (2023-08-09)
+
+
+### Bug Fixes
+
+* small fix to messages ([9f51fc2](https://github.com/salesforcecli/plugin-templates/commit/9f51fc2e6902271b69415610cae4cfd290397262))
+
+
+
 ## [55.5.9](https://github.com/salesforcecli/plugin-templates/compare/55.5.8...55.5.9) (2023-08-08)
 
 
