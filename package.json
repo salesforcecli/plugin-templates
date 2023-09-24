@@ -1,7 +1,7 @@
 {
   "name": "@salesforce/plugin-templates",
   "description": "Commands to create metadata from a default or custom template",
-  "version": "55.5.12",
+  "version": "55.5.13",
   "main": "lib/index.js",
   "author": "Salesforce",
   "bugs": "https://github.com/salesforcecli/plugin-templates/issues",
