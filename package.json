@@ -49,7 +49,7 @@
     "sinon": "10.0.0",
     "ts-node": "^10.0.0",
     "typescript": "^4.9.5",
-    "wireit": "^0.10.0",
+    "wireit": "^0.14.0",
     "yeoman-assert": "^3.1.1",
     "yeoman-test": "^6.3.0"
   },
