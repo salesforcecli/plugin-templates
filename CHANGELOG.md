@@ -1,3 +1,9 @@
+## [55.5.15](https://github.com/salesforcecli/plugin-templates/compare/55.5.14...55.5.15) (2023-10-18)
+
+### Bug Fixes
+
+- **deps:** bump @babel/traverse from 7.17.3 to 7.23.2 ([420b08a](https://github.com/salesforcecli/plugin-templates/commit/420b08a650053525529cec0a61449edba00aef87))
+
 ## [55.5.14](https://github.com/salesforcecli/plugin-templates/compare/55.5.13...55.5.14) (2023-09-28)
 
 ### Bug Fixes
