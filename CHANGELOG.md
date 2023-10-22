@@ -1,3 +1,9 @@
+## [55.5.16](https://github.com/salesforcecli/plugin-templates/compare/55.5.15...55.5.16) (2023-10-22)
+
+### Bug Fixes
+
+- **deps:** bump yeoman-generator and @types/yeoman-generator ([734ed5b](https://github.com/salesforcecli/plugin-templates/commit/734ed5bd24377712ff6fcfadf43783dfa8b26037))
+
 ## [55.5.15](https://github.com/salesforcecli/plugin-templates/compare/55.5.14...55.5.15) (2023-10-18)
 
 ### Bug Fixes
