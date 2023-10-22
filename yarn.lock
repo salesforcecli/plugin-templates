@@ -1610,15 +1610,16 @@
     execa "^5.0.0"
     rxjs "^6.4.0"
 
-"@types/yeoman-generator@*", "@types/yeoman-generator@^5.2.12":
-  version "5.2.12"
-  resolved "https://registry.yarnpkg.com/@types/yeoman-generator/-/yeoman-generator-5.2.12.tgz#bd258530983f0e0e345ca8f1abce3d463e7edce9"
-  integrity sha512-WXJiSuJR1OpiCzMwnKxpA6GJZ0Tlg4u7l15zfNFTVOwT+Pks63uuDCqMj+QMf8FZ6c2sFTpZrw2cBZscI7HOvA==
+"@types/yeoman-generator@*", "@types/yeoman-generator@^5.2.13":
+  version "5.2.13"
+  resolved "https://registry.yarnpkg.com/@types/yeoman-generator/-/yeoman-generator-5.2.13.tgz#27e35af3f2e4ec9230a2d8e769847be078b5df14"
+  integrity sha512-3BuUZs1eb2oTti+gzrFPm9bB5gknkmnPko4y75MhGdDp4sioFImL4zjofXFVqnRclgK3St9xZJ3AF1UFvTVevg==
   dependencies:
     "@types/debug" "*"
     "@types/ejs" "*"
     "@types/inquirer" "^8"
     "@types/mem-fs-editor" "*"
+    "@types/node" "*"
     "@types/yeoman-environment" "*"
     rxjs "^6.4.0"
 
@@ -8315,10 +8316,10 @@ yeoman-environment@^3.15.1, yeoman-environment@^3.19.3, yeoman-environment@^3.9.
     textextensions "^5.12.0"
     untildify "^4.0.0"
 
-yeoman-generator@^5.6.1, yeoman-generator@^5.8.0, yeoman-generator@^5.9.0:
-  version "5.9.0"
-  resolved "https://registry.yarnpkg.com/yeoman-generator/-/yeoman-generator-5.9.0.tgz#a83c9e391b0b3442536da677bc204cfa3f81f2c7"
-  integrity sha512-sN1e01Db4fdd8P/n/yYvizfy77HdbwzvXmPxps9Gwz2D24slegrkSn+qyj+0nmZhtFwGX2i/cH29QDrvAFT9Aw==
+yeoman-generator@^5.10.0, yeoman-generator@^5.6.1, yeoman-generator@^5.8.0:
+  version "5.10.0"
+  resolved "https://registry.yarnpkg.com/yeoman-generator/-/yeoman-generator-5.10.0.tgz#0dde5be9d815b01f77a7e77ee6f9047edcbeca04"
+  integrity sha512-iDUKykV7L4nDNzeYSedRmSeJ5eMYFucnKDi6KN1WNASXErgPepKqsQw55TgXPHnmpcyOh2Dd/LAZkyc+f0qaAw==
   dependencies:
     chalk "^4.1.0"
     dargs "^7.0.0"
