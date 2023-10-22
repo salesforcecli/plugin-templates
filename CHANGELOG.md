@@ -1,3 +1,9 @@
+## [55.5.17](https://github.com/salesforcecli/plugin-templates/compare/55.5.16...55.5.17) (2023-10-22)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/core from 5.3.9 to 5.3.10 ([8309742](https://github.com/salesforcecli/plugin-templates/commit/8309742ea95d61fb6c6af177dfc0487620bb8c26))
+
 ## [55.5.16](https://github.com/salesforcecli/plugin-templates/compare/55.5.15...55.5.16) (2023-10-22)
 
 ### Bug Fixes
