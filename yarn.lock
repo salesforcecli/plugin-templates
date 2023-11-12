@@ -1513,10 +1513,12 @@
     "@types/expect" "^1.20.4"
     "@types/node" "*"
 
-"@types/yeoman-assert@^3.1.2":
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/@types/yeoman-assert/-/yeoman-assert-3.1.2.tgz#7e7f00f2efcd2651ead90c06e5302949b42f1b81"
-  integrity sha512-H+M5HpdV7hVLT/m+TTXKP3aIBYnQyzbBP3w1DGLXJIVcsayszOB0Yaef53EwK9ztJKvyvxBUcVcjD1FnifoLaw==
+"@types/yeoman-assert@^3.1.4":
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/@types/yeoman-assert/-/yeoman-assert-3.1.4.tgz#f47642ff46602ea5ba9b1668956fddd066943f43"
+  integrity sha512-hKiUQ1VVfJW1CFE/trneWj2oTcZ/VPGbiSB6RV/lGOGb6zpue+9jelw5fh0jMA5usEsKllK8LrzlKoPe2tghpw==
+  dependencies:
+    "@types/node" "*"
 
 "@types/yeoman-environment@*", "@types/yeoman-environment@^2.10.9":
   version "2.10.9"
