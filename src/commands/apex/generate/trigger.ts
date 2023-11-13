@@ -4,6 +4,8 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import {
   arrayWithDeprecation,
   Flags,
@@ -13,13 +15,13 @@ import {
   Ux,
 } from '@salesforce/sf-plugins-core';
 import { ApexTriggerOptions, CreateOutput } from '@salesforce/templates';
-import ApexTriggerGenerator from '@salesforce/templates/lib/generators/apexTriggerGenerator';
+import ApexTriggerGenerator from '@salesforce/templates/lib/generators/apexTriggerGenerator.js';
 import { CreateUtil } from '@salesforce/templates/lib/utils';
 import { Messages } from '@salesforce/core';
-import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand';
-import { outputDirFlag } from '../../../utils/flags';
+import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand.js';
+import { outputDirFlag } from '../../../utils/flags.js';
 
-Messages.importMessagesDirectory(__dirname);
+Messages.importMessagesDirectory(dirname(fileURLToPath(import.meta.url)));
 const apexTriggerFileSuffix = /.trigger$/;
 const commonMessages = Messages.loadMessages('@salesforce/plugin-templates', 'messages');
 const messages = Messages.loadMessages('@salesforce/plugin-templates', 'apexTrigger');

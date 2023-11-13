@@ -46,3 +46,4 @@ node_modules
 oclif.manifest.json
 .sfdx
 .sf
+oclif.lock
