@@ -8,7 +8,7 @@ import path from 'node:path';
 import fs from 'node:fs';
 import { expect, config } from 'chai';
 import { execCmd, TestSession } from '@salesforce/cli-plugins-testkit';
-import { nls } from '@salesforce/templates/lib/i18n';
+import { nls } from '@salesforce/templates/lib/i18n/index.js';
 import assert from 'yeoman-assert';
 
 config.truncateThreshold = 0;

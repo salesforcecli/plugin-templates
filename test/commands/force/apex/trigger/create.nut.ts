@@ -7,7 +7,7 @@
 import path from 'node:path';
 import { expect } from 'chai';
 import { TestSession, execCmd } from '@salesforce/cli-plugins-testkit';
-import { nls } from '@salesforce/templates/lib/i18n';
+import { nls } from '@salesforce/templates/lib/i18n/index.js';
 import assert from 'yeoman-assert';
 
 describe('Apex trigger creation tests:', () => {

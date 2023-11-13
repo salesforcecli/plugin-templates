@@ -16,7 +16,7 @@ import {
 } from '@salesforce/sf-plugins-core';
 import { ApexTriggerOptions, CreateOutput } from '@salesforce/templates';
 import ApexTriggerGenerator from '@salesforce/templates/lib/generators/apexTriggerGenerator.js';
-import { CreateUtil } from '@salesforce/templates/lib/utils';
+import { CreateUtil } from '@salesforce/templates/lib/utils/index.js';
 import { Messages } from '@salesforce/core';
 import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand.js';
 import { outputDirFlag } from '../../../utils/flags.js';

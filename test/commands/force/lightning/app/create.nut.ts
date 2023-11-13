@@ -9,7 +9,7 @@ import url from 'node:url';
 import { expect, config } from 'chai';
 import { TestSession, execCmd } from '@salesforce/cli-plugins-testkit';
 import { Messages } from '@salesforce/core';
-import { nls } from '@salesforce/templates/lib/i18n';
+import { nls } from '@salesforce/templates/lib/i18n/index.js';
 import assert from 'yeoman-assert';
 
 Messages.importMessagesDirectory(path.dirname(url.fileURLToPath(import.meta.url)));

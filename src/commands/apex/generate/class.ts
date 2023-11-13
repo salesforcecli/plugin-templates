@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { ApexClassOptions, CreateOutput } from '@salesforce/templates';
 import ApexClassGenerator from '@salesforce/templates/lib/generators/apexClassGenerator.js';
-import { CreateUtil } from '@salesforce/templates/lib/utils';
+import { CreateUtil } from '@salesforce/templates/lib/utils/index.js';
 import { Messages } from '@salesforce/core';
 import { runGenerator, getCustomTemplates } from '../../../utils/templateCommand.js';
 import { outputDirFlag } from '../../../utils/flags.js';

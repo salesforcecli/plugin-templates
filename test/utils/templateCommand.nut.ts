@@ -9,9 +9,9 @@ import path from 'node:path';
 import { OrgConfigProperties } from '@salesforce/core';
 import { TestSession, execCmd } from '@salesforce/cli-plugins-testkit';
 import assert from 'yeoman-assert';
-import { nls } from '@salesforce/templates/lib/i18n';
 import { expect, config } from 'chai';
 import { CreateOutput } from '@salesforce/templates';
+import { nls } from '@salesforce/templates/lib/i18n/index.js';
 
 config.truncateThreshold = 0;
 

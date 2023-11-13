@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { CreateOutput, LightningEventOptions } from '@salesforce/templates';
 import LightningEventGenerator from '@salesforce/templates/lib/generators/lightningEventGenerator.js';
-import { CreateUtil } from '@salesforce/templates/lib/utils';
+import { CreateUtil } from '@salesforce/templates/lib/utils/index.js';
 import { Messages } from '@salesforce/core';
 import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand.js';
 import { internalFlag, outputDirFlagLightning } from '../../../utils/flags.js';

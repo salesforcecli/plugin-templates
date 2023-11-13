@@ -5,9 +5,9 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 import path from 'node:path';
-import { ForceGeneratorAdapter, Log } from '@salesforce/templates/lib/utils';
 import { expect } from 'chai';
-import { stub } from 'sinon';
+import sinon from 'sinon';
+import { ForceGeneratorAdapter, Log } from '@salesforce/templates/lib/utils/index.js';
 import { buildJson } from '../../src/utils/templateCommand.js';
 
 describe('TemplateCommand', () => {
@@ -17,8 +17,8 @@ describe('TemplateCommand', () => {
       const targetDir = path.resolve('src', 'templates', 'output');
       const cleanOutput = ['testClass.cls', 'testClass.cls-meta.xml'];
       const rawOutput = 'create testClass.cls\n create testClass.cls-meta.xml\n';
-      const cleanOutputStub = stub(Log.prototype, 'getCleanOutput').returns(cleanOutput);
-      const outputStub = stub(Log.prototype, 'getOutput').returns(rawOutput);
+      const cleanOutputStub = sinon.stub(Log.prototype, 'getCleanOutput').returns(cleanOutput);
+      const outputStub = sinon.stub(Log.prototype, 'getOutput').returns(rawOutput);
       const targetDirOutput = `target dir = ${targetDir}\n${rawOutput}`;
 
       const expOutput = {

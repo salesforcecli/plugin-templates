@@ -8,8 +8,8 @@ import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { CreateOutput, StaticResourceOptions } from '@salesforce/templates';
-import StaticResourceGenerator from '@salesforce/templates/lib/generators/staticResourceGenerator.js';
 import { Messages } from '@salesforce/core';
+import StaticResourceGenerator from '@salesforce/templates/lib/generators/staticResourceGenerator.js';
 import { outputDirFlag } from '../../utils/flags.js';
 import { getCustomTemplates, runGenerator } from '../../utils/templateCommand.js';
 
