@@ -9,8 +9,8 @@
     "@salesforce/core": "^5.3.20",
     "@salesforce/sf-plugins-core": "^4.1.0",
     "@salesforce/templates": "^59.0.1",
-    "yeoman-environment": "^3.19.3",
-    "yeoman-generator": "^5.10.0"
+    "yeoman-environment": "^3",
+    "yeoman-generator": "^5"
   },
   "devDependencies": {
     "@oclif/plugin-command-snapshot": "^5.0.1",

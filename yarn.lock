@@ -8320,7 +8320,7 @@ yeoman-assert@^3.1.1:
   resolved "https://registry.yarnpkg.com/yeoman-assert/-/yeoman-assert-3.1.1.tgz#9f6fa0ecba7dd007c40f579668cb5dda18c79343"
   integrity sha512-bCuLb/j/WzpvrJZCTdJJLFzm7KK8IYQJ3+dF9dYtNs2CUYyezFJDuULiZ2neM4eqjf45GN1KH/MzCTT3i90wUQ==
 
-yeoman-environment@^3.15.1, yeoman-environment@^3.19.3, yeoman-environment@^3.9.1:
+yeoman-environment@^3, yeoman-environment@^3.15.1, yeoman-environment@^3.9.1:
   version "3.19.3"
   resolved "https://registry.yarnpkg.com/yeoman-environment/-/yeoman-environment-3.19.3.tgz#49c2339805fdf695fac42c88334a1daa94ee8b6c"
   integrity sha512-/+ODrTUHtlDPRH9qIC0JREH8+7nsRcjDl3Bxn2Xo/rvAaVvixH5275jHwg0C85g4QsF4P6M2ojfScPPAl+pLAg==
@@ -8363,7 +8363,7 @@ yeoman-environment@^3.15.1, yeoman-environment@^3.19.3, yeoman-environment@^3.9.
     textextensions "^5.12.0"
     untildify "^4.0.0"
 
-yeoman-generator@^5.10.0, yeoman-generator@^5.6.1, yeoman-generator@^5.8.0:
+yeoman-generator@^5, yeoman-generator@^5.6.1, yeoman-generator@^5.8.0:
   version "5.10.0"
   resolved "https://registry.yarnpkg.com/yeoman-generator/-/yeoman-generator-5.10.0.tgz#0dde5be9d815b01f77a7e77ee6f9047edcbeca04"
   integrity sha512-iDUKykV7L4nDNzeYSedRmSeJ5eMYFucnKDi6KN1WNASXErgPepKqsQw55TgXPHnmpcyOh2Dd/LAZkyc+f0qaAw==

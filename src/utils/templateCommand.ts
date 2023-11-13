@@ -91,7 +91,8 @@ export async function runGenerator({ ux, templates, generator, opts }: generator
   const adapter = new ForceGeneratorAdapter();
   // @ts-expect-error the adapter doesn't fully implement the yeoman adapter interface
   const env = yeoman.createEnv(undefined, undefined, adapter);
-  env.registerStub(generator, 'generator');
+  // @ts-ignore - access the default via the .default because of how we have to import everything above
+  env.registerStub(generator.default, 'generator');
 
   await env.run('generator', opts);
   const targetDir = path.resolve(opts.outputdir ?? '.');

@@ -53,14 +53,16 @@ describe('TemplateCommand', () => {
       const TEST_CUSTOM_TEMPLATES_REPO =
         'https://github.com/forcedotcom/salesforcedx-templates/tree/main/test/custom-templates';
       before(() => {
-        execCmd(`config:set ${OrgConfigProperties.ORG_CUSTOM_METADATA_TEMPLATES}=${TEST_CUSTOM_TEMPLATES_REPO}`);
+        execCmd(`config:set ${OrgConfigProperties.ORG_CUSTOM_METADATA_TEMPLATES}=${TEST_CUSTOM_TEMPLATES_REPO}`, {
+          cli: 'dev',
+        });
         // this fails with a "premature close" error when run in nut context.  The templates download successfully but the command errors out.
         // But the command seems to run find when run manually.The logic / problem ? is in the templates repo, so I'm not going to mess with it.
         // by calling the command in the before, the templates are cached from github and the tests run fine.
-        execCmd('force:apex:class:create --classname foo');
+        execCmd('force:apex:class:create --classname foo', { cli: 'dev' });
       });
       it('should create custom template from git repo', () => {
-        execCmd('force:apex:class:create --classname foo', { ensureExitCode: 0 });
+        execCmd('force:apex:class:create --classname foo', { cli: 'dev', ensureExitCode: 0 });
         assert.file(['foo.cls', 'foo.cls-meta.xml'].map((f) => path.join(session.project.dir, f)));
         assert.fileContent(
           path.join(session.project.dir, 'foo.cls'),
@@ -92,7 +94,9 @@ describe('TemplateCommand', () => {
           fs.existsSync(LOCAL_CUSTOM_TEMPLATES),
           `local custom templates folder does not exist: ${LOCAL_CUSTOM_TEMPLATES}`
         ).to.be.true;
-        execCmd(`config:set ${OrgConfigProperties.ORG_CUSTOM_METADATA_TEMPLATES}=${LOCAL_CUSTOM_TEMPLATES}`);
+        execCmd(`config:set ${OrgConfigProperties.ORG_CUSTOM_METADATA_TEMPLATES}=${LOCAL_CUSTOM_TEMPLATES}`, {
+          cli: 'dev',
+        });
       });
 
       it('should create custom template from local folder', () => {
