@@ -5,27 +5,28 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import * as path from 'node:path';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { Ux } from '@salesforce/sf-plugins-core';
-import { OrgConfigProperties, ConfigAggregator, Messages } from '@salesforce/core';
-import { TemplateService, CreateOutput } from '@salesforce/templates';
-import { ForceGeneratorAdapter } from '@salesforce/templates/lib/utils';
-import * as yeoman from 'yeoman-environment';
+import { ConfigAggregator, Messages, OrgConfigProperties } from '@salesforce/core';
+import { CreateOutput, TemplateService } from '@salesforce/templates';
+import yeoman from 'yeoman-environment';
 
-import VisualforceComponentGenerator from '@salesforce/templates/lib/generators/visualforceComponentGenerator';
-import VisualforcePageGenerator from '@salesforce/templates/lib/generators/visualforcePageGenerator';
-import ApexClassGenerator from '@salesforce/templates/lib/generators/apexClassGenerator';
-import LightningTestGenerator from '@salesforce/templates/lib/generators/lightningTestGenerator';
-import StaticResourceGenerator from '@salesforce/templates/lib/generators/staticResourceGenerator';
-import ProjectGenerator from '@salesforce/templates/lib/generators/projectGenerator';
-import LightningInterfaceGenerator from '@salesforce/templates/lib/generators/lightningInterfaceGenerator';
-import LightningAppGenerator from '@salesforce/templates/lib/generators/lightningAppGenerator';
-import LightningEventGenerator from '@salesforce/templates/lib/generators/lightningEventGenerator';
-import AnalyticsTemplateGenerator from '@salesforce/templates/lib/generators/analyticsTemplateGenerator';
-import LightningComponentGenerator from '@salesforce/templates/lib/generators/lightningComponentGenerator';
-import ApexTriggerGenerator from '@salesforce/templates/lib/generators/apexTriggerGenerator';
+import { ForceGeneratorAdapter } from '@salesforce/templates/lib/utils/index.js';
+import VisualforceComponentGenerator from '@salesforce/templates/lib/generators/visualforceComponentGenerator.js';
+import VisualforcePageGenerator from '@salesforce/templates/lib/generators/visualforcePageGenerator.js';
+import ApexClassGenerator from '@salesforce/templates/lib/generators/apexClassGenerator.js';
+import LightningTestGenerator from '@salesforce/templates/lib/generators/lightningTestGenerator.js';
+import StaticResourceGenerator from '@salesforce/templates/lib/generators/staticResourceGenerator.js';
+import ProjectGenerator from '@salesforce/templates/lib/generators/projectGenerator.js';
+import LightningInterfaceGenerator from '@salesforce/templates/lib/generators/lightningInterfaceGenerator.js';
+import LightningAppGenerator from '@salesforce/templates/lib/generators/lightningAppGenerator.js';
+import LightningEventGenerator from '@salesforce/templates/lib/generators/lightningEventGenerator.js';
+import AnalyticsTemplateGenerator from '@salesforce/templates/lib/generators/analyticsTemplateGenerator.js';
+import LightningComponentGenerator from '@salesforce/templates/lib/generators/lightningComponentGenerator.js';
+import ApexTriggerGenerator from '@salesforce/templates/lib/generators/apexTriggerGenerator.js';
 
-Messages.importMessagesDirectory(__dirname);
+Messages.importMessagesDirectory(path.dirname(fileURLToPath(import.meta.url)));
 const messages = Messages.loadMessages('@salesforce/plugin-templates', 'messages');
 
 export type generatorInputs = {
@@ -34,51 +35,51 @@ export type generatorInputs = {
 } & (
   | {
       generator: typeof VisualforcePageGenerator;
-      opts: typeof VisualforcePageGenerator.prototype.options;
+      opts: typeof VisualforcePageGenerator.default.prototype.options;
     }
   | {
       generator: typeof ApexClassGenerator;
-      opts: typeof ApexClassGenerator.prototype.options;
+      opts: typeof ApexClassGenerator.default.prototype.options;
     }
   | {
       generator: typeof ApexTriggerGenerator;
-      opts: typeof ApexTriggerGenerator.prototype.options;
+      opts: typeof ApexTriggerGenerator.default.prototype.options;
     }
   | {
       generator: typeof VisualforceComponentGenerator;
-      opts: typeof VisualforceComponentGenerator.prototype.options;
+      opts: typeof VisualforceComponentGenerator.default.prototype.options;
     }
   | {
       generator: typeof LightningTestGenerator;
-      opts: typeof LightningTestGenerator.prototype.options;
+      opts: typeof LightningTestGenerator.default.prototype.options;
     }
   | {
       generator: typeof StaticResourceGenerator;
-      opts: typeof StaticResourceGenerator.prototype.options;
+      opts: typeof StaticResourceGenerator.default.prototype.options;
     }
   | {
       generator: typeof ProjectGenerator;
-      opts: typeof ProjectGenerator.prototype.options;
+      opts: typeof ProjectGenerator.default.prototype.options;
     }
   | {
       generator: typeof LightningInterfaceGenerator;
-      opts: typeof LightningInterfaceGenerator.prototype.options;
+      opts: typeof LightningInterfaceGenerator.default.prototype.options;
     }
   | {
       generator: typeof LightningAppGenerator;
-      opts: typeof LightningAppGenerator.prototype.options;
+      opts: typeof LightningAppGenerator.default.prototype.options;
     }
   | {
       generator: typeof LightningEventGenerator;
-      opts: typeof LightningEventGenerator.prototype.options;
+      opts: typeof LightningEventGenerator.default.prototype.options;
     }
   | {
       generator: typeof AnalyticsTemplateGenerator;
-      opts: typeof AnalyticsTemplateGenerator.prototype.options;
+      opts: typeof AnalyticsTemplateGenerator.default.prototype.options;
     }
   | {
       generator: typeof LightningComponentGenerator;
-      opts: typeof LightningComponentGenerator.prototype.options;
+      opts: typeof LightningComponentGenerator.default.prototype.options;
     }
 );
 
@@ -90,7 +91,8 @@ export async function runGenerator({ ux, templates, generator, opts }: generator
   const adapter = new ForceGeneratorAdapter();
   // @ts-expect-error the adapter doesn't fully implement the yeoman adapter interface
   const env = yeoman.createEnv(undefined, undefined, adapter);
-  env.registerStub(generator, 'generator');
+  // @ts-ignore - access the default via the .default because of how we have to import everything above
+  env.registerStub(generator.default, 'generator');
 
   await env.run('generator', opts);
   const targetDir = path.resolve(opts.outputdir ?? '.');
@@ -103,10 +105,7 @@ export async function runGenerator({ ux, templates, generator, opts }: generator
 export const getCustomTemplates = (configAggregator: ConfigAggregator): string | undefined => {
   try {
     // we're still accessing the old `customOrgMetadataTemplates` key, but this is deprecated and we'll use the new key to access the value
-    const customTemplatesFromConfig = configAggregator.getPropertyValue(
-      OrgConfigProperties.ORG_CUSTOM_METADATA_TEMPLATES
-    ) as string;
-    return customTemplatesFromConfig;
+    return configAggregator.getPropertyValue(OrgConfigProperties.ORG_CUSTOM_METADATA_TEMPLATES) as string;
   } catch (err) {
     return undefined;
   }
@@ -116,10 +115,9 @@ export const getCustomTemplates = (configAggregator: ConfigAggregator): string |
 export const buildJson = (adapter: ForceGeneratorAdapter, targetDir: string): CreateOutput => {
   const cleanOutput = adapter.log.getCleanOutput();
   const rawOutput = `target dir = ${targetDir}\n${adapter.log.getOutput()}`;
-  const output = {
+  return {
     outputDir: targetDir,
     created: cleanOutput,
     rawOutput,
   };
-  return output;
 };

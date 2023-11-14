@@ -4,14 +4,15 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-import * as path from 'node:path';
+import path from 'node:path';
+import url from 'node:url';
 import { expect } from 'chai';
 import { TestSession, execCmd } from '@salesforce/cli-plugins-testkit';
 import { Messages } from '@salesforce/core';
-import { nls } from '@salesforce/templates/lib/i18n';
-import * as assert from 'yeoman-assert';
+import { nls } from '@salesforce/templates/lib/i18n/index.js';
+import assert from 'yeoman-assert';
 
-Messages.importMessagesDirectory(__dirname);
+Messages.importMessagesDirectory(path.dirname(url.fileURLToPath(import.meta.url)));
 const messages = Messages.loadMessages('@salesforce/plugin-templates', 'messages');
 
 describe('Lightning interface creation tests:', () => {

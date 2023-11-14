@@ -4,11 +4,11 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-import * as path from 'node:path';
+import path from 'node:path';
 import { expect, config } from 'chai';
 import { TestSession, execCmd } from '@salesforce/cli-plugins-testkit';
-import { nls } from '@salesforce/templates/lib/i18n';
-import * as assert from 'yeoman-assert';
+import { nls } from '@salesforce/templates/lib/i18n/index.js';
+import assert from 'yeoman-assert';
 
 config.truncateThreshold = 0;
 describe('Static resource creation tests:', () => {

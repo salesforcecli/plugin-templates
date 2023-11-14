@@ -4,16 +4,18 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { Flags, loglevel, SfCommand, orgApiVersionFlagWithDeprecations, Ux } from '@salesforce/sf-plugins-core';
 import { CreateOutput, LightningTestOptions } from '@salesforce/templates';
-import LightningTestGenerator from '@salesforce/templates/lib/generators/lightningTestGenerator';
-import { CreateUtil } from '@salesforce/templates/lib/utils';
+import LightningTestGenerator from '@salesforce/templates/lib/generators/lightningTestGenerator.js';
+import { CreateUtil } from '@salesforce/templates/lib/utils/index.js';
 import { Messages } from '@salesforce/core';
-import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand';
-import { internalFlag, outputDirFlagLightning } from '../../../utils/flags';
+import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand.js';
+import { internalFlag, outputDirFlagLightning } from '../../../utils/flags.js';
 const lightningTestFileSuffix = /.resource$/;
 
-Messages.importMessagesDirectory(__dirname);
+Messages.importMessagesDirectory(dirname(fileURLToPath(import.meta.url)));
 const messages = Messages.loadMessages('@salesforce/plugin-templates', 'lightningTest');
 const lightningMessages = Messages.loadMessages('@salesforce/plugin-templates', 'lightning');
 export default class LightningTest extends SfCommand<CreateOutput> {

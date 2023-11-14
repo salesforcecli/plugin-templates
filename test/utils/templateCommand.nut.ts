@@ -4,14 +4,14 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-import * as fs from 'node:fs';
-import * as path from 'node:path';
+import fs from 'node:fs';
+import path from 'node:path';
 import { OrgConfigProperties } from '@salesforce/core';
 import { TestSession, execCmd } from '@salesforce/cli-plugins-testkit';
-import * as assert from 'yeoman-assert';
-import { nls } from '@salesforce/templates/lib/i18n';
+import assert from 'yeoman-assert';
 import { expect, config } from 'chai';
 import { CreateOutput } from '@salesforce/templates';
+import { nls } from '@salesforce/templates/lib/i18n/index.js';
 
 config.truncateThreshold = 0;
 
@@ -53,11 +53,13 @@ describe('TemplateCommand', () => {
       const TEST_CUSTOM_TEMPLATES_REPO =
         'https://github.com/forcedotcom/salesforcedx-templates/tree/main/test/custom-templates';
       before(() => {
-        execCmd(`config:set ${OrgConfigProperties.ORG_CUSTOM_METADATA_TEMPLATES}=${TEST_CUSTOM_TEMPLATES_REPO}`);
+        execCmd(`config:set ${OrgConfigProperties.ORG_CUSTOM_METADATA_TEMPLATES}=${TEST_CUSTOM_TEMPLATES_REPO}`, {
+          cli: 'sf',
+        });
         // this fails with a "premature close" error when run in nut context.  The templates download successfully but the command errors out.
         // But the command seems to run find when run manually.The logic / problem ? is in the templates repo, so I'm not going to mess with it.
         // by calling the command in the before, the templates are cached from github and the tests run fine.
-        execCmd('force:apex:class:create --classname foo');
+        execCmd('force:apex:class:create --classname foo', { cli: 'dev' });
       });
       it('should create custom template from git repo', () => {
         execCmd('force:apex:class:create --classname foo', { ensureExitCode: 0 });
@@ -92,7 +94,9 @@ describe('TemplateCommand', () => {
           fs.existsSync(LOCAL_CUSTOM_TEMPLATES),
           `local custom templates folder does not exist: ${LOCAL_CUSTOM_TEMPLATES}`
         ).to.be.true;
-        execCmd(`config:set ${OrgConfigProperties.ORG_CUSTOM_METADATA_TEMPLATES}=${LOCAL_CUSTOM_TEMPLATES}`);
+        execCmd(`config:set ${OrgConfigProperties.ORG_CUSTOM_METADATA_TEMPLATES}=${LOCAL_CUSTOM_TEMPLATES}`, {
+          cli: 'sf',
+        });
       });
 
       it('should create custom template from local folder', () => {

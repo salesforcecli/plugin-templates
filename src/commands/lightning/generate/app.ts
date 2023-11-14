@@ -4,15 +4,17 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { CreateOutput, LightningAppOptions } from '@salesforce/templates';
-import LightningAppGenerator from '@salesforce/templates/lib/generators/lightningAppGenerator';
-import { CreateUtil } from '@salesforce/templates/lib/utils';
+import LightningAppGenerator from '@salesforce/templates/lib/generators/lightningAppGenerator.js';
+import { CreateUtil } from '@salesforce/templates/lib/utils/index.js';
 import { Messages } from '@salesforce/core';
-import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand';
-import { internalFlag, outputDirFlagLightning } from '../../../utils/flags';
+import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand.js';
+import { internalFlag, outputDirFlagLightning } from '../../../utils/flags.js';
 
-Messages.importMessagesDirectory(__dirname);
+Messages.importMessagesDirectory(dirname(fileURLToPath(import.meta.url)));
 const lightningCommonMessages = Messages.loadMessages('@salesforce/plugin-templates', 'lightning');
 const lightningAppMessages = Messages.loadMessages('@salesforce/plugin-templates', 'lightningApp');
 const lightningAppFileSuffix = /.app$/;

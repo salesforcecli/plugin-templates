@@ -1,20 +1,10 @@
 {
-  "extends": "@salesforce/dev-config/tsconfig-strict",
+  "extends": "@salesforce/dev-config/tsconfig-strict-esm",
   "compilerOptions": {
-    "noImplicitAny": true,
-    "outDir": "./lib",
-    "preserveConstEnums": true,
-    "allowSyntheticDefaultImports": true,
-    "skipLibCheck": true,
-
-    // We can replace the TS generated snippets with require statements
-    // from the tslib dependency, making our code more efficient
-    "importHelpers": true,
-    "resolveJsonModule": true
-
-    // Commenting composite out since it prevents the debugger from working
-    // if we import metadatainfos.json
-    // "composite": true
+    "outDir": "lib",
+    "rootDir": "src",
+    "baseUrl": ".",
+    "skipLibCheck": true
   },
   "include": ["./src/**/*.ts"]
 }
