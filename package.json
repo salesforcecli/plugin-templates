@@ -8,7 +8,7 @@
     "@oclif/core": "^3.11.0",
     "@salesforce/core": "^6.1.3",
     "@salesforce/sf-plugins-core": "^5.0.1",
-    "@salesforce/templates": "^59.0.1",
+    "@salesforce/templates": "^59.0.2",
     "yeoman-environment": "^3",
     "yeoman-generator": "^5"
   },
