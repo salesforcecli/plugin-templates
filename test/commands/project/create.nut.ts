@@ -25,15 +25,7 @@ const standardfolderarray = [
   'tabs',
   'triggers',
 ];
-const filestocopy = [
-  '.eslintignore',
-  '.forceignore',
-  '.gitignore',
-  '.prettierignore',
-  '.prettierrc',
-  'jest.config.js',
-  'package.json',
-];
+const filestocopy = ['.forceignore', '.gitignore', '.prettierignore', '.prettierrc', 'jest.config.js', 'package.json'];
 const emptyfolderarray = ['aura', 'lwc'];
 const analyticsfolderarray = ['aura', 'classes', 'lwc', 'waveTemplates'];
 const huskyhookarray = ['pre-commit'];
