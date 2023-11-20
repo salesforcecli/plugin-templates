@@ -1,3 +1,9 @@
+## [56.0.2](https://github.com/salesforcecli/plugin-templates/compare/56.0.1...56.0.2) (2023-11-20)
+
+### Bug Fixes
+
+- **deps:** bump non-dev-deps ([66d24e1](https://github.com/salesforcecli/plugin-templates/commit/66d24e1bdff092b4c0a9a0c89a6a5088c37c9419))
+
 ## [56.0.1](https://github.com/salesforcecli/plugin-templates/compare/55.5.19...56.0.1) (2023-11-14)
 
 ## [55.5.19](https://github.com/salesforcecli/plugin-templates/compare/55.5.18...55.5.19) (2023-11-12)
