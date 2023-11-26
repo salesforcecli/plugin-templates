@@ -16,7 +16,7 @@
     "@oclif/plugin-command-snapshot": "^5.0.2",
     "@salesforce/cli-plugins-testkit": "^5.0.5",
     "@salesforce/dev-scripts": "^7.1.1",
-    "@salesforce/plugin-command-reference": "^3.0.46",
+    "@salesforce/plugin-command-reference": "^3.0.47",
     "@types/yeoman-assert": "^3.1.4",
     "@types/yeoman-environment": "^2.10.9",
     "@types/yeoman-generator": "^5.2.13",
