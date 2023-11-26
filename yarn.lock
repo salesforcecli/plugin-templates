@@ -1091,10 +1091,10 @@
     chalk "^4"
     inquirer "^8.2.5"
 
-"@salesforce/sf-plugins-core@^5.0.2":
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/@salesforce/sf-plugins-core/-/sf-plugins-core-5.0.2.tgz#e102e10a3db4fbcccc2dd22d60acaecef7e0af25"
-  integrity sha512-76mARkIufJJ4HAW5p2UVrF17g1Fqy5Gc5NuXt/GOsxROqj281o3x4DBSrEhJE3zrD9cqfboiMa8OB9CGpMJ74Q==
+"@salesforce/sf-plugins-core@^5.0.3":
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/@salesforce/sf-plugins-core/-/sf-plugins-core-5.0.3.tgz#a771dc887c0a13ac23a5b1c16a6965791914f3aa"
+  integrity sha512-D+RCUzrYIWpJakNfxtHXJd6LZr6bK4gA4e7jLPR1G1FmDFss13PT7hOdFRxmAqTPbcp1jf65vwYZzu5nbqzmvQ==
   dependencies:
     "@oclif/core" "^3.11.0"
     "@salesforce/core" "^6.1.3"
