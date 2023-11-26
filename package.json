@@ -24,7 +24,7 @@
     "oclif": "^4.0.3",
     "shx": "^0.3.4",
     "ts-node": "^10.9.1",
-    "typescript": "^5.2.2",
+    "typescript": "^5.3.2",
     "yeoman-assert": "^3.1.1",
     "yeoman-test": "^6.3.0"
   },
