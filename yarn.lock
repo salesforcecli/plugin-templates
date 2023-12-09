@@ -964,7 +964,7 @@
     strip-ansi "6.0.1"
     ts-retry-promise "^0.7.1"
 
-"@salesforce/core@^5.3.19", "@salesforce/core@^5.3.20":
+"@salesforce/core@^5.3.20":
   version "5.3.20"
   resolved "https://registry.yarnpkg.com/@salesforce/core/-/core-5.3.20.tgz#4e934d4551bb70423cb1c4115615bc41cffca41e"
   integrity sha512-y+O6O2c8OYFDrAy2qsG+pAcNxoyL14nmBXcBRRcYA7Huj8ikK+aLJK84PuVAYdQz+hNwImQF+69IWtDkpK4Irg==
@@ -1106,12 +1106,12 @@
     chalk "^4"
     inquirer "^8.2.5"
 
-"@salesforce/templates@^59.0.2":
-  version "59.0.2"
-  resolved "https://registry.yarnpkg.com/@salesforce/templates/-/templates-59.0.2.tgz#4a0864ecde135d5b4bb0c71c5acad4ce238d761a"
-  integrity sha512-vCiRJS8q8XMn4gCCVQEyxIaeQ34MSpDsy6lCnSwJOqx5e9doxK+53BxAbzdFH+iy4Ze6bOESjx4xNZg0AtT8KA==
+"@salesforce/templates@^59.0.4":
+  version "59.0.4"
+  resolved "https://registry.yarnpkg.com/@salesforce/templates/-/templates-59.0.4.tgz#65cf640d528c244de2c98aafcd4224fb59726435"
+  integrity sha512-4Z4c01WjMLU+4y3zL1XoeJWtUARAqNsQ3GxvTp5u0AnKuIqGFKh/SXyibs6YoYcBfI8sW7zFXfM2NRyKYeeUOg==
   dependencies:
-    "@salesforce/core" "^5.3.19"
+    "@salesforce/core" "^5.3.20"
     "@salesforce/kit" "^3.0.15"
     got "^11.8.2"
     hpagent "^1.2.0"
