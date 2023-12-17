@@ -20,7 +20,7 @@
     "@types/yeoman-assert": "^3.1.4",
     "@types/yeoman-environment": "^2.10.9",
     "@types/yeoman-generator": "^5.2.13",
-    "eslint-plugin-sf-plugin": "^1.16.15",
+    "eslint-plugin-sf-plugin": "^1.17.0",
     "oclif": "^4.1.0",
     "shx": "^0.3.4",
     "ts-node": "^10.9.2",
