@@ -4,8 +4,8 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-import { dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+
+
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import VisualforcePageGenerator from '@salesforce/templates/lib/generators/visualforcePageGenerator.js';
 import { CreateOutput, CreateUtil, VisualforcePageOptions } from '@salesforce/templates';
@@ -15,7 +15,7 @@ import { outputDirFlag } from '../../../utils/flags.js';
 const visualforcePageFileSuffix = /.page$/;
 const VF_TYPE = 'Page';
 
-Messages.importMessagesDirectory(dirname(fileURLToPath(import.meta.url)));
+Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const commonMessages = Messages.loadMessages('@salesforce/plugin-templates', 'messages');
 const messages = Messages.loadMessages('@salesforce/plugin-templates', 'vf');
 export default class VisualforcePage extends SfCommand<CreateOutput> {

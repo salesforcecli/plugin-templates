@@ -4,8 +4,8 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-import { dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+
+
 import {
   arrayWithDeprecation,
   Flags,
@@ -21,7 +21,7 @@ import { Messages } from '@salesforce/core';
 import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand.js';
 import { outputDirFlag } from '../../../utils/flags.js';
 
-Messages.importMessagesDirectory(dirname(fileURLToPath(import.meta.url)));
+Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const apexTriggerFileSuffix = /.trigger$/;
 const commonMessages = Messages.loadMessages('@salesforce/plugin-templates', 'messages');
 const messages = Messages.loadMessages('@salesforce/plugin-templates', 'apexTrigger');

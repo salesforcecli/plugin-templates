@@ -4,8 +4,8 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-import { dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+
+
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { ApexClassOptions, CreateOutput } from '@salesforce/templates';
 import ApexClassGenerator from '@salesforce/templates/lib/generators/apexClassGenerator.js';
@@ -14,7 +14,7 @@ import { Messages } from '@salesforce/core';
 import { runGenerator, getCustomTemplates } from '../../../utils/templateCommand.js';
 import { outputDirFlag } from '../../../utils/flags.js';
 
-Messages.importMessagesDirectory(dirname(fileURLToPath(import.meta.url)));
+Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@salesforce/plugin-templates', 'apexClass');
 const commonMessages = Messages.loadMessages('@salesforce/plugin-templates', 'messages');
 const apexClassFileSuffix = /.cls$/;
