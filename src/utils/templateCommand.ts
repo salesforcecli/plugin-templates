@@ -6,7 +6,7 @@
  */
 
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+
 import { Ux } from '@salesforce/sf-plugins-core';
 import { ConfigAggregator, Messages, OrgConfigProperties } from '@salesforce/core';
 import { CreateOutput, TemplateService } from '@salesforce/templates';
@@ -26,7 +26,7 @@ import AnalyticsTemplateGenerator from '@salesforce/templates/lib/generators/ana
 import LightningComponentGenerator from '@salesforce/templates/lib/generators/lightningComponentGenerator.js';
 import ApexTriggerGenerator from '@salesforce/templates/lib/generators/apexTriggerGenerator.js';
 
-Messages.importMessagesDirectory(path.dirname(fileURLToPath(import.meta.url)));
+Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@salesforce/plugin-templates', 'messages');
 
 export type generatorInputs = {

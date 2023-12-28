@@ -7,8 +7,8 @@
 
 // tslint:disable:no-unused-expression
 
-import { dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+
+
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { CreateOutput, LightningComponentOptions } from '@salesforce/templates';
 import LightningComponentGenerator from '@salesforce/templates/lib/generators/lightningComponentGenerator.js';
@@ -17,7 +17,7 @@ import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand
 import { internalFlag, outputDirFlagLightning } from '../../../utils/flags.js';
 const BUNDLE_TYPE = 'Component';
 
-Messages.importMessagesDirectory(dirname(fileURLToPath(import.meta.url)));
+Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@salesforce/plugin-templates', 'lightningCmp');
 const lightningCommon = Messages.loadMessages('@salesforce/plugin-templates', 'lightning');
 export default class LightningComponent extends SfCommand<CreateOutput> {

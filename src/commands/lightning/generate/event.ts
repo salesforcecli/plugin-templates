@@ -4,8 +4,8 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-import { dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+
+
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { CreateOutput, LightningEventOptions } from '@salesforce/templates';
 import LightningEventGenerator from '@salesforce/templates/lib/generators/lightningEventGenerator.js';
@@ -16,7 +16,7 @@ import { internalFlag, outputDirFlagLightning } from '../../../utils/flags.js';
 const lightningEventFileSuffix = /.evt$/;
 const BUNDLE_TYPE = 'Event';
 
-Messages.importMessagesDirectory(dirname(fileURLToPath(import.meta.url)));
+Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 
 const messages = Messages.loadMessages('@salesforce/plugin-templates', 'lightningEvent');
 const lightningCommon = Messages.loadMessages('@salesforce/plugin-templates', 'lightning');

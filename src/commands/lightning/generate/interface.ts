@@ -4,8 +4,8 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-import { dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+
+
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { CreateOutput, LightningInterfaceOptions } from '@salesforce/templates';
 import LightningInterfaceGenerator from '@salesforce/templates/lib/generators/lightningInterfaceGenerator.js';
@@ -16,7 +16,7 @@ import { internalFlag, outputDirFlagLightning } from '../../../utils/flags.js';
 const lightningInterfaceFileSuffix = /.intf$/;
 const BUNDLE_TYPE = 'Interface';
 
-Messages.importMessagesDirectory(dirname(fileURLToPath(import.meta.url)));
+Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@salesforce/plugin-templates', 'lightningInterface');
 const lightningCommon = Messages.loadMessages('@salesforce/plugin-templates', 'lightning');
 

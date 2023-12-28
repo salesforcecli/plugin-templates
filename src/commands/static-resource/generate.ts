@@ -4,8 +4,8 @@
  * Licensed under the BSD 3-Clause license.
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-import { dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+
+
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { CreateOutput, StaticResourceOptions } from '@salesforce/templates';
 import { Messages } from '@salesforce/core';
@@ -13,7 +13,7 @@ import StaticResourceGenerator from '@salesforce/templates/lib/generators/static
 import { outputDirFlag } from '../../utils/flags.js';
 import { getCustomTemplates, runGenerator } from '../../utils/templateCommand.js';
 
-Messages.importMessagesDirectory(dirname(fileURLToPath(import.meta.url)));
+Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@salesforce/plugin-templates', 'staticResource');
 export default class StaticResource extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary');
