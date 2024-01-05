@@ -1,3 +1,9 @@
+## [56.0.9](https://github.com/salesforcecli/plugin-templates/compare/56.0.8...56.0.9) (2024-01-05)
+
+### Bug Fixes
+
+- **deps:** plugins-core-7 ([b2fdf10](https://github.com/salesforcecli/plugin-templates/commit/b2fdf103177ce563bc86cb61978069579eae5cd0))
+
 ## [56.0.8](https://github.com/salesforcecli/plugin-templates/compare/56.0.7...56.0.8) (2023-12-31)
 
 ### Bug Fixes
