@@ -142,7 +142,7 @@
     fast-xml-parser "4.2.5"
     tslib "^2.5.0"
 
-"@aws-sdk/client-s3@^3.468.0":
+"@aws-sdk/client-s3@^3.490.0":
   version "3.490.0"
   resolved "https://registry.yarnpkg.com/@aws-sdk/client-s3/-/client-s3-3.490.0.tgz#30fe38d6b8b3509aa91a5154318c849ec974c2fc"
   integrity sha512-fBj3CJ3+5R+l/sc93Z9mKw8gM2b9K6vEhC9qSCG2XNymLd9YqlRft1peQ7VymrWywAHX3Koz1GCUrFEVNONiMw==
@@ -7090,14 +7090,14 @@ object.values@^1.1.7:
     define-properties "^1.2.0"
     es-abstract "^1.22.1"
 
-oclif@^4.3.2:
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/oclif/-/oclif-4.3.2.tgz#d76549082c42c85b074df6bd9f695f4b0fb6002a"
-  integrity sha512-QEQb1GTqsVKLDhs8yU6DsjYpli70YcTmOMT3sjYR6N7+rezYATgyD9RxIqWrV7UTruLDfUvBQq7ntii19/utGg==
+oclif@^4.3.4:
+  version "4.3.4"
+  resolved "https://registry.yarnpkg.com/oclif/-/oclif-4.3.4.tgz#fd1733b1930528ad1ffe948ceac42a56d79a8018"
+  integrity sha512-5dThcqdBkJDLhcvEl7XGmEmLVhaEH4UsRnOKput8rWloVnta8uv6qNV6EErmr53qeTyRttcA1VhJ5IeGDgfC0g==
   dependencies:
     "@aws-sdk/client-cloudfront" "^3.468.0"
-    "@aws-sdk/client-s3" "^3.468.0"
-    "@oclif/core" "^3.16.0"
+    "@aws-sdk/client-s3" "^3.490.0"
+    "@oclif/core" "^3.18.1"
     "@oclif/plugin-help" "^6.0.9"
     "@oclif/plugin-not-found" "^3.0.8"
     "@oclif/plugin-warn-if-update-available" "^3.0.9"
