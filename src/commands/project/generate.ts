@@ -5,7 +5,6 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-
 import { Flags, loglevel, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { CreateOutput, ProjectOptions } from '@salesforce/templates';
 import ProjectGenerator from '@salesforce/templates/lib/generators/projectGenerator.js';
@@ -30,13 +29,13 @@ export default class Project extends SfCommand<CreateOutput> {
       aliases: ['projectname'],
       deprecateAliases: true,
     }),
-    template: Flags.string({
+    template: Flags.option({
       char: 't',
       summary: messages.getMessage('flags.template.summary'),
       description: messages.getMessage('flags.template.description'),
       default: 'standard',
-      options: ['standard', 'empty', 'analytics'],
-    }),
+      options: ['standard', 'empty', 'analytics'] as const,
+    })(),
     'output-dir': outputDirFlag,
     namespace: Flags.string({
       char: 's',
@@ -79,7 +78,7 @@ export default class Project extends SfCommand<CreateOutput> {
       outputdir: flags['output-dir'],
       manifest: flags.manifest,
       loginurl: flags['login-url'],
-      template: flags.template as 'standard' | 'empty' | 'analytics',
+      template: flags.template,
       // namespace is a reserved keyword for the generator
       ns: flags.namespace,
       defaultpackagedir: flags['default-package-dir'],
