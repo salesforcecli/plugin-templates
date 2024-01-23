@@ -7,8 +7,6 @@
 
 // tslint:disable:no-unused-expression
 
-
-
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { CreateOutput, LightningComponentOptions } from '@salesforce/templates';
 import LightningComponentGenerator from '@salesforce/templates/lib/generators/lightningComponentGenerator.js';
@@ -35,22 +33,22 @@ export default class LightningComponent extends SfCommand<CreateOutput> {
       aliases: ['componentname'],
       deprecateAliases: true,
     }),
-    template: Flags.string({
+    template: Flags.option({
       char: 't',
       summary: lightningCommon.getMessage('flags.template.summary'),
       description: lightningCommon.getMessage('flags.template.description'),
       default: 'default',
       // Note: keep this list here and LightningComponentOptions#template in-sync with the
       // templates/lightningcomponents/[aura|lwc]/* folders
-      options: ['default', 'analyticsDashboard', 'analyticsDashboardWithStep'],
-    }),
+      options: ['default', 'analyticsDashboard', 'analyticsDashboardWithStep'] as const,
+    })(),
     'output-dir': outputDirFlagLightning,
     'api-version': orgApiVersionFlagWithDeprecations,
-    type: Flags.string({
+    type: Flags.option({
       summary: messages.getMessage('flags.type.summary'),
-      options: ['aura', 'lwc'],
+      options: ['aura', 'lwc'] as const,
       default: 'aura',
-    }),
+    })(),
     internal: internalFlag,
     loglevel,
   };
@@ -59,11 +57,11 @@ export default class LightningComponent extends SfCommand<CreateOutput> {
     const { flags } = await this.parse(LightningComponent);
     const flagsAsOptions: LightningComponentOptions = {
       componentname: flags.name,
-      template: flags.template as 'default' | 'analyticsDashboard' | 'analyticsDashboardWithStep',
+      template: flags.template,
       outputdir: flags['output-dir'],
       apiversion: flags['api-version'],
       internal: flags.internal,
-      type: flags.type as 'aura' | 'lwc',
+      type: flags.type,
     };
     return runGenerator({
       generator: LightningComponentGenerator,
