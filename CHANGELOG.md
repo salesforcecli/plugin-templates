@@ -1,3 +1,9 @@
+## [56.0.16](https://github.com/salesforcecli/plugin-templates/compare/56.0.15...56.0.16) (2024-02-21)
+
+### Bug Fixes
+
+- **deps:** bump ip from 2.0.0 to 2.0.1 ([6a356ed](https://github.com/salesforcecli/plugin-templates/commit/6a356ed807e206c152a132dad1de564d4c8c84e6))
+
 ## [56.0.15](https://github.com/salesforcecli/plugin-templates/compare/56.0.14...56.0.15) (2024-02-18)
 
 ### Bug Fixes
