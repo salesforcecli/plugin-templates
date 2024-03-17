@@ -1,3 +1,9 @@
+## [56.0.22](https://github.com/salesforcecli/plugin-templates/compare/56.0.21...56.0.22) (2024-03-17)
+
+### Bug Fixes
+
+- **deps:** bump @oclif/core from 3.23.0 to 3.25.2 ([521a54d](https://github.com/salesforcecli/plugin-templates/commit/521a54d7cb44c21058feb2508e3885de624f06be))
+
 ## [56.0.21](https://github.com/salesforcecli/plugin-templates/compare/56.0.20...56.0.21) (2024-03-04)
 
 ### Bug Fixes
