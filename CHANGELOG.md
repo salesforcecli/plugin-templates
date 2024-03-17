@@ -1,3 +1,9 @@
+## [56.0.23](https://github.com/salesforcecli/plugin-templates/compare/56.0.22...56.0.23) (2024-03-17)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/core from 6.7.0 to 6.7.1 ([08f8267](https://github.com/salesforcecli/plugin-templates/commit/08f8267d9ab2977a03ff8cc54b597064627f3412))
+
 ## [56.0.22](https://github.com/salesforcecli/plugin-templates/compare/56.0.21...56.0.22) (2024-03-17)
 
 ### Bug Fixes
