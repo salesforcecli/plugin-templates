@@ -1,3 +1,9 @@
+## [56.0.24](https://github.com/salesforcecli/plugin-templates/compare/56.0.23...56.0.24) (2024-03-20)
+
+### Bug Fixes
+
+- remove unnecessary flag value assignment ([525e5f3](https://github.com/salesforcecli/plugin-templates/commit/525e5f3d43d74e7ad6af1fd36716a7bf544c45a1))
+
 ## [56.0.23](https://github.com/salesforcecli/plugin-templates/compare/56.0.22...56.0.23) (2024-03-17)
 
 ### Bug Fixes
