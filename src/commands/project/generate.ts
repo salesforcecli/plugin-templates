@@ -71,7 +71,6 @@ export default class Project extends SfCommand<CreateOutput> {
   };
   public async run(): Promise<CreateOutput> {
     const { flags } = await this.parse(Project);
-    flags.ns = flags.namespace;
 
     const flagsAsOptions: ProjectOptions = {
       projectname: flags.name,
