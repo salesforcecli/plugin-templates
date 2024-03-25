@@ -5,7 +5,6 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { CreateOutput, LightningInterfaceOptions } from '@salesforce/templates';
 import LightningInterfaceGenerator from '@salesforce/templates/lib/generators/lightningInterfaceGenerator.js';
