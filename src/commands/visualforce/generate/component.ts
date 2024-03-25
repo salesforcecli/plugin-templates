@@ -5,7 +5,6 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-
 import { Flags, SfCommand, orgApiVersionFlagWithDeprecations, Ux, loglevel } from '@salesforce/sf-plugins-core';
 import { CreateOutput, VisualforceComponentOptions } from '@salesforce/templates';
 import VisualforceComponentGenerator from '@salesforce/templates/lib/generators/visualforceComponentGenerator.js';

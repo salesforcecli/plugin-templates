@@ -5,7 +5,6 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-
 import { Flags, loglevel, SfCommand, orgApiVersionFlagWithDeprecations, Ux } from '@salesforce/sf-plugins-core';
 import { CreateOutput, LightningTestOptions } from '@salesforce/templates';
 import LightningTestGenerator from '@salesforce/templates/lib/generators/lightningTestGenerator.js';

@@ -1,74 +1,77 @@
 [
   {
-    "command": "analytics:generate:template",
-    "plugin": "@salesforce/plugin-templates",
-    "flags": ["api-version", "json", "loglevel", "name", "output-dir"],
     "alias": ["force:analytics:template:create"],
+    "command": "analytics:generate:template",
+    "flagAliases": ["apiversion", "outputdir", "templatename"],
     "flagChars": ["d", "n"],
-    "flagAliases": ["apiversion", "outputdir", "templatename"]
+    "flags": ["api-version", "flags-dir", "json", "loglevel", "name", "output-dir"],
+    "plugin": "@salesforce/plugin-templates"
   },
   {
-    "command": "apex:generate:class",
-    "plugin": "@salesforce/plugin-templates",
-    "flags": ["api-version", "json", "loglevel", "name", "output-dir", "template"],
     "alias": ["force:apex:class:create"],
+    "command": "apex:generate:class",
+    "flagAliases": ["apiversion", "classname", "outputdir"],
     "flagChars": ["d", "n", "t"],
-    "flagAliases": ["apiversion", "classname", "outputdir"]
+    "flags": ["api-version", "flags-dir", "json", "loglevel", "name", "output-dir", "template"],
+    "plugin": "@salesforce/plugin-templates"
   },
   {
-    "command": "apex:generate:trigger",
-    "plugin": "@salesforce/plugin-templates",
-    "flags": ["api-version", "event", "json", "loglevel", "name", "output-dir", "sobject", "template"],
     "alias": ["force:apex:trigger:create"],
+    "command": "apex:generate:trigger",
+    "flagAliases": ["apiversion", "outputdir", "triggerevents", "triggername"],
     "flagChars": ["d", "e", "n", "s", "t"],
-    "flagAliases": ["apiversion", "outputdir", "triggerevents", "triggername"]
+    "flags": ["api-version", "event", "flags-dir", "json", "loglevel", "name", "output-dir", "sobject", "template"],
+    "plugin": "@salesforce/plugin-templates"
   },
   {
-    "command": "lightning:generate:app",
-    "plugin": "@salesforce/plugin-templates",
-    "flags": ["api-version", "internal", "json", "loglevel", "name", "output-dir", "template"],
     "alias": ["force:lightning:app:create"],
+    "command": "lightning:generate:app",
+    "flagAliases": ["apiversion", "appname", "outputdir"],
     "flagChars": ["d", "i", "n", "t"],
-    "flagAliases": ["apiversion", "appname", "outputdir"]
+    "flags": ["api-version", "flags-dir", "internal", "json", "loglevel", "name", "output-dir", "template"],
+    "plugin": "@salesforce/plugin-templates"
   },
   {
-    "command": "lightning:generate:component",
-    "plugin": "@salesforce/plugin-templates",
-    "flags": ["api-version", "internal", "json", "loglevel", "name", "output-dir", "template", "type"],
     "alias": ["force:lightning:component:create"],
+    "command": "lightning:generate:component",
+    "flagAliases": ["apiversion", "componentname", "outputdir"],
     "flagChars": ["d", "i", "n", "t"],
-    "flagAliases": ["apiversion", "componentname", "outputdir"]
+    "flags": ["api-version", "flags-dir", "internal", "json", "loglevel", "name", "output-dir", "template", "type"],
+    "plugin": "@salesforce/plugin-templates"
   },
   {
-    "command": "lightning:generate:event",
-    "plugin": "@salesforce/plugin-templates",
-    "flags": ["api-version", "internal", "json", "loglevel", "name", "output-dir", "template"],
     "alias": ["force:lightning:event:create"],
+    "command": "lightning:generate:event",
+    "flagAliases": ["apiversion", "eventname", "outputdir"],
     "flagChars": ["d", "i", "n", "t"],
-    "flagAliases": ["apiversion", "eventname", "outputdir"]
+    "flags": ["api-version", "flags-dir", "internal", "json", "loglevel", "name", "output-dir", "template"],
+    "plugin": "@salesforce/plugin-templates"
   },
   {
-    "command": "lightning:generate:interface",
-    "plugin": "@salesforce/plugin-templates",
-    "flags": ["api-version", "internal", "json", "loglevel", "name", "output-dir", "template"],
     "alias": ["force:lightning:interface:create"],
+    "command": "lightning:generate:interface",
+    "flagAliases": ["apiversion", "interfacename", "outputdir"],
     "flagChars": ["d", "i", "n", "t"],
-    "flagAliases": ["apiversion", "interfacename", "outputdir"]
+    "flags": ["api-version", "flags-dir", "internal", "json", "loglevel", "name", "output-dir", "template"],
+    "plugin": "@salesforce/plugin-templates"
   },
   {
-    "command": "lightning:generate:test",
-    "plugin": "@salesforce/plugin-templates",
-    "flags": ["api-version", "internal", "json", "loglevel", "name", "output-dir", "template"],
     "alias": ["force:lightning:test:create"],
+    "command": "lightning:generate:test",
+    "flagAliases": ["apiversion", "outputdir", "testname"],
     "flagChars": ["d", "i", "n", "t"],
-    "flagAliases": ["apiversion", "outputdir", "testname"]
+    "flags": ["api-version", "flags-dir", "internal", "json", "loglevel", "name", "output-dir", "template"],
+    "plugin": "@salesforce/plugin-templates"
   },
   {
+    "alias": ["force:project:create"],
     "command": "project:generate",
-    "plugin": "@salesforce/plugin-templates",
+    "flagAliases": ["defaultpackagedir", "loginurl", "outputdir", "projectname"],
+    "flagChars": ["d", "l", "n", "p", "s", "t", "x"],
     "flags": [
       "api-version",
       "default-package-dir",
+      "flags-dir",
       "json",
       "login-url",
       "loglevel",
@@ -78,32 +81,30 @@
       "output-dir",
       "template"
     ],
-    "alias": ["force:project:create"],
-    "flagChars": ["d", "l", "n", "p", "s", "t", "x"],
-    "flagAliases": ["defaultpackagedir", "loginurl", "outputdir", "projectname"]
+    "plugin": "@salesforce/plugin-templates"
   },
   {
-    "command": "static-resource:generate",
-    "plugin": "@salesforce/plugin-templates",
-    "flags": ["api-version", "json", "loglevel", "name", "output-dir", "type"],
     "alias": ["force:staticresource:create"],
+    "command": "static-resource:generate",
+    "flagAliases": ["apiversion", "contenttype", "outputdir", "resourcename"],
     "flagChars": ["d", "n"],
-    "flagAliases": ["apiversion", "contenttype", "outputdir", "resourcename"]
+    "flags": ["api-version", "flags-dir", "json", "loglevel", "name", "output-dir", "type"],
+    "plugin": "@salesforce/plugin-templates"
   },
   {
-    "command": "visualforce:generate:component",
-    "plugin": "@salesforce/plugin-templates",
-    "flags": ["api-version", "json", "label", "loglevel", "name", "output-dir", "template"],
     "alias": ["force:visualforce:component:create"],
+    "command": "visualforce:generate:component",
+    "flagAliases": ["apiversion", "componentname", "outputdir"],
     "flagChars": ["d", "l", "n", "t"],
-    "flagAliases": ["apiversion", "componentname", "outputdir"]
+    "flags": ["api-version", "flags-dir", "json", "label", "loglevel", "name", "output-dir", "template"],
+    "plugin": "@salesforce/plugin-templates"
   },
   {
-    "command": "visualforce:generate:page",
-    "plugin": "@salesforce/plugin-templates",
-    "flags": ["api-version", "json", "label", "loglevel", "name", "output-dir", "template"],
     "alias": ["force:visualforce:page:create"],
+    "command": "visualforce:generate:page",
+    "flagAliases": ["apiversion", "outputdir", "pagename"],
     "flagChars": ["d", "l", "n", "t"],
-    "flagAliases": ["apiversion", "outputdir", "pagename"]
+    "flags": ["api-version", "flags-dir", "json", "label", "loglevel", "name", "output-dir", "template"],
+    "plugin": "@salesforce/plugin-templates"
   }
 ]
