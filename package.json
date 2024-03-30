@@ -21,7 +21,7 @@
     "@types/yeoman-environment": "^2.10.9",
     "@types/yeoman-generator": "^5.2.13",
     "eslint-plugin-sf-plugin": "^1.17.4",
-    "oclif": "^4.6.1",
+    "oclif": "^4.7.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.2",
     "yeoman-assert": "^3.1.1",
