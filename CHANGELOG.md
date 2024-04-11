@@ -1,3 +1,9 @@
+# [56.2.0](https://github.com/salesforcecli/plugin-templates/compare/56.1.1...56.2.0) (2024-04-11)
+
+### Bug Fixes
+
+- **deps:** bump tar from 6.2.0 to 6.2.1 ([3da7061](https://github.com/salesforcecli/plugin-templates/commit/3da706174dfd8ce278042033dd58aed77d5ca675))
+
 ## [56.1.1](https://github.com/salesforcecli/plugin-templates/compare/56.1.0...56.1.1) (2024-04-07)
 
 ### Bug Fixes
