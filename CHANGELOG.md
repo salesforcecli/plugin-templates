@@ -1,3 +1,9 @@
+## [56.2.1](https://github.com/salesforcecli/plugin-templates/compare/56.2.0...56.2.1) (2024-04-11)
+
+### Bug Fixes
+
+- **deps:** less jsforce ([91c5081](https://github.com/salesforcecli/plugin-templates/commit/91c50814a16180b2f4ffe5886f1da78cdd5655dc))
+
 # [56.2.0](https://github.com/salesforcecli/plugin-templates/compare/56.1.1...56.2.0) (2024-04-11)
 
 ### Bug Fixes
