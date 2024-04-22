@@ -1,3 +1,9 @@
+## [56.2.4](https://github.com/salesforcecli/plugin-templates/compare/56.2.3...56.2.4) (2024-04-22)
+
+### Bug Fixes
+
+- **deps:** non-bete templates lib ([8cd4203](https://github.com/salesforcecli/plugin-templates/commit/8cd4203d34b33420e05c9ac772e6b372ab990223))
+
 ## [56.2.3](https://github.com/salesforcecli/plugin-templates/compare/56.2.2...56.2.3) (2024-04-21)
 
 ### Bug Fixes
