@@ -2037,7 +2037,7 @@
     strip-ansi "6.0.1"
     ts-retry-promise "^0.8.1"
 
-"@salesforce/core@^7.0.0", "@salesforce/core@^7.3.10", "@salesforce/core@^7.3.8", "@salesforce/core@^7.3.9":
+"@salesforce/core@^7.3.10", "@salesforce/core@^7.3.8", "@salesforce/core@^7.3.9":
   version "7.3.10"
   resolved "https://registry.yarnpkg.com/@salesforce/core/-/core-7.3.10.tgz#83da85c4e93ca625e2c13118aad9c1df2931bc0f"
   integrity sha512-kEKoqkmhWNoiucAE3Ylv6FpC4iVgk4aE0dmcwSmNrMjxSbtjQJGUybprfO/itrLJv+56eM7/4FARQQ2gDbRzQQ==
@@ -2097,7 +2097,7 @@
     typescript "^5.4.3"
     wireit "^0.14.4"
 
-"@salesforce/kit@^3.0.15", "@salesforce/kit@^3.1.1", "@salesforce/kit@^3.1.2":
+"@salesforce/kit@^3.1.1", "@salesforce/kit@^3.1.2":
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/@salesforce/kit/-/kit-3.1.2.tgz#270741c54c70969df19ef17f8979b4ef1fa664b2"
   integrity sha512-si+ddvZDgx9q5czxAANuK5xhz3pv+KGspQy1wyia/7HDPKadA0QZkLTzUnO1Ju4Mux32CNHEb2y9lw9jj+eVTA==
@@ -2160,13 +2160,13 @@
     "@salesforce/ts-types" "^2.0.9"
     chalk "^5.3.0"
 
-"@salesforce/templates@^60.1.2":
-  version "60.1.2"
-  resolved "https://registry.yarnpkg.com/@salesforce/templates/-/templates-60.1.2.tgz#07b3793dd7a238f2f5e03385e87814271cc6267d"
-  integrity sha512-n5TITtDxwOC2eEpOMdt3u7p554JQkDUOrhzGqlIz2fWGupMbh/hg6qj25V7rS2yKn10aGI8AYKhUDMp1ivuPaQ==
+"@salesforce/templates@^60.1.6":
+  version "60.1.6"
+  resolved "https://registry.yarnpkg.com/@salesforce/templates/-/templates-60.1.6.tgz#51b1c5b6b918972e3a97ea3c836bf11457fee0a5"
+  integrity sha512-xYLidZjsVfxVsSH9yF6xOcWEyQkIPbPQ3tFNQhCOwP7KwAHOPgFnlVHAeOBH4v4P3+CymcVS8whxFKbcBlIKIQ==
   dependencies:
-    "@salesforce/core" "^7.0.0"
-    "@salesforce/kit" "^3.0.15"
+    "@salesforce/core" "^7.3.10"
+    "@salesforce/kit" "^3.1.2"
     got "^11.8.2"
     hpagent "^1.2.0"
     mime-types "^2.1.35"
