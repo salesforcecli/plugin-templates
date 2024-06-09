@@ -1814,7 +1814,7 @@
     read-package-json-fast "^3.0.0"
     which "^3.0.0"
 
-"@oclif/core@3.26.6", "@oclif/core@^3.26.6":
+"@oclif/core@^3.26.6":
   version "3.26.6"
   resolved "https://registry.yarnpkg.com/@oclif/core/-/core-3.26.6.tgz#f371868cfa0fe150a6547e6af98b359065d2f971"
   integrity sha512-+FiTw1IPuJTF9tSAlTsY8bGK4sgthehjz7c2SvYdgQncTkxI2xvUch/8QpjNYGLEmUneNygvYMRBax2KJcLccA==
@@ -1871,14 +1871,13 @@
     wordwrap "^1.0.0"
     wrap-ansi "^7.0.0"
 
-"@oclif/plugin-command-snapshot@^5.1.9":
-  version "5.1.9"
-  resolved "https://registry.yarnpkg.com/@oclif/plugin-command-snapshot/-/plugin-command-snapshot-5.1.9.tgz#f530b72cd13a3344961569d5084298f07acdb2be"
-  integrity sha512-PeSQP2IxzL34e3DYoEdAw8UCcsuawcJqnQe97HNUSBpBSC2PY/7uL887TfmMIo/rhzM7PtSUNxfNwOiKw5cNUw==
+"@oclif/plugin-command-snapshot@^5.2.2":
+  version "5.2.2"
+  resolved "https://registry.yarnpkg.com/@oclif/plugin-command-snapshot/-/plugin-command-snapshot-5.2.2.tgz#3bd89b06676eb8858e256c55482efdc7844ca39c"
+  integrity sha512-OVofRryPy962QeyiOYX7iI92H+dFGO7wa4F+yXYLQ0Xr+ik+LNYzOgxRomNIbj8kqnBBPLqOvv9gkKakAf9UZg==
   dependencies:
-    "@oclif/core" "3.26.6"
-    "@types/lodash.difference" "^4.5.9"
-    chalk "^5.3.0"
+    "@oclif/core" "^4"
+    ansis "^3.2.0"
     globby "^14.0.1"
     just-diff "^5.2.0"
     lodash.difference "^4.5.0"
@@ -3267,18 +3266,6 @@
   integrity sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==
   dependencies:
     "@types/node" "*"
-
-"@types/lodash.difference@^4.5.9":
-  version "4.5.9"
-  resolved "https://registry.yarnpkg.com/@types/lodash.difference/-/lodash.difference-4.5.9.tgz#69e82a68557779abac489585f43159997cab874c"
-  integrity sha512-MNlajcjtwzLpXk+cw38UkBvEXJNEPhULgS8A4EHwtUwT7f7yFH/SFKD0iw5Rfilwh60yJIgFo0vsMr7xsa5+aw==
-  dependencies:
-    "@types/lodash" "*"
-
-"@types/lodash@*":
-  version "4.14.201"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.201.tgz#76f47cb63124e806824b6c18463daf3e1d480239"
-  integrity sha512-y9euML0cim1JrykNxADLfaG0FgD1g/yTHwUs/Jg9ZIU7WKj2/4IW9Lbb1WZbvck78W/lfGXFfe+u2EGfIJXdLQ==
 
 "@types/mem-fs-editor@*":
   version "7.0.6"
