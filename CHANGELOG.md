@@ -1,3 +1,9 @@
+## [56.2.12](https://github.com/salesforcecli/plugin-templates/compare/56.2.11...56.2.12) (2024-06-13)
+
+### Bug Fixes
+
+- **deps:** bump braces from 3.0.2 to 3.0.3 ([1748f24](https://github.com/salesforcecli/plugin-templates/commit/1748f2449895a1e5b3e9f38e930e6e6063c7e4bd))
+
 ## [56.2.11](https://github.com/salesforcecli/plugin-templates/compare/56.2.10...56.2.11) (2024-06-09)
 
 ### Bug Fixes
