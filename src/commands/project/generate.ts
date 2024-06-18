@@ -6,8 +6,7 @@
  */
 
 import { Flags, loglevel, SfCommand, Ux } from '@salesforce/sf-plugins-core';
-import { CreateOutput, ProjectOptions } from '@salesforce/templates';
-import ProjectGenerator from '@salesforce/templates/lib/generators/projectGenerator.js';
+import { CreateOutput, ProjectOptions, TemplateType } from '@salesforce/templates';
 import { Messages } from '@salesforce/core';
 import { getCustomTemplates, runGenerator } from '../../utils/templateCommand.js';
 import { outputDirFlag } from '../../utils/flags.js';
@@ -84,7 +83,7 @@ export default class Project extends SfCommand<CreateOutput> {
       apiversion: flags['api-version'],
     };
     return runGenerator({
-      generator: ProjectGenerator,
+      templateType: TemplateType.Project,
       opts: flagsAsOptions,
       ux: new Ux({ jsonEnabled: this.jsonEnabled() }),
       templates: getCustomTemplates(this.configAggregator),

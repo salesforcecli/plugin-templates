@@ -13,8 +13,7 @@ import {
   SfCommand,
   Ux,
 } from '@salesforce/sf-plugins-core';
-import { ApexTriggerOptions, CreateOutput } from '@salesforce/templates';
-import ApexTriggerGenerator from '@salesforce/templates/lib/generators/apexTriggerGenerator.js';
+import { ApexTriggerOptions, CreateOutput, TemplateType } from '@salesforce/templates';
 import { CreateUtil } from '@salesforce/templates/lib/utils/index.js';
 import { Messages } from '@salesforce/core';
 import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand.js';
@@ -74,15 +73,16 @@ export default class ApexTrigger extends SfCommand<CreateOutput> {
 
   public async run(): Promise<CreateOutput> {
     const { flags } = await this.parse(ApexTrigger);
+    const opts: ApexTriggerOptions = {
+      triggername: flags.name,
+      outputdir: flags['output-dir'],
+      template: 'ApexTrigger',
+      sobject: flags.sobject,
+      triggerevents: flags.event as ApexTriggerOptions['triggerevents'],
+    };
     return runGenerator({
-      generator: ApexTriggerGenerator,
-      opts: {
-        triggername: flags.name,
-        outputdir: flags['output-dir'],
-        template: 'ApexTrigger',
-        sobject: flags.sobject,
-        triggerevents: flags.event as ApexTriggerOptions['triggerevents'],
-      },
+      templateType: TemplateType.ApexTrigger,
+      opts,
       ux: new Ux({ jsonEnabled: this.jsonEnabled() }),
       templates: getCustomTemplates(this.configAggregator),
     });

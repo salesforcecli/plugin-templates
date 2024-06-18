@@ -6,8 +6,7 @@
  */
 
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
-import { CreateOutput, LightningEventOptions } from '@salesforce/templates';
-import LightningEventGenerator from '@salesforce/templates/lib/generators/lightningEventGenerator.js';
+import { CreateOutput, LightningEventOptions, TemplateType } from '@salesforce/templates';
 import { CreateUtil } from '@salesforce/templates/lib/utils/index.js';
 import { Messages } from '@salesforce/core';
 import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand.js';
@@ -58,7 +57,7 @@ export default class LightningEvent extends SfCommand<CreateOutput> {
       internal: flags.internal,
     };
     return runGenerator({
-      generator: LightningEventGenerator,
+      templateType: TemplateType.LightningEvent,
       opts: flagsAsOptions,
       ux: new Ux({ jsonEnabled: this.jsonEnabled() }),
       templates: getCustomTemplates(this.configAggregator),

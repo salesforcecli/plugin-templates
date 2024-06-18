@@ -6,8 +6,7 @@
  */
 
 import { Flags, loglevel, SfCommand, orgApiVersionFlagWithDeprecations, Ux } from '@salesforce/sf-plugins-core';
-import { CreateOutput, LightningTestOptions } from '@salesforce/templates';
-import LightningTestGenerator from '@salesforce/templates/lib/generators/lightningTestGenerator.js';
+import { CreateOutput, LightningTestOptions, TemplateType } from '@salesforce/templates';
 import { CreateUtil } from '@salesforce/templates/lib/utils/index.js';
 import { Messages } from '@salesforce/core';
 import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand.js';
@@ -57,7 +56,7 @@ export default class LightningTest extends SfCommand<CreateOutput> {
       apiversion: flags['api-version'],
     };
     return runGenerator({
-      generator: LightningTestGenerator,
+      templateType: TemplateType.LightningTest,
       opts: flagsAsOptions,
       ux: new Ux({ jsonEnabled: this.jsonEnabled() }),
       templates: getCustomTemplates(this.configAggregator),

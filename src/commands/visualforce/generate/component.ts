@@ -6,8 +6,7 @@
  */
 
 import { Flags, SfCommand, orgApiVersionFlagWithDeprecations, Ux, loglevel } from '@salesforce/sf-plugins-core';
-import { CreateOutput, VisualforceComponentOptions } from '@salesforce/templates';
-import VisualforceComponentGenerator from '@salesforce/templates/lib/generators/visualforceComponentGenerator.js';
+import { CreateOutput, TemplateType, VisualforceComponentOptions } from '@salesforce/templates';
 import { Messages } from '@salesforce/core';
 import { CreateUtil } from '@salesforce/templates/lib/utils/index.js';
 import { outputDirFlag } from '../../../utils/flags.js';
@@ -64,7 +63,7 @@ export default class VisualforceComponent extends SfCommand<CreateOutput> {
     };
 
     return runGenerator({
-      generator: VisualforceComponentGenerator,
+      templateType: TemplateType.VisualforceComponent,
       opts: flagsAsOptions,
       ux: new Ux({ jsonEnabled: this.jsonEnabled() }),
       templates: getCustomTemplates(this.configAggregator),

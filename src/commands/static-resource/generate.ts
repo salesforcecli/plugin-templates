@@ -6,9 +6,8 @@
  */
 
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
-import { CreateOutput, StaticResourceOptions } from '@salesforce/templates';
+import { CreateOutput, StaticResourceOptions, TemplateType } from '@salesforce/templates';
 import { Messages } from '@salesforce/core';
-import StaticResourceGenerator from '@salesforce/templates/lib/generators/staticResourceGenerator.js';
 import { outputDirFlag } from '../../utils/flags.js';
 import { getCustomTemplates, runGenerator } from '../../utils/templateCommand.js';
 
@@ -53,7 +52,7 @@ export default class StaticResource extends SfCommand<CreateOutput> {
     };
 
     return runGenerator({
-      generator: StaticResourceGenerator,
+      templateType: TemplateType.StaticResource,
       opts: flagsAsOptions,
       ux: new Ux({ jsonEnabled: this.jsonEnabled() }),
       templates: getCustomTemplates(this.configAggregator),

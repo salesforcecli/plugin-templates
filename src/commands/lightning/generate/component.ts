@@ -8,8 +8,7 @@
 // tslint:disable:no-unused-expression
 
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
-import { CreateOutput, LightningComponentOptions } from '@salesforce/templates';
-import LightningComponentGenerator from '@salesforce/templates/lib/generators/lightningComponentGenerator.js';
+import { CreateOutput, LightningComponentOptions, TemplateType } from '@salesforce/templates';
 import { Messages } from '@salesforce/core';
 import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand.js';
 import { internalFlag, outputDirFlagLightning } from '../../../utils/flags.js';
@@ -64,7 +63,7 @@ export default class LightningComponent extends SfCommand<CreateOutput> {
       type: flags.type,
     };
     return runGenerator({
-      generator: LightningComponentGenerator,
+      templateType: TemplateType.LightningComponent,
       opts: flagsAsOptions,
       ux: new Ux({ jsonEnabled: this.jsonEnabled() }),
       templates: getCustomTemplates(this.configAggregator),

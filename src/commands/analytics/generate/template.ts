@@ -7,8 +7,7 @@
 
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { Messages } from '@salesforce/core';
-import AnalyticsTemplateGenerator from '@salesforce/templates/lib/generators/analyticsTemplateGenerator.js';
-import { AnalyticsTemplateOptions, CreateOutput } from '@salesforce/templates';
+import { AnalyticsTemplateOptions, CreateOutput, TemplateType } from '@salesforce/templates';
 import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand.js';
 import { outputDirFlag } from '../../../utils/flags.js';
 
@@ -42,7 +41,7 @@ export default class AnalyticsTemplate extends SfCommand<CreateOutput> {
     };
 
     return runGenerator({
-      generator: AnalyticsTemplateGenerator,
+      templateType: TemplateType.AnalyticsTemplate,
       opts: flagsAsOptions,
       ux: new Ux({ jsonEnabled: this.jsonEnabled() }),
       templates: getCustomTemplates(this.configAggregator),
