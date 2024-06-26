@@ -1,3 +1,9 @@
+# [56.3.0](https://github.com/salesforcecli/plugin-templates/compare/56.2.14...56.3.0) (2024-06-26)
+
+### Features
+
+- remove dependency on yeoman ([bb45562](https://github.com/salesforcecli/plugin-templates/commit/bb455627e8ca323061b92a9ebcb49948fa3cd616))
+
 ## [56.2.14](https://github.com/salesforcecli/plugin-templates/compare/56.2.13...56.2.14) (2024-06-21)
 
 ### Bug Fixes
