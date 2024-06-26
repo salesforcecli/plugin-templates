@@ -6,8 +6,7 @@
  */
 
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
-import VisualforcePageGenerator from '@salesforce/templates/lib/generators/visualforcePageGenerator.js';
-import { CreateOutput, CreateUtil, VisualforcePageOptions } from '@salesforce/templates';
+import { CreateOutput, CreateUtil, TemplateType, VisualforcePageOptions } from '@salesforce/templates';
 import { Messages } from '@salesforce/core';
 import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand.js';
 import { outputDirFlag } from '../../../utils/flags.js';
@@ -64,7 +63,7 @@ export default class VisualforcePage extends SfCommand<CreateOutput> {
       apiversion: flags['api-version'],
     };
     return runGenerator({
-      generator: VisualforcePageGenerator,
+      templateType: TemplateType.VisualforcePage,
       opts: flagsAsOptions,
       ux: new Ux({ jsonEnabled: this.jsonEnabled() }),
       templates: getCustomTemplates(this.configAggregator),

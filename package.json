@@ -5,11 +5,9 @@
   "author": "Salesforce",
   "bugs": "https://github.com/salesforcecli/plugin-templates/issues",
   "dependencies": {
-    "@salesforce/core": "^8.0.2",
+    "@salesforce/core": "^8.0.5",
     "@salesforce/sf-plugins-core": "^11.1.2",
-    "@salesforce/templates": "^61.0.1",
-    "yeoman-environment": "^3",
-    "yeoman-generator": "^5"
+    "@salesforce/templates": "^61.1.0"
   },
   "devDependencies": {
     "@oclif/plugin-command-snapshot": "^5.2.3",
@@ -17,14 +15,11 @@
     "@salesforce/dev-scripts": "^10.2.2",
     "@salesforce/plugin-command-reference": "^3.1.5",
     "@types/yeoman-assert": "^3.1.4",
-    "@types/yeoman-environment": "^2.10.9",
-    "@types/yeoman-generator": "^5.2.13",
-    "eslint-plugin-sf-plugin": "^1.18.9",
-    "oclif": "^4.13.8",
+    "eslint-plugin-sf-plugin": "^1.18.8",
+    "oclif": "^4.13.10",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.2",
-    "yeoman-assert": "^3.1.1",
-    "yeoman-test": "^6.3.0"
+    "yeoman-assert": "^3.1.1"
   },
   "homepage": "https://github.com/salesforcecli/plugin-templates",
   "keywords": [

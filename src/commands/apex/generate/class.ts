@@ -6,8 +6,7 @@
  */
 
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
-import { ApexClassOptions, CreateOutput } from '@salesforce/templates';
-import ApexClassGenerator from '@salesforce/templates/lib/generators/apexClassGenerator.js';
+import { ApexClassOptions, CreateOutput, TemplateType } from '@salesforce/templates';
 import { CreateUtil } from '@salesforce/templates/lib/utils/index.js';
 import { Messages } from '@salesforce/core';
 import { runGenerator, getCustomTemplates } from '../../../utils/templateCommand.js';
@@ -54,7 +53,7 @@ export default class ApexClass extends SfCommand<CreateOutput> {
       outputdir: flags['output-dir'],
     };
     return runGenerator({
-      generator: ApexClassGenerator,
+      templateType: TemplateType.ApexClass,
       opts: flagsAsOptions,
       ux: new Ux({ jsonEnabled: this.jsonEnabled() }),
       templates: getCustomTemplates(this.configAggregator),

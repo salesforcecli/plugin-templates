@@ -6,8 +6,7 @@
  */
 
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
-import { CreateOutput, LightningInterfaceOptions } from '@salesforce/templates';
-import LightningInterfaceGenerator from '@salesforce/templates/lib/generators/lightningInterfaceGenerator.js';
+import { CreateOutput, LightningInterfaceOptions, TemplateType } from '@salesforce/templates';
 import { CreateUtil } from '@salesforce/templates/lib/utils/index.js';
 import { Messages } from '@salesforce/core';
 import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand.js';
@@ -57,7 +56,7 @@ export default class LightningInterface extends SfCommand<CreateOutput> {
       template: 'DefaultLightningIntf',
     };
     return runGenerator({
-      generator: LightningInterfaceGenerator,
+      templateType: TemplateType.LightningInterface,
       opts: flagsAsOptions,
       ux: new Ux({ jsonEnabled: this.jsonEnabled() }),
       templates: getCustomTemplates(this.configAggregator),
