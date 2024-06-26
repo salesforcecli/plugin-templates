@@ -1,25 +1,25 @@
 {
   "name": "@salesforce/plugin-templates",
   "description": "Commands to create metadata from a default or custom template",
-  "version": "56.2.13",
+  "version": "56.2.14",
   "author": "Salesforce",
   "bugs": "https://github.com/salesforcecli/plugin-templates/issues",
   "dependencies": {
-    "@salesforce/core": "^7.3.8",
-    "@salesforce/sf-plugins-core": "^11.1.0",
-    "@salesforce/templates": "^60.1.6"
+    "@salesforce/core": "^8.0.2",
+    "@salesforce/sf-plugins-core": "^11.1.2",
+    "@salesforce/templates": "^61.1.0"
   },
   "devDependencies": {
     "@oclif/core": "^4",
-    "@oclif/plugin-command-snapshot": "^5.2.2",
-    "@salesforce/cli-plugins-testkit": "^5.3.9",
-    "@salesforce/dev-scripts": "^10.2.0",
-    "@salesforce/plugin-command-reference": "^3.1.2",
+    "@oclif/plugin-command-snapshot": "^5.2.3",
+    "@salesforce/cli-plugins-testkit": "^5.3.16",
+    "@salesforce/dev-scripts": "^10.2.2",
+    "@salesforce/plugin-command-reference": "^3.1.5",
     "@types/yeoman-assert": "^3.1.4",
-    "eslint-plugin-sf-plugin": "^1.18.7",
-    "oclif": "^4.13.6",
+    "eslint-plugin-sf-plugin": "^1.18.8",
+    "oclif": "^4.13.8",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.5",
+    "typescript": "^5.5.2",
     "yeoman-assert": "^3.1.1"
   },
   "homepage": "https://github.com/salesforcecli/plugin-templates",

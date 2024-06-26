@@ -1,3 +1,9 @@
+## [56.2.14](https://github.com/salesforcecli/plugin-templates/compare/56.2.13...56.2.14) (2024-06-21)
+
+### Bug Fixes
+
+- **deps:** plugins-core bump ([f354cb0](https://github.com/salesforcecli/plugin-templates/commit/f354cb001e7262a098f349b221f24dfb37de8c1f))
+
 ## [56.2.13](https://github.com/salesforcecli/plugin-templates/compare/56.2.12...56.2.13) (2024-06-16)
 
 ### Bug Fixes
