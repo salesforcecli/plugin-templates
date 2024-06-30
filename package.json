@@ -13,7 +13,7 @@
     "@oclif/plugin-command-snapshot": "^5.2.3",
     "@salesforce/cli-plugins-testkit": "^5.3.17",
     "@salesforce/dev-scripts": "^10.2.2",
-    "@salesforce/plugin-command-reference": "^3.1.5",
+    "@salesforce/plugin-command-reference": "^3.1.6",
     "@types/yeoman-assert": "^3.1.4",
     "eslint-plugin-sf-plugin": "^1.18.8",
     "oclif": "^4.13.10",
