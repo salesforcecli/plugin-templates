@@ -18,7 +18,7 @@
     "eslint-plugin-sf-plugin": "^1.18.11",
     "oclif": "^4.13.10",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.2",
+    "typescript": "^5.5.3",
     "yeoman-assert": "^3.1.1"
   },
   "homepage": "https://github.com/salesforcecli/plugin-templates",
