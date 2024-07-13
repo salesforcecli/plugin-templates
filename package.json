@@ -16,7 +16,7 @@
     "@salesforce/plugin-command-reference": "^3.1.6",
     "@types/yeoman-assert": "^3.1.4",
     "eslint-plugin-sf-plugin": "^1.18.11",
-    "oclif": "^4.13.10",
+    "oclif": "^4.14.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.3",
     "yeoman-assert": "^3.1.1"
