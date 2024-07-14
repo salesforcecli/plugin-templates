@@ -1,3 +1,9 @@
+## [56.3.3](https://github.com/salesforcecli/plugin-templates/compare/56.3.2...56.3.3) (2024-07-14)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/sf-plugins-core from 11.1.2 to 11.1.6 ([91ce13a](https://github.com/salesforcecli/plugin-templates/commit/91ce13a0623756e038d931da1277bb54dd2726a6))
+
 ## [56.3.2](https://github.com/salesforcecli/plugin-templates/compare/56.3.1...56.3.2) (2024-07-07)
 
 ### Bug Fixes
