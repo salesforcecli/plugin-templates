@@ -1330,7 +1330,7 @@
     strip-ansi "6.0.1"
     ts-retry-promise "^0.8.1"
 
-"@salesforce/core@^8.1.0", "@salesforce/core@^8.1.1", "@salesforce/core@^8.2.7", "@salesforce/core@^8.2.8":
+"@salesforce/core@^8.1.0", "@salesforce/core@^8.2.7", "@salesforce/core@^8.2.8":
   version "8.2.8"
   resolved "https://registry.yarnpkg.com/@salesforce/core/-/core-8.2.8.tgz#1e93ddd8b9f348f1e20547de4cdff30062520fd9"
   integrity sha512-Fyy1TG9cUtQV+YAjyYCHerZ0K/t9fuB6dU9HrXFvcjMKorMS5JaI1wkZh8w1+zfvu6GY/MOzeqVZCq2W+9ShLA==
@@ -1440,12 +1440,11 @@
     string-width "^7.2.0"
     terminal-link "^3.0.0"
 
-"@salesforce/templates@^61.3.0":
-  version "61.3.0"
-  resolved "https://registry.yarnpkg.com/@salesforce/templates/-/templates-61.3.0.tgz#ade741a2e639b96653039dc2e66041fd9ee2f32b"
-  integrity sha512-d/5d2bO55D2GOSrqZWXlA6zx0T7cEOzlxb3cc2BsH8yEiIYxY4tYU4b4HZap7i5wGNWn5lyFb9YixsO9ksgstA==
+"@salesforce/templates@^61.4.0":
+  version "61.4.0"
+  resolved "https://registry.yarnpkg.com/@salesforce/templates/-/templates-61.4.0.tgz#70dc2e8bd3c144172111cd49aa9711daf672388e"
+  integrity sha512-ZROuykdRstSfqGk+xDAP7y/p49c1a0vgfbeJRWWaRRxwj6QdpgahsgHTa9cQJOAQDK/eItxA4UFoktCg4xpFSg==
   dependencies:
-    "@salesforce/core" "^8.1.1"
     "@salesforce/kit" "^3.1.6"
     ejs "^3.1.10"
     got "^11.8.2"
