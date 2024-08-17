@@ -1466,10 +1466,10 @@
     string-width "^7.2.0"
     terminal-link "^3.0.0"
 
-"@salesforce/templates@^61.4.1":
-  version "61.4.1"
-  resolved "https://registry.yarnpkg.com/@salesforce/templates/-/templates-61.4.1.tgz#d5a38131cb2af8a0761fe40b98a10cf14bed774e"
-  integrity sha512-Gvgdl0l9YmJmZGERw00t4Ex2DCQuL5dd8+DOrfxaYLgapww9dYnXQHzcAYQ112gmK3bw8BS7Xskl63s/T3LUVw==
+"@salesforce/templates@^61.4.3":
+  version "61.4.3"
+  resolved "https://registry.yarnpkg.com/@salesforce/templates/-/templates-61.4.3.tgz#564a1a917e07fd933a956e2dbaaf106195bf078c"
+  integrity sha512-eEWzLOYHr2C0DL8l3GA/4vMQyusgJNCmQeyBB+tnj896o1CyDELz3YrqjLF05zUshIeUtRCmKVtYMXVCe1eNCQ==
   dependencies:
     "@salesforce/kit" "^3.1.6"
     ejs "^3.1.10"
