@@ -1,3 +1,9 @@
+## [56.3.13](https://github.com/salesforcecli/plugin-templates/compare/56.3.12...56.3.13) (2024-08-25)
+
+### Bug Fixes
+
+- **deps:** bump micromatch from 4.0.5 to 4.0.8 ([d98b311](https://github.com/salesforcecli/plugin-templates/commit/d98b311699703dd0a5503ded8e5fc1aefec7aa53))
+
 ## [56.3.12](https://github.com/salesforcecli/plugin-templates/compare/56.3.11...56.3.12) (2024-08-18)
 
 ### Bug Fixes
