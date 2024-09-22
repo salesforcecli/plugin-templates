@@ -1631,12 +1631,12 @@
     string-width "^7.2.0"
     terminal-link "^3.0.0"
 
-"@salesforce/templates@^61.4.10":
-  version "61.4.10"
-  resolved "https://registry.yarnpkg.com/@salesforce/templates/-/templates-61.4.10.tgz#34e619292e7c2a50b2d73f852f7ef60be3aa742d"
-  integrity sha512-89MbXZ+Y+LsThO72F2OYqq8GPXEhPKE+ptLyBxObKE+3FgDEhFDsU2Va5sEVLye/2Z7o95jTFEgfkALs/ILXKg==
+"@salesforce/templates@^61.4.11":
+  version "61.4.11"
+  resolved "https://registry.yarnpkg.com/@salesforce/templates/-/templates-61.4.11.tgz#3abdd28805487d9bdf82234dafd6904246cc6727"
+  integrity sha512-swLPVqk+DtqMNs2tQ/1MtRrh/RaY5a1tzFIGjt9ng8eluXA2hzZb3OcoKO7b4ipdNOXYG7qbJ+Uog2BC2E9d2Q==
   dependencies:
-    "@salesforce/kit" "^3.2.2"
+    "@salesforce/kit" "^3.2.3"
     ejs "^3.1.10"
     got "^11.8.2"
     hpagent "^1.2.0"
