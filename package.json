@@ -10,7 +10,7 @@
     "@salesforce/templates": "^61.4.11"
   },
   "devDependencies": {
-    "@oclif/plugin-command-snapshot": "^5.2.15",
+    "@oclif/plugin-command-snapshot": "^5.2.17",
     "@salesforce/cli-plugins-testkit": "^5.3.33",
     "@salesforce/dev-scripts": "^10.2.10",
     "@salesforce/plugin-command-reference": "^3.1.26",
