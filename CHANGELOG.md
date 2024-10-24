@@ -1,3 +1,9 @@
+## [56.3.25](https://github.com/salesforcecli/plugin-templates/compare/56.3.24...56.3.25) (2024-10-24)
+
+### Bug Fixes
+
+- yarn ([cff5706](https://github.com/salesforcecli/plugin-templates/commit/cff57066598b34199136b8289ac889b88dd0ef66))
+
 ## [56.3.24](https://github.com/salesforcecli/plugin-templates/compare/56.3.23...56.3.24) (2024-10-13)
 
 ### Bug Fixes
