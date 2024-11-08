@@ -1,3 +1,9 @@
+## [56.3.29](https://github.com/salesforcecli/plugin-templates/compare/56.3.28...56.3.29) (2024-11-08)
+
+### Bug Fixes
+
+- bump sf-plugins-core ([966f745](https://github.com/salesforcecli/plugin-templates/commit/966f7452a774835d7e52bc5d4a768a9ee69bc5b9))
+
 ## [56.3.28](https://github.com/salesforcecli/plugin-templates/compare/56.3.27...56.3.28) (2024-11-04)
 
 ### Bug Fixes
