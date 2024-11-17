@@ -1,3 +1,9 @@
+## [56.3.30](https://github.com/salesforcecli/plugin-templates/compare/56.3.29...56.3.30) (2024-11-17)
+
+### Bug Fixes
+
+- **deps:** bump cross-spawn from 7.0.3 to 7.0.5 ([3b0b801](https://github.com/salesforcecli/plugin-templates/commit/3b0b801ed99a90d6b4d05487d9fcea07c407a485))
+
 ## [56.3.29](https://github.com/salesforcecli/plugin-templates/compare/56.3.28...56.3.29) (2024-11-08)
 
 ### Bug Fixes
