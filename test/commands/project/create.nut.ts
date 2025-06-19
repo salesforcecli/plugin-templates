@@ -72,8 +72,8 @@ describe('Project creation tests:', () => {
         assert.file([path.join(session.project.dir, 'foo', '.vscode', `${file}.json`)]);
       }
       assert.fileContent(path.join(session.project.dir, 'foo', 'README.md'), messages.getMessage('StandardReadMe'));
-      assert.file([path.join(session.project.dir, 'foo', 'force-app', 'main', 'default', 'lwc', '.eslintrc.json')]);
-      assert.file([path.join(session.project.dir, 'foo', 'force-app', 'main', 'default', 'aura', '.eslintrc.json')]);
+      assert.file([path.join(session.project.dir, 'foo', 'eslint.config.js')]);
+      assert.file([path.join(session.project.dir, 'foo', 'eslint.config.js')]);
       for (const file of filestocopy) {
         assert.file([path.join(session.project.dir, 'foo', file)]);
       }
@@ -90,30 +90,8 @@ describe('Project creation tests:', () => {
       for (const file of vscodearray) {
         assert.file([path.join(session.project.dir, 'test outputdir', 'foo', '.vscode', `${file}.json`)]);
       }
-      assert.file([
-        path.join(
-          session.project.dir,
-          'test outputdir',
-          'foo',
-          'force-app',
-          'main',
-          'default',
-          'lwc',
-          '.eslintrc.json'
-        ),
-      ]);
-      assert.file([
-        path.join(
-          session.project.dir,
-          'test outputdir',
-          'foo',
-          'force-app',
-          'main',
-          'default',
-          'aura',
-          '.eslintrc.json'
-        ),
-      ]);
+      assert.file([path.join(session.project.dir, 'test outputdir', 'foo', 'eslint.config.js')]);
+      assert.file([path.join(session.project.dir, 'test outputdir', 'foo', 'eslint.config.js')]);
       for (const file of filestocopy) {
         assert.file([path.join(session.project.dir, 'test outputdir', 'foo', file)]);
       }
@@ -140,9 +118,7 @@ describe('Project creation tests:', () => {
       for (const file of vscodearray) {
         assert.file([path.join(session.project.dir, 'foo-project', '.vscode', `${file}.json`)]);
       }
-      assert.file([
-        path.join(session.project.dir, 'foo-project', 'force-app', 'main', 'default', 'lwc', '.eslintrc.json'),
-      ]);
+      assert.file([path.join(session.project.dir, 'foo-project', 'eslint.config.js')]);
       for (const file of filestocopy) {
         assert.file([path.join(session.project.dir, 'foo-project', file)]);
       }
@@ -246,8 +222,8 @@ describe('Project creation tests:', () => {
         path.join(session.project.dir, 'analytics1', 'README.md'),
         '# Salesforce DX Project: Next Steps'
       );
-      assert.file([path.join(srcDir, 'lwc', '.eslintrc.json')]);
-      assert.file([path.join(srcDir, 'aura', '.eslintrc.json')]);
+      assert.file([path.join(session.project.dir, 'analytics1', 'eslint.config.js')]);
+      assert.file([path.join(session.project.dir, 'analytics1', 'eslint.config.js')]);
     });
   });
 
