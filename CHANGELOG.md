@@ -1,3 +1,9 @@
+## [56.3.52](https://github.com/salesforcecli/plugin-templates/compare/56.3.51...56.3.52) (2025-06-19)
+
+### Bug Fixes
+
+- update templates dep and adjust NUTs ([667cba9](https://github.com/salesforcecli/plugin-templates/commit/667cba9ae359b5e3c5f15dea4a08ccecfdecbad6))
+
 ## [56.3.51](https://github.com/salesforcecli/plugin-templates/compare/56.3.50...56.3.51) (2025-06-15)
 
 ### Bug Fixes
