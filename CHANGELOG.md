@@ -1,3 +1,9 @@
+## [56.3.54](https://github.com/salesforcecli/plugin-templates/compare/56.3.53...56.3.54) (2025-07-13)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/core from 8.17.0 to 8.18.1 ([79e9fd0](https://github.com/salesforcecli/plugin-templates/commit/79e9fd0dbce7c4cf427c1c69fb1646c6d3235fa8))
+
 ## [56.3.53](https://github.com/salesforcecli/plugin-templates/compare/56.3.52...56.3.53) (2025-06-29)
 
 ### Bug Fixes
