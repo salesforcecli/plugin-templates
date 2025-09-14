@@ -1,3 +1,9 @@
+## [56.3.64](https://github.com/salesforcecli/plugin-templates/compare/56.3.63...56.3.64) (2025-09-14)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/templates from 64.3.0 to 64.3.1 ([60a84f2](https://github.com/salesforcecli/plugin-templates/commit/60a84f23acd4953943dec4e421fe06afff57cc53))
+
 ## [56.3.63](https://github.com/salesforcecli/plugin-templates/compare/56.3.62...56.3.63) (2025-08-31)
 
 ### Bug Fixes
