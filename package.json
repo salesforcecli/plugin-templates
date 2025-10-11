@@ -5,7 +5,7 @@
   "author": "Salesforce",
   "bugs": "https://github.com/salesforcecli/plugin-templates/issues",
   "dependencies": {
-    "@salesforce/core": "^8.23.1",
+    "@salesforce/core": "^8.23.2",
     "@salesforce/sf-plugins-core": "^12",
     "@salesforce/templates": "^64.3.2"
   },
