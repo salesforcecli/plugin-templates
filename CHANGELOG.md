@@ -1,3 +1,9 @@
+## [56.3.73](https://github.com/salesforcecli/plugin-templates/compare/56.3.72...56.3.73) (2025-12-05)
+
+### Bug Fixes
+
+- **deps:** bump jws from 3.2.2 to 3.2.3 ([17ceaba](https://github.com/salesforcecli/plugin-templates/commit/17ceaba0714df718ee47d36f96059d6016a4754e))
+
 ## [56.3.72](https://github.com/salesforcecli/plugin-templates/compare/56.3.71...56.3.72) (2025-11-30)
 
 ### Bug Fixes
