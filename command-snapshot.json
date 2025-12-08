@@ -92,6 +92,14 @@
     "plugin": "@salesforce/plugin-templates"
   },
   {
+    "alias": [],
+    "command": "webapp:generate",
+    "flagAliases": [],
+    "flagChars": ["d", "f", "l", "n", "t"],
+    "flags": ["flags-dir", "force", "json", "label", "name", "output-dir", "template"],
+    "plugin": "@salesforce/plugin-templates"
+  },
+  {
     "alias": ["force:visualforce:component:create"],
     "command": "visualforce:generate:component",
     "flagAliases": ["apiversion", "componentname", "outputdir"],
