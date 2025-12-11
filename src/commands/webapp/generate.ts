@@ -8,7 +8,7 @@
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { CreateOutput, WebApplicationOptions, TemplateType } from '@salesforce/templates';
 import { Messages } from '@salesforce/core';
-import { outputDirFlag, internalFlag } from '../../utils/flags.js';
+import { outputDirFlag } from '../../utils/flags.js';
 import { runGenerator } from '../../utils/templateCommand.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -18,6 +18,7 @@ export default class WebAppGenerate extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
+  public static readonly hidden = true; // Hide from external developers until GA
   public static readonly flags = {
     name: Flags.string({
       char: 'n',
@@ -41,7 +42,6 @@ export default class WebAppGenerate extends SfCommand<CreateOutput> {
     }),
     'output-dir': outputDirFlag,
     'api-version': orgApiVersionFlagWithDeprecations,
-    internal: internalFlag,
     loglevel,
   };
 
@@ -53,7 +53,6 @@ export default class WebAppGenerate extends SfCommand<CreateOutput> {
       masterlabel: flags.label,
       outputdir: flags['output-dir'],
       apiversion: flags['api-version'],
-      internal: flags.internal,
     };
 
     return runGenerator({
