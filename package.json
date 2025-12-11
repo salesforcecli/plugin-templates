@@ -7,9 +7,7 @@
   "dependencies": {
     "@salesforce/core": "^8.24.0",
     "@salesforce/sf-plugins-core": "^12",
-    "@salesforce/templates": "^64.3.2",
-    "fs-extra": "^11.3.2",
-    "simple-git": "^3.30.0"
+    "@salesforce/templates": "^65.0.0"
   },
   "devDependencies": {
     "@oclif/plugin-command-snapshot": "^5.3.8",
@@ -17,6 +15,7 @@
     "@salesforce/dev-scripts": "^11.0.4",
 <<<<<<< HEAD
     "@salesforce/plugin-command-reference": "^3.1.79",
+<<<<<<< HEAD
     "@types/yeoman-assert": "^3.1.4",
     "eslint-plugin-sf-plugin": "^1.20.33",
     "oclif": "^4.22.52",
@@ -28,6 +27,11 @@
     "esmock": "^2.7.3",
     "oclif": "^4.22.50",
 >>>>>>> 07e75bd (feat: add webapp generate command)
+=======
+    "@types/yeoman-assert": "^3.1.4",
+    "eslint-plugin-sf-plugin": "^1.20.33",
+    "oclif": "^4.22.52",
+>>>>>>> e903342 (refactor: use @salesforce/templates for webapp generation)
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
     "yeoman-assert": "^3.1.1"
@@ -104,7 +108,7 @@
         "description": "Work with static resources."
       },
       "webapp": {
-        "description": "Work with web apps."
+        "description": "Work with web applications."
       }
     },
     "flexibleTaxonomy": true,

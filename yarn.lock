@@ -1663,18 +1663,18 @@
     cli-progress "^3.12.0"
     terminal-link "^3.0.0"
 
-"@salesforce/templates@^64.3.2":
-  version "64.3.2"
-  resolved "https://registry.yarnpkg.com/@salesforce/templates/-/templates-64.3.2.tgz#bf7461438255470ba262a5be49912e2cab5f3779"
-  integrity sha512-j6T07E3w/7Dz4jG1wwuw//WKUomFYOvMOEQrXobkNO7H25dMnnfcfbnUd9KPt9G4b04C+GU1FKv3nEOt8umKww==
+"@salesforce/templates@^65.0.0":
+  version "65.3.0"
+  resolved "https://registry.yarnpkg.com/@salesforce/templates/-/templates-65.3.0.tgz#25bc7fd8950320e7e7cd52f10c32a31cb6240363"
+  integrity sha512-WOnOOZwbvXNmbr4MfLLwygb8sbIIcmij1oCsZwXEW15nzoi2B6La30/tITnbxmLXPP9y2FhLV5ha5vygwIJ2eg==
   dependencies:
     "@salesforce/kit" "^3.2.4"
     ejs "^3.1.10"
     got "^11.8.6"
     hpagent "^1.2.0"
-    mime-types "^3.0.1"
+    mime-types "^3.0.2"
     proxy-from-env "^1.1.0"
-    tar "^7.5.1"
+    tar "^7.5.2"
     tslib "^2.8.1"
 
 "@salesforce/ts-types@^2.0.11", "@salesforce/ts-types@^2.0.12":
@@ -5839,10 +5839,10 @@ mime-types@^2.1.12:
   dependencies:
     mime-db "1.52.0"
 
-mime-types@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/mime-types/-/mime-types-3.0.1.tgz#b1d94d6997a9b32fd69ebaed0db73de8acb519ce"
-  integrity sha512-xRc4oEhT6eaBpU1XF7AjpOFD+xQmXNB5OVKwp4tqCuBpHLS/ZbBDrc07mYTDqVMg6PfxUjjNp85O6Cd2Z/5HWA==
+mime-types@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/mime-types/-/mime-types-3.0.2.tgz#39002d4182575d5af036ffa118100f2524b2e2ab"
+  integrity sha512-Lbgzdk0h4juoQ9fCKXW4by0UJqj+nOOrI9MJ1sSj4nI8aI2eo1qmvQEie4VD1glsS250n15LsWsYtCugiStS5A==
   dependencies:
     mime-db "^1.54.0"
 
@@ -7393,7 +7393,7 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.npmjs.org/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-tar@^7.5.1:
+tar@^7.5.2:
   version "7.5.2"
   resolved "https://registry.yarnpkg.com/tar/-/tar-7.5.2.tgz#115c061495ec51ff3c6745ff8f6d0871c5b1dedc"
   integrity sha512-7NyxrTE4Anh8km8iEy7o0QYPs+0JKBTj5ZaqHg6B39erLg0qYXN3BijtShwbsNSvQ+LN75+KV+C4QR/f6Gwnpg==
