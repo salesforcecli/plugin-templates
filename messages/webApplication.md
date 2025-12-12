@@ -14,7 +14,7 @@ Generates a web application in the specified directory or the current working di
 
 - Generate a React-based web application:
 
-  <%= config.bin %> <%= command.id %> --name MyReactApp --template reactBasic
+  <%= config.bin %> <%= command.id %> --name MyReactApp --template reactbasic
 
 - Generate the web application in the "force-app/main/default/webApplications" directory:
 

@@ -47,10 +47,10 @@ describe('Web application creation tests:', () => {
     });
   });
 
-  describe('Check webapp creation with reactBasic template', () => {
+  describe('Check webapp creation with reactbasic template', () => {
     it('should create React webapp with all required files', () => {
       const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default', 'webApplications');
-      execCmd(`webapp generate --name MyReactApp --template reactBasic --output-dir "${outputDir}"`, {
+      execCmd(`webapp generate --name MyReactApp --template reactbasic --output-dir "${outputDir}"`, {
         ensureExitCode: 0,
       });
       assert.file([

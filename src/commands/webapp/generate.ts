@@ -33,7 +33,7 @@ export default class WebAppGenerate extends SfCommand<CreateOutput> {
       summary: messages.getMessage('flags.template.summary'),
       description: messages.getMessage('flags.template.description'),
       default: 'default',
-      options: ['default', 'reactBasic'],
+      options: ['default', 'reactbasic'],
     }),
     label: Flags.string({
       char: 'l',
@@ -49,7 +49,7 @@ export default class WebAppGenerate extends SfCommand<CreateOutput> {
     const { flags } = await this.parse(WebAppGenerate);
     const flagsAsOptions: WebApplicationOptions = {
       webappname: flags.name,
-      template: flags.template as 'default' | 'reactBasic',
+      template: (flags.template ?? 'default') as WebApplicationOptions['template'],
       masterlabel: flags.label,
       outputdir: flags['output-dir'],
       apiversion: flags['api-version'],
