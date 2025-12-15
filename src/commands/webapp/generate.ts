@@ -5,7 +5,7 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
+import { Flags, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { CreateOutput, WebApplicationOptions, TemplateType } from '@salesforce/templates';
 import { Messages } from '@salesforce/core';
 import { outputDirFlag } from '../../utils/flags.js';
@@ -39,8 +39,7 @@ export default class WebAppGenerate extends SfCommand<CreateOutput> {
       description: messages.getMessage('flags.label.description'),
     }),
     'output-dir': outputDirFlag,
-    'api-version': orgApiVersionFlagWithDeprecations,
-    loglevel,
+    'api-version': Flags.orgApiVersion(),
   };
 
   public async run(): Promise<CreateOutput> {
