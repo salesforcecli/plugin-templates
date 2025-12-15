@@ -25,8 +25,6 @@ export default class WebAppGenerate extends SfCommand<CreateOutput> {
       summary: messages.getMessage('flags.name.summary'),
       description: messages.getMessage('flags.name.description'),
       required: true,
-      aliases: ['webappname'],
-      deprecateAliases: true,
     }),
     template: Flags.string({
       char: 't',
@@ -49,7 +47,7 @@ export default class WebAppGenerate extends SfCommand<CreateOutput> {
     const { flags } = await this.parse(WebAppGenerate);
     const flagsAsOptions: WebApplicationOptions = {
       webappname: flags.name,
-      template: (flags.template ?? 'default') as WebApplicationOptions['template'],
+      template: flags.template,
       masterlabel: flags.label,
       outputdir: flags['output-dir'],
       apiversion: flags['api-version'],
