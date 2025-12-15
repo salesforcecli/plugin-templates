@@ -47,9 +47,9 @@ export default class WebAppGenerate extends SfCommand<CreateOutput> {
   };
 
   /**
-   * Get the default output directory for web applications.
-   * Uses the project's default package directory + /main/default/webApplications
-   * Falls back to current directory if not in a project.
+   * Resolves the default output directory by reading the project's sfdx-project.json.
+   * Returns the path to webApplications under the default package directory,
+   * or falls back to the current directory if not in a project context.
    */
   private static async getDefaultOutputDir(): Promise<string> {
     try {
@@ -57,7 +57,6 @@ export default class WebAppGenerate extends SfCommand<CreateOutput> {
       const defaultPackage = project.getDefaultPackage();
       return path.join(defaultPackage.path, 'main', 'default', 'webApplications');
     } catch {
-      // Not in a Salesforce project, use current directory
       return '.';
     }
   }
@@ -65,11 +64,7 @@ export default class WebAppGenerate extends SfCommand<CreateOutput> {
   public async run(): Promise<CreateOutput> {
     const { flags } = await this.parse(WebAppGenerate);
 
-    // Resolve output directory: use flag value, or default to project's webApplications folder
-    let outputDir = flags['output-dir'];
-    if (!outputDir) {
-      outputDir = await WebAppGenerate.getDefaultOutputDir();
-    }
+    const outputDir = flags['output-dir'] ?? (await WebAppGenerate.getDefaultOutputDir());
 
     const flagsAsOptions: WebApplicationOptions = {
       webappname: flags.name,

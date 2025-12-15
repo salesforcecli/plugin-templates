@@ -34,6 +34,16 @@ describe('Web application creation tests:', () => {
       assert.fileContent(path.join(outputDir, 'MyWebApp', 'index.html'), '<title>My Web App</title>');
     });
 
+    it('should default to project webApplications directory when --output-dir is omitted', () => {
+      const expectedOutputDir = path.join(session.project.dir, 'force-app', 'main', 'default', 'webApplications');
+      execCmd('webapp generate --name DefaultDirApp', { ensureExitCode: 0 });
+      assert.file([
+        path.join(expectedOutputDir, 'DefaultDirApp', 'DefaultDirApp.webApplication-meta.xml'),
+        path.join(expectedOutputDir, 'DefaultDirApp', 'index.html'),
+        path.join(expectedOutputDir, 'DefaultDirApp', 'webapp.json'),
+      ]);
+    });
+
     it('should create webapp with custom label', () => {
       const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default', 'webApplications');
       execCmd(`webapp generate --name TestApp --label "Custom Label" --output-dir "${outputDir}"`, {

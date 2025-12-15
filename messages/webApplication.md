@@ -50,4 +50,4 @@ Directory for saving the created files.
 
 # flags.output-dir.description
 
-If not specified, defaults to the project's default package directory under main/default/webApplications. If you're not in a Salesforce project, defaults to the current directory.
+The location can be an absolute path or relative to the current working directory. If not specified, the command reads your sfdx-project.json and defaults to the webApplications directory within your default package directory. When running outside a Salesforce DX project, defaults to the current directory.
