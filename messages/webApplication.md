@@ -43,3 +43,11 @@ Master label for the web application.
 # flags.label.description
 
 If not specified, the label is derived from the name.
+
+# flags.output-dir.summary
+
+Directory for saving the created files.
+
+# flags.output-dir.description
+
+If not specified, defaults to the project's default package directory under main/default/webApplications. If you're not in a Salesforce project, defaults to the current directory.

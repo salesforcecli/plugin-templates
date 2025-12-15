@@ -5,10 +5,10 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
+import path from 'node:path';
 import { Flags, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { CreateOutput, WebApplicationOptions, TemplateType } from '@salesforce/templates';
-import { Messages } from '@salesforce/core';
-import { outputDirFlag } from '../../utils/flags.js';
+import { Messages, SfProject } from '@salesforce/core';
 import { getCustomTemplates, runGenerator } from '../../utils/templateCommand.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -38,17 +38,44 @@ export default class WebAppGenerate extends SfCommand<CreateOutput> {
       summary: messages.getMessage('flags.label.summary'),
       description: messages.getMessage('flags.label.description'),
     }),
-    'output-dir': outputDirFlag,
+    'output-dir': Flags.directory({
+      char: 'd',
+      summary: messages.getMessage('flags.output-dir.summary'),
+      description: messages.getMessage('flags.output-dir.description'),
+    }),
     'api-version': Flags.orgApiVersion(),
   };
 
+  /**
+   * Get the default output directory for web applications.
+   * Uses the project's default package directory + /main/default/webApplications
+   * Falls back to current directory if not in a project.
+   */
+  private static async getDefaultOutputDir(): Promise<string> {
+    try {
+      const project = await SfProject.resolve();
+      const defaultPackage = project.getDefaultPackage();
+      return path.join(defaultPackage.path, 'main', 'default', 'webApplications');
+    } catch {
+      // Not in a Salesforce project, use current directory
+      return '.';
+    }
+  }
+
   public async run(): Promise<CreateOutput> {
     const { flags } = await this.parse(WebAppGenerate);
+
+    // Resolve output directory: use flag value, or default to project's webApplications folder
+    let outputDir = flags['output-dir'];
+    if (!outputDir) {
+      outputDir = await WebAppGenerate.getDefaultOutputDir();
+    }
+
     const flagsAsOptions: WebApplicationOptions = {
       webappname: flags.name,
       template: flags.template,
       masterlabel: flags.label,
-      outputdir: flags['output-dir'],
+      outputdir: outputDir,
       apiversion: flags['api-version'],
     };
 
