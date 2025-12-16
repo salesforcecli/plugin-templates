@@ -1651,7 +1651,7 @@
     cli-progress "^3.12.0"
     terminal-link "^3.0.0"
 
-"@salesforce/templates@65.4.1":
+"@salesforce/templates@^65.4.1":
   version "65.4.1"
   resolved "https://registry.yarnpkg.com/@salesforce/templates/-/templates-65.4.1.tgz#9f50d02a2fa59802a8b2657f69a26b72cd24c2c6"
   integrity sha512-tFIsTMzG3PpnZxNozSAWBGLemdXfEhZEvqo3ClY9JcCTe5iCLCj7bRkAmyvxCozy+3p+FVc89G9gBKV6Xxes/w==

@@ -1,3 +1,17 @@
+# [56.4.0](https://github.com/salesforcecli/plugin-templates/compare/56.3.74...56.4.0) (2025-12-16)
+
+### Bug Fixes
+
+- remove unnecessary webappname alias and type assertion ([3b84789](https://github.com/salesforcecli/plugin-templates/commit/3b84789fb449211beb76ac492b66e52389d3d611))
+- update snapshot to remove internal flag ([e0176af](https://github.com/salesforcecli/plugin-templates/commit/e0176af2b50be094c513be815d64a836d48d14e9))
+- use standard Flags.orgApiVersion() and remove loglevel ([f07263a](https://github.com/salesforcecli/plugin-templates/commit/f07263a8ac98497444f459b6befa5d0864f425c6))
+
+### Features
+
+- add custom templates support for webapp generate ([675cf88](https://github.com/salesforcecli/plugin-templates/commit/675cf88597eb1973ba4aabc135cea18a26589a3d))
+- add webapp generate command ([1465476](https://github.com/salesforcecli/plugin-templates/commit/146547674b42e5439c7547da6005e88eff2598fd))
+- default output-dir to project's webApplications folder ([c4853dc](https://github.com/salesforcecli/plugin-templates/commit/c4853dc4d0bbf51a4861ba74523952e5bc950dff))
+
 ## [56.3.74](https://github.com/salesforcecli/plugin-templates/compare/56.3.73...56.3.74) (2025-12-07)
 
 ### Bug Fixes
