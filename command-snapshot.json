@@ -106,5 +106,13 @@
     "flagChars": ["d", "l", "n", "t"],
     "flags": ["api-version", "flags-dir", "json", "label", "loglevel", "name", "output-dir", "template"],
     "plugin": "@salesforce/plugin-templates"
+  },
+  {
+    "alias": [],
+    "command": "webapp:generate",
+    "flagAliases": [],
+    "flagChars": ["d", "l", "n", "t"],
+    "flags": ["api-version", "flags-dir", "json", "label", "name", "output-dir", "template"],
+    "plugin": "@salesforce/plugin-templates"
   }
 ]
