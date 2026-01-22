@@ -24,6 +24,14 @@
     "plugin": "@salesforce/plugin-templates"
   },
   {
+    "alias": [],
+    "command": "dxpsite:generate:build-your-own-lwr",
+    "flagAliases": [],
+    "flagChars": ["d", "n", "p"],
+    "flags": ["flags-dir", "json", "name", "output-dir", "url-path-prefix"],
+    "plugin": "@salesforce/plugin-templates"
+  },
+  {
     "alias": ["force:lightning:app:create"],
     "command": "lightning:generate:app",
     "flagAliases": ["apiversion", "appname", "outputdir"],
