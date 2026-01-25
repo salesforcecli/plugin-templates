@@ -6,13 +6,30 @@
  */
 
 import path from 'node:path';
+import { createRequire } from 'node:module';
 import { Flags, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { CreateOutput, WebApplicationOptions, TemplateType } from '@salesforce/templates';
 import { Messages, SfProject } from '@salesforce/core';
-import { getCustomTemplates, runGenerator } from '../../utils/templateCommand.js';
+import { runGenerator } from '../../utils/templateCommand.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@salesforce/plugin-templates', 'webApplication');
+
+/**
+ * Resolves the path to the templates directory in the @salesforce/templates NPM package.
+ * The package name '@salesforce/templates' version 65.4.4 is used to fetch templates.
+ *
+ * @returns The absolute path to the templates directory
+ */
+function getNpmTemplatesPath(): string {
+  const require = createRequire(import.meta.url);
+  // Resolve the package.json to get the package root directory
+  const packagePath = require.resolve('@salesforce/templates/package.json');
+  const packageDir = path.dirname(packagePath);
+  // Templates are stored in the 'lib/templates' directory within the package
+  const templatesPath = path.join(packageDir, 'lib', 'templates');
+  return templatesPath;
+}
 
 export default class WebAppGenerate extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary');
@@ -74,11 +91,18 @@ export default class WebAppGenerate extends SfCommand<CreateOutput> {
       apiversion: flags['api-version'],
     };
 
+    const templatesPath = getNpmTemplatesPath();
+
+    // Verify templates are from NPM package (log in debug mode or when SF_DEBUG is set)
+    if (process.env.SF_DEBUG ?? process.env.DEBUG) {
+      this.log(`Using templates from NPM package: ${templatesPath}`);
+    }
+
     return runGenerator({
       templateType: TemplateType.WebApplication,
       opts: flagsAsOptions,
       ux: new Ux({ jsonEnabled: this.jsonEnabled() }),
-      templates: getCustomTemplates(this.configAggregator),
+      templates: templatesPath,
     });
   }
 }

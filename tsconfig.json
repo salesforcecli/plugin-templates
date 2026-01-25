@@ -4,7 +4,8 @@
     "outDir": "lib",
     "rootDir": "src",
     "baseUrl": ".",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "module": "node16"
   },
   "include": ["./src/**/*.ts"]
 }
