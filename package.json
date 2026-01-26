@@ -69,6 +69,14 @@
           }
         }
       },
+      "dxpsite": {
+        "description": "Work with Digital Experience Sites.",
+        "subtopics": {
+          "generate": {
+            "description": "Create a Digital Experience Site."
+          }
+        }
+      },
       "lightning": {
         "description": "Work with Lightning Web and Aura components.",
         "external": true,
