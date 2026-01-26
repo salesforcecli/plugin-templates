@@ -64,7 +64,7 @@ export default class BuildYourOwnLwrGenerate extends SfCommand<CreateOutput> {
     const flagsAsOptions: DxpSiteOptions = {
       sitename: flags.name,
       urlpathprefix: flags['url-path-prefix'],
-      adminEmail: flags['admin-email'],
+      adminemail: flags['admin-email'],
       template: 'build_your_own_lwr',
       outputdir: outputDir,
     };
