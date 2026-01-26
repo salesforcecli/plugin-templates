@@ -19,6 +19,7 @@ export default class BuildYourOwnLwrGenerate extends SfCommand<CreateOutput> {
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
   public static readonly flags = {
+    'target-org': Flags.optionalOrg(),
     name: Flags.string({
       char: 'n',
       summary: messages.getMessage('flags.name.summary'),
@@ -32,7 +33,6 @@ export default class BuildYourOwnLwrGenerate extends SfCommand<CreateOutput> {
     'admin-email': Flags.string({
       char: 'e',
       summary: messages.getMessage('flags.admin-email.summary'),
-      default: 'admin@salesforce.com',
     }),
     'output-dir': Flags.directory({
       char: 'd',
@@ -59,12 +59,19 @@ export default class BuildYourOwnLwrGenerate extends SfCommand<CreateOutput> {
   public async run(): Promise<CreateOutput> {
     const { flags } = await this.parse(BuildYourOwnLwrGenerate);
 
+    let adminEmail = flags['admin-email'];
+    if (!adminEmail) {
+      const org = flags['target-org'];
+      // if this ever fails to return username, '' will become "null.invalid" in admin workspace
+      adminEmail = org?.getConnection()?.getUsername() ?? '';
+    }
+
     const outputDir = flags['output-dir'] ?? (await BuildYourOwnLwrGenerate.getDefaultOutputDir());
 
     const flagsAsOptions: DxpSiteOptions = {
       sitename: flags.name,
       urlpathprefix: flags['url-path-prefix'],
-      adminemail: flags['admin-email'],
+      adminemail: adminEmail,
       template: 'build_your_own_lwr',
       outputdir: outputDir,
     };
