@@ -22,14 +22,17 @@ export default class BuildYourOwnLwrGenerate extends SfCommand<CreateOutput> {
     name: Flags.string({
       char: 'n',
       summary: messages.getMessage('flags.name.summary'),
-      description: messages.getMessage('flags.name.description'),
       required: true,
     }),
     'url-path-prefix': Flags.string({
       char: 'p',
       summary: messages.getMessage('flags.url-path-prefix.summary'),
-      description: messages.getMessage('flags.url-path-prefix.description'),
       default: '',
+    }),
+    'admin-email': Flags.string({
+      char: 'e',
+      summary: messages.getMessage('flags.admin-email.summary'),
+      default: 'admin@salesforce.com',
     }),
     'output-dir': Flags.directory({
       char: 'd',
@@ -61,6 +64,7 @@ export default class BuildYourOwnLwrGenerate extends SfCommand<CreateOutput> {
     const flagsAsOptions: DxpSiteOptions = {
       sitename: flags.name,
       urlpathprefix: flags['url-path-prefix'],
+      adminEmail: flags['admin-email'],
       template: 'build_your_own_lwr',
       outputdir: outputDir,
     };

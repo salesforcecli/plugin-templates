@@ -20,17 +20,13 @@ Creates an LWR Build Your Own Experience Site with the specified name and URL pa
 
 Name of the site to generate.
 
-# flags.name.description
-
-The name of the site.
-
 # flags.url-path-prefix.summary
 
-URL path prefix for the site.
+URL path prefix for the site; must contain only alphanumeric characters.
 
-# flags.url-path-prefix.description
+# flags.admin-email.summary
 
-Optional. The URL path prefix for the site. This is used in the site's URL. Must contain only alphanumeric characters.
+Email address for the site administrator.
 
 # flags.output-dir.summary
 

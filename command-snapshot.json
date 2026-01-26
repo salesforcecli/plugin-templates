@@ -27,8 +27,8 @@
     "alias": [],
     "command": "dxpsite:generate:build-your-own-lwr",
     "flagAliases": [],
-    "flagChars": ["d", "n", "p"],
-    "flags": ["flags-dir", "json", "name", "output-dir", "url-path-prefix"],
+    "flagChars": ["d", "n", "p", "e"],
+    "flags": ["flags-dir", "json", "name", "output-dir", "url-path-prefix", "admin-email"],
     "plugin": "@salesforce/plugin-templates"
   },
   {

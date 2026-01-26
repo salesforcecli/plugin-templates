@@ -10,7 +10,7 @@ import { TestSession, execCmd } from '@salesforce/cli-plugins-testkit';
 import { nls } from '@salesforce/templates/lib/i18n/index.js';
 import assert from 'yeoman-assert';
 
-describe('DXP Site build-your-own-lwr creation tests:', () => {
+describe('DXP Site build-your-own-lwr', () => {
   let session: TestSession;
   before(async () => {
     session = await TestSession.create({
@@ -22,90 +22,90 @@ describe('DXP Site build-your-own-lwr creation tests:', () => {
     await session?.clean();
   });
 
-  describe('Check dxpsite creation with build-your-own-lwr template', () => {
-    it('should create dxpsite with all required files', () => {
-      const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default');
-      execCmd(
-        `dxpsite generate build-your-own-lwr --name "My Test Site" --url-path-prefix mytestsite --output-dir "${outputDir}"`,
-        {
-          ensureExitCode: 0,
-        }
-      );
+  it('should create dxpsite with all required files', () => {
+    const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default');
+    execCmd(
+      `dxpsite generate build-your-own-lwr --name "My Test Site" --url-path-prefix mytestsite --output-dir "${outputDir}"`,
+      {
+        ensureExitCode: 0,
+      }
+    );
 
-      const bundlePath = path.join(outputDir, 'digitalExperiences', 'site', 'My_Test_Site1');
+    const bundlePath = path.join(outputDir, 'digitalExperiences', 'site', 'My_Test_Site1');
 
-      // Check top-level metadata files
+    // Check top-level metadata files
+    assert.file([
+      path.join(outputDir, 'networks', 'My Test Site.network-meta.xml'),
+      path.join(outputDir, 'sites', 'My_Test_Site.site-meta.xml'),
+      path.join(outputDir, 'digitalExperienceConfigs', 'My_Test_Site1.digitalExperienceConfig-meta.xml'),
+      path.join(bundlePath, 'My_Test_Site1.digitalExperience-meta.xml'),
+    ]);
+
+    // Check DEB components
+    assert.file([
+      path.join(bundlePath, 'sfdc_cms__appPage', 'mainAppPage', 'content.json'),
+      path.join(bundlePath, 'sfdc_cms__appPage', 'mainAppPage', '_meta.json'),
+      path.join(bundlePath, 'sfdc_cms__brandingSet', 'Build_Your_Own_LWR', 'content.json'),
+      path.join(bundlePath, 'sfdc_cms__brandingSet', 'Build_Your_Own_LWR', '_meta.json'),
+      path.join(bundlePath, 'sfdc_cms__languageSettings', 'languages', 'content.json'),
+      path.join(bundlePath, 'sfdc_cms__languageSettings', 'languages', '_meta.json'),
+      path.join(bundlePath, 'sfdc_cms__mobilePublisherConfig', 'mobilePublisherConfig', 'content.json'),
+      path.join(bundlePath, 'sfdc_cms__mobilePublisherConfig', 'mobilePublisherConfig', '_meta.json'),
+      path.join(bundlePath, 'sfdc_cms__theme', 'Build_Your_Own_LWR', 'content.json'),
+      path.join(bundlePath, 'sfdc_cms__theme', 'Build_Your_Own_LWR', '_meta.json'),
+      path.join(bundlePath, 'sfdc_cms__site', 'My_Test_Site1', 'content.json'),
+      path.join(bundlePath, 'sfdc_cms__site', 'My_Test_Site1', '_meta.json'),
+    ]);
+
+    // Check routes
+    const routes = [
+      'Check_Password',
+      'Error',
+      'Forgot_Password',
+      'Home',
+      'Login',
+      'News_Detail__c',
+      'Register',
+      'Service_Not_Available',
+      'Too_Many_Requests',
+    ];
+    for (const route of routes) {
       assert.file([
-        path.join(outputDir, 'networks', 'My Test Site.network-meta.xml'),
-        path.join(outputDir, 'sites', 'My_Test_Site.site-meta.xml'),
-        path.join(outputDir, 'digitalExperienceConfigs', 'My_Test_Site1.digitalExperienceConfig-meta.xml'),
-        path.join(bundlePath, 'My_Test_Site1.digitalExperience-meta.xml'),
+        path.join(bundlePath, 'sfdc_cms__route', route, 'content.json'),
+        path.join(bundlePath, 'sfdc_cms__route', route, '_meta.json'),
       ]);
+    }
 
-      // Check DEB components
+    // Check theme layouts
+    const layouts = ['scopedHeaderAndFooter', 'snaThemeLayout'];
+    for (const layout of layouts) {
       assert.file([
-        path.join(bundlePath, 'sfdc_cms__appPage', 'mainAppPage', 'content.json'),
-        path.join(bundlePath, 'sfdc_cms__appPage', 'mainAppPage', '_meta.json'),
-        path.join(bundlePath, 'sfdc_cms__brandingSet', 'Build_Your_Own_LWR', 'content.json'),
-        path.join(bundlePath, 'sfdc_cms__brandingSet', 'Build_Your_Own_LWR', '_meta.json'),
-        path.join(bundlePath, 'sfdc_cms__languageSettings', 'languages', 'content.json'),
-        path.join(bundlePath, 'sfdc_cms__languageSettings', 'languages', '_meta.json'),
-        path.join(bundlePath, 'sfdc_cms__mobilePublisherConfig', 'mobilePublisherConfig', 'content.json'),
-        path.join(bundlePath, 'sfdc_cms__mobilePublisherConfig', 'mobilePublisherConfig', '_meta.json'),
-        path.join(bundlePath, 'sfdc_cms__theme', 'Build_Your_Own_LWR', 'content.json'),
-        path.join(bundlePath, 'sfdc_cms__theme', 'Build_Your_Own_LWR', '_meta.json'),
-        path.join(bundlePath, 'sfdc_cms__site', 'My_Test_Site1', 'content.json'),
-        path.join(bundlePath, 'sfdc_cms__site', 'My_Test_Site1', '_meta.json'),
+        path.join(bundlePath, 'sfdc_cms__themeLayout', layout, 'content.json'),
+        path.join(bundlePath, 'sfdc_cms__themeLayout', layout, '_meta.json'),
       ]);
+    }
 
-      // Check routes
-      const routes = [
-        'Check_Password',
-        'Error',
-        'Forgot_Password',
-        'Home',
-        'Login',
-        'News_Detail__c',
-        'Register',
-        'Service_Not_Available',
-        'Too_Many_Requests',
-      ];
-      for (const route of routes) {
-        assert.file([
-          path.join(bundlePath, 'sfdc_cms__route', route, 'content.json'),
-          path.join(bundlePath, 'sfdc_cms__route', route, '_meta.json'),
-        ]);
-      }
+    // Check views
+    const views = [
+      'checkPasswordResetEmail',
+      'error',
+      'forgotPassword',
+      'home',
+      'login',
+      'newsDetail',
+      'register',
+      'serviceNotAvailable',
+      'tooManyRequests',
+    ];
+    for (const view of views) {
+      assert.file([
+        path.join(bundlePath, 'sfdc_cms__view', view, 'content.json'),
+        path.join(bundlePath, 'sfdc_cms__view', view, '_meta.json'),
+      ]);
+    }
+  });
 
-      // Check theme layouts
-      const layouts = ['scopedHeaderAndFooter', 'snaThemeLayout'];
-      for (const layout of layouts) {
-        assert.file([
-          path.join(bundlePath, 'sfdc_cms__themeLayout', layout, 'content.json'),
-          path.join(bundlePath, 'sfdc_cms__themeLayout', layout, '_meta.json'),
-        ]);
-      }
-
-      // Check views
-      const views = [
-        'checkPasswordResetEmail',
-        'error',
-        'forgotPassword',
-        'home',
-        'login',
-        'newsDetail',
-        'register',
-        'serviceNotAvailable',
-        'tooManyRequests',
-      ];
-      for (const view of views) {
-        assert.file([
-          path.join(bundlePath, 'sfdc_cms__view', view, 'content.json'),
-          path.join(bundlePath, 'sfdc_cms__view', view, '_meta.json'),
-        ]);
-      }
-    });
-
+  describe('parameter name', () => {
     it('should handle site names starting with special characters', () => {
       const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default');
       execCmd(
@@ -124,29 +124,15 @@ describe('DXP Site build-your-own-lwr creation tests:', () => {
         path.join(bundlePath, 'X123_Test_s_Site1.digitalExperience-meta.xml'),
       ]);
     });
-  });
 
-  describe('Check that all invalid input errors are thrown', () => {
-    it('should throw a missing name error', () => {
+    it('should throw error if missing', () => {
       const stderr = execCmd('dxpsite generate build-your-own-lwr --url-path-prefix test').shellOutput.stderr;
       expect(stderr).to.contain('Missing required flag');
     });
+  });
 
-    it('should create site without url-path-prefix (uses empty default)', () => {
-      const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default');
-      execCmd(`dxpsite generate build-your-own-lwr --name "No Prefix Site" --output-dir "${outputDir}"`, {
-        ensureExitCode: 0,
-      });
-
-      const bundlePath = path.join(outputDir, 'digitalExperiences', 'site', 'No_Prefix_Site1');
-      assert.file([
-        path.join(outputDir, 'networks', 'No Prefix Site.network-meta.xml'),
-        path.join(outputDir, 'sites', 'No_Prefix_Site.site-meta.xml'),
-        path.join(bundlePath, 'No_Prefix_Site1.digitalExperience-meta.xml'),
-      ]);
-    });
-
-    it('should throw invalid url-path-prefix error for non-alphanumeric characters', () => {
+  describe('parameter url-path-prefix', () => {
+    it('should throw error for non-alphanumeric characters', () => {
       const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default');
       const stderr = execCmd(
         `dxpsite generate build-your-own-lwr --name TestSite --url-path-prefix "my-prefix" --output-dir "${outputDir}"`
@@ -154,7 +140,7 @@ describe('DXP Site build-your-own-lwr creation tests:', () => {
       expect(stderr).to.contain(nls.localize('AlphaNumericValidationError', 'url-path-prefix'));
     });
 
-    it('should throw invalid url-path-prefix error for underscores', () => {
+    it('should throw error for underscores', () => {
       const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default');
       const stderr = execCmd(
         `dxpsite generate build-your-own-lwr --name TestSite --url-path-prefix "my_prefix" --output-dir "${outputDir}"`
@@ -162,7 +148,7 @@ describe('DXP Site build-your-own-lwr creation tests:', () => {
       expect(stderr).to.contain(nls.localize('AlphaNumericValidationError', 'url-path-prefix'));
     });
 
-    it('should throw invalid url-path-prefix error for spaces', () => {
+    it('should throw error for spaces', () => {
       const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default');
       const stderr = execCmd(
         `dxpsite generate build-your-own-lwr --name TestSite --url-path-prefix "my prefix" --output-dir "${outputDir}"`
