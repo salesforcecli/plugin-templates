@@ -5,6 +5,8 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 import path from 'node:path';
+import fs from 'node:fs';
+import { createRequire } from 'node:module';
 import { expect } from 'chai';
 import { TestSession, execCmd } from '@salesforce/cli-plugins-testkit';
 import { nls } from '@salesforce/templates/lib/i18n/index.js';
@@ -20,6 +22,24 @@ describe('Web application creation tests:', () => {
   });
   after(async () => {
     await session?.clean();
+  });
+
+  describe('Verify templates are loaded from NPM package', () => {
+    it('should use templates from @salesforce/templates NPM package', () => {
+      // Verify that templates are loaded from NPM package, not file-based
+      const require = createRequire(import.meta.url);
+      const packagePath = require.resolve('@salesforce/templates/package.json');
+      const packageDir = path.dirname(packagePath);
+      const templatesPath = path.join(packageDir, 'lib', 'templates', 'webapplication');
+
+      // Verify the NPM package templates directory exists
+      expect(fs.existsSync(templatesPath), 'NPM package templates directory should exist').to.be.true;
+
+      // Verify webapplication templates exist in NPM package
+      const templateFiles = fs.readdirSync(templatesPath);
+      expect(templateFiles.length, 'WebApplication templates should exist in NPM package').to.be.greaterThan(0);
+      expect(templateFiles, 'Should contain webappbasic template').to.include('webappbasic');
+    });
   });
 
   describe('Check webapp creation with default template', () => {
