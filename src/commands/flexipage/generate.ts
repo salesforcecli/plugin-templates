@@ -20,6 +20,7 @@ export default class FlexipageGenerate extends SfCommand<CreateOutput> {
   public static readonly examples = messages.getMessages('examples');
   public static readonly aliases = ['force:flexipage:create'];
   public static readonly deprecateAliases = true;
+  public static readonly state = 'beta';
   public static readonly flags = {
     name: Flags.string({
       char: 'n',
@@ -72,12 +73,25 @@ export default class FlexipageGenerate extends SfCommand<CreateOutput> {
     loglevel,
   };
 
+  private static readonly MAX_SECONDARY_FIELDS = 11;
+
   public async run(): Promise<CreateOutput> {
     const { flags } = await this.parse(FlexipageGenerate);
 
     // Validate RecordPage requires sobject
     if (flags.template === 'RecordPage' && !flags.sobject) {
       throw new Error(messages.getMessage('errors.recordPageRequiresSobject'));
+    }
+
+    // Validate secondary fields limit (Dynamic Highlights Panel supports max 11)
+    const secondaryFieldsCount = flags['secondary-fields']?.length ?? 0;
+    if (secondaryFieldsCount > FlexipageGenerate.MAX_SECONDARY_FIELDS) {
+      throw new Error(
+        messages.getMessage('errors.tooManySecondaryFields', [
+          secondaryFieldsCount.toString(),
+          FlexipageGenerate.MAX_SECONDARY_FIELDS.toString(),
+        ])
+      );
     }
 
     // Convert CLI flags to library options

@@ -53,4 +53,27 @@ describe('flexipage:generate', () => {
       expect(error.message).to.include('sobject');
     }
   });
+
+  it('should reject more than 11 secondary fields', async () => {
+    try {
+      await FlexipageGenerate.run([
+        '--name',
+        'TestPage',
+        '--template',
+        'RecordPage',
+        '--sobject',
+        'Account',
+        '--secondary-fields',
+        'F1,F2,F3,F4,F5,F6,F7,F8,F9,F10,F11,F12',
+      ]);
+      expect.fail('Should have thrown an error');
+    } catch (err) {
+      const error = err as Error;
+      expect(error.message).to.include('Too many secondary fields');
+    }
+  });
+
+  it('should be marked as beta', () => {
+    expect(FlexipageGenerate.state).to.equal('beta');
+  });
 });
