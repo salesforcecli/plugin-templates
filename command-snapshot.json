@@ -24,6 +24,29 @@
     "plugin": "@salesforce/plugin-templates"
   },
   {
+    "alias": ["force:flexipage:create"],
+    "command": "flexipage:generate",
+    "flagAliases": ["apiversion", "entity", "flexipagename", "masterlabel", "outputdir", "sobject"],
+    "flagChars": ["d", "i", "n", "t"],
+    "flags": [
+      "api-version",
+      "description",
+      "entity-name",
+      "flags-dir",
+      "internal",
+      "json",
+      "label",
+      "loglevel",
+      "name",
+      "output-dir",
+      "primary-field",
+      "secondary-fields",
+      "detail-fields",
+      "template"
+    ],
+    "plugin": "@salesforce/plugin-templates"
+  },
+  {
     "alias": ["force:lightning:app:create"],
     "command": "lightning:generate:app",
     "flagAliases": ["apiversion", "appname", "outputdir"],
