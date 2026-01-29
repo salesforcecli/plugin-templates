@@ -44,13 +44,13 @@ describe('flexipage:generate', () => {
     }
   });
 
-  it('should require entity-name for RecordPage', async () => {
+  it('should require sobject for RecordPage', async () => {
     try {
       await FlexipageGenerate.run(['--name', 'TestPage', '--template', 'RecordPage']);
       expect.fail('Should have thrown an error');
     } catch (err) {
       const error = err as Error;
-      expect(error.message).to.include('entity-name');
+      expect(error.message).to.include('sobject');
     }
   });
 });

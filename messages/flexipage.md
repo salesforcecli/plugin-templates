@@ -1,8 +1,8 @@
 # examples
 
-- Generate a RecordPage FlexiPage for Account in the current directory:
+- Generate a RecordPage FlexiPage for the Account object in the current directory:
 
-  <%= config.bin %> <%= command.id %> --name Account_Record_Page --template RecordPage --entity-name Account
+  <%= config.bin %> <%= command.id %> --name Account_Record_Page --template RecordPage --sobject Account
 
 - Generate an AppPage FlexiPage in the "force-app/main/default/flexipages" directory:
 
@@ -14,23 +14,21 @@
 
 - Generate a RecordPage with dynamic highlights and detail fields:
 
-  <%= config.bin %> <%= command.id %> --name Property_Page --template RecordPage --entity-name Rental_Property**c --primary-field Name --secondary-fields Property_Address**c,City**c --detail-fields Name,Property_Address**c,City**c,Monthly_Rent**c,Bedrooms\_\_c
+  <%= config.bin %> <%= command.id %> --name Property_Page --template RecordPage --sobject Rental_Property**c --primary-field Name --secondary-fields Property_Address**c,City**c --detail-fields Name,Property_Address**c,City**c,Monthly_Rent**c,Bedrooms\_\_c
 
 # summary
 
-Generate a FlexiPage (Lightning page) from Salesforce templates.
+Generate a FlexiPage, also known as a Lightning page.
 
 # description
 
-Generates a FlexiPage in the specified directory or the current working directory. The FlexiPage file is created with the designated name using built-in Salesforce templates.
+FlexiPages are the metadata types associated with a Lightning page. A Lightning page represents a customizable screen made up of regions containing Lightning components.
 
-Template Types:
+You can use this command to generate these types of FlexiPages; specify the type with the --template flag:
 
-- RecordPage: For object detail pages (requires --entity-name)
-- AppPage: For standalone application pages
-- HomePage: For custom home pages
-
-Templates are bundled with the @salesforce/templates package.
+- AppPage: A Lightning page used as the home page for a custom app or a standalone application page.
+- HomePage: A Lightning page used to override the Home page in Lightning Experience.
+- RecordPage: A Lightning page used to override an object record page in Lightning Experience. Requires that you specify the object name with the --sobject flag.
 
 # flags.name.summary
 
@@ -44,33 +42,21 @@ The name can contain only alphanumeric characters, must start with a letter, and
 
 Template type for the FlexiPage.
 
-# flags.template.description
-
-The type of FlexiPage to generate: RecordPage (object detail page), AppPage (standalone page), or HomePage (custom home).
-
 # flags.label.summary
 
-The label saved in the metadata for the FlexiPage.
-
-# flags.label.description
-
-If not specified, uses the FlexiPage name as the label.
+Label of this FlexiPage; if not specified, uses the FlexiPage name as the label.
 
 # flags.description.summary
 
-Description for the FlexiPage.
+Description for the FlexiPage, which provides context about its purpose.
 
-# flags.description.description
+# flags.sobject.summary
 
-Provides context about the purpose of this FlexiPage.
+API name of the Salesforce object; required when creating a RecordPage.
 
-# flags.entity-name.summary
+# flags.sobject.description
 
-The SObject API name (required for RecordPage).
-
-# flags.entity-name.description
-
-For RecordPage templates, specify the object API name (e.g., 'Account', 'Opportunity', 'Custom_Object\_\_c'). This sets the sobjectType in the FlexiPage metadata.
+For RecordPage FlexiPages, you must specify the associated object API name, such as 'Account', 'Opportunity', or 'Custom_Object\_\_c'. This sets the `sobjectType` field in the FlexiPage metadata.
 
 # flags.primary-field.summary
 
@@ -96,6 +82,6 @@ Field(s) to display in the Details tab field section (RecordPage only).
 
 Comma-separated list of field API names to display in the Details tab field section. These fields appear in the main content area of the record page.
 
-# errors.recordPageRequiresEntityName
+# errors.recordPageRequiresSobject
 
-RecordPage template requires the --entity-name flag to specify the SObject API name (e.g., 'Account', 'Opportunity', 'Custom_Object\_\_c').
+RecordPage template requires the --sobject flag to specify the Salesforce object API name (e.g., 'Account', 'Opportunity', 'Custom_Object\_\_c').

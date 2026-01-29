@@ -26,12 +26,12 @@
   {
     "alias": ["force:flexipage:create"],
     "command": "flexipage:generate",
-    "flagAliases": ["apiversion", "entity", "flexipagename", "masterlabel", "outputdir", "sobject"],
-    "flagChars": ["d", "i", "n", "t"],
+    "flagAliases": ["apiversion", "entity", "entity-name", "flexipagename", "masterlabel", "outputdir"],
+    "flagChars": ["d", "i", "n", "s", "t"],
     "flags": [
       "api-version",
       "description",
-      "entity-name",
+      "detail-fields",
       "flags-dir",
       "internal",
       "json",
@@ -41,7 +41,7 @@
       "output-dir",
       "primary-field",
       "secondary-fields",
-      "detail-fields",
+      "sobject",
       "template"
     ],
     "plugin": "@salesforce/plugin-templates"

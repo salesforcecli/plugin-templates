@@ -32,7 +32,6 @@ export default class FlexipageGenerate extends SfCommand<CreateOutput> {
     template: Flags.option({
       char: 't',
       summary: messages.getMessage('flags.template.summary'),
-      description: messages.getMessage('flags.template.description'),
       required: true,
       options: ['RecordPage', 'AppPage', 'HomePage'] as const,
     })(),
@@ -40,18 +39,17 @@ export default class FlexipageGenerate extends SfCommand<CreateOutput> {
     'api-version': orgApiVersionFlagWithDeprecations,
     label: Flags.string({
       summary: messages.getMessage('flags.label.summary'),
-      description: messages.getMessage('flags.label.description'),
       aliases: ['masterlabel'],
       deprecateAliases: true,
     }),
     description: Flags.string({
       summary: messages.getMessage('flags.description.summary'),
-      description: messages.getMessage('flags.description.description'),
     }),
-    'entity-name': Flags.string({
-      summary: messages.getMessage('flags.entity-name.summary'),
-      description: messages.getMessage('flags.entity-name.description'),
-      aliases: ['entity', 'sobject'],
+    sobject: Flags.string({
+      char: 's',
+      summary: messages.getMessage('flags.sobject.summary'),
+      description: messages.getMessage('flags.sobject.description'),
+      aliases: ['entity-name', 'entity'],
       deprecateAliases: true,
     }),
     'primary-field': Flags.string({
@@ -77,9 +75,9 @@ export default class FlexipageGenerate extends SfCommand<CreateOutput> {
   public async run(): Promise<CreateOutput> {
     const { flags } = await this.parse(FlexipageGenerate);
 
-    // Validate RecordPage requires entity-name
-    if (flags.template === 'RecordPage' && !flags['entity-name']) {
-      throw new Error(messages.getMessage('errors.recordPageRequiresEntityName'));
+    // Validate RecordPage requires sobject
+    if (flags.template === 'RecordPage' && !flags.sobject) {
+      throw new Error(messages.getMessage('errors.recordPageRequiresSobject'));
     }
 
     // Convert CLI flags to library options
@@ -90,7 +88,7 @@ export default class FlexipageGenerate extends SfCommand<CreateOutput> {
       apiversion: flags['api-version'],
       masterlabel: flags.label,
       description: flags.description,
-      entityName: flags['entity-name'],
+      entityName: flags.sobject,
       primaryField: flags['primary-field'],
       secondaryFields: flags['secondary-fields'] ?? [],
       detailFields: flags['detail-fields'] ?? [],
