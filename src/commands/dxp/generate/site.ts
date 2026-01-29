@@ -12,9 +12,9 @@ import { Messages, SfProject } from '@salesforce/core';
 import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
-const messages = Messages.loadMessages('@salesforce/plugin-templates', 'dxpsiteBuildYourOwnLwr');
+const messages = Messages.loadMessages('@salesforce/plugin-templates', 'dxpSite');
 
-export default class BuildYourOwnLwrGenerate extends SfCommand<CreateOutput> {
+export default class GenerateSite extends SfCommand<CreateOutput> {
   public static readonly state = 'preview';
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
@@ -24,6 +24,12 @@ export default class BuildYourOwnLwrGenerate extends SfCommand<CreateOutput> {
     name: Flags.string({
       char: 'n',
       summary: messages.getMessage('flags.name.summary'),
+      required: true,
+    }),
+    template: Flags.string({
+      char: 't',
+      summary: messages.getMessage('flags.template.summary'),
+      options: ['build_your_own_lwr'] as const,
       required: true,
     }),
     'url-path-prefix': Flags.string({
@@ -60,7 +66,7 @@ export default class BuildYourOwnLwrGenerate extends SfCommand<CreateOutput> {
   }
 
   public async run(): Promise<CreateOutput> {
-    const { flags } = await this.parse(BuildYourOwnLwrGenerate);
+    const { flags } = await this.parse(GenerateSite);
 
     let adminEmail = flags['admin-email'];
     if (!adminEmail) {
@@ -70,13 +76,13 @@ export default class BuildYourOwnLwrGenerate extends SfCommand<CreateOutput> {
       adminEmail = org?.getConnection()?.getUsername() ?? 'senderEmail@example.com';
     }
 
-    const outputDir = flags['output-dir'] ?? (await BuildYourOwnLwrGenerate.getDefaultOutputDir());
+    const outputDir = flags['output-dir'] ?? (await GenerateSite.getDefaultOutputDir());
 
     const flagsAsOptions: DxpSiteOptions = {
       sitename: flags.name,
       urlpathprefix: flags['url-path-prefix'],
       adminemail: adminEmail,
-      template: 'build_your_own_lwr',
+      template: flags.template,
       outputdir: outputDir,
     };
 

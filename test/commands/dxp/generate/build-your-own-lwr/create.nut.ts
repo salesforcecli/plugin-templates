@@ -22,10 +22,10 @@ describe('DXP Site Generation for Build Your Own LWR Template', () => {
     await session?.clean();
   });
 
-  it('should create dxpsite with all required files', () => {
+  it('should create dxp site with all required files', () => {
     const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default');
     execCmd(
-      `dxpsite generate build-your-own-lwr --name "My Test Site" --url-path-prefix mytestsite --output-dir "${outputDir}"`,
+      `dxp generate site --template build_your_own_lwr --name "My Test Site" --url-path-prefix mytestsite --output-dir "${outputDir}"`,
       {
         ensureExitCode: 0,
       }
@@ -109,7 +109,7 @@ describe('DXP Site Generation for Build Your Own LWR Template', () => {
     it('should handle site names starting with special characters', () => {
       const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default');
       execCmd(
-        `dxpsite generate build-your-own-lwr --name "123 @ Test's Site" --url-path-prefix site123 --output-dir "${outputDir}"`,
+        `dxp generate site --template build_your_own_lwr --name "123 @ Test's Site" --url-path-prefix site123 --output-dir "${outputDir}"`,
         {
           ensureExitCode: 0,
         }
@@ -126,7 +126,8 @@ describe('DXP Site Generation for Build Your Own LWR Template', () => {
     });
 
     it('should throw error if missing', () => {
-      const stderr = execCmd('dxpsite generate build-your-own-lwr --url-path-prefix test').shellOutput.stderr;
+      const stderr = execCmd('dxp generate site --template build_your_own_lwr --url-path-prefix test').shellOutput
+        .stderr;
       expect(stderr).to.contain('Missing required flag');
     });
   });
@@ -135,7 +136,7 @@ describe('DXP Site Generation for Build Your Own LWR Template', () => {
     it('should throw error for non-alphanumeric characters', () => {
       const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default');
       const stderr = execCmd(
-        `dxpsite generate build-your-own-lwr --name TestSite --url-path-prefix "my-prefix" --output-dir "${outputDir}"`
+        `dxp generate site --template build_your_own_lwr --name TestSite --url-path-prefix "my-prefix" --output-dir "${outputDir}"`
       ).shellOutput.stderr;
       expect(stderr).to.contain(nls.localize('AlphaNumericValidationError', 'url-path-prefix'));
     });
@@ -143,7 +144,7 @@ describe('DXP Site Generation for Build Your Own LWR Template', () => {
     it('should throw error for underscores', () => {
       const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default');
       const stderr = execCmd(
-        `dxpsite generate build-your-own-lwr --name TestSite --url-path-prefix "my_prefix" --output-dir "${outputDir}"`
+        `dxp generate site --template build_your_own_lwr --name TestSite --url-path-prefix "my_prefix" --output-dir "${outputDir}"`
       ).shellOutput.stderr;
       expect(stderr).to.contain(nls.localize('AlphaNumericValidationError', 'url-path-prefix'));
     });
@@ -151,7 +152,7 @@ describe('DXP Site Generation for Build Your Own LWR Template', () => {
     it('should throw error for spaces', () => {
       const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default');
       const stderr = execCmd(
-        `dxpsite generate build-your-own-lwr --name TestSite --url-path-prefix "my prefix" --output-dir "${outputDir}"`
+        `dxp generate site --template build_your_own_lwr --name TestSite --url-path-prefix "my prefix" --output-dir "${outputDir}"`
       ).shellOutput.stderr;
       expect(stderr).to.contain(nls.localize('AlphaNumericValidationError', 'url-path-prefix'));
     });

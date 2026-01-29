@@ -69,7 +69,7 @@
           }
         }
       },
-      "dxpsite": {
+      "dxp": {
         "description": "Work with Digital Experience Sites.",
         "subtopics": {
           "generate": {
