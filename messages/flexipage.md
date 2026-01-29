@@ -14,7 +14,7 @@
 
 - Generate a RecordPage with dynamic highlights and detail fields:
 
-  <%= config.bin %> <%= command.id %> --name Property_Page --template RecordPage --sobject Rental_Property**c --primary-field Name --secondary-fields Property_Address**c,City**c --detail-fields Name,Property_Address**c,City**c,Monthly_Rent**c,Bedrooms\_\_c
+  <%= config.bin %> <%= command.id %> --name Property_Page --template RecordPage --sobject Rental_Property__c --primary-field Name --secondary-fields Property_Address__c,City__c --detail-fields Name,Property_Address__c,City__c,Monthly_Rent__c,Bedrooms__c
 
 # summary
 
@@ -56,7 +56,7 @@ API name of the Salesforce object; required when creating a RecordPage.
 
 # flags.sobject.description
 
-For RecordPage FlexiPages, you must specify the associated object API name, such as 'Account', 'Opportunity', or 'Custom_Object\_\_c'. This sets the `sobjectType` field in the FlexiPage metadata.
+For RecordPage FlexiPages, you must specify the associated object API name, such as 'Account', 'Opportunity', or 'Custom_Object__c'. This sets the `sobjectType` field in the FlexiPage metadata.
 
 # flags.primary-field.summary
 
@@ -84,4 +84,4 @@ Comma-separated list of field API names to display in the Details tab field sect
 
 # errors.recordPageRequiresSobject
 
-RecordPage template requires the --sobject flag to specify the Salesforce object API name (e.g., 'Account', 'Opportunity', 'Custom_Object\_\_c').
+RecordPage template requires the --sobject flag to specify the Salesforce object API name (e.g., 'Account', 'Opportunity', 'Custom_Object__c').
