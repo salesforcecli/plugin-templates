@@ -1,10 +1,10 @@
 # summary
 
-Generate a Lightning Web Runtime (LWR) Build Your Own Experience Site.
+Generate an Experience Cloud site powered by Lightning Web Runtime (LWR) using the Build Your Own template.
 
 # description
 
-Creates an LWR Build Your Own Experience Site with the specified name and URL path prefix. The site includes all necessary metadata files including DigitalExperienceConfig, DigitalExperienceBundle, Network, and CustomSite.
+Creates a Build Your Own LWR site with the specified name and URL path prefix. The site includes all necessary metadata files including DigitalExperienceConfig, DigitalExperienceBundle, Network, and CustomSite. See <https://help.salesforce.com/s/articleView?id=experience.rss_build_your_own_lwr.htm> for more details about the template.
 
 # examples
 
@@ -26,7 +26,7 @@ URL path prefix for the site; must contain only alphanumeric characters.
 
 # flags.admin-email.summary
 
-Email address for the site administrator.
+Email address for the site administrator. This will default to the username of the currently authenticated user.
 
 # flags.output-dir.summary
 

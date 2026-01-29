@@ -15,6 +15,7 @@ Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@salesforce/plugin-templates', 'dxpsiteBuildYourOwnLwr');
 
 export default class BuildYourOwnLwrGenerate extends SfCommand<CreateOutput> {
+  public static readonly state = 'preview';
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
@@ -28,6 +29,8 @@ export default class BuildYourOwnLwrGenerate extends SfCommand<CreateOutput> {
     'url-path-prefix': Flags.string({
       char: 'p',
       summary: messages.getMessage('flags.url-path-prefix.summary'),
+      // each site must have a unique url path prefix, if not provided assume it's empty
+      // to mimic UI's behavior
       default: '',
     }),
     'admin-email': Flags.string({
@@ -62,8 +65,9 @@ export default class BuildYourOwnLwrGenerate extends SfCommand<CreateOutput> {
     let adminEmail = flags['admin-email'];
     if (!adminEmail) {
       const org = flags['target-org'];
-      // if this ever fails to return username, '' will become "null.invalid" in admin workspace
-      adminEmail = org?.getConnection()?.getUsername() ?? '';
+      // If this ever fails to return a username, the default value will be appeneded ".invalid"
+      // in admin workspace with a note asking the admin to set a valid email and verify it.
+      adminEmail = org?.getConnection()?.getUsername() ?? 'senderEmail@example.com';
     }
 
     const outputDir = flags['output-dir'] ?? (await BuildYourOwnLwrGenerate.getDefaultOutputDir());

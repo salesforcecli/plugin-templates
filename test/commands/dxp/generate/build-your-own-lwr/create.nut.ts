@@ -10,7 +10,7 @@ import { TestSession, execCmd } from '@salesforce/cli-plugins-testkit';
 import { nls } from '@salesforce/templates/lib/i18n/index.js';
 import assert from 'yeoman-assert';
 
-describe('DXP Site build-your-own-lwr', () => {
+describe('DXP Site Generation for Build Your Own LWR Template', () => {
   let session: TestSession;
   before(async () => {
     session = await TestSession.create({
