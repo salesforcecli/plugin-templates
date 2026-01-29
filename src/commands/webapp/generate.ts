@@ -93,11 +93,6 @@ export default class WebAppGenerate extends SfCommand<CreateOutput> {
 
     const templatesPath = getNpmTemplatesPath();
 
-    // Verify templates are from NPM package (log in debug mode or when SF_DEBUG is set)
-    if (process.env.SF_DEBUG ?? process.env.DEBUG) {
-      this.log(`Using templates from NPM package: ${templatesPath}`);
-    }
-
     return runGenerator({
       templateType: TemplateType.WebApplication,
       opts: flagsAsOptions,
