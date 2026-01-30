@@ -55,17 +55,14 @@ export default class FlexipageGenerate extends SfCommand<CreateOutput> {
     }),
     'primary-field': Flags.string({
       summary: messages.getMessage('flags.primary-field.summary'),
-      description: messages.getMessage('flags.primary-field.description'),
     }),
     'secondary-fields': Flags.string({
       summary: messages.getMessage('flags.secondary-fields.summary'),
-      description: messages.getMessage('flags.secondary-fields.description'),
       multiple: true,
       delimiter: ',',
     }),
     'detail-fields': Flags.string({
       summary: messages.getMessage('flags.detail-fields.summary'),
-      description: messages.getMessage('flags.detail-fields.description'),
       multiple: true,
       delimiter: ',',
     }),
@@ -81,6 +78,16 @@ export default class FlexipageGenerate extends SfCommand<CreateOutput> {
     // Validate RecordPage requires sobject
     if (flags.template === 'RecordPage' && !flags.sobject) {
       throw new Error(messages.getMessage('errors.recordPageRequiresSobject'));
+    }
+
+    // Validate RecordPage-specific flags are only used with RecordPage template
+    const recordPageOnlyFlags = ['primary-field', 'secondary-fields', 'detail-fields'] as const;
+    if (flags.template !== 'RecordPage') {
+      for (const flagName of recordPageOnlyFlags) {
+        if (flags[flagName]) {
+          throw new Error(messages.getMessage('errors.flagRequiresRecordPage', [flagName]));
+        }
+      }
     }
 
     // Validate secondary fields limit (Dynamic Highlights Panel supports max 11)

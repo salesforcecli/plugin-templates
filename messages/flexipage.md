@@ -14,7 +14,7 @@
 
 - Generate a RecordPage with dynamic highlights and detail fields:
 
-  <%= config.bin %> <%= command.id %> --name Property_Page --template RecordPage --sobject Rental_Property**c --primary-field Name --secondary-fields Property_Address**c,City**c --detail-fields Name,Property_Address**c,City**c,Monthly_Rent**c,Bedrooms\_\_c
+  <%= config.bin %> <%= command.id %> --name Property_Page --template RecordPage --sobject Rental_Property__c --primary-field Name --secondary-fields Property_Address__c,City__c --detail-fields Name,Property_Address__c,City__c,Monthly_Rent__c,Bedrooms__c
 
 # summary
 
@@ -56,36 +56,28 @@ API name of the Salesforce object; required when creating a RecordPage.
 
 # flags.sobject.description
 
-For RecordPage FlexiPages, you must specify the associated object API name, such as 'Account', 'Opportunity', or 'Custom_Object\_\_c'. This sets the `sobjectType` field in the FlexiPage metadata.
+For RecordPage FlexiPages, you must specify the associated object API name, such as 'Account', 'Opportunity', or 'Custom_Object__c'. This sets the `sobjectType` field in the FlexiPage metadata.
 
 # flags.primary-field.summary
 
-Primary field for dynamic highlights (RecordPage only).
-
-# flags.primary-field.description
-
-The single field API name to display as the primary field in the dynamic highlights component. Typically 'Name'.
+Primary field for the dynamic highlights header; typically 'Name'. Used only with RecordPage.
 
 # flags.secondary-fields.summary
 
-Secondary field(s) for dynamic highlights (RecordPage only).
-
-# flags.secondary-fields.description
-
-Comma-separated list of field API names to display as secondary fields in the dynamic highlights component. These are additional key fields shown in the header.
+Secondary fields shown in the dynamic highlights header. Specify multiple fields separated by commas. Maximum of 11 fields. Used only with RecordPage.
 
 # flags.detail-fields.summary
 
-Field(s) to display in the Details tab field section (RecordPage only).
-
-# flags.detail-fields.description
-
-Comma-separated list of field API names to display in the Details tab field section. These fields appear in the main content area of the record page.
+Fields to display in the Details tab. Specify multiple fields separated by commas. Fields are split into two columns. Used only with RecordPage.
 
 # errors.recordPageRequiresSobject
 
-RecordPage template requires the --sobject flag to specify the Salesforce object API name (e.g., 'Account', 'Opportunity', 'Custom_Object\_\_c').
+RecordPage template requires the --sobject flag to specify the Salesforce object API name (e.g., 'Account', 'Opportunity', 'Custom_Object__c').
 
 # errors.tooManySecondaryFields
 
 Too many secondary fields specified (%s). The Dynamic Highlights Panel supports a maximum of %s secondary fields.
+
+# errors.flagRequiresRecordPage
+
+The --%s flag can only be used with --template RecordPage.
