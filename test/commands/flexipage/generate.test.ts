@@ -76,4 +76,37 @@ describe('flexipage:generate', () => {
   it('should be marked as beta', () => {
     expect(FlexipageGenerate.state).to.equal('beta');
   });
+
+  it('should reject primary-field with non-RecordPage template', async () => {
+    try {
+      await FlexipageGenerate.run(['--name', 'TestPage', '--template', 'AppPage', '--primary-field', 'Name']);
+      expect.fail('Should have thrown an error');
+    } catch (err) {
+      const error = err as Error;
+      expect(error.message).to.include('primary-field');
+      expect(error.message).to.include('RecordPage');
+    }
+  });
+
+  it('should reject secondary-fields with non-RecordPage template', async () => {
+    try {
+      await FlexipageGenerate.run(['--name', 'TestPage', '--template', 'HomePage', '--secondary-fields', 'Industry']);
+      expect.fail('Should have thrown an error');
+    } catch (err) {
+      const error = err as Error;
+      expect(error.message).to.include('secondary-fields');
+      expect(error.message).to.include('RecordPage');
+    }
+  });
+
+  it('should reject detail-fields with non-RecordPage template', async () => {
+    try {
+      await FlexipageGenerate.run(['--name', 'TestPage', '--template', 'AppPage', '--detail-fields', 'Name,Phone']);
+      expect.fail('Should have thrown an error');
+    } catch (err) {
+      const error = err as Error;
+      expect(error.message).to.include('detail-fields');
+      expect(error.message).to.include('RecordPage');
+    }
+  });
 });
