@@ -12,7 +12,7 @@ Creates an Experience Cloud site with the specified template, name, and URL path
 
   <%= config.bin %> <%= command.id %> --template BuildYourOwnLWR --name mysite --url-path-prefix mysite
 
-- Generate a BYO LWR site with a custom output directory:
+- Generate an Experience Cloud site like the last example, but generate the files into the specified output directory: 
 
   <%= config.bin %> <%= command.id %> --template BuildYourOwnLWR --name mysite --url-path-prefix mysite --output-dir force-app/main/default
 
