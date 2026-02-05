@@ -10,7 +10,7 @@ import { expect } from 'chai';
 import { TestSession, execCmd } from '@salesforce/cli-plugins-testkit';
 import assert from 'yeoman-assert';
 
-const COMMAND = 'template generate dxp site';
+const COMMAND = 'template generate digital-experience site';
 
 describe(COMMAND, () => {
   let session: TestSession;
@@ -24,11 +24,11 @@ describe(COMMAND, () => {
     await session?.clean();
   });
 
-  describe('--template build_your_own_lwr', () => {
+  describe('--template BuildYourOwnLWR', () => {
     it('should create with all required files', () => {
       const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default');
       execCmd(
-        `${COMMAND} --template build_your_own_lwr --name "123 @ Test Site" --url-path-prefix 123testsite --output-dir "${outputDir}"`,
+        `${COMMAND} --template BuildYourOwnLWR --name "123 @ Test Site" --url-path-prefix 123testsite --output-dir "${outputDir}"`,
         {
           ensureExitCode: 0,
         }
@@ -111,7 +111,7 @@ describe(COMMAND, () => {
 
   describe('parameter validation', () => {
     it('should throw error if missing site name', () => {
-      const stderr = execCmd(`${COMMAND} --template build_your_own_lwr --url-path-prefix test`).shellOutput.stderr;
+      const stderr = execCmd(`${COMMAND} --template BuildYourOwnLWR --url-path-prefix test`).shellOutput.stderr;
       expect(stderr).to.contain('Missing required flag');
     });
 
@@ -122,7 +122,7 @@ describe(COMMAND, () => {
 
     it('should default to empty string if url-path-prefix is not provided', () => {
       const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default');
-      execCmd(`${COMMAND} --template build_your_own_lwr --name "DefaultPrefixSite" --output-dir "${outputDir}"`, {
+      execCmd(`${COMMAND} --template BuildYourOwnLWR --name "DefaultPrefixSite" --output-dir "${outputDir}"`, {
         ensureExitCode: 0,
       });
 
@@ -140,7 +140,7 @@ describe(COMMAND, () => {
     });
 
     it('should default to force/main/default if output-dir is not provided', () => {
-      execCmd(`${COMMAND} --template build_your_own_lwr --name "DefaultDirSite" --url-path-prefix defaultdir`, {
+      execCmd(`${COMMAND} --template BuildYourOwnLWR --name "DefaultDirSite" --url-path-prefix defaultdir`, {
         ensureExitCode: 0,
       });
       const defaultOutputDir = path.join(session.project.dir, 'force-app', 'main', 'default');

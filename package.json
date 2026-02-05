@@ -93,7 +93,7 @@
               "apex": {
                 "description": "Create an apex class or trigger."
               },
-              "dxp": {
+              "digital-experience": {
                 "description": "Create a Digital Experience site."
               }
             }

@@ -7,12 +7,12 @@
 
 import path from 'node:path';
 import { Flags, SfCommand, Ux } from '@salesforce/sf-plugins-core';
-import { CreateOutput, DxpSiteOptions, TemplateType } from '@salesforce/templates';
+import { CreateOutput, DigitalExperienceSiteOptions, TemplateType } from '@salesforce/templates';
 import { Messages, SfProject } from '@salesforce/core';
 import { getCustomTemplates, runGenerator } from '../../../../utils/templateCommand.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
-const messages = Messages.loadMessages('@salesforce/plugin-templates', 'dxpSite');
+const messages = Messages.loadMessages('@salesforce/plugin-templates', 'digitalExperienceSite');
 
 export default class GenerateSite extends SfCommand<CreateOutput> {
   public static readonly state = 'preview';
@@ -29,7 +29,7 @@ export default class GenerateSite extends SfCommand<CreateOutput> {
     template: Flags.string({
       char: 't',
       summary: messages.getMessage('flags.template.summary'),
-      options: ['build_your_own_lwr'] as const,
+      options: ['BuildYourOwnLWR'] as const,
       required: true,
     }),
     'url-path-prefix': Flags.string({
@@ -78,7 +78,7 @@ export default class GenerateSite extends SfCommand<CreateOutput> {
 
     const outputDir = flags['output-dir'] ?? (await GenerateSite.getDefaultOutputDir());
 
-    const flagsAsOptions: DxpSiteOptions = {
+    const flagsAsOptions: DigitalExperienceSiteOptions = {
       sitename: flags.name,
       urlpathprefix: flags['url-path-prefix'],
       adminemail: adminEmail,
@@ -87,7 +87,7 @@ export default class GenerateSite extends SfCommand<CreateOutput> {
     };
 
     return runGenerator({
-      templateType: TemplateType.DxpSite,
+      templateType: TemplateType.DigitalExperienceSite,
       opts: flagsAsOptions,
       ux: new Ux({ jsonEnabled: this.jsonEnabled() }),
       templates: getCustomTemplates(this.configAggregator),

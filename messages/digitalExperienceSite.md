@@ -10,11 +10,11 @@ Creates an Experience Cloud site with the specified template, name and URL path 
 
 - Generate a BYO LWR site named "mysite" with URL path prefix "mysite":
 
-  <%= config.bin %> <%= command.id %> --template build_your_own_lwr --name mysite --url-path-prefix mysite
+  <%= config.bin %> <%= command.id %> --template BuildYourOwnLWR --name mysite --url-path-prefix mysite
 
 - Generate a BYO LWR site with a custom output directory:
 
-  <%= config.bin %> <%= command.id %> --template build_your_own_lwr --name mysite --url-path-prefix mysite --output-dir force-app/main/default
+  <%= config.bin %> <%= command.id %> --template BuildYourOwnLWR --name mysite --url-path-prefix mysite --output-dir force-app/main/default
 
 # flags.name.summary
 
@@ -28,7 +28,7 @@ Template to use for site generation.
 
 Supported templates:
 
-- build_your_own_lwr - <https://help.salesforce.com/s/articleView?id=experience.rss_build_your_own_lwr.htm>
+- BuildYourOwnLWR - <https://help.salesforce.com/s/articleView?id=experience.rss_build_your_own_lwr.htm>
 
 # flags.url-path-prefix.summary
 
