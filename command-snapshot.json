@@ -24,14 +24,6 @@
     "plugin": "@salesforce/plugin-templates"
   },
   {
-    "alias": [],
-    "command": "dxp:generate:site",
-    "flagAliases": [],
-    "flagChars": ["d", "n", "p", "e", "o", "t"],
-    "flags": ["flags-dir", "json", "name", "output-dir", "url-path-prefix", "admin-email", "target-org", "template"],
-    "plugin": "@salesforce/plugin-templates"
-  },
-  {
     "alias": ["force:lightning:app:create"],
     "command": "lightning:generate:app",
     "flagAliases": ["apiversion", "appname", "outputdir"],
@@ -97,6 +89,14 @@
     "flagAliases": ["apiversion", "contenttype", "outputdir", "resourcename"],
     "flagChars": ["d", "n"],
     "flags": ["api-version", "flags-dir", "json", "loglevel", "name", "output-dir", "type"],
+    "plugin": "@salesforce/plugin-templates"
+  },
+  {
+    "alias": [],
+    "command": "template:generate:dxp:site",
+    "flagAliases": [],
+    "flagChars": ["d", "n", "p", "e", "o", "t"],
+    "flags": ["flags-dir", "json", "name", "output-dir", "url-path-prefix", "admin-email", "target-org", "template"],
     "plugin": "@salesforce/plugin-templates"
   },
   {
