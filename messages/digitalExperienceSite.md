@@ -18,7 +18,7 @@ Creates an Experience Cloud site with the specified template, name, and URL path
 
 # flags.name.summary
 
-Name of the site to generate.
+Name of the Experience Cloud site to generate.
 
 # flags.template.summary
 
