@@ -1,3 +1,51 @@
+# [56.5.0](https://github.com/salesforcecli/plugin-templates/compare/56.4.7...56.5.0) (2026-02-05)
+
+### Features
+
+- move apex templates ([5551c02](https://github.com/salesforcecli/plugin-templates/commit/5551c02b344696a63f2334f378839118b67ab53c))
+
+## [56.4.7](https://github.com/salesforcecli/plugin-templates/compare/56.4.6...56.4.7) (2026-01-30)
+
+### Bug Fixes
+
+- **deps:** bump tar from 7.5.6 to 7.5.7 ([19a0f2c](https://github.com/salesforcecli/plugin-templates/commit/19a0f2cb687b804fd672ee905c1f290e97f738d7))
+
+## [56.4.6](https://github.com/salesforcecli/plugin-templates/compare/56.4.5...56.4.6) (2026-01-25)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/core from 8.24.3 to 8.25.0 ([5030747](https://github.com/salesforcecli/plugin-templates/commit/503074765cf0fd9740eb17ecf12b071c0ab6a496))
+
+## [56.4.5](https://github.com/salesforcecli/plugin-templates/compare/56.4.4...56.4.5) (2026-01-25)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/templates from 65.4.1 to 65.4.3 ([16e068a](https://github.com/salesforcecli/plugin-templates/commit/16e068a6d18be2f2b60045a23fc31f57d1d49729))
+
+## [56.4.4](https://github.com/salesforcecli/plugin-templates/compare/56.4.3...56.4.4) (2026-01-22)
+
+### Bug Fixes
+
+- **deps:** bump lodash from 4.17.21 to 4.17.23 ([1418c41](https://github.com/salesforcecli/plugin-templates/commit/1418c41b3519726bd8f26aad864e31a29ca478e9))
+
+## [56.4.3](https://github.com/salesforcecli/plugin-templates/compare/56.4.2...56.4.3) (2026-01-22)
+
+### Bug Fixes
+
+- **deps:** bump tar from 7.5.3 to 7.5.6 ([8718d74](https://github.com/salesforcecli/plugin-templates/commit/8718d74911b7293bc3b903abf3f3c4edbcf85c09))
+
+## [56.4.2](https://github.com/salesforcecli/plugin-templates/compare/56.4.1...56.4.2) (2026-01-18)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/core from 8.24.0 to 8.24.3 ([03d3859](https://github.com/salesforcecli/plugin-templates/commit/03d38599679d6ed7f077f68b3c81ae75616a24ba))
+
+## [56.4.1](https://github.com/salesforcecli/plugin-templates/compare/56.4.0...56.4.1) (2026-01-18)
+
+### Bug Fixes
+
+- **deps:** bump tar from 7.5.2 to 7.5.3 ([6901599](https://github.com/salesforcecli/plugin-templates/commit/69015990c7fcb5297e3c9348d41706edda75ecbc))
+
 # [56.4.0](https://github.com/salesforcecli/plugin-templates/compare/56.3.74...56.4.0) (2025-12-16)
 
 ### Bug Fixes

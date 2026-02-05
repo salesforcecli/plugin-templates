@@ -9,8 +9,8 @@ import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } fro
 import { ApexClassOptions, CreateOutput, TemplateType } from '@salesforce/templates';
 import { CreateUtil } from '@salesforce/templates/lib/utils/index.js';
 import { Messages } from '@salesforce/core';
-import { runGenerator, getCustomTemplates } from '../../../utils/templateCommand.js';
-import { outputDirFlag } from '../../../utils/flags.js';
+import { runGenerator, getCustomTemplates } from '../../../../utils/templateCommand.js';
+import { outputDirFlag } from '../../../../utils/flags.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@salesforce/plugin-templates', 'apexClass');
@@ -21,7 +21,7 @@ export default class ApexClass extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
-  public static readonly aliases = ['force:apex:class:create'];
+  public static readonly aliases = ['force:apex:class:create', 'apex:generate:class'];
   public static readonly deprecateAliases = true;
   public static readonly flags = {
     name: Flags.string({
