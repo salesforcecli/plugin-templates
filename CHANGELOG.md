@@ -1,3 +1,9 @@
+# [56.5.0](https://github.com/salesforcecli/plugin-templates/compare/56.4.7...56.5.0) (2026-02-05)
+
+### Features
+
+- move apex templates ([5551c02](https://github.com/salesforcecli/plugin-templates/commit/5551c02b344696a63f2334f378839118b67ab53c))
+
 ## [56.4.7](https://github.com/salesforcecli/plugin-templates/compare/56.4.6...56.4.7) (2026-01-30)
 
 ### Bug Fixes
