@@ -22,7 +22,7 @@ Name of the Experience Cloud site to generate.
 
 # flags.template.summary
 
-Template to use for site generation.
+Template to use when generating the site.
 
 # flags.template.description
 
