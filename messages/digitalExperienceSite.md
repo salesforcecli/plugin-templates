@@ -4,7 +4,7 @@ Generate an Experience Cloud site.
 
 # description
 
-Creates an Experience Cloud site with the specified template, name and URL path prefix. The site includes all necessary metadata files including DigitalExperienceConfig, DigitalExperienceBundle, Network, and CustomSite.
+Creates an Experience Cloud site with the specified template, name, and URL path prefix. The site includes all necessary metadata files, including DigitalExperienceConfig, DigitalExperienceBundle, Network, and CustomSite.
 
 # examples
 
