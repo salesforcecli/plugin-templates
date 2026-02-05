@@ -16,8 +16,8 @@ import {
 import { ApexTriggerOptions, CreateOutput, TemplateType } from '@salesforce/templates';
 import { CreateUtil } from '@salesforce/templates/lib/utils/index.js';
 import { Messages } from '@salesforce/core';
-import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand.js';
-import { outputDirFlag } from '../../../utils/flags.js';
+import { getCustomTemplates, runGenerator } from '../../../../utils/templateCommand.js';
+import { outputDirFlag } from '../../../../utils/flags.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const apexTriggerFileSuffix = /.trigger$/;
@@ -27,7 +27,7 @@ export default class ApexTrigger extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
-  public static readonly aliases = ['force:apex:trigger:create'];
+  public static readonly aliases = ['force:apex:trigger:create', 'apex:generate:trigger'];
   public static readonly deprecateAliases = true;
   public static readonly flags = {
     name: Flags.string({
