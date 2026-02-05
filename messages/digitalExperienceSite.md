@@ -28,7 +28,7 @@ Template to use when generating the site.
 
 Supported templates:
 
-- BuildYourOwnLWR - <https://help.salesforce.com/s/articleView?id=experience.rss_build_your_own_lwr.htm>
+- BuildYourOwnLWR - Creates blazing-fast digital experiences, such as websites, microsites, and portals, using the Lightning Web Components programming model. Powered by Lightning Web Runtime (LWR), this customizable template delivers unparalleled site performance.  For additional details, see this Salesforce Help topic: https://help.salesforce.com/s/articleView?id=experience.rss_build_your_own_lwr.htm. 
 
 # flags.url-path-prefix.summary
 
