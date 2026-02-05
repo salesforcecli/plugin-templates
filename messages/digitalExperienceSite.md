@@ -36,7 +36,7 @@ URL path prefix for the site; must contain only alphanumeric characters.
 
 # flags.admin-email.summary
 
-Email address for the site administrator. This will default to the username of the currently authenticated user.
+Email address for the site administrator. Defaults to the username of the currently authenticated user.
 
 # flags.output-dir.summary
 
