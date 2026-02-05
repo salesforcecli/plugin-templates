@@ -44,4 +44,4 @@ Directory to generate the site files in.
 
 # flags.output-dir.description
 
-The location can be an absolute path or relative to the current working directory. If not specified, the command reads your sfdx-project.json and uses the default package directory. When running outside a Salesforce DX project, defaults to the current directory.
+The location can be an absolute path or relative to the current working directory. If not specified, the command reads your sfdx-project.json file and uses the default package directory. When running outside a Salesforce DX project, defaults to the current directory.
