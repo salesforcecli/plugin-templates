@@ -10,7 +10,7 @@ import { TestSession, execCmd } from '@salesforce/cli-plugins-testkit';
 import { nls } from '@salesforce/templates/lib/i18n/index.js';
 import assert from 'yeoman-assert';
 
-describe('Apex class creation tests:', () => {
+describe('template generate apex class:', () => {
   let session: TestSession;
   before(async () => {
     session = await TestSession.create({
@@ -24,13 +24,13 @@ describe('Apex class creation tests:', () => {
 
   describe('Check apex class creation', () => {
     it('should create foo class using DefaultApexClass template and default output directory', () => {
-      execCmd('force:apex:class:create --classname foo', { ensureExitCode: 0 });
+      execCmd('template generate apex class --classname foo', { ensureExitCode: 0 });
       assert.file(['foo.cls', 'foo.cls-meta.xml'].map((f) => path.join(session.project.dir, f)));
       assert.fileContent(path.join(session.project.dir, 'foo.cls'), 'public with sharing class foo');
     });
 
     it('should create foo class with a targetpath set and ApexException template', () => {
-      execCmd('force:apex:class:create --classname foo --outputdir testfolder --template ApexException', {
+      execCmd('template generate apex class --classname foo --outputdir testfolder --template ApexException', {
         ensureExitCode: 0,
       });
       assert.file([
@@ -41,13 +41,13 @@ describe('Apex class creation tests:', () => {
     });
 
     it('should override foo class using ApexException template', () => {
-      execCmd('force:apex:class:create --classname foo --template ApexException', { ensureExitCode: 0 });
+      execCmd('template generate apex class --classname foo --template ApexException', { ensureExitCode: 0 });
       assert.file(['foo.cls', 'foo.cls-meta.xml'].map((f) => path.join(session.project.dir, f)));
       assert.fileContent(path.join(session.project.dir, 'foo.cls'), 'public class foo extends Exception');
     });
 
     it('should create foo class in custom folder name that has a space in it', () => {
-      execCmd('force:apex:class:create --classname foo --outputdir "classes create"', { ensureExitCode: 0 });
+      execCmd('template generate apex class --classname foo --outputdir "classes create"', { ensureExitCode: 0 });
       assert.file([
         path.join(session.project.dir, 'classes create', 'foo.cls'),
         path.join(session.project.dir, 'classes create', 'foo.cls-meta.xml'),
@@ -58,27 +58,27 @@ describe('Apex class creation tests:', () => {
 
   describe('Check that all invalid name errors are thrown', () => {
     it('should throw a missing classname error', () => {
-      const stderr = execCmd('force:apex:class:create').shellOutput.stderr;
+      const stderr = execCmd('template generate apex class').shellOutput.stderr;
       expect(stderr).to.contain('Missing required flag');
     });
 
     it('should throw invalid non alphanumeric class name error', () => {
-      const stderr = execCmd('force:apex:class:create --classname /a').shellOutput.stderr;
+      const stderr = execCmd('template generate apex class --classname /a').shellOutput.stderr;
       expect(stderr).to.contain(nls.localize('AlphaNumericNameError'));
     });
 
     it('should throw invalid class name starting with numeric error', () => {
-      const stderr = execCmd('force:apex:class:create --classname 3aa').shellOutput.stderr;
+      const stderr = execCmd('template generate apex class --classname 3aa').shellOutput.stderr;
       expect(stderr).to.contain(nls.localize('NameMustStartWithLetterError'));
     });
 
     it('should throw invalid class name ending with underscore error', () => {
-      const stderr = execCmd('force:apex:class:create --classname a_').shellOutput.stderr;
+      const stderr = execCmd('template generate apex class --classname a_').shellOutput.stderr;
       expect(stderr).to.contain(nls.localize('EndWithUnderscoreError'));
     });
 
     it('should throw invalid class name with double underscore error', () => {
-      const stderr = execCmd('force:apex:class:create --classname a__a').shellOutput.stderr;
+      const stderr = execCmd('template generate apex class --classname a__a').shellOutput.stderr;
       expect(stderr).to.contain(nls.localize('DoubleUnderscoreError'));
     });
   });

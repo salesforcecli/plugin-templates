@@ -52,14 +52,6 @@
       "@salesforce/plugin-settings"
     ],
     "topics": {
-      "apex": {
-        "external": true,
-        "subtopics": {
-          "generate": {
-            "description": "Create an apex class or trigger."
-          }
-        }
-      },
       "analytics": {
         "external": true,
         "description": "Work with analytics assets.",
@@ -91,6 +83,19 @@
       },
       "static-resource": {
         "description": "Work with static resources."
+      },
+      "template": {
+        "description": "Collection of Salesforce templates.",
+        "subtopics": {
+          "generate": {
+            "description": "Use a Salesforce template to generate local files.",
+            "subtopics": {
+              "apex": {
+                "description": "Create an apex class or trigger."
+              }
+            }
+          }
+        }
       }
     },
     "flexibleTaxonomy": true,
