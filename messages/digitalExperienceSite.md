@@ -8,7 +8,7 @@ Creates an Experience Cloud site with the specified template, name, and URL path
 
 # examples
 
-- Generate a BYO LWR site named "mysite" with URL path prefix "mysite":
+- Generate an Experience Cloud site using the BuildYourOwnLWR template. The site is called "mysite" and has the URL path prefix "mysite":
 
   <%= config.bin %> <%= command.id %> --template BuildYourOwnLWR --name mysite --url-path-prefix mysite
 
