@@ -11,7 +11,7 @@ import { nls } from '@salesforce/templates/lib/i18n/index.js';
 import assert from 'yeoman-assert';
 
 config.truncateThreshold = 0;
-describe('Static resource creation tests:', () => {
+describe('template generate static-resource generate:', () => {
   let session: TestSession;
   before(async () => {
     session = await TestSession.create({
@@ -24,7 +24,9 @@ describe('Static resource creation tests:', () => {
   });
   describe('Check static resource creation', () => {
     it('should create foo css static resource in the default output directory', () => {
-      execCmd('force:staticresource:create --resourcename foo --contenttype text/css', { ensureExitCode: 0 });
+      execCmd('template generate static-resource generate --resourcename foo --contenttype text/css', {
+        ensureExitCode: 0,
+      });
       assert.file(['foo.css', 'foo.resource-meta.xml'].map((f) => path.join(session.project.dir, f)));
       assert.fileContent(
         path.join(session.project.dir, 'foo.css'),
@@ -33,7 +35,7 @@ describe('Static resource creation tests:', () => {
     });
 
     it('should create foo javascript static resource in the default output directory', () => {
-      execCmd('force:staticresource:create --resourcename foo --contenttype application/javascript', {
+      execCmd('template generate static-resource generate --resourcename foo --contenttype application/javascript', {
         ensureExitCode: 0,
       });
       assert.file(['foo.js', 'foo.resource-meta.xml'].map((f) => path.join(session.project.dir, f)));
@@ -44,7 +46,9 @@ describe('Static resource creation tests:', () => {
     });
 
     it('should create foo json static resource in the default output directory', () => {
-      execCmd('force:staticresource:create --resourcename foo --contenttype application/json', { ensureExitCode: 0 });
+      execCmd('template generate static-resource generate --resourcename foo --contenttype application/json', {
+        ensureExitCode: 0,
+      });
       assert.file(['foo.json', 'foo.resource-meta.xml'].map((f) => path.join(session.project.dir, f)));
       assert.fileContent(
         path.join(session.project.dir, 'foo.json'),
@@ -53,7 +57,9 @@ describe('Static resource creation tests:', () => {
     });
 
     it('should create foo json static resource in the default output directory', () => {
-      execCmd('force:staticresource:create --resourcename foo --contenttype text/plain', { ensureExitCode: 0 });
+      execCmd('template generate static-resource generate --resourcename foo --contenttype text/plain', {
+        ensureExitCode: 0,
+      });
       assert.file(['foo.txt', 'foo.resource-meta.xml'].map((f) => path.join(session.project.dir, f)));
       assert.fileContent(
         path.join(session.project.dir, 'foo.txt'),
@@ -62,7 +68,9 @@ describe('Static resource creation tests:', () => {
     });
 
     it('should create foo generic static resource in the default output directory', () => {
-      execCmd('force:staticresource:create --resourcename fooPDF --contenttype application/pdf', { ensureExitCode: 0 });
+      execCmd('template generate static-resource generate --resourcename fooPDF --contenttype application/pdf', {
+        ensureExitCode: 0,
+      });
       assert.file(['fooPDF.resource', 'fooPDF.resource-meta.xml'].map((f) => path.join(session.project.dir, f)));
       assert.fileContent(
         path.join(session.project.dir, 'fooPDF.resource'),
@@ -71,14 +79,14 @@ describe('Static resource creation tests:', () => {
     });
 
     it('should create foo static resource in the default output directory', () => {
-      execCmd('force:staticresource:create --resourcename foo', { ensureExitCode: 0 });
+      execCmd('template generate static-resource generate --resourcename foo', { ensureExitCode: 0 });
       assert.file(['foo/.gitkeep', 'foo.resource-meta.xml'].map((f) => path.join(session.project.dir, f)));
       assert.fileContent(path.join(session.project.dir, 'foo/.gitkeep'), 'This file can be deleted');
     });
 
     it('should create foo resource with a targetpath set', () => {
       execCmd(
-        'force:staticresource:create --resourcename srjs --outputdir resourcesjs --contenttype application/javascript',
+        'template generate static-resource generate --resourcename srjs --outputdir resourcesjs --contenttype application/javascript',
         { ensureExitCode: 0 }
       );
       assert.file(
@@ -89,7 +97,7 @@ describe('Static resource creation tests:', () => {
     });
 
     it('should create foo static resource in custom folder name that has a space in it', () => {
-      execCmd('force:staticresource:create --resourcename foo --outputdir "staticresource create"', {
+      execCmd('template generate static-resource generate --resourcename foo --outputdir "staticresource create"', {
         ensureExitCode: 0,
       });
       assert.file(
@@ -107,33 +115,33 @@ describe('Static resource creation tests:', () => {
 
   describe('Check that all invalid name errors are thrown', () => {
     it('should throw a missing resourcename error', () => {
-      const stderr = execCmd('force:staticresource:create').shellOutput.stderr;
+      const stderr = execCmd('template generate static-resource generate').shellOutput.stderr;
       expect(stderr).to.contain('Missing required flag');
     });
 
     it('should throw invalid non alphanumeric static resource name error', () => {
-      const stderr = execCmd('force:staticresource:create --resourcename /a').shellOutput.stderr;
+      const stderr = execCmd('template generate static-resource generate --resourcename /a').shellOutput.stderr;
       expect(stderr).to.contain(nls.localize('AlphaNumericNameError'));
     });
 
     it('should throw invalid static resource name starting with numeric error', () => {
-      const stderr = execCmd('force:staticresource:create --resourcename 3aa').shellOutput.stderr;
+      const stderr = execCmd('template generate static-resource generate --resourcename 3aa').shellOutput.stderr;
       expect(stderr).to.contain(nls.localize('NameMustStartWithLetterError'));
     });
 
     it('should throw invalid static resource name ending with underscore error', () => {
-      const stderr = execCmd('force:staticresource:create --resourcename a_').shellOutput.stderr;
+      const stderr = execCmd('template generate static-resource generate --resourcename a_').shellOutput.stderr;
       expect(stderr).to.contain(nls.localize('EndWithUnderscoreError'));
     });
 
     it('should throw invalid static resource name with double underscore error', () => {
-      const stderr = execCmd('force:staticresource:create --resourcename a__a').shellOutput.stderr;
+      const stderr = execCmd('template generate static-resource generate --resourcename a__a').shellOutput.stderr;
       expect(stderr).to.contain(nls.localize('DoubleUnderscoreError'));
     });
 
     it('should throw an invalid mime type error', () => {
-      const stderr = execCmd('force:staticresource:create --resourcename foo --contenttype notvalid').shellOutput
-        .stderr;
+      const stderr = execCmd('template generate static-resource generate --resourcename foo --contenttype notvalid')
+        .shellOutput.stderr;
       expect(stderr).to.contain(nls.localize('InvalidMimeType'));
     });
   });

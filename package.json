@@ -61,9 +61,6 @@
           }
         }
       },
-      "static-resource": {
-        "description": "Work with static resources."
-      },
       "template": {
         "description": "Collection of Salesforce templates.",
         "subtopics": {
@@ -78,6 +75,9 @@
               },
               "project": {
                 "description": "Work with projects, such as deploy and retrieve metadata."
+              },
+              "static-resource": {
+                "description": "Work with static resources."
               },
               "visualforce": {
                 "description": "Create a visualforce page or component."

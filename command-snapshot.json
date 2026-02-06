@@ -40,14 +40,6 @@
     "plugin": "@salesforce/plugin-templates"
   },
   {
-    "alias": ["force:staticresource:create"],
-    "command": "static-resource:generate",
-    "flagAliases": ["apiversion", "contenttype", "outputdir", "resourcename"],
-    "flagChars": ["d", "n"],
-    "flags": ["api-version", "flags-dir", "json", "loglevel", "name", "output-dir", "type"],
-    "plugin": "@salesforce/plugin-templates"
-  },
-  {
     "alias": ["force:analytics:template:create", "template:analytics:generate:template"],
     "command": "template:generate:analytics:template",
     "flagAliases": ["apiversion", "outputdir", "templatename"],
@@ -89,6 +81,14 @@
       "output-dir",
       "template"
     ],
+    "plugin": "@salesforce/plugin-templates"
+  },
+  {
+    "alias": ["force:staticresource:create", "static-resource:generate"],
+    "command": "template:generate:static-resource:generate",
+    "flagAliases": ["apiversion", "contenttype", "outputdir", "resourcename"],
+    "flagChars": ["d", "n"],
+    "flags": ["api-version", "flags-dir", "json", "loglevel", "name", "output-dir", "type"],
     "plugin": "@salesforce/plugin-templates"
   },
   {
