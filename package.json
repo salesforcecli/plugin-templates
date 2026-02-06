@@ -61,9 +61,6 @@
           }
         }
       },
-      "project": {
-        "description": "Work with projects, such as deploy and retrieve metadata."
-      },
       "static-resource": {
         "description": "Work with static resources."
       },
@@ -78,6 +75,9 @@
               },
               "apex": {
                 "description": "Create an apex class or trigger."
+              },
+              "project": {
+                "description": "Work with projects, such as deploy and retrieve metadata."
               },
               "visualforce": {
                 "description": "Create a visualforce page or component."

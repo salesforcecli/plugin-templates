@@ -40,26 +40,6 @@
     "plugin": "@salesforce/plugin-templates"
   },
   {
-    "alias": ["force:project:create"],
-    "command": "project:generate",
-    "flagAliases": ["defaultpackagedir", "loginurl", "outputdir", "projectname"],
-    "flagChars": ["d", "l", "n", "p", "s", "t", "x"],
-    "flags": [
-      "api-version",
-      "default-package-dir",
-      "flags-dir",
-      "json",
-      "login-url",
-      "loglevel",
-      "manifest",
-      "name",
-      "namespace",
-      "output-dir",
-      "template"
-    ],
-    "plugin": "@salesforce/plugin-templates"
-  },
-  {
     "alias": ["force:staticresource:create"],
     "command": "static-resource:generate",
     "flagAliases": ["apiversion", "contenttype", "outputdir", "resourcename"],
@@ -89,6 +69,26 @@
     "flagAliases": ["apiversion", "outputdir", "triggerevents", "triggername"],
     "flagChars": ["d", "e", "n", "s", "t"],
     "flags": ["api-version", "event", "flags-dir", "json", "loglevel", "name", "output-dir", "sobject", "template"],
+    "plugin": "@salesforce/plugin-templates"
+  },
+  {
+    "alias": ["force:project:create", "project:generate"],
+    "command": "template:generate:project:generate",
+    "flagAliases": ["defaultpackagedir", "loginurl", "outputdir", "projectname"],
+    "flagChars": ["d", "l", "n", "p", "s", "t", "x"],
+    "flags": [
+      "api-version",
+      "default-package-dir",
+      "flags-dir",
+      "json",
+      "login-url",
+      "loglevel",
+      "manifest",
+      "name",
+      "namespace",
+      "output-dir",
+      "template"
+    ],
     "plugin": "@salesforce/plugin-templates"
   },
   {
