@@ -1,3 +1,10 @@
+## [56.5.1](https://github.com/salesforcecli/plugin-templates/compare/56.5.0...56.5.1) (2026-02-06)
+
+### Bug Fixes
+
+- cleaning up the lockfile ([cfe79e3](https://github.com/salesforcecli/plugin-templates/commit/cfe79e3c3b0856e62348eb4b7b0f42d11ae470ff))
+- using lowercase webapplications path and update to latest @salesforce/templates @W-21046050@ ([e2da0d2](https://github.com/salesforcecli/plugin-templates/commit/e2da0d2d24e39470c12e8756c26ff3757c13dd79))
+
 # [56.5.0](https://github.com/salesforcecli/plugin-templates/compare/56.4.7...56.5.0) (2026-02-05)
 
 ### Features

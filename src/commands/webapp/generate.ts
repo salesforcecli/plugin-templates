@@ -48,14 +48,14 @@ export default class WebAppGenerate extends SfCommand<CreateOutput> {
 
   /**
    * Resolves the default output directory by reading the project's sfdx-project.json.
-   * Returns the path to webApplications under the default package directory,
+   * Returns the path to webapplications under the default package directory,
    * or falls back to the current directory if not in a project context.
    */
   private static async getDefaultOutputDir(): Promise<string> {
     try {
       const project = await SfProject.resolve();
       const defaultPackage = project.getDefaultPackage();
-      return path.join(defaultPackage.path, 'main', 'default', 'webApplications');
+      return path.join(defaultPackage.path, 'main', 'default', 'webapplications');
     } catch {
       return '.';
     }
