@@ -12,7 +12,7 @@ import { Messages, SfProject } from '@salesforce/core';
 import { getCustomTemplates, runGenerator } from '../../utils/templateCommand.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
-const messages = Messages.loadMessages('@salesforce/plugin-templates', 'webapplication');
+const messages = Messages.loadMessages('@salesforce/plugin-templates', 'webApplication');
 
 export default class WebAppGenerate extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary');
