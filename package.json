@@ -52,15 +52,6 @@
       "@salesforce/plugin-settings"
     ],
     "topics": {
-      "analytics": {
-        "external": true,
-        "description": "Work with analytics assets.",
-        "subtopics": {
-          "generate": {
-            "description": "Create analytics templates."
-          }
-        }
-      },
       "lightning": {
         "description": "Work with Lightning Web and Aura components.",
         "external": true,
@@ -82,6 +73,9 @@
           "generate": {
             "description": "Use a Salesforce template to generate local files.",
             "subtopics": {
+              "analytics": {
+                "description": "Create analytics templates."
+              },
               "apex": {
                 "description": "Create an apex class or trigger."
               },

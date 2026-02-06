@@ -8,8 +8,8 @@
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { Messages } from '@salesforce/core';
 import { AnalyticsTemplateOptions, CreateOutput, TemplateType } from '@salesforce/templates';
-import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand.js';
-import { outputDirFlag } from '../../../utils/flags.js';
+import { getCustomTemplates, runGenerator } from '../../../../utils/templateCommand.js';
+import { outputDirFlag } from '../../../../utils/flags.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@salesforce/plugin-templates', 'analyticsTemplate');
@@ -17,7 +17,7 @@ export default class AnalyticsTemplate extends SfCommand<CreateOutput> {
   public static readonly examples = messages.getMessages('examples');
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
-  public static readonly aliases = ['force:analytics:template:create'];
+  public static readonly aliases = ['force:analytics:template:create', 'template analytics generate template'];
   public static readonly deprecateAliases = true;
   public static readonly flags = {
     'output-dir': outputDirFlag,

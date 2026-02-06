@@ -1,13 +1,5 @@
 [
   {
-    "alias": ["force:analytics:template:create"],
-    "command": "analytics:generate:template",
-    "flagAliases": ["apiversion", "outputdir", "templatename"],
-    "flagChars": ["d", "n"],
-    "flags": ["api-version", "flags-dir", "json", "loglevel", "name", "output-dir"],
-    "plugin": "@salesforce/plugin-templates"
-  },
-  {
     "alias": ["force:lightning:app:create"],
     "command": "lightning:generate:app",
     "flagAliases": ["apiversion", "appname", "outputdir"],
@@ -73,6 +65,14 @@
     "flagAliases": ["apiversion", "contenttype", "outputdir", "resourcename"],
     "flagChars": ["d", "n"],
     "flags": ["api-version", "flags-dir", "json", "loglevel", "name", "output-dir", "type"],
+    "plugin": "@salesforce/plugin-templates"
+  },
+  {
+    "alias": ["force:analytics:template:create", "template:analytics:generate:template"],
+    "command": "template:generate:analytics:template",
+    "flagAliases": ["apiversion", "outputdir", "templatename"],
+    "flagChars": ["d", "n"],
+    "flags": ["api-version", "flags-dir", "json", "loglevel", "name", "output-dir"],
     "plugin": "@salesforce/plugin-templates"
   },
   {
