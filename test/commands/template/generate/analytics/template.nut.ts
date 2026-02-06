@@ -13,7 +13,7 @@ import assert from 'yeoman-assert';
 
 config.truncateThreshold = 0;
 
-describe('Analytics template creation tests:', () => {
+describe('template generate analytics template:', () => {
   let session: TestSession;
   before(async () => {
     session = await TestSession.create({
@@ -26,7 +26,7 @@ describe('Analytics template creation tests:', () => {
   });
 
   it('should create analytics template foo using foo as the output name and internal values', () => {
-    execCmd('force:analytics:template:create --templatename foo --outputdir waveTemplates', { ensureExitCode: 0 });
+    execCmd('template generate analytics template --templatename foo --outputdir waveTemplates', { ensureExitCode: 0 });
     const rawFileContents = fs.readFileSync(
       path.join(session.project.dir, 'waveTemplates', 'foo', 'template-info.json'),
       'utf-8'
@@ -75,17 +75,18 @@ describe('Analytics template creation tests:', () => {
   });
   describe('errors', () => {
     it('should throw error output directory does not contain waveTemplates', () => {
-      const stderr = execCmd('force:analytics:template:create --templatename foo --outputdir foo').shellOutput.stderr;
+      const stderr = execCmd('template generate analytics template --templatename foo --outputdir foo').shellOutput
+        .stderr;
       expect(stderr).to.contain(nls.localize('MissingWaveTemplatesDir'));
     });
 
     it('should throw error when missing required name field', () => {
-      const stderr = execCmd('force:analytics:template:create').shellOutput.stderr;
+      const stderr = execCmd('template generate analytics template').shellOutput.stderr;
       expect(stderr).to.contain('Missing required flag');
     });
 
     it('should throw error with message about invalid characters in name', () => {
-      const stderr = execCmd('force:analytics:template:create --templatename foo$^s --outputdir waveTemplates')
+      const stderr = execCmd('template generate analytics template --templatename foo$^s --outputdir waveTemplates')
         .shellOutput.stderr;
       expect(stderr).to.contain(nls.localize('AlphaNumericNameError'));
     });

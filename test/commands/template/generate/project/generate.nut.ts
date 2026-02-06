@@ -34,7 +34,7 @@ const vscodearray = ['extensions', 'launch', 'settings'];
 Messages.importMessagesDirectory(path.dirname(url.fileURLToPath(import.meta.url)));
 const messages = Messages.loadMessages('@salesforce/plugin-templates', 'messages');
 
-describe('Project creation tests:', () => {
+describe('template generate project generate:', () => {
   let session: TestSession;
   before(async () => {
     session = await TestSession.create({
@@ -48,7 +48,7 @@ describe('Project creation tests:', () => {
 
   describe('Check project creation', () => {
     it('should create project with default values and foo name', () => {
-      execCmd('force:project:create --projectname foo', { ensureExitCode: 0 });
+      execCmd('template generate project generate --projectname foo', { ensureExitCode: 0 });
       assert.file([path.join(session.project.dir, 'foo', 'config', 'project-scratch-def.json')]);
       assert.file([path.join(session.project.dir, 'foo', 'scripts', 'soql', 'account.soql')]);
       assert.file([path.join(session.project.dir, 'foo', 'scripts', 'apex', 'hello.apex')]);
@@ -83,7 +83,9 @@ describe('Project creation tests:', () => {
     });
 
     it('should create project with default values and foo name in a custom output directory with spaces in its name', () => {
-      execCmd('force:project:create --projectname foo --outputdir "test outputdir"', { ensureExitCode: 0 });
+      execCmd('template generate project generate --projectname foo --outputdir "test outputdir"', {
+        ensureExitCode: 0,
+      });
       assert.file([path.join(session.project.dir, 'test outputdir', 'foo', 'config', 'project-scratch-def.json')]);
       assert.file([path.join(session.project.dir, 'test outputdir', 'foo', 'README.md')]);
       assert.file([path.join(session.project.dir, 'test outputdir', 'foo', 'sfdx-project.json')]);
@@ -103,7 +105,7 @@ describe('Project creation tests:', () => {
     });
 
     it('should not create duplicate project in the directory where command is executed', () => {
-      execCmd('force:project:create --projectname duplicate-project-test --outputdir "test outputdir"', {
+      execCmd('template generate project generate --projectname duplicate-project-test --outputdir "test outputdir"', {
         ensureExitCode: 0,
       });
       assert.file(path.join(session.project.dir, 'test outputdir', 'duplicate-project-test', 'force-app'));
@@ -111,7 +113,7 @@ describe('Project creation tests:', () => {
     });
 
     it('should create project with default values and foo-project name in a custom output directory with spaces in its name', () => {
-      execCmd('force:project:create --projectname foo-project', { ensureExitCode: 0 });
+      execCmd('template generate project generate --projectname foo-project', { ensureExitCode: 0 });
       assert.file([path.join(session.project.dir, 'foo-project', 'config', 'project-scratch-def.json')]);
       assert.file([path.join(session.project.dir, 'foo-project', 'README.md')]);
       assert.file([path.join(session.project.dir, 'foo-project', 'sfdx-project.json')]);
@@ -128,7 +130,9 @@ describe('Project creation tests:', () => {
     });
 
     it('should create a project with specified api version', () => {
-      execCmd('force:project:create --projectname apiVersionTest --api-version 50.0', { ensureExitCode: 0 });
+      execCmd('template generate project generate --projectname apiVersionTest --api-version 50.0', {
+        ensureExitCode: 0,
+      });
       assert.fileContent(
         path.join(session.project.dir, 'apiVersionTest', 'sfdx-project.json'),
         '"sourceApiVersion": "50.0"'
@@ -136,13 +140,13 @@ describe('Project creation tests:', () => {
     });
 
     it('should create project with footest name and manifest folder', () => {
-      execCmd('force:project:create --projectname footest --manifest', { ensureExitCode: 0 });
+      execCmd('template generate project generate --projectname footest --manifest', { ensureExitCode: 0 });
       assert.file([path.join(session.project.dir, 'footest', 'manifest', 'package.xml')]);
     });
 
     it('should create project with fooempty name, empty template, empty default package directory, and a custom namespace', () => {
       execCmd(
-        'force:project:create --projectname fooempty --template empty --defaultpackagedir empty --namespace testnamespace',
+        'template generate project generate --projectname fooempty --template empty --defaultpackagedir empty --namespace testnamespace',
         { ensureExitCode: 0 }
       );
       assert.file(path.join(session.project.dir, 'fooempty', '.forceignore'));
@@ -163,7 +167,7 @@ describe('Project creation tests:', () => {
 
     it('should create project with fooempty name, empty template, empty default package directory, empty namespace and custom login url', () => {
       execCmd(
-        'force:project:create --projectname fooempty --template empty --defaultpackagedir empty --loginurl https://vandelay-industries.my.salesforce.com',
+        'template generate project generate --projectname fooempty --template empty --defaultpackagedir empty --loginurl https://vandelay-industries.my.salesforce.com',
         { ensureExitCode: 0 }
       );
       assert.file(path.join(session.project.dir, 'fooempty', '.forceignore'));
@@ -184,7 +188,9 @@ describe('Project creation tests:', () => {
     });
 
     it('should create project with analytics1 name using analytics template and a manifest', () => {
-      execCmd('force:project:create --projectname analytics1 --template analytics --manifest', { ensureExitCode: 0 });
+      execCmd('template generate project generate --projectname analytics1 --template analytics --manifest', {
+        ensureExitCode: 0,
+      });
       assert.file(path.join(session.project.dir, 'analytics1', '.forceignore'));
       assert.fileContent(path.join(session.project.dir, 'analytics1', 'sfdx-project.json'), '"path": "force-app",');
       assert.fileContent(path.join(session.project.dir, 'analytics1', 'sfdx-project.json'), 'sourceApiVersion');
@@ -229,12 +235,12 @@ describe('Project creation tests:', () => {
 
   describe('project creation failures', () => {
     it('should throw invalid template name error', () => {
-      const stderr = execCmd('force:project:create').shellOutput.stderr;
+      const stderr = execCmd('template generate project generate').shellOutput.stderr;
       expect(stderr).to.contain('Missing required flag');
     });
 
     it('should throw invalid template name error', () => {
-      const stderr = execCmd('force:project:create --projectname foo --template foo').shellOutput.stderr;
+      const stderr = execCmd('template generate project generate --projectname foo --template foo').shellOutput.stderr;
       expect(stderr).to.contain(messages.getMessage('InvalidTemplate'));
     });
   });

@@ -8,8 +8,8 @@
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { CreateOutput, StaticResourceOptions, TemplateType } from '@salesforce/templates';
 import { Messages } from '@salesforce/core';
-import { outputDirFlag } from '../../utils/flags.js';
-import { getCustomTemplates, runGenerator } from '../../utils/templateCommand.js';
+import { outputDirFlag } from '../../../../utils/flags.js';
+import { getCustomTemplates, runGenerator } from '../../../../utils/templateCommand.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@salesforce/plugin-templates', 'staticResource');
@@ -17,7 +17,7 @@ export default class StaticResource extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
-  public static readonly aliases = ['force:staticresource:create'];
+  public static readonly aliases = ['force:staticresource:create', 'static-resource generate'];
   public static readonly deprecateAliases = true;
   public static readonly flags = {
     name: Flags.string({

@@ -9,8 +9,8 @@ import { Flags, SfCommand, orgApiVersionFlagWithDeprecations, Ux, loglevel } fro
 import { CreateOutput, TemplateType, VisualforceComponentOptions } from '@salesforce/templates';
 import { Messages } from '@salesforce/core';
 import { CreateUtil } from '@salesforce/templates/lib/utils/index.js';
-import { outputDirFlag } from '../../../utils/flags.js';
-import { runGenerator, getCustomTemplates } from '../../../utils/templateCommand.js';
+import { outputDirFlag } from '../../../../utils/flags.js';
+import { runGenerator, getCustomTemplates } from '../../../../utils/templateCommand.js';
 const visualforceComponentFileSuffix = /.component$/;
 const VF_TYPE = 'Component';
 
@@ -22,7 +22,7 @@ export default class VisualforceComponent extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary', [VF_TYPE]);
   public static readonly description = messages.getMessage('description', [VF_TYPE]);
   public static readonly examples = messages.getMessages('examples.component');
-  public static readonly aliases = ['force:visualforce:component:create'];
+  public static readonly aliases = ['force:visualforce:component:create', 'visualforce:generate:component'];
   public static readonly deprecateAliases = true;
   public static readonly flags = {
     name: Flags.string({

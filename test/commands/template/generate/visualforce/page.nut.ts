@@ -12,7 +12,7 @@ import assert from 'yeoman-assert';
 
 config.truncateThreshold = 0;
 
-describe('Visualforce page creation tests:', () => {
+describe('template generate visualforce page:', () => {
   let session: TestSession;
   before(async () => {
     session = await TestSession.create({
@@ -25,14 +25,14 @@ describe('Visualforce page creation tests:', () => {
   });
   describe('Check visualforce page creation', () => {
     it('should create foo page using DefaultVFPage template and default output directory', () => {
-      execCmd('force:visualforce:page:create --pagename foo --label testlabel', { ensureExitCode: 0 });
+      execCmd('template generate visualforce page --pagename foo --label testlabel', { ensureExitCode: 0 });
       assert.file(['foo.page', 'foo.page-meta.xml'].map((f) => path.join(session.project.dir, f)));
       assert.fileContent(path.join(session.project.dir, 'foo.page'), 'This is your new Page');
       assert.fileContent(path.join(session.project.dir, 'foo.page-meta.xml'), '<label>testlabel</label>');
     });
 
     it('should create foo page in a folder with a custom name', () => {
-      execCmd('force:visualforce:page:create --pagename foo --outputdir testpage --label testlabel', {
+      execCmd('template generate visualforce page --pagename foo --outputdir testpage --label testlabel', {
         ensureExitCode: 0,
       });
       assert.file(
@@ -43,7 +43,7 @@ describe('Visualforce page creation tests:', () => {
     });
 
     it('should create foo page in custom folder name that has a space in it', () => {
-      execCmd('force:visualforce:page:create --pagename foo --outputdir "folder space" --label label', {
+      execCmd('template generate visualforce page --pagename foo --outputdir "folder space" --label label', {
         ensureExitCode: 0,
       });
       assert.file(
@@ -56,27 +56,27 @@ describe('Visualforce page creation tests:', () => {
 
   describe('Check that all invalid name errors are thrown', () => {
     it('should throw a missing pagename error', () => {
-      const stderr = execCmd('force:visualforce:page:create').shellOutput.stderr;
+      const stderr = execCmd('template generate visualforce page').shellOutput.stderr;
       expect(stderr).to.contain('Missing required flag');
     });
 
     it('should throw invalid non alphanumeric pagename error', () => {
-      const stderr = execCmd('force:visualforce:page:create --pagename /a --label foo').shellOutput.stderr;
+      const stderr = execCmd('template generate visualforce page --pagename /a --label foo').shellOutput.stderr;
       expect(stderr).to.contain(nls.localize('AlphaNumericNameError'));
     });
 
     it('should throw invalid pagename starting with numeric error', () => {
-      const stderr = execCmd('force:visualforce:page:create --pagename 3aa --label foo').shellOutput.stderr;
+      const stderr = execCmd('template generate visualforce page --pagename 3aa --label foo').shellOutput.stderr;
       expect(stderr).to.contain(nls.localize('NameMustStartWithLetterError'));
     });
 
     it('should throw invalid pagename ending with underscore error', () => {
-      const stderr = execCmd('force:visualforce:page:create --pagename a_ --label foo').shellOutput.stderr;
+      const stderr = execCmd('template generate visualforce page --pagename a_ --label foo').shellOutput.stderr;
       expect(stderr).to.contain(nls.localize('EndWithUnderscoreError'));
     });
 
     it('should throw invalid pagename with double underscore error', () => {
-      const stderr = execCmd('force:visualforce:page:create --pagename a__a --label foo').shellOutput.stderr;
+      const stderr = execCmd('template generate visualforce page --pagename a__a --label foo').shellOutput.stderr;
       expect(stderr).to.contain(nls.localize('DoubleUnderscoreError'));
     });
   });
