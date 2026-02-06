@@ -73,14 +73,6 @@
       "project": {
         "description": "Work with projects, such as deploy and retrieve metadata."
       },
-      "visualforce": {
-        "description": "Work with Visualforce components.",
-        "subtopics": {
-          "generate": {
-            "description": "Create a Visualforce page or component."
-          }
-        }
-      },
       "static-resource": {
         "description": "Work with static resources."
       },
@@ -92,6 +84,9 @@
             "subtopics": {
               "apex": {
                 "description": "Create an apex class or trigger."
+              },
+              "visualforce": {
+                "description": "Create a visualforce page or component."
               }
             }
           }

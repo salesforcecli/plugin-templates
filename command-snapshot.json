@@ -92,16 +92,16 @@
     "plugin": "@salesforce/plugin-templates"
   },
   {
-    "alias": ["force:visualforce:component:create"],
-    "command": "visualforce:generate:component",
+    "alias": ["force:visualforce:component:create", "visualforce:generate:component"],
+    "command": "template:generate:visualforce:component",
     "flagAliases": ["apiversion", "componentname", "outputdir"],
     "flagChars": ["d", "l", "n", "t"],
     "flags": ["api-version", "flags-dir", "json", "label", "loglevel", "name", "output-dir", "template"],
     "plugin": "@salesforce/plugin-templates"
   },
   {
-    "alias": ["force:visualforce:page:create"],
-    "command": "visualforce:generate:page",
+    "alias": ["force:visualforce:page:create", "visualforce:generate:page"],
+    "command": "template:generate:visualforce:page",
     "flagAliases": ["apiversion", "outputdir", "pagename"],
     "flagChars": ["d", "l", "n", "t"],
     "flags": ["api-version", "flags-dir", "json", "label", "loglevel", "name", "output-dir", "template"],
