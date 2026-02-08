@@ -171,7 +171,7 @@ FLAG DESCRIPTIONS
     directory.
 ```
 
-_See code: [src/commands/analytics/generate/template.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.1/src/commands/analytics/generate/template.ts)_
+_See code: [src/commands/analytics/generate/template.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.2/src/commands/analytics/generate/template.ts)_
 
 ## `sf lightning generate app`
 
@@ -226,7 +226,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/lightning/generate/app.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.1/src/commands/lightning/generate/app.ts)_
+_See code: [src/commands/lightning/generate/app.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.2/src/commands/lightning/generate/app.ts)_
 
 ## `sf lightning generate component`
 
@@ -295,7 +295,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/lightning/generate/component.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.1/src/commands/lightning/generate/component.ts)_
+_See code: [src/commands/lightning/generate/component.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.2/src/commands/lightning/generate/component.ts)_
 
 ## `sf lightning generate event`
 
@@ -350,7 +350,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/lightning/generate/event.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.1/src/commands/lightning/generate/event.ts)_
+_See code: [src/commands/lightning/generate/event.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.2/src/commands/lightning/generate/event.ts)_
 
 ## `sf lightning generate interface`
 
@@ -405,7 +405,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/lightning/generate/interface.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.1/src/commands/lightning/generate/interface.ts)_
+_See code: [src/commands/lightning/generate/interface.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.2/src/commands/lightning/generate/interface.ts)_
 
 ## `sf lightning generate test`
 
@@ -460,7 +460,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/lightning/generate/test.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.1/src/commands/lightning/generate/test.ts)_
+_See code: [src/commands/lightning/generate/test.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.2/src/commands/lightning/generate/test.ts)_
 
 ## `sf project generate`
 
@@ -565,7 +565,7 @@ FLAG DESCRIPTIONS
     Override the api version used for api requests made by this command
 ```
 
-_See code: [src/commands/project/generate.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.1/src/commands/project/generate.ts)_
+_See code: [src/commands/project/generate.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.2/src/commands/project/generate.ts)_
 
 ## `sf static-resource generate`
 
@@ -627,7 +627,7 @@ FLAG DESCRIPTIONS
     etc.
 ```
 
-_See code: [src/commands/static-resource/generate.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.1/src/commands/static-resource/generate.ts)_
+_See code: [src/commands/static-resource/generate.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.2/src/commands/static-resource/generate.ts)_
 
 ## `sf template generate apex class`
 
@@ -687,7 +687,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/template/generate/apex/class.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.1/src/commands/template/generate/apex/class.ts)_
+_See code: [src/commands/template/generate/apex/class.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.2/src/commands/template/generate/apex/class.ts)_
 
 ## `sf template generate apex trigger`
 
@@ -757,7 +757,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/template/generate/apex/trigger.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.1/src/commands/template/generate/apex/trigger.ts)_
+_See code: [src/commands/template/generate/apex/trigger.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.2/src/commands/template/generate/apex/trigger.ts)_
 
 ## `sf visualforce generate component`
 
@@ -813,7 +813,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/visualforce/generate/component.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.1/src/commands/visualforce/generate/component.ts)_
+_See code: [src/commands/visualforce/generate/component.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.2/src/commands/visualforce/generate/component.ts)_
 
 ## `sf visualforce generate page`
 
@@ -863,6 +863,6 @@ FLAG DESCRIPTIONS
     The name can be up to 40 characters and must start with a letter.
 ```
 
-_See code: [src/commands/visualforce/generate/page.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.1/src/commands/visualforce/generate/page.ts)_
+_See code: [src/commands/visualforce/generate/page.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.2/src/commands/visualforce/generate/page.ts)_
 
 <!-- commandsstop -->
