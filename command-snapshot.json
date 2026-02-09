@@ -73,7 +73,7 @@
   },
   {
     "alias": ["force:project:create", "project:generate"],
-    "command": "template:generate:project:generate",
+    "command": "template:generate:project",
     "flagAliases": ["defaultpackagedir", "loginurl", "outputdir", "projectname"],
     "flagChars": ["d", "l", "n", "p", "s", "t", "x"],
     "flags": [
@@ -93,7 +93,7 @@
   },
   {
     "alias": ["force:staticresource:create", "static-resource:generate"],
-    "command": "template:generate:static-resource:generate",
+    "command": "template:generate:static-resource",
     "flagAliases": ["apiversion", "contenttype", "outputdir", "resourcename"],
     "flagChars": ["d", "n"],
     "flags": ["api-version", "flags-dir", "json", "loglevel", "name", "output-dir", "type"],
