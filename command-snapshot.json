@@ -24,6 +24,14 @@
     "plugin": "@salesforce/plugin-templates"
   },
   {
+    "alias": [],
+    "command": "template:generate:digital-experience:site",
+    "flagAliases": [],
+    "flagChars": ["d", "e", "n", "o", "p", "t"],
+    "flags": ["admin-email", "flags-dir", "json", "name", "output-dir", "target-org", "template", "url-path-prefix"],
+    "plugin": "@salesforce/plugin-templates"
+  },
+  {
     "alias": ["force:lightning:app:create", "lightning:generate:app"],
     "command": "template:generate:lightning:app",
     "flagAliases": ["apiversion", "appname", "outputdir"],
