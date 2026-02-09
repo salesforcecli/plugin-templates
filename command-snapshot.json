@@ -92,7 +92,7 @@
     "plugin": "@salesforce/plugin-templates"
   },
   {
-    "alias": ["force:flexipage:create", "flexipage:generate"],
+    "alias": ["flexipage:generate"],
     "command": "template:generate:flexipage",
     "flagAliases": ["apiversion", "entity", "entity-name", "flexipagename", "masterlabel", "outputdir"],
     "flagChars": ["d", "i", "n", "s", "t"],
