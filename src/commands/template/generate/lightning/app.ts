@@ -9,8 +9,8 @@ import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } fro
 import { CreateOutput, LightningAppOptions, TemplateType } from '@salesforce/templates';
 import { CreateUtil } from '@salesforce/templates/lib/utils/index.js';
 import { Messages } from '@salesforce/core';
-import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand.js';
-import { internalFlag, outputDirFlagLightning } from '../../../utils/flags.js';
+import { getCustomTemplates, runGenerator } from '../../../../utils/templateCommand.js';
+import { internalFlag, outputDirFlagLightning } from '../../../../utils/flags.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const lightningCommonMessages = Messages.loadMessages('@salesforce/plugin-templates', 'lightning');
@@ -22,7 +22,7 @@ export default class LightningApp extends SfCommand<CreateOutput> {
   public static readonly summary = lightningCommonMessages.getMessage('summary', [BUNDLE_TYPE]);
   public static readonly description = lightningCommonMessages.getMessage('description', [BUNDLE_TYPE]);
   public static readonly examples = lightningAppMessages.getMessages('examples');
-  public static readonly aliases = ['force:lightning:app:create'];
+  public static readonly aliases = ['force:lightning:app:create', 'lightning generate app'];
   public static readonly deprecateAliases = true;
   public static readonly flags = {
     name: Flags.string({

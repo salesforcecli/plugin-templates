@@ -52,15 +52,6 @@
       "@salesforce/plugin-settings"
     ],
     "topics": {
-      "lightning": {
-        "description": "Work with Lightning Web and Aura components.",
-        "external": true,
-        "subtopics": {
-          "generate": {
-            "description": "Create LWC and Aura components and associated metadata."
-          }
-        }
-      },
       "template": {
         "description": "Collection of Salesforce templates.",
         "subtopics": {
@@ -72,6 +63,9 @@
               },
               "apex": {
                 "description": "Create an apex class or trigger."
+              },
+              "lightning": {
+                "description": "Create LWC and Aura components and associated metadata."
               },
               "project": {
                 "description": "Work with projects, such as deploy and retrieve metadata."

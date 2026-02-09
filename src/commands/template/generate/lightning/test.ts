@@ -9,8 +9,8 @@ import { Flags, loglevel, SfCommand, orgApiVersionFlagWithDeprecations, Ux } fro
 import { CreateOutput, LightningTestOptions, TemplateType } from '@salesforce/templates';
 import { CreateUtil } from '@salesforce/templates/lib/utils/index.js';
 import { Messages } from '@salesforce/core';
-import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand.js';
-import { internalFlag, outputDirFlagLightning } from '../../../utils/flags.js';
+import { getCustomTemplates, runGenerator } from '../../../../utils/templateCommand.js';
+import { internalFlag, outputDirFlagLightning } from '../../../../utils/flags.js';
 const lightningTestFileSuffix = /.resource$/;
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -20,7 +20,7 @@ export default class LightningTest extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
-  public static readonly aliases = ['force:lightning:test:create'];
+  public static readonly aliases = ['force:lightning:test:create', 'lightning generate test'];
   public static readonly deprecateAliases = true;
   public static readonly flags = {
     name: Flags.string({

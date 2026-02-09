@@ -5,24 +5,23 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
+// tslint:disable:no-unused-expression
+
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
-import { CreateOutput, LightningInterfaceOptions, TemplateType } from '@salesforce/templates';
-import { CreateUtil } from '@salesforce/templates/lib/utils/index.js';
+import { CreateOutput, LightningComponentOptions, TemplateType } from '@salesforce/templates';
 import { Messages } from '@salesforce/core';
-import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand.js';
-import { internalFlag, outputDirFlagLightning } from '../../../utils/flags.js';
-const lightningInterfaceFileSuffix = /.intf$/;
-const BUNDLE_TYPE = 'Interface';
+import { getCustomTemplates, runGenerator } from '../../../../utils/templateCommand.js';
+import { internalFlag, outputDirFlagLightning } from '../../../../utils/flags.js';
+const BUNDLE_TYPE = 'Component';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
-const messages = Messages.loadMessages('@salesforce/plugin-templates', 'lightningInterface');
+const messages = Messages.loadMessages('@salesforce/plugin-templates', 'lightningCmp');
 const lightningCommon = Messages.loadMessages('@salesforce/plugin-templates', 'lightning');
-
-export default class LightningInterface extends SfCommand<CreateOutput> {
-  public static readonly summary = lightningCommon.getMessage('summary', [BUNDLE_TYPE]);
-  public static readonly description = lightningCommon.getMessage('description', [BUNDLE_TYPE]);
+export default class LightningComponent extends SfCommand<CreateOutput> {
+  public static readonly summary = messages.getMessage('summary');
+  public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
-  public static readonly aliases = ['force:lightning:interface:create'];
+  public static readonly aliases = ['force:lightning:component:create', 'lightning generate component'];
   public static readonly deprecateAliases = true;
   public static readonly flags = {
     name: Flags.string({
@@ -30,33 +29,41 @@ export default class LightningInterface extends SfCommand<CreateOutput> {
       summary: lightningCommon.getMessage('flags.name.summary', [BUNDLE_TYPE]),
       description: lightningCommon.getMessage('flags.name.description'),
       required: true,
-      aliases: ['interfacename'],
+      aliases: ['componentname'],
       deprecateAliases: true,
     }),
-    template: Flags.string({
+    template: Flags.option({
       char: 't',
       summary: lightningCommon.getMessage('flags.template.summary'),
       description: lightningCommon.getMessage('flags.template.description'),
-      default: 'DefaultLightningIntf',
-      options: CreateUtil.getCommandTemplatesForFiletype(lightningInterfaceFileSuffix, 'lightninginterface'),
-    }),
+      default: 'default',
+      // Note: keep this list here and LightningComponentOptions#template in-sync with the
+      // templates/lightningcomponents/[aura|lwc]/* folders
+      options: ['default', 'analyticsDashboard', 'analyticsDashboardWithStep'] as const,
+    })(),
     'output-dir': outputDirFlagLightning,
     'api-version': orgApiVersionFlagWithDeprecations,
+    type: Flags.option({
+      summary: messages.getMessage('flags.type.summary'),
+      options: ['aura', 'lwc'] as const,
+      default: 'aura',
+    })(),
     internal: internalFlag,
     loglevel,
   };
 
   public async run(): Promise<CreateOutput> {
-    const { flags } = await this.parse(LightningInterface);
-    const flagsAsOptions: LightningInterfaceOptions = {
-      interfacename: flags.name,
+    const { flags } = await this.parse(LightningComponent);
+    const flagsAsOptions: LightningComponentOptions = {
+      componentname: flags.name,
+      template: flags.template,
       outputdir: flags['output-dir'],
-      internal: flags.internal,
       apiversion: flags['api-version'],
-      template: 'DefaultLightningIntf',
+      internal: flags.internal,
+      type: flags.type,
     };
     return runGenerator({
-      templateType: TemplateType.LightningInterface,
+      templateType: TemplateType.LightningComponent,
       opts: flagsAsOptions,
       ux: new Ux({ jsonEnabled: this.jsonEnabled() }),
       templates: getCustomTemplates(this.configAggregator),
