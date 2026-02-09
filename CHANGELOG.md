@@ -1,3 +1,17 @@
+# [56.6.0](https://github.com/salesforcecli/plugin-templates/compare/56.5.2...56.6.0) (2026-02-09)
+
+### Bug Fixes
+
+- address comments ([2518184](https://github.com/salesforcecli/plugin-templates/commit/25181840fbbd7938d1922214c087fceea75d1831))
+- casing ([cd6e8e7](https://github.com/salesforcecli/plugin-templates/commit/cd6e8e75c3dddc3e360f6c8dfa0776baf2554372))
+- undo license change ([5f438ea](https://github.com/salesforcecli/plugin-templates/commit/5f438ea2176a227d94d62e0f0f8ee140a3de3c32))
+
+### Features
+
+- add adminEmail param and update docs/tests ([6abb9aa](https://github.com/salesforcecli/plugin-templates/commit/6abb9aa58aee736e4aa626fd9e38abee65bb3870))
+- dxp site generator ([6ea9a16](https://github.com/salesforcecli/plugin-templates/commit/6ea9a16a197e3ef7618befd80f72a07513c2a699))
+- use username as admin email if available ([9fb0036](https://github.com/salesforcecli/plugin-templates/commit/9fb0036d353441feaec01c043f6db0272e2af505))
+
 ## [56.5.2](https://github.com/salesforcecli/plugin-templates/compare/56.5.1...56.5.2) (2026-02-08)
 
 ### Bug Fixes
