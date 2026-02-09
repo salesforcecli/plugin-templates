@@ -1,3 +1,30 @@
+# [56.6.0](https://github.com/salesforcecli/plugin-templates/compare/56.5.2...56.6.0) (2026-02-09)
+
+### Bug Fixes
+
+- address comments ([2518184](https://github.com/salesforcecli/plugin-templates/commit/25181840fbbd7938d1922214c087fceea75d1831))
+- casing ([cd6e8e7](https://github.com/salesforcecli/plugin-templates/commit/cd6e8e75c3dddc3e360f6c8dfa0776baf2554372))
+- undo license change ([5f438ea](https://github.com/salesforcecli/plugin-templates/commit/5f438ea2176a227d94d62e0f0f8ee140a3de3c32))
+
+### Features
+
+- add adminEmail param and update docs/tests ([6abb9aa](https://github.com/salesforcecli/plugin-templates/commit/6abb9aa58aee736e4aa626fd9e38abee65bb3870))
+- dxp site generator ([6ea9a16](https://github.com/salesforcecli/plugin-templates/commit/6ea9a16a197e3ef7618befd80f72a07513c2a699))
+- use username as admin email if available ([9fb0036](https://github.com/salesforcecli/plugin-templates/commit/9fb0036d353441feaec01c043f6db0272e2af505))
+
+## [56.5.2](https://github.com/salesforcecli/plugin-templates/compare/56.5.1...56.5.2) (2026-02-08)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/core from 8.25.0 to 8.25.1 ([e7a9977](https://github.com/salesforcecli/plugin-templates/commit/e7a997724bba756c1936beee470a2d44622b4536))
+
+## [56.5.1](https://github.com/salesforcecli/plugin-templates/compare/56.5.0...56.5.1) (2026-02-06)
+
+### Bug Fixes
+
+- cleaning up the lockfile ([cfe79e3](https://github.com/salesforcecli/plugin-templates/commit/cfe79e3c3b0856e62348eb4b7b0f42d11ae470ff))
+- using lowercase webapplications path and update to latest @salesforce/templates @W-21046050@ ([e2da0d2](https://github.com/salesforcecli/plugin-templates/commit/e2da0d2d24e39470c12e8756c26ff3757c13dd79))
+
 # [56.5.0](https://github.com/salesforcecli/plugin-templates/compare/56.4.7...56.5.0) (2026-02-05)
 
 ### Features
