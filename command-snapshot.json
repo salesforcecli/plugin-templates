@@ -92,6 +92,29 @@
     "plugin": "@salesforce/plugin-templates"
   },
   {
+    "alias": ["force:flexipage:create", "flexipage:generate"],
+    "command": "template:generate:flexipage",
+    "flagAliases": ["apiversion", "entity", "entity-name", "flexipagename", "masterlabel", "outputdir"],
+    "flagChars": ["d", "i", "n", "s", "t"],
+    "flags": [
+      "api-version",
+      "description",
+      "detail-fields",
+      "flags-dir",
+      "internal",
+      "json",
+      "label",
+      "loglevel",
+      "name",
+      "output-dir",
+      "primary-field",
+      "secondary-fields",
+      "sobject",
+      "template"
+    ],
+    "plugin": "@salesforce/plugin-templates"
+  },
+  {
     "alias": ["force:visualforce:component:create"],
     "command": "visualforce:generate:component",
     "flagAliases": ["apiversion", "componentname", "outputdir"],

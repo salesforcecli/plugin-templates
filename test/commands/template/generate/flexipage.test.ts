@@ -9,11 +9,11 @@ import { TestContext } from '@salesforce/core/testSetup';
 import { expect } from 'chai';
 import { stubSfCommandUx } from '@salesforce/sf-plugins-core';
 import { Messages } from '@salesforce/core';
-import FlexipageGenerate from '../../../src/commands/flexipage/generate.js';
+import FlexipageGenerate from '../../../../src/commands/template/generate/flexipage.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 
-describe('flexipage:generate', () => {
+describe('template:generate:flexipage', () => {
   const $$ = new TestContext();
 
   beforeEach(() => {

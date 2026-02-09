@@ -8,8 +8,8 @@
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { CreateOutput, FlexipageOptions, TemplateType } from '@salesforce/templates';
 import { Messages } from '@salesforce/core';
-import { getCustomTemplates, runGenerator } from '../../utils/templateCommand.js';
-import { internalFlag, outputDirFlag } from '../../utils/flags.js';
+import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand.js';
+import { internalFlag, outputDirFlag } from '../../../utils/flags.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@salesforce/plugin-templates', 'flexipage');
@@ -18,7 +18,7 @@ export default class FlexipageGenerate extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
-  public static readonly aliases = ['force:flexipage:create'];
+  public static readonly aliases = ['force:flexipage:create', 'flexipage:generate'];
   public static readonly deprecateAliases = true;
   public static readonly state = 'beta';
   public static readonly flags = {

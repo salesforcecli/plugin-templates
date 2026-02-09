@@ -61,14 +61,6 @@
           }
         }
       },
-      "flexipage": {
-        "description": "Work with Lightning pages (FlexiPages).",
-        "subtopics": {
-          "generate": {
-            "description": "Generate a FlexiPage from a template."
-          }
-        }
-      },
       "lightning": {
         "description": "Work with Lightning Web and Aura components.",
         "external": true,
@@ -100,6 +92,9 @@
             "subtopics": {
               "apex": {
                 "description": "Create an apex class or trigger."
+              },
+              "flexipage": {
+                "description": "Generate a Lightning FlexiPage from a template."
               }
             }
           }
