@@ -4,7 +4,7 @@ Generate a web application.
 
 # description
 
-Generates a web application in the specified directory or the current working directory. The web application files are created in a folder with the designated name. Web application files must be contained in a parent directory called "webApplications" in your package directory. Either run this command from an existing directory of this name, or use the --output-dir flag to create one or point to an existing one.
+Generates a web application in the specified directory or the current working directory. The web application files are created in a folder with the designated name. Web application files must be contained in a parent directory called "webapplications" in your package directory. Either run this command from an existing directory of this name, or use the --output-dir flag to create one or point to an existing one.
 
 # examples
 
@@ -16,9 +16,9 @@ Generates a web application in the specified directory or the current working di
 
   <%= config.bin %> <%= command.id %> --name MyReactApp --template reactbasic
 
-- Generate the web application in the "force-app/main/default/webApplications" directory:
+- Generate the web application in the "force-app/main/default/webapplications" directory:
 
-  <%= config.bin %> <%= command.id %> --name MyWebApp --output-dir force-app/main/default/webApplications
+  <%= config.bin %> <%= command.id %> --name MyWebApp --output-dir force-app/main/default/webapplications
 
 # flags.name.summary
 
@@ -50,4 +50,4 @@ Directory for saving the created files.
 
 # flags.output-dir.description
 
-The location can be an absolute path or relative to the current working directory. If not specified, the command reads your sfdx-project.json and defaults to the webApplications directory within your default package directory. When running outside a Salesforce DX project, defaults to the current directory.
+The location can be an absolute path or relative to the current working directory. If not specified, the command reads your sfdx-project.json and defaults to the webapplications directory within your default package directory. When running outside a Salesforce DX project, defaults to the current directory.

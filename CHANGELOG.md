@@ -1,3 +1,28 @@
+## [56.5.2](https://github.com/salesforcecli/plugin-templates/compare/56.5.1...56.5.2) (2026-02-08)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/core from 8.25.0 to 8.25.1 ([e7a9977](https://github.com/salesforcecli/plugin-templates/commit/e7a997724bba756c1936beee470a2d44622b4536))
+
+## [56.5.1](https://github.com/salesforcecli/plugin-templates/compare/56.5.0...56.5.1) (2026-02-06)
+
+### Bug Fixes
+
+- cleaning up the lockfile ([cfe79e3](https://github.com/salesforcecli/plugin-templates/commit/cfe79e3c3b0856e62348eb4b7b0f42d11ae470ff))
+- using lowercase webapplications path and update to latest @salesforce/templates @W-21046050@ ([e2da0d2](https://github.com/salesforcecli/plugin-templates/commit/e2da0d2d24e39470c12e8756c26ff3757c13dd79))
+
+# [56.5.0](https://github.com/salesforcecli/plugin-templates/compare/56.4.7...56.5.0) (2026-02-05)
+
+### Features
+
+- move apex templates ([5551c02](https://github.com/salesforcecli/plugin-templates/commit/5551c02b344696a63f2334f378839118b67ab53c))
+
+## [56.4.7](https://github.com/salesforcecli/plugin-templates/compare/56.4.6...56.4.7) (2026-01-30)
+
+### Bug Fixes
+
+- **deps:** bump tar from 7.5.6 to 7.5.7 ([19a0f2c](https://github.com/salesforcecli/plugin-templates/commit/19a0f2cb687b804fd672ee905c1f290e97f738d7))
+
 ## [56.4.6](https://github.com/salesforcecli/plugin-templates/compare/56.4.5...56.4.6) (2026-01-25)
 
 ### Bug Fixes

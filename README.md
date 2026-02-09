@@ -119,8 +119,6 @@ Congrats, you are debugging!
 <!-- commands -->
 
 - [`sf analytics generate template`](#sf-analytics-generate-template)
-- [`sf apex generate class`](#sf-apex-generate-class)
-- [`sf apex generate trigger`](#sf-apex-generate-trigger)
 - [`sf lightning generate app`](#sf-lightning-generate-app)
 - [`sf lightning generate component`](#sf-lightning-generate-component)
 - [`sf lightning generate event`](#sf-lightning-generate-event)
@@ -128,6 +126,8 @@ Congrats, you are debugging!
 - [`sf lightning generate test`](#sf-lightning-generate-test)
 - [`sf project generate`](#sf-project-generate)
 - [`sf static-resource generate`](#sf-static-resource-generate)
+- [`sf template generate apex class`](#sf-template-generate-apex-class)
+- [`sf template generate apex trigger`](#sf-template-generate-apex-trigger)
 - [`sf visualforce generate component`](#sf-visualforce-generate-component)
 - [`sf visualforce generate page`](#sf-visualforce-generate-page)
 
@@ -171,135 +171,7 @@ FLAG DESCRIPTIONS
     directory.
 ```
 
-_See code: [src/commands/analytics/generate/template.ts](https://github.com/salesforcecli/plugin-templates/blob/56.4.6/src/commands/analytics/generate/template.ts)_
-
-## `sf apex generate class`
-
-Generate an Apex class.
-
-```
-USAGE
-  $ sf apex generate class -n <value> [--json] [--flags-dir <value>] [-t
-    ApexException|ApexUnitTest|BasicUnitTest|DefaultApexClass|InboundEmailService] [-d <value>] [--api-version <value>]
-
-FLAGS
-  -d, --output-dir=<value>   [default: .] Directory for saving the created files.
-  -n, --name=<value>         (required) Name of the generated Apex class.
-  -t, --template=<option>    [default: DefaultApexClass] Template to use for file creation.
-                             <options: ApexException|ApexUnitTest|BasicUnitTest|DefaultApexClass|InboundEmailService>
-      --api-version=<value>  Override the api version used for api requests made by this command
-
-GLOBAL FLAGS
-  --flags-dir=<value>  Import flag values from a directory.
-  --json               Format output as json.
-
-DESCRIPTION
-  Generate an Apex class.
-
-  Generates the Apex *.cls file and associated metadata file. These files must be contained in a parent directory called
-  "classes" in your package directory. Either run this command from an existing directory of this name, or use the
-  --output-dir flag to generate one or point to an existing one.
-
-ALIASES
-  $ sf force apex class create
-
-EXAMPLES
-  Generate two metadata files associated with the MyClass Apex class (MyClass.cls and MyClass.cls-meta.xml) in the
-  current directory:
-
-    $ sf apex generate class --name MyClass
-
-  Similar to previous example, but generates the files in the "force-app/main/default/classes" directory:
-
-    $ sf apex generate class --name MyClass --output-dir force-app/main/default/classes
-
-FLAG DESCRIPTIONS
-  -d, --output-dir=<value>  Directory for saving the created files.
-
-    The location can be an absolute path or relative to the current working directory. The default is the current
-    directory.
-
-  -n, --name=<value>  Name of the generated Apex class.
-
-    The name can be up to 40 characters and must start with a letter.
-
-  -t, --template=ApexException|ApexUnitTest|BasicUnitTest|DefaultApexClass|InboundEmailService
-
-    Template to use for file creation.
-
-    Supplied parameter values or default values are filled into a copy of the template.
-```
-
-_See code: [src/commands/apex/generate/class.ts](https://github.com/salesforcecli/plugin-templates/blob/56.4.6/src/commands/apex/generate/class.ts)_
-
-## `sf apex generate trigger`
-
-Generate an Apex trigger.
-
-```
-USAGE
-  $ sf apex generate trigger -n <value> [--json] [--flags-dir <value>] [-t ApexTrigger] [-d <value>] [--api-version
-    <value>] [-s <value>] [-e before insert|before update|before delete|after insert|after update|after delete|after
-    undelete...]
-
-FLAGS
-  -d, --output-dir=<value>   [default: .] Directory for saving the created files.
-  -e, --event=<option>...    [default: before insert] Events that fire the trigger.
-                             <options: before insert|before update|before delete|after insert|after update|after
-                             delete|after undelete>
-  -n, --name=<value>         (required) Name of the generated Apex trigger
-  -s, --sobject=<value>      [default: SOBJECT] Salesforce object to generate a trigger on.
-  -t, --template=<option>    [default: ApexTrigger] Template to use for file creation.
-                             <options: ApexTrigger>
-      --api-version=<value>  Override the api version used for api requests made by this command
-
-GLOBAL FLAGS
-  --flags-dir=<value>  Import flag values from a directory.
-  --json               Format output as json.
-
-DESCRIPTION
-  Generate an Apex trigger.
-
-  Generates the Apex trigger *.trigger file and associated metadata file. These files must be contained in a parent
-  directory called "triggers" in your package directory. Either run this command from an existing directory of this
-  name, or use the --output-dir flag to generate one or point to an existing one.
-
-  If you don't specify the --sobject flag, the .trigger file contains the generic placeholder SOBJECT; replace it with
-  the Salesforce object you want to generate a trigger for. If you don't specify --event, "before insert" is used.
-
-ALIASES
-  $ sf force apex trigger create
-
-EXAMPLES
-  Generate two files associated with the MyTrigger Apex trigger (MyTrigger.trigger and MyTrigger.trigger-meta.xml) in
-  the current directory:
-
-    $ sf apex generate trigger --name MyTrigger
-
-  Similar to the previous example, but generate the files in the "force-app/main/default/triggers" directory:
-
-    $ sf apex generate trigger --name MyTrigger --output-dir force-app/main/default/triggers
-
-  Generate files for a trigger that fires on the Account object before and after an insert:
-
-    $ sf apex generate trigger --name MyTrigger --sobject Account --event "before insert,after insert"
-
-FLAG DESCRIPTIONS
-  -d, --output-dir=<value>  Directory for saving the created files.
-
-    The location can be an absolute path or relative to the current working directory. The default is the current
-    directory.
-
-  -n, --name=<value>  Name of the generated Apex trigger
-
-    The name can be up to 40 characters and must start with a letter.
-
-  -t, --template=ApexTrigger  Template to use for file creation.
-
-    Supplied parameter values or default values are filled into a copy of the template.
-```
-
-_See code: [src/commands/apex/generate/trigger.ts](https://github.com/salesforcecli/plugin-templates/blob/56.4.6/src/commands/apex/generate/trigger.ts)_
+_See code: [src/commands/analytics/generate/template.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.2/src/commands/analytics/generate/template.ts)_
 
 ## `sf lightning generate app`
 
@@ -354,7 +226,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/lightning/generate/app.ts](https://github.com/salesforcecli/plugin-templates/blob/56.4.6/src/commands/lightning/generate/app.ts)_
+_See code: [src/commands/lightning/generate/app.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.2/src/commands/lightning/generate/app.ts)_
 
 ## `sf lightning generate component`
 
@@ -423,7 +295,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/lightning/generate/component.ts](https://github.com/salesforcecli/plugin-templates/blob/56.4.6/src/commands/lightning/generate/component.ts)_
+_See code: [src/commands/lightning/generate/component.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.2/src/commands/lightning/generate/component.ts)_
 
 ## `sf lightning generate event`
 
@@ -478,7 +350,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/lightning/generate/event.ts](https://github.com/salesforcecli/plugin-templates/blob/56.4.6/src/commands/lightning/generate/event.ts)_
+_See code: [src/commands/lightning/generate/event.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.2/src/commands/lightning/generate/event.ts)_
 
 ## `sf lightning generate interface`
 
@@ -533,7 +405,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/lightning/generate/interface.ts](https://github.com/salesforcecli/plugin-templates/blob/56.4.6/src/commands/lightning/generate/interface.ts)_
+_See code: [src/commands/lightning/generate/interface.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.2/src/commands/lightning/generate/interface.ts)_
 
 ## `sf lightning generate test`
 
@@ -588,7 +460,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/lightning/generate/test.ts](https://github.com/salesforcecli/plugin-templates/blob/56.4.6/src/commands/lightning/generate/test.ts)_
+_See code: [src/commands/lightning/generate/test.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.2/src/commands/lightning/generate/test.ts)_
 
 ## `sf project generate`
 
@@ -693,7 +565,7 @@ FLAG DESCRIPTIONS
     Override the api version used for api requests made by this command
 ```
 
-_See code: [src/commands/project/generate.ts](https://github.com/salesforcecli/plugin-templates/blob/56.4.6/src/commands/project/generate.ts)_
+_See code: [src/commands/project/generate.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.2/src/commands/project/generate.ts)_
 
 ## `sf static-resource generate`
 
@@ -755,7 +627,137 @@ FLAG DESCRIPTIONS
     etc.
 ```
 
-_See code: [src/commands/static-resource/generate.ts](https://github.com/salesforcecli/plugin-templates/blob/56.4.6/src/commands/static-resource/generate.ts)_
+_See code: [src/commands/static-resource/generate.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.2/src/commands/static-resource/generate.ts)_
+
+## `sf template generate apex class`
+
+Generate an Apex class.
+
+```
+USAGE
+  $ sf template generate apex class -n <value> [--json] [--flags-dir <value>] [-t
+    ApexException|ApexUnitTest|BasicUnitTest|DefaultApexClass|InboundEmailService] [-d <value>] [--api-version <value>]
+
+FLAGS
+  -d, --output-dir=<value>   [default: .] Directory for saving the created files.
+  -n, --name=<value>         (required) Name of the generated Apex class.
+  -t, --template=<option>    [default: DefaultApexClass] Template to use for file creation.
+                             <options: ApexException|ApexUnitTest|BasicUnitTest|DefaultApexClass|InboundEmailService>
+      --api-version=<value>  Override the api version used for api requests made by this command
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Generate an Apex class.
+
+  Generates the Apex *.cls file and associated metadata file. These files must be contained in a parent directory called
+  "classes" in your package directory. Either run this command from an existing directory of this name, or use the
+  --output-dir flag to generate one or point to an existing one.
+
+ALIASES
+  $ sf force apex class create
+  $ sf apex generate class
+
+EXAMPLES
+  Generate two metadata files associated with the MyClass Apex class (MyClass.cls and MyClass.cls-meta.xml) in the
+  current directory:
+
+    $ sf template generate apex class --name MyClass
+
+  Similar to previous example, but generates the files in the "force-app/main/default/classes" directory:
+
+    $ sf template generate apex class --name MyClass --output-dir force-app/main/default/classes
+
+FLAG DESCRIPTIONS
+  -d, --output-dir=<value>  Directory for saving the created files.
+
+    The location can be an absolute path or relative to the current working directory. The default is the current
+    directory.
+
+  -n, --name=<value>  Name of the generated Apex class.
+
+    The name can be up to 40 characters and must start with a letter.
+
+  -t, --template=ApexException|ApexUnitTest|BasicUnitTest|DefaultApexClass|InboundEmailService
+
+    Template to use for file creation.
+
+    Supplied parameter values or default values are filled into a copy of the template.
+```
+
+_See code: [src/commands/template/generate/apex/class.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.2/src/commands/template/generate/apex/class.ts)_
+
+## `sf template generate apex trigger`
+
+Generate an Apex trigger.
+
+```
+USAGE
+  $ sf template generate apex trigger -n <value> [--json] [--flags-dir <value>] [-t ApexTrigger] [-d <value>] [--api-version
+    <value>] [-s <value>] [-e before insert|before update|before delete|after insert|after update|after delete|after
+    undelete...]
+
+FLAGS
+  -d, --output-dir=<value>   [default: .] Directory for saving the created files.
+  -e, --event=<option>...    [default: before insert] Events that fire the trigger.
+                             <options: before insert|before update|before delete|after insert|after update|after
+                             delete|after undelete>
+  -n, --name=<value>         (required) Name of the generated Apex trigger
+  -s, --sobject=<value>      [default: SOBJECT] Salesforce object to generate a trigger on.
+  -t, --template=<option>    [default: ApexTrigger] Template to use for file creation.
+                             <options: ApexTrigger>
+      --api-version=<value>  Override the api version used for api requests made by this command
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Generate an Apex trigger.
+
+  Generates the Apex trigger *.trigger file and associated metadata file. These files must be contained in a parent
+  directory called "triggers" in your package directory. Either run this command from an existing directory of this
+  name, or use the --output-dir flag to generate one or point to an existing one.
+
+  If you don't specify the --sobject flag, the .trigger file contains the generic placeholder SOBJECT; replace it with
+  the Salesforce object you want to generate a trigger for. If you don't specify --event, "before insert" is used.
+
+ALIASES
+  $ sf force apex trigger create
+  $ sf apex generate trigger
+
+EXAMPLES
+  Generate two files associated with the MyTrigger Apex trigger (MyTrigger.trigger and MyTrigger.trigger-meta.xml) in
+  the current directory:
+
+    $ sf template generate apex trigger --name MyTrigger
+
+  Similar to the previous example, but generate the files in the "force-app/main/default/triggers" directory:
+
+    $ sf template generate apex trigger --name MyTrigger --output-dir force-app/main/default/triggers
+
+  Generate files for a trigger that fires on the Account object before and after an insert:
+
+    $ sf template generate apex trigger --name MyTrigger --sobject Account --event "before insert,after insert"
+
+FLAG DESCRIPTIONS
+  -d, --output-dir=<value>  Directory for saving the created files.
+
+    The location can be an absolute path or relative to the current working directory. The default is the current
+    directory.
+
+  -n, --name=<value>  Name of the generated Apex trigger
+
+    The name can be up to 40 characters and must start with a letter.
+
+  -t, --template=ApexTrigger  Template to use for file creation.
+
+    Supplied parameter values or default values are filled into a copy of the template.
+```
+
+_See code: [src/commands/template/generate/apex/trigger.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.2/src/commands/template/generate/apex/trigger.ts)_
 
 ## `sf visualforce generate component`
 
@@ -811,7 +813,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/visualforce/generate/component.ts](https://github.com/salesforcecli/plugin-templates/blob/56.4.6/src/commands/visualforce/generate/component.ts)_
+_See code: [src/commands/visualforce/generate/component.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.2/src/commands/visualforce/generate/component.ts)_
 
 ## `sf visualforce generate page`
 
@@ -861,6 +863,6 @@ FLAG DESCRIPTIONS
     The name can be up to 40 characters and must start with a letter.
 ```
 
-_See code: [src/commands/visualforce/generate/page.ts](https://github.com/salesforcecli/plugin-templates/blob/56.4.6/src/commands/visualforce/generate/page.ts)_
+_See code: [src/commands/visualforce/generate/page.ts](https://github.com/salesforcecli/plugin-templates/blob/56.5.2/src/commands/visualforce/generate/page.ts)_
 
 <!-- commandsstop -->
