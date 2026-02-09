@@ -17,7 +17,7 @@ export default class AnalyticsTemplate extends SfCommand<CreateOutput> {
   public static readonly examples = messages.getMessages('examples');
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
-  public static readonly aliases = ['force:analytics:template:create', 'template analytics generate template'];
+  public static readonly aliases = ['force:analytics:template:create', 'analytics generate template'];
   public static readonly deprecateAliases = true;
   public static readonly flags = {
     'output-dir': outputDirFlag,

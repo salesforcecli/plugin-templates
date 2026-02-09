@@ -17,7 +17,7 @@ export default class Project extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
-  public static readonly aliases = ['force:project:create', 'project generate'];
+  public static readonly aliases = ['force:project:create', 'project:generate'];
   public static readonly deprecateAliases = true;
   public static readonly flags = {
     name: Flags.string({

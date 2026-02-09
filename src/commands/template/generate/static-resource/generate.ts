@@ -17,7 +17,7 @@ export default class StaticResource extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
-  public static readonly aliases = ['force:staticresource:create', 'static-resource generate'];
+  public static readonly aliases = ['force:staticresource:create', 'static-resource:generate'];
   public static readonly deprecateAliases = true;
   public static readonly flags = {
     name: Flags.string({

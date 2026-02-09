@@ -22,7 +22,7 @@ export default class LightningInterface extends SfCommand<CreateOutput> {
   public static readonly summary = lightningCommon.getMessage('summary', [BUNDLE_TYPE]);
   public static readonly description = lightningCommon.getMessage('description', [BUNDLE_TYPE]);
   public static readonly examples = messages.getMessages('examples');
-  public static readonly aliases = ['force:lightning:interface:create', 'lightning generate interface'];
+  public static readonly aliases = ['force:lightning:interface:create', 'lightning:generate:interface'];
   public static readonly deprecateAliases = true;
   public static readonly flags = {
     name: Flags.string({

@@ -1,6 +1,6 @@
 [
   {
-    "alias": ["force:analytics:template:create", "template:analytics:generate:template"],
+    "alias": ["force:analytics:template:create", "analytics:generate:template"],
     "command": "template:generate:analytics:template",
     "flagAliases": ["apiversion", "outputdir", "templatename"],
     "flagChars": ["d", "n"],
