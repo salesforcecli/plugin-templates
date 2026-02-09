@@ -35,7 +35,7 @@ describe('template generate lightning component:', () => {
 
   describe('Check lightning aura components creation', () => {
     it('should create lightning aura component files in the aura output directory', () => {
-      execCmd('template generate lightning generate component --componentname foo --outputdir aura', {
+      execCmd('template generate lightning component --componentname foo --outputdir aura', {
         ensureExitCode: 0,
       });
       assert.file(fileFormatter('foo', 'foo'));
@@ -47,12 +47,9 @@ describe('template generate lightning component:', () => {
     });
 
     it('should create lightning aura component files from default template in the aura output directory', () => {
-      execCmd(
-        'template generate lightning generate component --componentname foo --outputdir aura --template default',
-        {
-          ensureExitCode: 0,
-        }
-      );
+      execCmd('template generate lightning component --componentname foo --outputdir aura --template default', {
+        ensureExitCode: 0,
+      });
       assert.file(fileFormatter('foo', 'foo'));
       assert.file(path.join(session.project.dir, 'aura', 'foo', 'foo.cmp-meta.xml'));
       assert.fileContent(
@@ -64,12 +61,9 @@ describe('template generate lightning component:', () => {
 
   describe('Check lightning aura components creation without -meta.xml file', () => {
     it('should create lightning aura component files in the aura output directory without a -meta.xml file', () => {
-      execCmd(
-        'template generate lightning generate component --componentname internalflagtest --outputdir aura --internal',
-        {
-          ensureExitCode: 0,
-        }
-      );
+      execCmd('template generate lightning component --componentname internalflagtest --outputdir aura --internal', {
+        ensureExitCode: 0,
+      });
       assert.file(fileFormatter('internalflagtest', 'internalflagtest'));
       assert.noFile(path.join(session.project.dir, 'aura', 'internalflagtest', 'internalflagtest.cmp-meta.xml'));
     });
@@ -78,7 +72,7 @@ describe('template generate lightning component:', () => {
   describe('Check lightning web components creation without -meta-xml file', () => {
     it('should create lightning web component files in the lwc output directory with the internal flag for disabling -meta.xml files', () => {
       execCmd(
-        'template generate lightning generate component --componentname internallwctest --outputdir lwc --type lwc --internal',
+        'template generate lightning component --componentname internallwctest --outputdir lwc --type lwc --internal',
         { ensureExitCode: 0 }
       );
       assert.noFile(path.join(session.project.dir, 'lwc', 'internallwctest', 'internallwctest.js-meta.xml'));
@@ -93,7 +87,7 @@ describe('template generate lightning component:', () => {
 
   describe('Check lightning web components creation with -meta-xml file', () => {
     it('should create lightning web component files in the lwc output directory', () => {
-      execCmd('template generate lightning generate component --componentname foo --outputdir lwc --type lwc', {
+      execCmd('template generate lightning component --componentname foo --outputdir lwc --type lwc', {
         ensureExitCode: 0,
       });
       assert.file(path.join(session.project.dir, 'lwc', 'foo', 'foo.js-meta.xml'));
@@ -107,7 +101,7 @@ describe('template generate lightning component:', () => {
 
     it('should create lightning web component files from default template in the lwc output directory', () => {
       execCmd(
-        'template generate lightning generate component --componentname foo --outputdir lwc --type lwc --template default',
+        'template generate lightning component --componentname foo --outputdir lwc --type lwc --template default',
         {
           ensureExitCode: 0,
         }
@@ -125,7 +119,7 @@ describe('template generate lightning component:', () => {
   describe('Check analytics dashboard lwc creation', () => {
     it('should create analyticsDashboard lwc files in the lwc output directory', () => {
       execCmd(
-        'template generate lightning generate component --componentname foo --outputdir lwc --type lwc --template analyticsDashboard',
+        'template generate lightning component --componentname foo --outputdir lwc --type lwc --template analyticsDashboard',
         { ensureExitCode: 0 }
       );
       const jsFile = path.join(session.project.dir, 'lwc', 'foo', 'foo.js');
@@ -146,7 +140,7 @@ describe('template generate lightning component:', () => {
 
     it('should create analyticsDashboardWithStep lwc files in the lwc output directory', () => {
       execCmd(
-        'template generate lightning generate component --componentname fooWithStep --outputdir lwc --type lwc --template analyticsDashboardWithStep',
+        'template generate lightning component --componentname fooWithStep --outputdir lwc --type lwc --template analyticsDashboardWithStep',
         { ensureExitCode: 0 }
       );
       const jsFile = path.join(session.project.dir, 'lwc', 'fooWithStep', 'fooWithStep.js');
@@ -173,31 +167,30 @@ describe('template generate lightning component:', () => {
 
   describe('lightning component failures', () => {
     it('should throw missing component name error', () => {
-      const stderr = execCmd('template generate lightning generate component --outputdir aura').shellOutput.stderr;
+      const stderr = execCmd('template generate lightning component --outputdir aura').shellOutput.stderr;
       expect(stderr).to.contain('Missing required flag');
     });
 
     it('should throw missing aura parent folder error', () => {
-      const stderr = execCmd('template generate lightning generate component --componentname foo').shellOutput.stderr;
+      const stderr = execCmd('template generate lightning component --componentname foo').shellOutput.stderr;
       expect(stderr).to.contain(messages.getMessage('MissingAuraFolder'));
     });
 
     it('should throw missing lwc parent folder error', () => {
-      const stderr = execCmd('template generate lightning generate component --componentname foo --type lwc')
-        .shellOutput.stderr;
+      const stderr = execCmd('template generate lightning component --componentname foo --type lwc').shellOutput.stderr;
       expect(stderr).to.contain(messages.getMessage('MissingLWCFolder'));
     });
 
     it('should throw invalid template error', () => {
       const stderr = execCmd(
-        'template generate lightning generate component --outputdir lwc --componentname foo --type lwc --template foo'
+        'template generate lightning component --outputdir lwc --componentname foo --type lwc --template foo'
       ).shellOutput.stderr;
       expect(stderr).to.contain(messages.getMessage('InvalidTemplate'));
     });
 
     it('should throw missing template error', () => {
       const stderr = execCmd(
-        'template generate lightning generate component --outputdir aura --componentname foo --type aura --template analyticsDashboard'
+        'template generate lightning component --outputdir aura --componentname foo --type aura --template analyticsDashboard'
       ).shellOutput.stderr;
       expect(stderr).to.contain(
         messages.getMessage('MissingLightningComponentTemplate', ['analyticsDashboard', 'aura'])
