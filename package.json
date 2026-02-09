@@ -7,7 +7,7 @@
   "dependencies": {
     "@salesforce/core": "^8.25.1",
     "@salesforce/sf-plugins-core": "^12",
-    "@salesforce/templates": "^65.5.2"
+    "@salesforce/templates": "^65.5.3"
   },
   "devDependencies": {
     "@oclif/plugin-command-snapshot": "^5.3.8",
@@ -92,6 +92,9 @@
             "subtopics": {
               "apex": {
                 "description": "Create an apex class or trigger."
+              },
+              "digital-experience": {
+                "description": "Create a Digital Experience site."
               }
             }
           }

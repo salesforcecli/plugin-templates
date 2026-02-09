@@ -92,6 +92,14 @@
     "plugin": "@salesforce/plugin-templates"
   },
   {
+    "alias": [],
+    "command": "template:generate:digital-experience:site",
+    "flagAliases": [],
+    "flagChars": ["d", "n", "p", "e", "o", "t"],
+    "flags": ["flags-dir", "json", "name", "output-dir", "url-path-prefix", "admin-email", "target-org", "template"],
+    "plugin": "@salesforce/plugin-templates"
+  },
+  {
     "alias": ["force:visualforce:component:create"],
     "command": "visualforce:generate:component",
     "flagAliases": ["apiversion", "componentname", "outputdir"],
