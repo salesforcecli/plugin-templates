@@ -117,7 +117,7 @@
   },
   {
     "alias": [],
-    "command": "webapp:generate",
+    "command": "template:generate:webapp",
     "flagAliases": [],
     "flagChars": ["d", "l", "n", "t"],
     "flags": ["api-version", "flags-dir", "json", "label", "name", "output-dir", "template"],

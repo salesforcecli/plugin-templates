@@ -64,6 +64,9 @@
               "apex": {
                 "description": "Create an apex class or trigger."
               },
+              "digital-experience": {
+                "description": "Create a Digital Experience site."
+              },
               "lightning": {
                 "description": "Create LWC and Aura components and associated metadata."
               },

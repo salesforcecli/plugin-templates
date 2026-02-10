@@ -10,7 +10,7 @@ import { TestSession, execCmd } from '@salesforce/cli-plugins-testkit';
 import { nls } from '@salesforce/templates/lib/i18n/index.js';
 import assert from 'yeoman-assert';
 
-describe('Web application creation tests:', () => {
+describe('template generate web application:', () => {
   let session: TestSession;
   before(async () => {
     session = await TestSession.create({
@@ -25,7 +25,7 @@ describe('Web application creation tests:', () => {
   describe('Check webapp creation with default template', () => {
     it('should create webapp using default template in webapplications directory', () => {
       const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default', 'webapplications');
-      execCmd(`webapp generate --name MyWebApp --output-dir "${outputDir}"`, { ensureExitCode: 0 });
+      execCmd(`template generate webapp --name MyWebApp --output-dir "${outputDir}"`, { ensureExitCode: 0 });
       assert.file([
         path.join(outputDir, 'MyWebApp', 'MyWebApp.webapplication-meta.xml'),
         path.join(outputDir, 'MyWebApp', 'src', 'index.html'),
@@ -39,7 +39,7 @@ describe('Web application creation tests:', () => {
 
     it('should default to project webapplications directory when --output-dir is omitted', () => {
       const expectedOutputDir = path.join(session.project.dir, 'force-app', 'main', 'default', 'webapplications');
-      execCmd('webapp generate --name DefaultDirApp', { ensureExitCode: 0 });
+      execCmd('template generate webapp --name DefaultDirApp', { ensureExitCode: 0 });
       assert.file([
         path.join(expectedOutputDir, 'DefaultDirApp', 'DefaultDirApp.webapplication-meta.xml'),
         path.join(expectedOutputDir, 'DefaultDirApp', 'src', 'index.html'),
@@ -49,7 +49,7 @@ describe('Web application creation tests:', () => {
 
     it('should create webapp with custom label', () => {
       const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default', 'webapplications');
-      execCmd(`webapp generate --name TestApp --label "Custom Label" --output-dir "${outputDir}"`, {
+      execCmd(`template generate webapp --name TestApp --label "Custom Label" --output-dir "${outputDir}"`, {
         ensureExitCode: 0,
       });
       assert.file([
@@ -63,7 +63,7 @@ describe('Web application creation tests:', () => {
   describe('Check webapp creation with reactbasic template', () => {
     it('should create React webapp with all required files', () => {
       const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default', 'webapplications');
-      execCmd(`webapp generate --name MyReactApp --template reactbasic --output-dir "${outputDir}"`, {
+      execCmd(`template generate webapp --name MyReactApp --template reactbasic --output-dir "${outputDir}"`, {
         ensureExitCode: 0,
       });
       assert.file([
@@ -78,36 +78,36 @@ describe('Web application creation tests:', () => {
 
   describe('Check that all invalid name errors are thrown', () => {
     it('should throw a missing name error', () => {
-      const stderr = execCmd('webapp generate').shellOutput.stderr;
+      const stderr = execCmd('template generate webapp').shellOutput.stderr;
       expect(stderr).to.contain('Missing required flag');
     });
 
     it('should throw invalid non alphanumeric webapp name error', () => {
       const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default', 'webapplications');
-      const stderr = execCmd(`webapp generate --name /a --output-dir "${outputDir}"`).shellOutput.stderr;
+      const stderr = execCmd(`template generate webapp --name /a --output-dir "${outputDir}"`).shellOutput.stderr;
       expect(stderr).to.contain(nls.localize('AlphaNumericNameError'));
     });
 
     it('should throw invalid webapp name starting with numeric error', () => {
       const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default', 'webapplications');
-      const stderr = execCmd(`webapp generate --name 3aa --output-dir "${outputDir}"`).shellOutput.stderr;
+      const stderr = execCmd(`template generate webapp --name 3aa --output-dir "${outputDir}"`).shellOutput.stderr;
       expect(stderr).to.contain(nls.localize('NameMustStartWithLetterError'));
     });
 
     it('should throw invalid webapp name ending with underscore error', () => {
       const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default', 'webapplications');
-      const stderr = execCmd(`webapp generate --name a_ --output-dir "${outputDir}"`).shellOutput.stderr;
+      const stderr = execCmd(`template generate webapp --name a_ --output-dir "${outputDir}"`).shellOutput.stderr;
       expect(stderr).to.contain(nls.localize('EndWithUnderscoreError'));
     });
 
     it('should throw invalid webapp name with double underscore error', () => {
       const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default', 'webapplications');
-      const stderr = execCmd(`webapp generate --name a__a --output-dir "${outputDir}"`).shellOutput.stderr;
+      const stderr = execCmd(`template generate webapp --name a__a --output-dir "${outputDir}"`).shellOutput.stderr;
       expect(stderr).to.contain(nls.localize('DoubleUnderscoreError'));
     });
 
     it('should throw error when output dir is not webapplications folder', () => {
-      const stderr = execCmd('webapp generate --name TestApp --output-dir /tmp/invalid').shellOutput.stderr;
+      const stderr = execCmd('template generate webapp --name TestApp --output-dir /tmp/invalid').shellOutput.stderr;
       expect(stderr).to.contain(nls.localize('MissingWebApplicationsDir'));
     });
   });
