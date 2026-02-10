@@ -52,49 +52,35 @@
       "@salesforce/plugin-settings"
     ],
     "topics": {
-      "analytics": {
-        "external": true,
-        "description": "Work with analytics assets.",
-        "subtopics": {
-          "generate": {
-            "description": "Create analytics templates."
-          }
-        }
-      },
-      "lightning": {
-        "description": "Work with Lightning Web and Aura components.",
-        "external": true,
-        "subtopics": {
-          "generate": {
-            "description": "Create LWC and Aura components and associated metadata."
-          }
-        }
-      },
-      "project": {
-        "description": "Work with projects, such as deploy and retrieve metadata."
-      },
-      "visualforce": {
-        "description": "Work with Visualforce components.",
-        "subtopics": {
-          "generate": {
-            "description": "Create a Visualforce page or component."
-          }
-        }
-      },
-      "static-resource": {
-        "description": "Work with static resources."
-      },
       "template": {
         "description": "Collection of Salesforce templates.",
         "subtopics": {
           "generate": {
             "description": "Use a Salesforce template to generate local files.",
             "subtopics": {
+              "analytics": {
+                "description": "Create analytics templates."
+              },
               "apex": {
                 "description": "Create an apex class or trigger."
               },
               "digital-experience": {
                 "description": "Create a Digital Experience site."
+              },
+              "lightning": {
+                "description": "Create LWC and Aura components and associated metadata."
+              },
+              "project": {
+                "description": "Work with projects, such as deploy and retrieve metadata."
+              },
+              "static-resource": {
+                "description": "Work with static resources."
+              },
+              "visualforce": {
+                "description": "Create a visualforce page or component."
+              },
+              "webapp": {
+                "description": "Create a web application."
               }
             }
           }
