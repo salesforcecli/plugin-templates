@@ -8,7 +8,7 @@
 import { TestContext } from '@salesforce/core/testSetup';
 import { expect } from 'chai';
 import { stubSfCommandUx } from '@salesforce/sf-plugins-core';
-import FlexipageGenerate from '../../../../src/commands/template/generate/flexipage.js';
+import FlexipageGenerate from '../../../../../src/commands/template/generate/flexipage/index.js';
 
 describe('template:generate:flexipage', () => {
   const $$ = new TestContext();
