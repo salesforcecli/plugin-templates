@@ -116,7 +116,7 @@
     "plugin": "@salesforce/plugin-templates"
   },
   {
-    "alias": [],
+    "alias": ["webapp:generate"],
     "command": "template:generate:webapp",
     "flagAliases": [],
     "flagChars": ["d", "l", "n", "t"],

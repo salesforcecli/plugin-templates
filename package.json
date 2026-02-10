@@ -78,6 +78,9 @@
               },
               "visualforce": {
                 "description": "Create a visualforce page or component."
+              },
+              "webapp": {
+                "description": "Create a web application."
               }
             }
           }
