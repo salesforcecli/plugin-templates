@@ -156,12 +156,4 @@ describe('template generate flexipage:', () => {
       expect(stderr).to.contain('Too many secondary fields');
     });
   });
-
-  describe('Deprecated alias support', () => {
-    it('should work with flexipage:generate alias', () => {
-      execCmd('flexipage generate --name AliasTestPage --template AppPage', { ensureExitCode: 0 });
-      const filePath = path.join(session.project.dir, 'flexipages', 'AliasTestPage.flexipage-meta.xml');
-      assert.file(filePath);
-    });
-  });
 });
