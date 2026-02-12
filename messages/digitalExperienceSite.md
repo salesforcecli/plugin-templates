@@ -12,7 +12,7 @@ Creates an Experience Cloud site with the specified template, name, and URL path
 
   <%= config.bin %> <%= command.id %> --template BuildYourOwnLWR --name mysite --url-path-prefix mysite
 
-- Generate an Experience Cloud site like the last example, but generate the files into the specified output directory: 
+- Generate an Experience Cloud site like the last example, but generate the files into the specified output directory:
 
   <%= config.bin %> <%= command.id %> --template BuildYourOwnLWR --name mysite --url-path-prefix mysite --output-dir force-app/main/default
 
@@ -28,7 +28,7 @@ Template to use when generating the site.
 
 Supported templates:
 
-- BuildYourOwnLWR - Creates blazing-fast digital experiences, such as websites, microsites, and portals, using the Lightning Web Components programming model. Powered by Lightning Web Runtime (LWR), this customizable template delivers unparalleled site performance.  For additional details, see this Salesforce Help topic: https://help.salesforce.com/s/articleView?id=experience.rss_build_your_own_lwr.htm. 
+- BuildYourOwnLWR - Creates blazing-fast digital experiences, such as websites, microsites, and portals, using the Lightning Web Components programming model. Powered by Lightning Web Runtime (LWR), this customizable template delivers unparalleled site performance. For additional details, see this Salesforce Help topic: https://help.salesforce.com/s/articleView?id=experience.rss_build_your_own_lwr.htm.
 
 # flags.url-path-prefix.summary
 

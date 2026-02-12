@@ -66,6 +66,9 @@
               "apex": {
                 "description": "Create an apex class or trigger."
               },
+              "flexipage": {
+                "description": "Generate a Lightning FlexiPage from a template."
+              },
               "digital-experience": {
                 "description": "Create a Digital Experience site."
               },
