@@ -1,3 +1,18 @@
+# [56.8.0](https://github.com/salesforcecli/plugin-templates/compare/56.7.2...56.8.0) (2026-02-12)
+
+### Bug Fixes
+
+- address PR feedback - validate RecordPage-only flags and fix \_\_c formatting ([7b24c4d](https://github.com/salesforcecli/plugin-templates/commit/7b24c4da9b2d01605bf4bff9fb6fdfd703703afb))
+- address PR review feedback ([95e959f](https://github.com/salesforcecli/plugin-templates/commit/95e959f76d14405dcd07a72af5534d4a0e004a58))
+- correct \_\_c formatting in custom field examples ([f947bb0](https://github.com/salesforcecli/plugin-templates/commit/f947bb076b9e94c87624a22a26e07431176b37f5))
+- remove alias ([584bc37](https://github.com/salesforcecli/plugin-templates/commit/584bc379ef419a0b3d056e10b118e9af388c0069))
+- remove invalid force:flexipage:create alias and unused import ([a740471](https://github.com/salesforcecli/plugin-templates/commit/a740471e8712608d9fea82b1d4157aa950a72a53))
+
+### Features
+
+- add beta state and secondary fields limit validation ([33cbb37](https://github.com/salesforcecli/plugin-templates/commit/33cbb372d87fd9a902edb6239b2e8a7ca9a954ee))
+- add sf flexipage generate command ([1ddc620](https://github.com/salesforcecli/plugin-templates/commit/1ddc62030eb10d201134280aacc4ab6116fbfc1c))
+
 ## [56.7.2](https://github.com/salesforcecli/plugin-templates/compare/56.7.1...56.7.2) (2026-02-12)
 
 ### Bug Fixes
