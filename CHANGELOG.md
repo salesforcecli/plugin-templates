@@ -1,3 +1,9 @@
+## [56.7.2](https://github.com/salesforcecli/plugin-templates/compare/56.7.1...56.7.2) (2026-02-12)
+
+### Bug Fixes
+
+- enable PDP events via o11y for PFT ([813d2ad](https://github.com/salesforcecli/plugin-templates/commit/813d2ad1915790bad3cf4c5cc7fa6f741ef48488))
+
 ## [56.7.1](https://github.com/salesforcecli/plugin-templates/compare/56.7.0...56.7.1) (2026-02-11)
 
 # [56.7.0](https://github.com/salesforcecli/plugin-templates/compare/56.6.0...56.7.0) (2026-02-10)
