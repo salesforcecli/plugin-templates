@@ -1,3 +1,45 @@
+## [56.7.2](https://github.com/salesforcecli/plugin-templates/compare/56.7.1...56.7.2) (2026-02-12)
+
+### Bug Fixes
+
+- enable PDP events via o11y for PFT ([813d2ad](https://github.com/salesforcecli/plugin-templates/commit/813d2ad1915790bad3cf4c5cc7fa6f741ef48488))
+
+## [56.7.1](https://github.com/salesforcecli/plugin-templates/compare/56.7.0...56.7.1) (2026-02-11)
+
+# [56.7.0](https://github.com/salesforcecli/plugin-templates/compare/56.6.0...56.7.0) (2026-02-10)
+
+### Bug Fixes
+
+- remove generate in lightning ([cdd3554](https://github.com/salesforcecli/plugin-templates/commit/cdd35545eb12816f951a93feed4d462ac5c93fea))
+- rename site.nut.ts ([e7425cc](https://github.com/salesforcecli/plugin-templates/commit/e7425cc009212ea06f6f3084c210a0980fc154e6))
+- update aliases ([4b65680](https://github.com/salesforcecli/plugin-templates/commit/4b656807b8b103b1a69a476eeac330ec5119957a))
+- update generate.ts to index.ts ([a706dbc](https://github.com/salesforcecli/plugin-templates/commit/a706dbc76bb9844d5f30defe3472918863892875))
+- update snapshot ([d91699e](https://github.com/salesforcecli/plugin-templates/commit/d91699e54c1406c7d64f288a3782a0e87c158bd6))
+
+### Features
+
+- add alias for webapp ([1c6cc56](https://github.com/salesforcecli/plugin-templates/commit/1c6cc56d1a2661869c6cebc198fb35fb7b91e122))
+- move analytics template ([119aca5](https://github.com/salesforcecli/plugin-templates/commit/119aca5834d0b0dd6c679c17e67dc20e77fa8554))
+- move lightning template ([e5f00f3](https://github.com/salesforcecli/plugin-templates/commit/e5f00f397fccf898bb0a5d85671ed08bdba14a57))
+- move project generate template ([4fafef9](https://github.com/salesforcecli/plugin-templates/commit/4fafef9b2d7e128b2290ee597fbed45448ab5e28))
+- move static-resource template ([f4fb97d](https://github.com/salesforcecli/plugin-templates/commit/f4fb97dd8d308a610dbbfc7d57e98a01fe5f9a9a))
+- move visualforce templates ([94c4dd1](https://github.com/salesforcecli/plugin-templates/commit/94c4dd1348db1ec6f70dc37b709aaf7cb32fe93a))
+- move webapp template ([a43b7a3](https://github.com/salesforcecli/plugin-templates/commit/a43b7a34c351a285b09ecfe5acd9ea5a1d28496d))
+
+# [56.6.0](https://github.com/salesforcecli/plugin-templates/compare/56.5.2...56.6.0) (2026-02-09)
+
+### Bug Fixes
+
+- address comments ([2518184](https://github.com/salesforcecli/plugin-templates/commit/25181840fbbd7938d1922214c087fceea75d1831))
+- casing ([cd6e8e7](https://github.com/salesforcecli/plugin-templates/commit/cd6e8e75c3dddc3e360f6c8dfa0776baf2554372))
+- undo license change ([5f438ea](https://github.com/salesforcecli/plugin-templates/commit/5f438ea2176a227d94d62e0f0f8ee140a3de3c32))
+
+### Features
+
+- add adminEmail param and update docs/tests ([6abb9aa](https://github.com/salesforcecli/plugin-templates/commit/6abb9aa58aee736e4aa626fd9e38abee65bb3870))
+- dxp site generator ([6ea9a16](https://github.com/salesforcecli/plugin-templates/commit/6ea9a16a197e3ef7618befd80f72a07513c2a699))
+- use username as admin email if available ([9fb0036](https://github.com/salesforcecli/plugin-templates/commit/9fb0036d353441feaec01c043f6db0272e2af505))
+
 ## [56.5.2](https://github.com/salesforcecli/plugin-templates/compare/56.5.1...56.5.2) (2026-02-08)
 
 ### Bug Fixes
