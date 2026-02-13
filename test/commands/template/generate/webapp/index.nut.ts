@@ -106,9 +106,15 @@ describe('template generate web application:', () => {
       expect(stderr).to.contain(nls.localize('DoubleUnderscoreError'));
     });
 
-    it('should throw error when output dir is not webapplications folder', () => {
-      const stderr = execCmd('template generate webapp --name TestApp --output-dir /tmp/invalid').shellOutput.stderr;
-      expect(stderr).to.contain(nls.localize('MissingWebApplicationsDir'));
+    it('should auto-append webapplications folder when output dir does not end with webapplications', () => {
+      const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default', 'test-dir');
+      const expectedOutputDir = path.join(outputDir, 'webapplications');
+      execCmd(`template generate webapp --name TestApp --output-dir "${outputDir}"`, { ensureExitCode: 0 });
+      assert.file([
+        path.join(expectedOutputDir, 'TestApp', 'TestApp.webapplication-meta.xml'),
+        path.join(expectedOutputDir, 'TestApp', 'src', 'index.html'),
+        path.join(expectedOutputDir, 'TestApp', 'webapplication.json'),
+      ]);
     });
   });
 });

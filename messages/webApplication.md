@@ -50,4 +50,12 @@ Directory for saving the created files.
 
 # flags.output-dir.description
 
-The location can be an absolute path or relative to the current working directory. If not specified, the command reads your sfdx-project.json and defaults to the webapplications directory within your default package directory. When running outside a Salesforce DX project, defaults to the current directory.
+The location can be an absolute path or relative to the current working directory. 
+
+**Important:** The generator automatically ensures the output directory ends with "webapplications". If your specified path doesn't end with "webapplications", it's automatically appended. The web application is created at "<output-dir>/<webappname>".
+
+**Examples:**
+- "--output-dir force-app/main/default" → Creates a web application at "force-app/main/default/webapplications/MyWebApp/"
+- "--output-dir force-app/main/default/webapplications" → Creates a web application at "force-app/main/default/webapplications/MyWebApp/" (no change)
+
+If not specified, the command reads your sfdx-project.json and defaults to "webapplications" directory within your default package directory. When running outside a Salesforce DX project, defaults to the current directory.
