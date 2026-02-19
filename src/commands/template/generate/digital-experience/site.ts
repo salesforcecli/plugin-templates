@@ -14,7 +14,10 @@ import { getCustomTemplates, runGenerator } from '../../../../utils/templateComm
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@salesforce/plugin-templates', 'digitalExperienceSite');
 
-/** Strips spaces and non-alphanumeric characters so display names map to template IDs (e.g. "Build Your Own (LWR)" → "BuildYourOwnLWR"). */
+/**
+ * Strips spaces and non-alphanumeric characters so display names map to template directories
+ * (e.g. "Build Your Own (LWR)" → "BuildYourOwnLWR").
+ */
 function normalizeTemplateName(name: string): string {
   return name.replace(/[^a-zA-Z0-9]/g, '');
 }
