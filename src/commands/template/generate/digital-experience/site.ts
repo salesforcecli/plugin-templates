@@ -14,6 +14,11 @@ import { getCustomTemplates, runGenerator } from '../../../../utils/templateComm
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@salesforce/plugin-templates', 'digitalExperienceSite');
 
+/** Strips spaces and non-alphanumeric characters so display names map to template IDs (e.g. "Build Your Own (LWR)" → "BuildYourOwnLWR"). */
+function normalizeTemplateName(name: string): string {
+  return name.replace(/[^a-zA-Z0-9]/g, '');
+}
+
 export default class GenerateSite extends SfCommand<CreateOutput> {
   public static readonly state = 'preview';
   public static readonly summary = messages.getMessage('summary');
@@ -26,10 +31,10 @@ export default class GenerateSite extends SfCommand<CreateOutput> {
       summary: messages.getMessage('flags.name.summary'),
       required: true,
     }),
-    template: Flags.string({
+    'template-name': Flags.string({
       char: 't',
-      summary: messages.getMessage('flags.template.summary'),
-      options: ['BuildYourOwnLWR'] as const,
+      summary: messages.getMessage('flags.template-name.summary'),
+      options: ['Build Your Own (LWR)'] as const,
       required: true,
     }),
     'url-path-prefix': Flags.string({
@@ -82,7 +87,7 @@ export default class GenerateSite extends SfCommand<CreateOutput> {
       sitename: flags.name,
       urlpathprefix: flags['url-path-prefix'],
       adminemail: adminEmail,
-      template: flags.template,
+      template: normalizeTemplateName(flags['template-name']),
       outputdir: outputDir,
     };
 

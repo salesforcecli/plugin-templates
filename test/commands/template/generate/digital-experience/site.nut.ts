@@ -24,11 +24,11 @@ describe(COMMAND, () => {
     await session?.clean();
   });
 
-  describe('--template BuildYourOwnLWR', () => {
+  describe('--template-name "Build Your Own (LWR)"', () => {
     it('should create with all required files', () => {
       const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default');
       execCmd(
-        `${COMMAND} --template BuildYourOwnLWR --name "123 @ Test Site" --url-path-prefix 123testsite --output-dir "${outputDir}"`,
+        `${COMMAND} --template-name "Build Your Own (LWR)" --name "123 @ Test Site" --url-path-prefix 123testsite --output-dir "${outputDir}"`,
         {
           ensureExitCode: 0,
         }
@@ -111,20 +111,24 @@ describe(COMMAND, () => {
 
   describe('parameter validation', () => {
     it('should throw error if missing site name', () => {
-      const stderr = execCmd(`${COMMAND} --template BuildYourOwnLWR --url-path-prefix test`).shellOutput.stderr;
+      const stderr = execCmd(`${COMMAND} --template-name "Build Your Own (LWR)" --url-path-prefix test`).shellOutput
+        .stderr;
       expect(stderr).to.contain('Missing required flag');
     });
 
-    it('should throw error if missing template', () => {
+    it('should throw error if missing template-name', () => {
       const stderr = execCmd(`${COMMAND} --name test --url-path-prefix test`).shellOutput.stderr;
       expect(stderr).to.contain('Missing required flag');
     });
 
     it('should default to empty string if url-path-prefix is not provided', () => {
       const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default');
-      execCmd(`${COMMAND} --template BuildYourOwnLWR --name "DefaultPrefixSite" --output-dir "${outputDir}"`, {
-        ensureExitCode: 0,
-      });
+      execCmd(
+        `${COMMAND} --template-name "Build Your Own (LWR)" --name "DefaultPrefixSite" --output-dir "${outputDir}"`,
+        {
+          ensureExitCode: 0,
+        }
+      );
 
       const networkPath = path.join(outputDir, 'networks', 'DefaultPrefixSite.network-meta.xml');
       const networkContent = fs.readFileSync(networkPath, 'utf8');
@@ -140,9 +144,12 @@ describe(COMMAND, () => {
     });
 
     it('should default to force/main/default if output-dir is not provided', () => {
-      execCmd(`${COMMAND} --template BuildYourOwnLWR --name "DefaultDirSite" --url-path-prefix defaultdir`, {
-        ensureExitCode: 0,
-      });
+      execCmd(
+        `${COMMAND} --template-name "Build Your Own (LWR)" --name "DefaultDirSite" --url-path-prefix defaultdir`,
+        {
+          ensureExitCode: 0,
+        }
+      );
       const defaultOutputDir = path.join(session.project.dir, 'force-app', 'main', 'default');
       assert.file(path.join(defaultOutputDir, 'networks', 'DefaultDirSite.network-meta.xml'));
       assert.file(path.join(defaultOutputDir, 'sites', 'DefaultDirSite.site-meta.xml'));

@@ -4,31 +4,33 @@ Generate an Experience Cloud site.
 
 # description
 
-Creates an Experience Cloud site with the specified template, name, and URL path prefix. The site includes all necessary metadata files, including DigitalExperienceConfig, DigitalExperienceBundle, Network, and CustomSite.
+Creates the metadata of an Experience Cloud site with the specified template, name, and URL path prefix. The output will include all the necessary metadata files, including DigitalExperienceConfig, DigitalExperienceBundle, Network, and CustomSite.
+If this is the first site in the org, they cannot be deployed directly to create a site as there are additional services and files that can only be initialized in the standard site creation process.
+Note that this is different from `sf community create` that creates an Experience site directly in the target org.
 
 # examples
 
-- Generate an Experience Cloud site using the BuildYourOwnLWR template. The site is called "mysite" and has the URL path prefix "mysite":
+- Generate an Experience Cloud site using the Build Your Own (LWR) template. The site is called "mysite" and has the URL path prefix "mysite":
 
-  <%= config.bin %> <%= command.id %> --template BuildYourOwnLWR --name mysite --url-path-prefix mysite
+  <%= config.bin %> <%= command.id %> --template-name "Build Your Own (LWR)" --name mysite --url-path-prefix mysite
 
 - Generate an Experience Cloud site like the last example, but generate the files into the specified output directory:
 
-  <%= config.bin %> <%= command.id %> --template BuildYourOwnLWR --name mysite --url-path-prefix mysite --output-dir force-app/main/default
+  <%= config.bin %> <%= command.id %> --template-name "Build Your Own (LWR)" --name mysite --url-path-prefix mysite --output-dir force-app/main/default
 
 # flags.name.summary
 
 Name of the Experience Cloud site to generate.
 
-# flags.template.summary
+# flags.template-name.summary
 
 Template to use when generating the site.
 
-# flags.template.description
+# flags.template-name.description
 
 Supported templates:
 
-- BuildYourOwnLWR - Creates blazing-fast digital experiences, such as websites, microsites, and portals, using the Lightning Web Components programming model. Powered by Lightning Web Runtime (LWR), this customizable template delivers unparalleled site performance. For additional details, see this Salesforce Help topic: https://help.salesforce.com/s/articleView?id=experience.rss_build_your_own_lwr.htm.
+- Build Your Own (LWR) - Creates blazing-fast digital experiences, such as websites, microsites, and portals, using the Lightning Web Components programming model. Powered by Lightning Web Runtime (LWR), this customizable template delivers unparalleled site performance. For additional details, see this Salesforce Help topic: https://help.salesforce.com/s/articleView?id=experience.rss_build_your_own_lwr.htm.
 
 # flags.url-path-prefix.summary
 
