@@ -313,7 +313,7 @@ Generate an Experience Cloud site.
 
 ```
 USAGE
-  $ sf template generate digital-experience site -n <value> -t BuildYourOwnLWR [--json] [--flags-dir <value>] [-o <value>] [-p <value>] [-e
+  $ sf template generate digital-experience site -n <value> -t "Build Your Own (LWR)" [--json] [--flags-dir <value>] [-o <value>] [-p <value>] [-e
     <value>] [-d <value>]
 
 FLAGS
@@ -323,8 +323,8 @@ FLAGS
   -n, --name=<value>             (required) Name of the Experience Cloud site to generate.
   -o, --target-org=<value>       Username or alias of the target org.
   -p, --url-path-prefix=<value>  URL path prefix for the site; must contain only alphanumeric characters.
-  -t, --template=<option>        (required) Template to use when generating the site.
-                                 <options: BuildYourOwnLWR>
+  -t, --template-name=<option>   (required) Template to use when generating the site.
+                                 <options: Build Your Own (LWR)>
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -337,14 +337,14 @@ DESCRIPTION
   necessary metadata files, including DigitalExperienceConfig, DigitalExperienceBundle, Network, and CustomSite.
 
 EXAMPLES
-  Generate an Experience Cloud site using the BuildYourOwnLWR template. The site is called "mysite" and has the URL
-  path prefix "mysite":
+  Generate an Experience Cloud site using the Build Your Own (LWR) template. The site is called "mysite" and has the
+  URL path prefix "mysite":
 
-    $ sf template generate digital-experience site --template BuildYourOwnLWR --name mysite --url-path-prefix mysite
+    $ sf template generate digital-experience site --template-name "Build Your Own (LWR)" --name mysite --url-path-prefix mysite
 
   Generate an Experience Cloud site like the last example, but generate the files into the specified output directory:
 
-    $ sf template generate digital-experience site --template BuildYourOwnLWR --name mysite --url-path-prefix mysite \
+    $ sf template generate digital-experience site --template-name "Build Your Own (LWR)" --name mysite --url-path-prefix mysite \
       --output-dir force-app/main/default
 
 FLAG DESCRIPTIONS
