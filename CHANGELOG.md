@@ -1,3 +1,13 @@
+# [56.9.0](https://github.com/salesforcecli/plugin-templates/compare/56.8.2...56.9.0) (2026-02-19)
+
+### Bug Fixes
+
+- update snapshot ([1e7204f](https://github.com/salesforcecli/plugin-templates/commit/1e7204f5722a1371beb98f1cd901538621a23362))
+
+### Features
+
+- match param and update docs ([e74a36f](https://github.com/salesforcecli/plugin-templates/commit/e74a36f8d89158dc94bde76fb70b74580fe76b82))
+
 ## [56.8.2](https://github.com/salesforcecli/plugin-templates/compare/56.8.1...56.8.2) (2026-02-15)
 
 ### Bug Fixes

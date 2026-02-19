@@ -175,7 +175,7 @@ FLAG DESCRIPTIONS
     directory.
 ```
 
-_See code: [src/commands/template/generate/analytics/template.ts](https://github.com/salesforcecli/plugin-templates/blob/56.8.2/src/commands/template/generate/analytics/template.ts)_
+_See code: [src/commands/template/generate/analytics/template.ts](https://github.com/salesforcecli/plugin-templates/blob/56.9.0/src/commands/template/generate/analytics/template.ts)_
 
 ## `sf template generate apex class`
 
@@ -235,7 +235,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/template/generate/apex/class.ts](https://github.com/salesforcecli/plugin-templates/blob/56.8.2/src/commands/template/generate/apex/class.ts)_
+_See code: [src/commands/template/generate/apex/class.ts](https://github.com/salesforcecli/plugin-templates/blob/56.9.0/src/commands/template/generate/apex/class.ts)_
 
 ## `sf template generate apex trigger`
 
@@ -305,7 +305,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/template/generate/apex/trigger.ts](https://github.com/salesforcecli/plugin-templates/blob/56.8.2/src/commands/template/generate/apex/trigger.ts)_
+_See code: [src/commands/template/generate/apex/trigger.ts](https://github.com/salesforcecli/plugin-templates/blob/56.9.0/src/commands/template/generate/apex/trigger.ts)_
 
 ## `sf template generate digital-experience site`
 
@@ -313,8 +313,8 @@ Generate an Experience Cloud site.
 
 ```
 USAGE
-  $ sf template generate digital-experience site -n <value> -t "Build Your Own (LWR)" [--json] [--flags-dir <value>] [-o <value>] [-p <value>] [-e
-    <value>] [-d <value>]
+  $ sf template generate digital-experience site -n <value> -t Build Your Own (LWR) [--json] [--flags-dir <value>] [-o <value>] [-p <value>]
+    [-e <value>] [-d <value>]
 
 FLAGS
   -d, --output-dir=<value>       Directory to generate the site files in.
@@ -333,19 +333,23 @@ GLOBAL FLAGS
 DESCRIPTION
   Generate an Experience Cloud site.
 
-  Creates an Experience Cloud site with the specified template, name, and URL path prefix. The site includes all
-  necessary metadata files, including DigitalExperienceConfig, DigitalExperienceBundle, Network, and CustomSite.
+  Creates the metadata of an Experience Cloud site with the specified template, name, and URL path prefix. The output
+  includes all the necessary metadata files, including DigitalExperienceConfig, DigitalExperienceBundle, Network, and
+  CustomSite.
+  Unlike `sf community create`, which builds the site directly in the org, this command generates only the local
+  metadata.
 
 EXAMPLES
   Generate an Experience Cloud site using the Build Your Own (LWR) template. The site is called "mysite" and has the
   URL path prefix "mysite":
 
-    $ sf template generate digital-experience site --template-name "Build Your Own (LWR)" --name mysite --url-path-prefix mysite
+    $ sf template generate digital-experience site --template-name "Build Your Own (LWR)" --name mysite \
+      --url-path-prefix mysite
 
   Generate an Experience Cloud site like the last example, but generate the files into the specified output directory:
 
-    $ sf template generate digital-experience site --template-name "Build Your Own (LWR)" --name mysite --url-path-prefix mysite \
-      --output-dir force-app/main/default
+    $ sf template generate digital-experience site --template-name "Build Your Own (LWR)" --name mysite \
+      --url-path-prefix mysite --output-dir force-app/main/default
 
 FLAG DESCRIPTIONS
   -d, --output-dir=<value>  Directory to generate the site files in.
@@ -355,7 +359,7 @@ FLAG DESCRIPTIONS
     project, defaults to the current directory.
 ```
 
-_See code: [src/commands/template/generate/digital-experience/site.ts](https://github.com/salesforcecli/plugin-templates/blob/56.8.2/src/commands/template/generate/digital-experience/site.ts)_
+_See code: [src/commands/template/generate/digital-experience/site.ts](https://github.com/salesforcecli/plugin-templates/blob/56.9.0/src/commands/template/generate/digital-experience/site.ts)_
 
 ## `sf template generate flexipage`
 
@@ -437,7 +441,7 @@ FLAG DESCRIPTIONS
     'Custom_Object__c'. This sets the `sobjectType` field in the FlexiPage metadata.
 ```
 
-_See code: [src/commands/template/generate/flexipage/index.ts](https://github.com/salesforcecli/plugin-templates/blob/56.8.2/src/commands/template/generate/flexipage/index.ts)_
+_See code: [src/commands/template/generate/flexipage/index.ts](https://github.com/salesforcecli/plugin-templates/blob/56.9.0/src/commands/template/generate/flexipage/index.ts)_
 
 ## `sf template generate lightning app`
 
@@ -493,7 +497,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/template/generate/lightning/app.ts](https://github.com/salesforcecli/plugin-templates/blob/56.8.2/src/commands/template/generate/lightning/app.ts)_
+_See code: [src/commands/template/generate/lightning/app.ts](https://github.com/salesforcecli/plugin-templates/blob/56.9.0/src/commands/template/generate/lightning/app.ts)_
 
 ## `sf template generate lightning component`
 
@@ -563,7 +567,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/template/generate/lightning/component.ts](https://github.com/salesforcecli/plugin-templates/blob/56.8.2/src/commands/template/generate/lightning/component.ts)_
+_See code: [src/commands/template/generate/lightning/component.ts](https://github.com/salesforcecli/plugin-templates/blob/56.9.0/src/commands/template/generate/lightning/component.ts)_
 
 ## `sf template generate lightning event`
 
@@ -619,7 +623,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/template/generate/lightning/event.ts](https://github.com/salesforcecli/plugin-templates/blob/56.8.2/src/commands/template/generate/lightning/event.ts)_
+_See code: [src/commands/template/generate/lightning/event.ts](https://github.com/salesforcecli/plugin-templates/blob/56.9.0/src/commands/template/generate/lightning/event.ts)_
 
 ## `sf template generate lightning interface`
 
@@ -675,7 +679,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/template/generate/lightning/interface.ts](https://github.com/salesforcecli/plugin-templates/blob/56.8.2/src/commands/template/generate/lightning/interface.ts)_
+_See code: [src/commands/template/generate/lightning/interface.ts](https://github.com/salesforcecli/plugin-templates/blob/56.9.0/src/commands/template/generate/lightning/interface.ts)_
 
 ## `sf template generate lightning test`
 
@@ -731,7 +735,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/template/generate/lightning/test.ts](https://github.com/salesforcecli/plugin-templates/blob/56.8.2/src/commands/template/generate/lightning/test.ts)_
+_See code: [src/commands/template/generate/lightning/test.ts](https://github.com/salesforcecli/plugin-templates/blob/56.9.0/src/commands/template/generate/lightning/test.ts)_
 
 ## `sf template generate project`
 
@@ -837,7 +841,7 @@ FLAG DESCRIPTIONS
     Override the api version used for api requests made by this command
 ```
 
-_See code: [src/commands/template/generate/project/index.ts](https://github.com/salesforcecli/plugin-templates/blob/56.8.2/src/commands/template/generate/project/index.ts)_
+_See code: [src/commands/template/generate/project/index.ts](https://github.com/salesforcecli/plugin-templates/blob/56.9.0/src/commands/template/generate/project/index.ts)_
 
 ## `sf template generate static-resource`
 
@@ -900,7 +904,7 @@ FLAG DESCRIPTIONS
     etc.
 ```
 
-_See code: [src/commands/template/generate/static-resource/index.ts](https://github.com/salesforcecli/plugin-templates/blob/56.8.2/src/commands/template/generate/static-resource/index.ts)_
+_See code: [src/commands/template/generate/static-resource/index.ts](https://github.com/salesforcecli/plugin-templates/blob/56.9.0/src/commands/template/generate/static-resource/index.ts)_
 
 ## `sf template generate visualforce component`
 
@@ -957,7 +961,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/template/generate/visualforce/component.ts](https://github.com/salesforcecli/plugin-templates/blob/56.8.2/src/commands/template/generate/visualforce/component.ts)_
+_See code: [src/commands/template/generate/visualforce/component.ts](https://github.com/salesforcecli/plugin-templates/blob/56.9.0/src/commands/template/generate/visualforce/component.ts)_
 
 ## `sf template generate visualforce page`
 
@@ -1008,6 +1012,6 @@ FLAG DESCRIPTIONS
     The name can be up to 40 characters and must start with a letter.
 ```
 
-_See code: [src/commands/template/generate/visualforce/page.ts](https://github.com/salesforcecli/plugin-templates/blob/56.8.2/src/commands/template/generate/visualforce/page.ts)_
+_See code: [src/commands/template/generate/visualforce/page.ts](https://github.com/salesforcecli/plugin-templates/blob/56.9.0/src/commands/template/generate/visualforce/page.ts)_
 
 <!-- commandsstop -->
