@@ -5,8 +5,8 @@ Generate an Experience Cloud site.
 # description
 
 Creates the metadata of an Experience Cloud site with the specified template, name, and URL path prefix. The output will include all the necessary metadata files, including DigitalExperienceConfig, DigitalExperienceBundle, Network, and CustomSite.
-If this is the first site in the org, they cannot be deployed directly to create a site as there are additional services and files that can only be initialized in the standard site creation process.
-Note that this is different from `sf community create` that creates an Experience site directly in the target org.
+If this is the very first site in the org, please create a placeholder site with the same name before deploying the generated metadata. Certain Experience Cloud site services and files are only initialized during the first site setup via the standard site creation process.
+Unlike `sf community create`, which builds the site directly in the org, this command only generates the local metadata.
 
 # examples
 
