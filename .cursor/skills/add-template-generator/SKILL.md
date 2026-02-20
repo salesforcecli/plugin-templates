@@ -1,5 +1,6 @@
 ---
-description: Add a new template generator command to the CLI
+name: add-template-generator
+description: Add a new template generator command to the CLI when exposing a generator from salesforcedx-templates to CLI users.  
 ---
 Use this workflow whenever exposing a generator from salesforcedx-templates to CLI users.
 
