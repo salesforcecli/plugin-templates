@@ -40,6 +40,7 @@ Please report any issues to https://github.com/salesforcecli/plugin-templates/is
 ## Contributing
 
 1. Familiarize yourself with the codebase by reading the docs and the templates [library](https://github.com/salesforcecli/plugin-templates).
+   - If you're adding a new template generator, see the [Development Guide](./DEVELOPMENT.md) for detailed instructions.
 1. Create a new issue before starting your project so that we can keep track of
    what you're trying to add/fix. That way, we can also offer suggestions or
    let you know if there is already an effort in progress.
