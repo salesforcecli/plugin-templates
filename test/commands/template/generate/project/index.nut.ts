@@ -231,6 +231,48 @@ describe('template generate project:', () => {
       assert.file([path.join(session.project.dir, 'analytics1', 'eslint.config.js')]);
       assert.file([path.join(session.project.dir, 'analytics1', 'eslint.config.js')]);
     });
+
+    it('should create project with react-b2e template', () => {
+      const projectName = 'reactb2etest';
+      execCmd(`template generate project --projectname ${projectName} --template react-b2e`, {
+        ensureExitCode: 0,
+      });
+      const projectDir = path.join(session.project.dir, projectName);
+      assert.file([path.join(projectDir, 'sfdx-project.json')]);
+      assert.fileContent(path.join(projectDir, 'sfdx-project.json'), 'sourceApiVersion');
+      const webappMetaPath = path.join(
+        projectDir,
+        'force-app',
+        'main',
+        'default',
+        'webapplications',
+        projectName,
+        `${projectName}.webapplication-meta.xml`
+      );
+      assert.file([webappMetaPath]);
+      assert.fileContent(webappMetaPath, projectName);
+    });
+
+    it('should create project with react-b2x template', () => {
+      const projectName = 'reactb2xtest';
+      execCmd(`template generate project --projectname ${projectName} --template react-b2x`, {
+        ensureExitCode: 0,
+      });
+      const projectDir = path.join(session.project.dir, projectName);
+      assert.file([path.join(projectDir, 'sfdx-project.json')]);
+      assert.fileContent(path.join(projectDir, 'sfdx-project.json'), 'sourceApiVersion');
+      const webappMetaPath = path.join(
+        projectDir,
+        'force-app',
+        'main',
+        'default',
+        'webapplications',
+        projectName,
+        `${projectName}.webapplication-meta.xml`
+      );
+      assert.file([webappMetaPath]);
+      assert.fileContent(webappMetaPath, projectName);
+    });
   });
 
   describe('project creation failures', () => {
