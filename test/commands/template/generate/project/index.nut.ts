@@ -233,7 +233,8 @@ describe('template generate project:', () => {
     });
 
     it('should create project with reactb2e template', () => {
-      const projectName = 'reactb2etest';
+      const projectName = 'react-b2e-test';
+      const alphanumericName = 'reactb2etest';
       execCmd(`template generate project --projectname ${projectName} --template reactb2e`, {
         ensureExitCode: 0,
       });
@@ -246,15 +247,16 @@ describe('template generate project:', () => {
         'main',
         'default',
         'webapplications',
-        projectName,
-        `${projectName}.webapplication-meta.xml`
+        alphanumericName,
+        `${alphanumericName}.webapplication-meta.xml`
       );
       assert.file([webappMetaPath]);
-      assert.fileContent(webappMetaPath, projectName);
+      assert.fileContent(webappMetaPath, alphanumericName);
     });
 
     it('should create project with reactb2x template', () => {
-      const projectName = 'reactb2xtest';
+      const projectName = 'react-b2x-test';
+      const alphanumericName = 'reactb2xtest';
       execCmd(`template generate project --projectname ${projectName} --template reactb2x`, {
         ensureExitCode: 0,
       });
@@ -267,11 +269,11 @@ describe('template generate project:', () => {
         'main',
         'default',
         'webapplications',
-        projectName,
-        `${projectName}.webapplication-meta.xml`
+        alphanumericName,
+        `${alphanumericName}.webapplication-meta.xml`
       );
       assert.file([webappMetaPath]);
-      assert.fileContent(webappMetaPath, projectName);
+      assert.fileContent(webappMetaPath, alphanumericName);
     });
   });
 
