@@ -58,6 +58,8 @@ The standard template provides a complete force-app directory structure so you k
 
 The analytics template provides similar files and the force-app/main/default/waveTemplates directory.
 
+The reactb2e and reactb2x templates provide React-based project scaffolding for B2E and B2X web application use cases.
+
 # flags.namespace.summary
 
 Namespace associated with this project and any connected scratch orgs.

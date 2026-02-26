@@ -231,6 +231,50 @@ describe('template generate project:', () => {
       assert.file([path.join(session.project.dir, 'analytics1', 'eslint.config.js')]);
       assert.file([path.join(session.project.dir, 'analytics1', 'eslint.config.js')]);
     });
+
+    it('should create project with reactb2e template', () => {
+      const projectName = 'react-b2e-test';
+      const alphanumericName = 'reactb2etest';
+      execCmd(`template generate project --projectname ${projectName} --template reactb2e`, {
+        ensureExitCode: 0,
+      });
+      const projectDir = path.join(session.project.dir, projectName);
+      assert.file([path.join(projectDir, 'sfdx-project.json')]);
+      assert.fileContent(path.join(projectDir, 'sfdx-project.json'), 'sourceApiVersion');
+      const webappMetaPath = path.join(
+        projectDir,
+        'force-app',
+        'main',
+        'default',
+        'webapplications',
+        alphanumericName,
+        `${alphanumericName}.webapplication-meta.xml`
+      );
+      assert.file([webappMetaPath]);
+      assert.fileContent(webappMetaPath, alphanumericName);
+    });
+
+    it('should create project with reactb2x template', () => {
+      const projectName = 'react-b2x-test';
+      const alphanumericName = 'reactb2xtest';
+      execCmd(`template generate project --projectname ${projectName} --template reactb2x`, {
+        ensureExitCode: 0,
+      });
+      const projectDir = path.join(session.project.dir, projectName);
+      assert.file([path.join(projectDir, 'sfdx-project.json')]);
+      assert.fileContent(path.join(projectDir, 'sfdx-project.json'), 'sourceApiVersion');
+      const webappMetaPath = path.join(
+        projectDir,
+        'force-app',
+        'main',
+        'default',
+        'webapplications',
+        alphanumericName,
+        `${alphanumericName}.webapplication-meta.xml`
+      );
+      assert.file([webappMetaPath]);
+      assert.fileContent(webappMetaPath, alphanumericName);
+    });
   });
 
   describe('project creation failures', () => {
