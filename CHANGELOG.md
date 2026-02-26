@@ -1,3 +1,14 @@
+# [56.10.0](https://github.com/salesforcecli/plugin-templates/compare/56.9.3...56.10.0) (2026-02-26)
+
+### Bug Fixes
+
+- updating template type names ([434e8d7](https://github.com/salesforcecli/plugin-templates/commit/434e8d7b4d70e92b3eb2f68bb3bcb9b98b01d54a))
+- updating the deps to the latest ([93ca7f8](https://github.com/salesforcecli/plugin-templates/commit/93ca7f84f56b246f408e8553d15a9e1595a20ca6))
+
+### Features
+
+- adding webapp project generate ([7b88b6e](https://github.com/salesforcecli/plugin-templates/commit/7b88b6ef2a69fc9a17fb80e72fcfb7a073a2dab6))
+
 ## [56.9.3](https://github.com/salesforcecli/plugin-templates/compare/56.9.2...56.9.3) (2026-02-22)
 
 ### Bug Fixes
