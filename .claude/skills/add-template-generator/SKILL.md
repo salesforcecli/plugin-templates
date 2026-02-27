@@ -81,10 +81,19 @@ Ensure your command file follows the correct path convention:
 - **Nested generator**: `src/commands/template/generate/{metadataType}/{subTemplate}.ts`
 
 ## Step 5: Define CLI Flags
+
 Before defining flags, inspect the generator TypeScript interface in `salesforcedx-templates`. The interface is the source of truth for flag structure. If it is unavailable, request it instead of guessing.
 
-// turbo
-Use the interactive flag generator for each flag you need:
+**Important:** Do NOT add flags manually. The `sf dev generate flag` command is interactive and requires the user to run it themselves—the agent cannot respond to its prompts. When adding flags, instruct the user to run the command and provide guidance for the interactive flow.
+
+### Agent instructions for adding flags
+
+1. Tell user to run `sf dev generate flag` from plugin root.
+2. **Flow order:** (1) select command, (2) type (string/boolean/etc.), (3) name (kebab-case), (4) summary, (5) short name (optional), (6) required?, (7) multiple?
+3. List flags to add with suggested name, type, summary from generator interface.
+4. After user completes: (a) add mappings to options object if command passes opts to `runGenerator`; (b) if generator created `messages/template.generate.{metadataType}.md` instead of updating the existing file, merge those entries into `messages/{metadataType}.md` and delete the generated file.
+
+### Running the flag generator
 
 ```bash
 sf dev generate flag
@@ -103,7 +112,7 @@ This will:
 
 ## Step 6: Review Message Files
 
-Check the generated `messages/{command}.md` file and ensure:
+Check `messages/{metadataType}.md` (merge from `template.generate.{metadataType}.md` if generator created a separate file) and ensure:
 - Summary is clear and concise
 - Description provides helpful context
 - Flag descriptions are detailed and explain constraints

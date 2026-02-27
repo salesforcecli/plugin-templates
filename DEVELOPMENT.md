@@ -1,6 +1,6 @@
 ## Add Template Generator to CLI
 
-**Repo**: [salesforcecli/plugin-templates](https://github.com/salesforcecli/plugin-templates/tree/main/src/commands) (Public GitHub, requires access to `forcedotcom` org)  
+**Repo**: [salesforcecli/plugin-templates](https://github.com/salesforcecli/plugin-templates/tree/main/src/commands) (Public GitHub, requires access to `salesforcecli` org)  
 
 ### Table of Contents
 
@@ -30,6 +30,7 @@ It's critical to remember that creating a new CLI command isn't just about getti
 * [https://developer.salesforce.com/docs/platform/salesforce-cli-plugin/guide/topics.html](https://developer.salesforce.com/docs/platform/salesforce-cli-plugin/guide/topics.html)  
 * [https://developer.salesforce.com/docs/platform/salesforce-cli-plugin/guide/flags.html](https://developer.salesforce.com/docs/platform/salesforce-cli-plugin/guide/flags.html)  
 * [https://developer.salesforce.com/docs/platform/salesforce-cli-plugin/guide/command-flags.html](https://developer.salesforce.com/docs/platform/salesforce-cli-plugin/guide/command-flags.html)
+* If all this is new to you, check out [Get Started Building a Salesforce CLI Plugin](https://developer.salesforce.com/docs/platform/salesforce-cli-plugin/guide/get-started.html) which walks you through a simple example. 
 
 ### Declare your Metadata Subtopic and Create Plugin Command (and Topic)
 
@@ -79,7 +80,7 @@ public static readonly flags = {
 See the existing developer documentation for learning how to write useful messages:  
 [https://developer.salesforce.com/docs/platform/salesforce-cli-plugin/guide/messages.html](https://developer.salesforce.com/docs/platform/salesforce-cli-plugin/guide/messages.html)
 
-See [here](https://developer.salesforce.com/docs/platform/salesforce-cli-plugin/guide/messages-impl-guidelines.html) for how to implement and dynamically load your messages in your command implementation. **Each new flag requires an entry in the messages file.** 
+See [here](https://developer.salesforce.com/docs/platform/salesforce-cli-plugin/guide/messages-impl-guidelines.html) for how to implement and dynamically load your messages in your command implementation. **Each new flag requires a "summary" entry in the messages file. Flag descriptions are optional.** 
 
 If appropriate, link to developer.salesforce.com docs in command descriptions.
 
@@ -118,17 +119,17 @@ Release information is communicated through official Salesforce CLI channels.
 
 #### Nightly
 
-The CLI has a `nightly` release. The day after your PR is merged, you can update to the latest with `sf update nightly`. Keep in mind that if you have previously run `sf plugins link .` during development, you have to run `sf plugins unlink @salesforce/plugin-templates`.
+The CLI has a `nightly` release. The day after your PR is merged, you can update to the latest with `sf update nightly` or `npm install @salesforce/cli@nightly --global`. Keep in mind that if you have previously run `sf plugins link .` during development, you have to run `sf plugins unlink @salesforce/plugin-templates`.
 
 #### Release Candidate
 
-The release candidate branch is updated weekly, on Wednesdays, around noon CST (10am PST). To update to the release candidate, you can run `sf update latest-rc`.
+The release candidate is updated weekly, on Wednesdays, around noon CST (10am PST). To update to the release candidate, you can run `sf update stable-rc` or `npm install @salesforce/cli@latest-rc --global`.
 
 After your change is merged into the `nightly` release, your team should QA/QC ahead of the promotion to the release candidate and make any necessary changes.
 
 #### Latest 
 
-A week after promotion to the release candidate, the RC is promoted to `latest`. Final sanity checks should be done during this week, and emergency patch fixes can be made if required. Update with `sf update latest`.
+A week after promotion to the release candidate, the RC is promoted to `latest`. Final sanity checks should be done during this week, and emergency patch fixes can be made if required. Update with `sf update stable` or `npm install @salesforce/cli --global`.
 
 This promotion also happens around 12pm CST (10am PST) on Wednesdays.
 
@@ -147,3 +148,4 @@ In order to get this all to work locally, you’ll need to do a few things:
 3. Run `yarn build` after all changes to your templates or generator (in dx-templates)  
 4. Run `yarn install --force` and `yarn build` in `plugin-templates` to fetch newly built changes from your local salesforcedx-templates directory  
 5. When introducing your CLI command for the **first time**, run `sf plugins link .` from `plugin-templates`, which will override your local CLI with the new command that you’re working on.
+    a. Alternatively, you can run your new command directly from the plugin-templates directory with: `./bin/run.js template generate your-command`  
