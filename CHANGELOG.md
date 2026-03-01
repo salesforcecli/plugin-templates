@@ -1,3 +1,9 @@
+## [56.10.1](https://github.com/salesforcecli/plugin-templates/compare/56.10.0...56.10.1) (2026-03-01)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/core from 8.26.2 to 8.26.3 ([d23d5e8](https://github.com/salesforcecli/plugin-templates/commit/d23d5e8dc9a0daae1b2cb7d9abaeaabca68f3f23))
+
 # [56.10.0](https://github.com/salesforcecli/plugin-templates/compare/56.9.3...56.10.0) (2026-02-26)
 
 ### Bug Fixes
