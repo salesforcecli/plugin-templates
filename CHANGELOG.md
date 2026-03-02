@@ -1,3 +1,9 @@
+## [56.10.2](https://github.com/salesforcecli/plugin-templates/compare/56.10.1...56.10.2) (2026-03-02)
+
+### Bug Fixes
+
+- add skill names ([c3e91ec](https://github.com/salesforcecli/plugin-templates/commit/c3e91ec7334a3bef9c6060fba94cc3ed067f337f))
+
 ## [56.10.1](https://github.com/salesforcecli/plugin-templates/compare/56.10.0...56.10.1) (2026-03-01)
 
 ### Bug Fixes
