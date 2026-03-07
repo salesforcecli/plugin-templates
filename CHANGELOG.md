@@ -1,3 +1,9 @@
+## [56.10.3](https://github.com/salesforcecli/plugin-templates/compare/56.10.2...56.10.3) (2026-03-07)
+
+### Bug Fixes
+
+- **deps:** bump tar from 7.5.9 to 7.5.10 ([0280a5a](https://github.com/salesforcecli/plugin-templates/commit/0280a5a0bef98ff6a933f7227f0ea311db0c4759))
+
 ## [56.10.2](https://github.com/salesforcecli/plugin-templates/compare/56.10.1...56.10.2) (2026-03-02)
 
 ### Bug Fixes
