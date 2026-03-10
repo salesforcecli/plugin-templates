@@ -1,3 +1,9 @@
+## [56.10.5](https://github.com/salesforcecli/plugin-templates/compare/56.10.4...56.10.5) (2026-03-10)
+
+### Bug Fixes
+
+- webapp path lengths ([c221fa5](https://github.com/salesforcecli/plugin-templates/commit/c221fa5e49c9b73be68e9a0b54d7d4a954092077))
+
 ## [56.10.4](https://github.com/salesforcecli/plugin-templates/compare/56.10.3...56.10.4) (2026-03-08)
 
 ### Bug Fixes
