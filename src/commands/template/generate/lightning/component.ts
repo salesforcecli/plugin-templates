@@ -39,7 +39,7 @@ export default class LightningComponent extends SfCommand<CreateOutput> {
       default: 'default',
       // Note: keep this list here and LightningComponentOptions#template in-sync with the
       // templates/lightningcomponents/[aura|lwc]/* folders
-      options: ['default', 'analyticsDashboard', 'analyticsDashboardWithStep'] as const,
+      options: ['default', 'analyticsDashboard', 'analyticsDashboardWithStep', 'typeScript'] as const,
     })(),
     'output-dir': outputDirFlagLightning,
     'api-version': orgApiVersionFlagWithDeprecations,
