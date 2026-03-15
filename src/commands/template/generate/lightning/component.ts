@@ -9,7 +9,7 @@
 
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { CreateOutput, LightningComponentOptions, TemplateType } from '@salesforce/templates';
-import { Messages } from '@salesforce/core';
+import { Messages, SfProject } from '@salesforce/core';
 import { getCustomTemplates, runGenerator } from '../../../../utils/templateCommand.js';
 import { internalFlag, outputDirFlagLightning } from '../../../../utils/flags.js';
 const BUNDLE_TYPE = 'Component';
@@ -36,7 +36,6 @@ export default class LightningComponent extends SfCommand<CreateOutput> {
       char: 't',
       summary: lightningCommon.getMessage('flags.template.summary'),
       description: lightningCommon.getMessage('flags.template.description'),
-      default: 'default',
       // Note: keep this list here and LightningComponentOptions#template in-sync with the
       // templates/lightningcomponents/[aura|lwc]/* folders
       options: ['default', 'analyticsDashboard', 'analyticsDashboardWithStep', 'typeScript'] as const,
@@ -54,9 +53,33 @@ export default class LightningComponent extends SfCommand<CreateOutput> {
 
   public async run(): Promise<CreateOutput> {
     const { flags } = await this.parse(LightningComponent);
+
+    // Determine template default based on project preference
+    let template = flags.template ?? 'default';
+
+    // If template not explicitly provided and generating LWC, check project preference
+    if (!flags.template && flags.type === 'lwc') {
+      try {
+        // Try to resolve project from output directory if provided, otherwise use cwd
+        const projectPath = flags['output-dir'] || process.cwd();
+        const project = await SfProject.resolve(projectPath);
+        const projectJson = await project.resolveProjectConfig();
+        const defaultLWCLanguage = projectJson.defaultLWCLanguage as string | undefined;
+
+        if (defaultLWCLanguage === 'typescript') {
+          template = 'typeScript';
+        } else if (defaultLWCLanguage === 'javascript') {
+          template = 'default'; // Explicit JavaScript template
+        }
+        // If defaultLWCLanguage is undefined or other value, template remains 'default'
+      } catch {
+        // Not in a project context or project config not available, use default
+      }
+    }
+
     const flagsAsOptions: LightningComponentOptions = {
       componentname: flags.name,
-      template: flags.template,
+      template,
       outputdir: flags['output-dir'],
       apiversion: flags['api-version'],
       internal: flags.internal,
