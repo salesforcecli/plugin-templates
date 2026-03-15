@@ -26,6 +26,10 @@ By default, the generated sfdx-project.json file sets the sourceApiVersion prope
 
   <%= config.bin %> <%= command.id %> --name mywork --template empty
 
+- Generate a TypeScript project for Lightning Web Components:
+
+  <%= config.bin %> <%= command.id %> --name mywork --lwc-language typescript
+
 # flags.name.summary
 
 Name of the generated project.
@@ -98,4 +102,4 @@ Default language for Lightning Web Components.
 
 # flags.lwc-language.description
 
-Sets the default language for Lightning Web Components in this project. When set to 'typescript', generates TypeScript configuration files. Defaults to 'javascript'.
+Sets the default language for Lightning Web Components in this project. When set to 'typescript', generates TypeScript configuration files (tsconfig.json, package.json with TypeScript dependencies, and TypeScript-aware ESLint config). TypeScript projects compile locally to a dist/ folder for validation, but deploy raw .ts files to Salesforce for server-side type stripping. Defaults to 'javascript'.
