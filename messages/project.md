@@ -93,3 +93,11 @@ Salesforce instance login URL.
 # flags.login-url.description
 
 Normally defaults to https://login.salesforce.com.
+
+# flags.lwc-language.summary
+
+Default language for Lightning Web Components.
+
+# flags.lwc-language.description
+
+Sets the default language for Lightning Web Components in this project. When set to 'typescript', generates TypeScript configuration files. Defaults to 'javascript'.
