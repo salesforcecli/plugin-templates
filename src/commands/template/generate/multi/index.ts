@@ -12,15 +12,14 @@ import { Messages, SfProject } from '@salesforce/core';
 import { getCustomTemplates, runGenerator } from '../../../../utils/templateCommand.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
-const messages = Messages.loadMessages('@salesforce/plugin-templates', 'webApplication');
+const messages = Messages.loadMessages('@salesforce/plugin-templates', 'multi');
 
-export default class WebAppGenerate extends SfCommand<CreateOutput> {
+export default class MultiGenerate extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
   public static readonly hidden = true; // Hide from external developers until GA
-  public static readonly aliases = ['webapp:generate'];
-  public static readonly deprecateAliases = true;
+  public static readonly aliases = ['multi:generate'];
   public static readonly flags = {
     name: Flags.string({
       char: 'n',
@@ -64,9 +63,9 @@ export default class WebAppGenerate extends SfCommand<CreateOutput> {
   }
 
   public async run(): Promise<CreateOutput> {
-    const { flags } = await this.parse(WebAppGenerate);
+    const { flags } = await this.parse(MultiGenerate);
 
-    const outputDir = flags['output-dir'] ?? (await WebAppGenerate.getDefaultOutputDir());
+    const outputDir = flags['output-dir'] ?? (await MultiGenerate.getDefaultOutputDir());
 
     const flagsAsOptions: WebApplicationOptions = {
       webappname: flags.name,
