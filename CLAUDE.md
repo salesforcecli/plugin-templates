@@ -39,6 +39,7 @@ sf template generate {metadataType} {optionalSubTemplate}
 
 Examples:
 - sf template generate flexipage
+- sf template generate multi
 - sf template generate digital-experience site
 
 ---
