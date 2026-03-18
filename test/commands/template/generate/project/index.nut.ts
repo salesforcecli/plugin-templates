@@ -28,6 +28,16 @@ const standardfolderarray = [
 const filestocopy = ['.forceignore', '.gitignore', '.prettierignore', '.prettierrc', 'jest.config.js', 'package.json'];
 const emptyfolderarray = ['aura', 'lwc'];
 const analyticsfolderarray = ['aura', 'classes', 'lwc', 'waveTemplates'];
+const agentfolderarray = [
+  'aiAuthoringBundles',
+  'bots',
+  'classes',
+  'flows',
+  'genAiPlannerBundles',
+  'genAiPromptTemplates',
+  'permissionsetgroups',
+  'permissionsets',
+];
 const huskyhookarray = ['pre-commit'];
 const vscodearray = ['extensions', 'launch', 'settings'];
 
@@ -275,10 +285,67 @@ describe('template generate project:', () => {
       assert.file([webappMetaPath]);
       assert.fileContent(webappMetaPath, alphanumericName);
     });
+
+    it('should create project with agent template', () => {
+      execCmd('template generate project --projectname agent1 --template agent --manifest', {
+        ensureExitCode: 0,
+      });
+      const projectDir = path.join(session.project.dir, 'agent1');
+      assert.file([path.join(projectDir, 'sfdx-project.json')]);
+      assert.fileContent(path.join(projectDir, 'sfdx-project.json'), '"path": "force-app",');
+      assert.fileContent(path.join(projectDir, 'sfdx-project.json'), 'sourceApiVersion');
+      assert.file([path.join(projectDir, 'config', 'project-scratch-def.json')]);
+      assert.fileContent(path.join(projectDir, 'config', 'project-scratch-def.json'), 'einsteinGptSettings');
+      assert.file([path.join(projectDir, 'README.md')]);
+      assert.fileContent(path.join(projectDir, 'README.md'), '# Agentforce Project');
+      assert.file([path.join(projectDir, 'manifest', 'package.xml')]);
+      assert.fileContent(path.join(projectDir, 'manifest', 'package.xml'), '<name>GenAiPlugin</name>');
+
+      const srcDir = path.join(projectDir, 'force-app', 'main', 'default');
+      for (const folder of agentfolderarray) {
+        const dir = path.join(srcDir, folder);
+        assert(fs.existsSync(dir), `Missing ${dir}`);
+      }
+
+      assert.file([
+        path.join(srcDir, 'aiAuthoringBundles', 'Local_Info_Agent', 'Local_Info_Agent.bundle-meta.xml'),
+        path.join(srcDir, 'aiAuthoringBundles', 'Local_Info_Agent', 'Local_Info_Agent.agent'),
+        path.join(srcDir, 'classes', 'CheckWeather.cls'),
+        path.join(srcDir, 'classes', 'CheckWeather.cls-meta.xml'),
+        path.join(srcDir, 'classes', 'CurrentDate.cls'),
+        path.join(srcDir, 'classes', 'CurrentDate.cls-meta.xml'),
+        path.join(srcDir, 'classes', 'CurrentDateTest.cls'),
+        path.join(srcDir, 'classes', 'CurrentDateTest.cls-meta.xml'),
+        path.join(srcDir, 'classes', 'WeatherService.cls'),
+        path.join(srcDir, 'classes', 'WeatherService.cls-meta.xml'),
+        path.join(srcDir, 'classes', 'WeatherServiceTest.cls'),
+        path.join(srcDir, 'classes', 'WeatherServiceTest.cls-meta.xml'),
+        path.join(srcDir, 'flows', 'Get_Resort_Hours.flow-meta.xml'),
+        path.join(srcDir, 'genAiPromptTemplates', 'Get_Event_Info.genAiPromptTemplate-meta.xml'),
+        path.join(srcDir, 'permissionsets', 'Resort_Agent.permissionset-meta.xml'),
+        path.join(srcDir, 'permissionsets', 'Resort_Admin.permissionset-meta.xml'),
+        path.join(srcDir, 'permissionsetgroups', 'AFDX_Agent_Perms.permissionsetgroup-meta.xml'),
+        path.join(srcDir, 'permissionsetgroups', 'AFDX_User_Perms.permissionsetgroup-meta.xml'),
+      ]);
+
+      for (const file of huskyhookarray) {
+        assert.file([path.join(projectDir, '.husky', file)]);
+      }
+
+      for (const file of vscodearray) {
+        assert.file(path.join(projectDir, '.vscode', `${file}.json`));
+      }
+
+      assert.file([path.join(projectDir, 'eslint.config.js')]);
+
+      for (const file of filestocopy) {
+        assert.file([path.join(projectDir, file)]);
+      }
+    });
   });
 
   describe('project creation failures', () => {
-    it('should throw invalid template name error', () => {
+    it('should throw missing required flag error', () => {
       const stderr = execCmd('template generate project').shellOutput.stderr;
       expect(stderr).to.contain('Missing required flag');
     });
