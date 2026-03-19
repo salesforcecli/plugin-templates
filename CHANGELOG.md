@@ -1,3 +1,13 @@
+# [56.11.0](https://github.com/salesforcecli/plugin-templates/compare/56.10.7...56.11.0) (2026-03-19)
+
+### Bug Fixes
+
+- update tests for changes ([b83b10c](https://github.com/salesforcecli/plugin-templates/commit/b83b10c090faddc9e58bf2d15afa19534623356d))
+
+### Features
+
+- add support for creating agent project templates ([b5fe45e](https://github.com/salesforcecli/plugin-templates/commit/b5fe45e5eacec584993d0cae745a7c6948f03a62))
+
 ## [56.10.7](https://github.com/salesforcecli/plugin-templates/compare/56.10.6...56.10.7) (2026-03-15)
 
 ### Bug Fixes
