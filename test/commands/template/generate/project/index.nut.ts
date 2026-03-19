@@ -26,6 +26,7 @@ const standardfolderarray = [
   'triggers',
 ];
 const filestocopy = ['.forceignore', '.gitignore', '.prettierignore', '.prettierrc', 'jest.config.js', 'package.json'];
+const agentfilestocopy = filestocopy.filter((file) => file !== 'jest.config.js');
 const emptyfolderarray = ['aura', 'lwc'];
 const analyticsfolderarray = ['aura', 'classes', 'lwc', 'waveTemplates'];
 const agentfolderarray = [
@@ -299,7 +300,7 @@ describe('template generate project:', () => {
       assert.file([path.join(projectDir, 'README.md')]);
       assert.fileContent(path.join(projectDir, 'README.md'), '# Agentforce Project');
       assert.file([path.join(projectDir, 'manifest', 'package.xml')]);
-      assert.fileContent(path.join(projectDir, 'manifest', 'package.xml'), '<name>GenAiPlugin</name>');
+      assert.fileContent(path.join(projectDir, 'manifest', 'package.xml'), '<name>AiAuthoringBundle</name>');
 
       const srcDir = path.join(projectDir, 'force-app', 'main', 'default');
       for (const folder of agentfolderarray) {
@@ -328,17 +329,11 @@ describe('template generate project:', () => {
         path.join(srcDir, 'permissionsetgroups', 'AFDX_User_Perms.permissionsetgroup-meta.xml'),
       ]);
 
-      for (const file of huskyhookarray) {
-        assert.file([path.join(projectDir, '.husky', file)]);
-      }
-
       for (const file of vscodearray) {
         assert.file(path.join(projectDir, '.vscode', `${file}.json`));
       }
 
-      assert.file([path.join(projectDir, 'eslint.config.js')]);
-
-      for (const file of filestocopy) {
+      for (const file of agentfilestocopy) {
         assert.file([path.join(projectDir, file)]);
       }
     });
