@@ -1,3 +1,9 @@
+## [56.11.1](https://github.com/salesforcecli/plugin-templates/compare/56.11.0...56.11.1) (2026-03-20)
+
+### Bug Fixes
+
+- **deps:** bump flatted from 3.2.9 to 3.4.2 ([3cc4847](https://github.com/salesforcecli/plugin-templates/commit/3cc4847a4024f3e1733bf2806c42c4bfd0c047a9))
+
 # [56.11.0](https://github.com/salesforcecli/plugin-templates/compare/56.10.7...56.11.0) (2026-03-19)
 
 ### Bug Fixes
