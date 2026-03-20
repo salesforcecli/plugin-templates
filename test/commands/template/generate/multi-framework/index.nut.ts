@@ -25,7 +25,7 @@ describe('template generate web application:', () => {
   describe('Check webapp creation with default template', () => {
     it('should create webapp using default template in webapplications directory', () => {
       const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default', 'webapplications');
-      execCmd(`template generate multi --name MyWebApp --output-dir "${outputDir}"`, { ensureExitCode: 0 });
+      execCmd(`template generate multi-framework --name MyWebApp --output-dir "${outputDir}"`, { ensureExitCode: 0 });
       assert.file([
         path.join(outputDir, 'MyWebApp', 'MyWebApp.webapplication-meta.xml'),
         path.join(outputDir, 'MyWebApp', 'src', 'index.html'),
@@ -39,7 +39,7 @@ describe('template generate web application:', () => {
 
     it('should default to project webapplications directory when --output-dir is omitted', () => {
       const expectedOutputDir = path.join(session.project.dir, 'force-app', 'main', 'default', 'webapplications');
-      execCmd('template generate multi --name DefaultDirApp', { ensureExitCode: 0 });
+      execCmd('template generate multi-framework --name DefaultDirApp', { ensureExitCode: 0 });
       assert.file([
         path.join(expectedOutputDir, 'DefaultDirApp', 'DefaultDirApp.webapplication-meta.xml'),
         path.join(expectedOutputDir, 'DefaultDirApp', 'src', 'index.html'),
@@ -49,7 +49,7 @@ describe('template generate web application:', () => {
 
     it('should create webapp with custom label', () => {
       const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default', 'webapplications');
-      execCmd(`template generate multi --name TestApp --label "Custom Label" --output-dir "${outputDir}"`, {
+      execCmd(`template generate multi-framework --name TestApp --label "Custom Label" --output-dir "${outputDir}"`, {
         ensureExitCode: 0,
       });
       assert.file([
@@ -63,7 +63,7 @@ describe('template generate web application:', () => {
   describe('Check webapp creation with reactbasic template', () => {
     it('should create React webapp with all required files', () => {
       const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default', 'webapplications');
-      execCmd(`template generate multi --name MyReactApp --template reactbasic --output-dir "${outputDir}"`, {
+      execCmd(`template generate multi-framework --name MyReactApp --template reactbasic --output-dir "${outputDir}"`, {
         ensureExitCode: 0,
       });
       assert.file([
@@ -78,38 +78,42 @@ describe('template generate web application:', () => {
 
   describe('Check that all invalid name errors are thrown', () => {
     it('should throw a missing name error', () => {
-      const stderr = execCmd('template generate multi').shellOutput.stderr;
+      const stderr = execCmd('template generate multi-framework').shellOutput.stderr;
       expect(stderr).to.contain('Missing required flag');
     });
 
     it('should throw invalid non alphanumeric webapp name error', () => {
       const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default', 'webapplications');
-      const stderr = execCmd(`template generate multi --name /a --output-dir "${outputDir}"`).shellOutput.stderr;
+      const stderr = execCmd(`template generate multi-framework --name /a --output-dir "${outputDir}"`).shellOutput
+        .stderr;
       expect(stderr).to.contain(nls.localize('AlphaNumericNameError'));
     });
 
     it('should throw invalid webapp name starting with numeric error', () => {
       const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default', 'webapplications');
-      const stderr = execCmd(`template generate multi --name 3aa --output-dir "${outputDir}"`).shellOutput.stderr;
+      const stderr = execCmd(`template generate multi-framework --name 3aa --output-dir "${outputDir}"`).shellOutput
+        .stderr;
       expect(stderr).to.contain(nls.localize('NameMustStartWithLetterError'));
     });
 
     it('should throw invalid webapp name ending with underscore error', () => {
       const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default', 'webapplications');
-      const stderr = execCmd(`template generate multi --name a_ --output-dir "${outputDir}"`).shellOutput.stderr;
+      const stderr = execCmd(`template generate multi-framework --name a_ --output-dir "${outputDir}"`).shellOutput
+        .stderr;
       expect(stderr).to.contain(nls.localize('EndWithUnderscoreError'));
     });
 
     it('should throw invalid webapp name with double underscore error', () => {
       const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default', 'webapplications');
-      const stderr = execCmd(`template generate multi --name a__a --output-dir "${outputDir}"`).shellOutput.stderr;
+      const stderr = execCmd(`template generate multi-framework --name a__a --output-dir "${outputDir}"`).shellOutput
+        .stderr;
       expect(stderr).to.contain(nls.localize('DoubleUnderscoreError'));
     });
 
     it('should auto-append webapplications folder when output dir does not end with webapplications', () => {
       const outputDir = path.join(session.project.dir, 'force-app', 'main', 'default', 'test-dir');
       const expectedOutputDir = path.join(outputDir, 'webapplications');
-      execCmd(`template generate multi --name TestApp --output-dir "${outputDir}"`, { ensureExitCode: 0 });
+      execCmd(`template generate multi-framework --name TestApp --output-dir "${outputDir}"`, { ensureExitCode: 0 });
       assert.file([
         path.join(expectedOutputDir, 'TestApp', 'TestApp.webapplication-meta.xml'),
         path.join(expectedOutputDir, 'TestApp', 'src', 'index.html'),

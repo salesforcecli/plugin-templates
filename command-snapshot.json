@@ -148,8 +148,8 @@
     "plugin": "@salesforce/plugin-templates"
   },
   {
-    "alias": ["multi:generate"],
-    "command": "template:generate:multi",
+    "alias": ["multi-framework:generate"],
+    "command": "template:generate:multi-framework",
     "flagAliases": [],
     "flagChars": ["d", "l", "n", "t"],
     "flags": ["api-version", "flags-dir", "json", "label", "name", "output-dir", "template"],

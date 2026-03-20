@@ -84,7 +84,7 @@
               "visualforce": {
                 "description": "Create a visualforce page or component."
               },
-              "multi": {
+              "multi-framework": {
                 "description": "Create a multi-framework web application."
               }
             }

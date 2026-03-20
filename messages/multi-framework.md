@@ -50,11 +50,12 @@ Directory for saving the created files.
 
 # flags.output-dir.description
 
-The location can be an absolute path or relative to the current working directory. 
+The location can be an absolute path or relative to the current working directory.
 
 **Important:** The generator automatically ensures the output directory ends with "webapplications". If your specified path doesn't end with "webapplications", it's automatically appended. The web application is created at "<output-dir>/<webappname>".
 
 **Examples:**
+
 - "--output-dir force-app/main/default" → Creates a web application at "force-app/main/default/webapplications/MyWebApp/"
 - "--output-dir force-app/main/default/webapplications" → Creates a web application at "force-app/main/default/webapplications/MyWebApp/" (no change)
 
