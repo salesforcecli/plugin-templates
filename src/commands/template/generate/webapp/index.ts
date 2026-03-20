@@ -18,7 +18,6 @@ export default class WebAppGenerate extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
-  public static readonly hidden = true; // Hide from external developers until GA
   public static readonly aliases = ['webapp:generate'];
   public static readonly deprecateAliases = true;
   public static readonly flags = {
