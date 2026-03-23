@@ -76,7 +76,7 @@ export default class Project extends SfCommand<CreateOutput> {
       outputdir: flags['output-dir'],
       manifest: flags.manifest,
       loginurl: flags['login-url'],
-      template: flags.template as ProjectOptions['template'],
+      template: flags.template,
       // namespace is a reserved keyword for the generator
       ns: flags.namespace,
       defaultpackagedir: flags['default-package-dir'],
