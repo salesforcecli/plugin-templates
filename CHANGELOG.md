@@ -1,3 +1,63 @@
+## [56.11.4](https://github.com/salesforcecli/plugin-templates/compare/56.11.3...56.11.4) (2026-03-23)
+
+## [56.11.3](https://github.com/salesforcecli/plugin-templates/compare/56.11.2...56.11.3) (2026-03-22)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/core from 8.27.0 to 8.27.1 ([b427b7e](https://github.com/salesforcecli/plugin-templates/commit/b427b7e6d5450d4c320393469147e26151f3f695))
+
+## [56.11.2](https://github.com/salesforcecli/plugin-templates/compare/56.11.1...56.11.2) (2026-03-22)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/templates from 66.5.0 to 66.5.4 ([a0a96c3](https://github.com/salesforcecli/plugin-templates/commit/a0a96c377a491f3a3ef69f829f39de22e280fc2d))
+
+## [56.11.1](https://github.com/salesforcecli/plugin-templates/compare/56.11.0...56.11.1) (2026-03-20)
+
+### Bug Fixes
+
+- **deps:** bump flatted from 3.2.9 to 3.4.2 ([3cc4847](https://github.com/salesforcecli/plugin-templates/commit/3cc4847a4024f3e1733bf2806c42c4bfd0c047a9))
+
+# [56.11.0](https://github.com/salesforcecli/plugin-templates/compare/56.10.7...56.11.0) (2026-03-19)
+
+### Bug Fixes
+
+- update tests for changes ([b83b10c](https://github.com/salesforcecli/plugin-templates/commit/b83b10c090faddc9e58bf2d15afa19534623356d))
+
+### Features
+
+- add support for creating agent project templates ([b5fe45e](https://github.com/salesforcecli/plugin-templates/commit/b5fe45e5eacec584993d0cae745a7c6948f03a62))
+
+## [56.10.7](https://github.com/salesforcecli/plugin-templates/compare/56.10.6...56.10.7) (2026-03-15)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/core from 8.26.3 to 8.27.0 ([cf5773c](https://github.com/salesforcecli/plugin-templates/commit/cf5773c7918b1f4d9ef14ecc4de0bc5c6028e6e6))
+
+## [56.10.6](https://github.com/salesforcecli/plugin-templates/compare/56.10.5...56.10.6) (2026-03-15)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/templates from 66.4.0 to 66.4.1 ([614eb93](https://github.com/salesforcecli/plugin-templates/commit/614eb9315763ab5b645c9d6333bc024ffd9dd8b8))
+
+## [56.10.5](https://github.com/salesforcecli/plugin-templates/compare/56.10.4...56.10.5) (2026-03-10)
+
+### Bug Fixes
+
+- webapp path lengths ([c221fa5](https://github.com/salesforcecli/plugin-templates/commit/c221fa5e49c9b73be68e9a0b54d7d4a954092077))
+
+## [56.10.4](https://github.com/salesforcecli/plugin-templates/compare/56.10.3...56.10.4) (2026-03-08)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/templates from 66.2.1 to 66.3.3 ([00136ed](https://github.com/salesforcecli/plugin-templates/commit/00136edc16c7da55e18ec063f04c0883f708bd13))
+
+## [56.10.3](https://github.com/salesforcecli/plugin-templates/compare/56.10.2...56.10.3) (2026-03-07)
+
+### Bug Fixes
+
+- **deps:** bump tar from 7.5.9 to 7.5.10 ([0280a5a](https://github.com/salesforcecli/plugin-templates/commit/0280a5a0bef98ff6a933f7227f0ea311db0c4759))
+
 ## [56.10.2](https://github.com/salesforcecli/plugin-templates/compare/56.10.1...56.10.2) (2026-03-02)
 
 ### Bug Fixes
