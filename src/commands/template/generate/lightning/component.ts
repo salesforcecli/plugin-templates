@@ -36,6 +36,7 @@ export default class LightningComponent extends SfCommand<CreateOutput> {
       char: 't',
       summary: lightningCommon.getMessage('flags.template.summary'),
       description: lightningCommon.getMessage('flags.template.description'),
+      default: 'default',
       // Note: keep this list here and LightningComponentOptions#template in-sync with the
       // templates/lightningcomponents/[aura|lwc]/* folders
       options: ['default', 'analyticsDashboard', 'analyticsDashboardWithStep', 'typeScript'] as const,
@@ -54,11 +55,12 @@ export default class LightningComponent extends SfCommand<CreateOutput> {
   public async run(): Promise<CreateOutput> {
     const { flags } = await this.parse(LightningComponent);
 
-    // Determine template default based on project preference
-    let template = flags.template ?? 'default';
+    // Determine if user explicitly set the template flag
+    const userExplicitlySetTemplate = this.argv.includes('--template') || this.argv.includes('-t');
+    let template = flags.template;
 
     // If template not explicitly provided and generating LWC, check project preference
-    if (!flags.template && flags.type === 'lwc') {
+    if (!userExplicitlySetTemplate && flags.type === 'lwc') {
       try {
         // Try to resolve project from output directory if provided, otherwise use cwd
         const projectPath = flags['output-dir'] || process.cwd();
@@ -72,8 +74,9 @@ export default class LightningComponent extends SfCommand<CreateOutput> {
           template = 'default'; // Explicit JavaScript template
         }
         // If defaultLWCLanguage is undefined or other value, template remains 'default'
-      } catch {
+      } catch (error) {
         // Not in a project context or project config not available, use default
+        this.debug('Could not resolve project config for intelligent defaulting:', error);
       }
     }
 
