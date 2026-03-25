@@ -148,8 +148,8 @@
     "plugin": "@salesforce/plugin-templates"
   },
   {
-    "alias": ["webapp:generate"],
-    "command": "template:generate:webapp",
+    "alias": ["webui:generate"],
+    "command": "template:generate:webui",
     "flagAliases": [],
     "flagChars": ["d", "l", "n", "t"],
     "flags": ["api-version", "flags-dir", "json", "label", "name", "output-dir", "template"],

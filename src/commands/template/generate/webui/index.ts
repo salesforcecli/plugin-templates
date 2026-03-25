@@ -12,15 +12,14 @@ import { Messages, SfProject } from '@salesforce/core';
 import { getCustomTemplates, runGenerator } from '../../../../utils/templateCommand.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
-const messages = Messages.loadMessages('@salesforce/plugin-templates', 'webApplication');
+const messages = Messages.loadMessages('@salesforce/plugin-templates', 'webui');
 
-export default class WebAppGenerate extends SfCommand<CreateOutput> {
+export default class WebUIGenerate extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
   public static readonly hidden = true; // Hide from external developers until GA
-  public static readonly aliases = ['webapp:generate'];
-  public static readonly deprecateAliases = true;
+  public static readonly aliases = ['webui:generate'];
   public static readonly flags = {
     name: Flags.string({
       char: 'n',
@@ -50,23 +49,23 @@ export default class WebAppGenerate extends SfCommand<CreateOutput> {
 
   /**
    * Resolves the default output directory by reading the project's sfdx-project.json.
-   * Returns the path to webapplications under the default package directory,
+   * Returns the path to webui under the default package directory,
    * or falls back to the current directory if not in a project context.
    */
   private static async getDefaultOutputDir(): Promise<string> {
     try {
       const project = await SfProject.resolve();
       const defaultPackage = project.getDefaultPackage();
-      return path.join(defaultPackage.path, 'main', 'default', 'webapplications');
+      return path.join(defaultPackage.path, 'main', 'default', 'webui');
     } catch {
       return '.';
     }
   }
 
   public async run(): Promise<CreateOutput> {
-    const { flags } = await this.parse(WebAppGenerate);
+    const { flags } = await this.parse(WebUIGenerate);
 
-    const outputDir = flags['output-dir'] ?? (await WebAppGenerate.getDefaultOutputDir());
+    const outputDir = flags['output-dir'] ?? (await WebUIGenerate.getDefaultOutputDir());
 
     const flagsAsOptions: WebApplicationOptions = {
       webappname: flags.name,
