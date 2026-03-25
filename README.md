@@ -745,7 +745,7 @@ Generate a Salesforce DX project.
 ```
 USAGE
   $ sf template generate project -n <value> [--json] [--flags-dir <value>] [-t
-    standard|empty|analytics|reactb2e|reactb2x|agent] [-d <value>] [-s <value>] [-p <value>] [-x] [--api-version
+    standard|empty|analytics|reactinternalapp|reactexternalapp|agent] [-d <value>] [-s <value>] [-p <value>] [-x] [--api-version
     <value>]
 
 FLAGS
@@ -754,7 +754,7 @@ FLAGS
   -p, --default-package-dir=<value>  [default: force-app] Default package directory name.
   -s, --namespace=<value>            Namespace associated with this project and any connected scratch orgs.
   -t, --template=<option>            [default: standard] Template to use for project creation.
-                                     <options: standard|empty|analytics|reactb2e|reactb2x|agent>
+                                     <options: standard|empty|analytics|reactinternalapp|reactexternalapp|agent>
   -x, --manifest                     Generate a manifest (package.xml) for change-set based development.
       --api-version=<value>          Will set this version as sourceApiVersion in the sfdx-project.json file
 
@@ -809,7 +809,7 @@ FLAG DESCRIPTIONS
 
     Metadata items such as classes and Lightning bundles are placed inside this folder.
 
-  -t, --template=standard|empty|analytics|reactb2e|reactb2x|agent  Template to use for project creation.
+  -t, --template=standard|empty|analytics|reactinternalapp|reactexternalapp|agent  Template to use for project creation.
 
     The template determines the sample configuration files and directories that this command generates. For example, the
     empty template provides these files and directory to get you started.
@@ -833,7 +833,7 @@ FLAG DESCRIPTIONS
 
     The analytics template provides similar files and the force-app/main/default/waveTemplates directory.
 
-    The reactb2e and reactb2x templates provide React-based project scaffolding for B2E and B2X web application use
+    The reactinternalapp and reactexternalapp templates provide React-based project scaffolding for internal and external web application use
     cases.
 
     The agent template provides project scaffolding for building Agentforce agents and includes a sample agent called

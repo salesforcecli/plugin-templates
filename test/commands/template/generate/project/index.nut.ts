@@ -243,10 +243,10 @@ describe('template generate project:', () => {
       assert.file([path.join(session.project.dir, 'analytics1', 'eslint.config.js')]);
     });
 
-    it('should create project with reactb2e template', () => {
-      const projectName = 'react-b2e-test';
-      const alphanumericName = 'reactb2etest';
-      execCmd(`template generate project --projectname ${projectName} --template reactb2e`, {
+    it('should create project with reactinternalapp template', () => {
+      const projectName = 'react-internal-app-test';
+      const alphanumericName = 'reactinternalapptest';
+      execCmd(`template generate project --projectname ${projectName} --template reactinternalapp`, {
         ensureExitCode: 0,
       });
       const projectDir = path.join(session.project.dir, projectName);
@@ -265,10 +265,10 @@ describe('template generate project:', () => {
       assert.fileContent(webappMetaPath, alphanumericName);
     });
 
-    it('should create project with reactb2x template', () => {
+    it('should create project with reactexternalapp template', () => {
       const projectName = 'react-b2x-test';
       const alphanumericName = 'reactb2xtest';
-      execCmd(`template generate project --projectname ${projectName} --template reactb2x`, {
+      execCmd(`template generate project --projectname ${projectName} --template reactexternalapp`, {
         ensureExitCode: 0,
       });
       const projectDir = path.join(session.project.dir, projectName);
