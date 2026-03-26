@@ -66,14 +66,14 @@ export default class LightningComponent extends SfCommand<CreateOutput> {
         const projectPath = flags['output-dir'] || process.cwd();
         const project = await SfProject.resolve(projectPath);
         const projectJson = await project.resolveProjectConfig();
-        const defaultLWCLanguage = projectJson.defaultLWCLanguage as string | undefined;
+        const defaultLwcLanguage = projectJson.defaultLwcLanguage as string | undefined;
 
-        if (defaultLWCLanguage === 'typescript') {
+        if (defaultLwcLanguage === 'typescript') {
           template = 'typeScript';
-        } else if (defaultLWCLanguage === 'javascript') {
+        } else if (defaultLwcLanguage === 'javascript') {
           template = 'default'; // Explicit JavaScript template
         }
-        // If defaultLWCLanguage is undefined or other value, template remains 'default'
+        // If defaultLwcLanguage is undefined or other value, template remains 'default'
       } catch (error) {
         // Not in a project context or project config not available, use default
         this.debug('Could not resolve project config for intelligent defaulting:', error);

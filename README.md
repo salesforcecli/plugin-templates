@@ -893,8 +893,8 @@ FLAG DESCRIPTIONS
 
     Sets the default language for Lightning Web Components in this project. When set to 'typescript', generates
     TypeScript configuration files (tsconfig.json, package.json with TypeScript dependencies, and TypeScript-aware
-    ESLint config). TypeScript projects compile locally to a dist/ folder for validation, but deploy raw .ts files to
-    Salesforce for server-side type stripping. Defaults to 'javascript'.
+    ESLint config). TypeScript files are compiled in-place to JavaScript, and the compiled JavaScript files are deployed to
+    Salesforce. Defaults to 'javascript'.
 ```
 
 ## `sf force staticresource create`
@@ -1462,8 +1462,8 @@ FLAG DESCRIPTIONS
 
     Sets the default language for Lightning Web Components in this project. When set to 'typescript', generates
     TypeScript configuration files (tsconfig.json, package.json with TypeScript dependencies, and TypeScript-aware
-    ESLint config). TypeScript projects compile locally to a dist/ folder for validation, but deploy raw .ts files to
-    Salesforce for server-side type stripping. Defaults to 'javascript'.
+    ESLint config). TypeScript files are compiled in-place to JavaScript, and the compiled JavaScript files are deployed to
+    Salesforce. Defaults to 'javascript'.
 ```
 
 ## `sf static-resource generate`
@@ -2251,8 +2251,8 @@ FLAG DESCRIPTIONS
 
     Sets the default language for Lightning Web Components in this project. When set to 'typescript', generates
     TypeScript configuration files (tsconfig.json, package.json with TypeScript dependencies, and TypeScript-aware
-    ESLint config). TypeScript projects compile locally to a dist/ folder for validation, but deploy raw .ts files to
-    Salesforce for server-side type stripping. Defaults to 'javascript'.
+    ESLint config). TypeScript files are compiled in-place to JavaScript, and the compiled JavaScript files are deployed to
+    Salesforce. Defaults to 'javascript'.
 ```
 
 _See code: [src/commands/template/generate/project/index.ts](https://github.com/salesforcecli/plugin-templates/blob/56.11.4/src/commands/template/generate/project/index.ts)_
@@ -2438,19 +2438,19 @@ This plugin supports creating TypeScript projects for Lightning Web Components. 
 
 TypeScript projects include:
 
-- `tsconfig.json`: TypeScript compiler configuration with `outDir: "dist"` for local compilation
+- `tsconfig.json`: TypeScript compiler configuration for in-place compilation
 - `package.json`: TypeScript dependencies and build scripts (`npm run build`, `npm run build:watch`)
 - `eslint.config.js`: Configured with `@typescript-eslint/parser` for both `.js` and `.ts` files
-- `.forceignore` and `.gitignore`: Configured to exclude the `dist/` folder and build artifacts
-- `sfdx-project.json`: Includes `"defaultLWCLanguage": "typescript"` field
+- `.forceignore` and `.gitignore`: Configured to exclude compiled JavaScript files and build artifacts
+- `sfdx-project.json`: Includes `"defaultLwcLanguage": "typescript"` field
 
-### The dist/ Folder Strategy
+### TypeScript Compilation Strategy
 
-TypeScript projects use a dual-mode approach:
+TypeScript projects compile in-place for local validation:
 
-**Local Development**: Run `npm run build` to compile TypeScript to JavaScript in the `dist/` folder. This validates your types locally and provides immediate feedback during development.
+**Local Development**: Run `npm run build` to compile TypeScript to JavaScript alongside your source files. This validates your types locally and provides immediate feedback during development.
 
-**Server Deployment**: Deploy raw `.ts` source files to Salesforce using `sf project deploy`. The server performs type stripping at deploy time, so the `dist/` folder is never deployed (excluded via `.forceignore`).
+**Server Deployment**: Deploy the compiled `.js` files to Salesforce using `sf project deploy`. The `.ts` source files are excluded via `.forceignore`.
 
 This approach gives you the benefits of local type checking while leveraging Salesforce's server-side TypeScript support.
 
