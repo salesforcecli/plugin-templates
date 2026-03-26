@@ -408,12 +408,12 @@ describe('template generate project:', () => {
       assert.fileContent(packageJsonPath, '"build:watch": "tsc --watch"');
     });
 
-    it('should verify sfdx-project.json includes defaultLWCLanguage field', () => {
+    it('should verify sfdx-project.json includes defaultLwcLanguage field', () => {
       execCmd('template generate project --projectname sfdx-test --lwc-language typescript', { ensureExitCode: 0 });
 
       const sfdxProjectPath = path.join(session.project.dir, 'sfdx-test', 'sfdx-project.json');
       assert.file([sfdxProjectPath]);
-      assert.fileContent(sfdxProjectPath, '"defaultLWCLanguage": "typescript"');
+      assert.fileContent(sfdxProjectPath, '"defaultLwcLanguage": "typescript"');
     });
 
     it('should verify ESLint config uses TypeScript parser for both JS and TS', () => {
@@ -438,7 +438,7 @@ describe('template generate project:', () => {
 
       // Verify sfdx-project.json has javascript as default
       const sfdxProjectPath = path.join(session.project.dir, 'jsproject', 'sfdx-project.json');
-      assert.fileContent(sfdxProjectPath, '"defaultLWCLanguage": "javascript"');
+      assert.fileContent(sfdxProjectPath, '"defaultLwcLanguage": "javascript"');
 
       // Verify package.json does NOT have TypeScript dependencies
       const packageJsonPath = path.join(session.project.dir, 'jsproject', 'package.json');
@@ -453,10 +453,10 @@ describe('template generate project:', () => {
       // TypeScript files should NOT exist
       assert.noFile([path.join(session.project.dir, 'defaultproject', 'tsconfig.json')]);
 
-      // sfdx-project.json should NOT have defaultLWCLanguage field
+      // sfdx-project.json should NOT have defaultLwcLanguage field
       const sfdxProjectPath = path.join(session.project.dir, 'defaultproject', 'sfdx-project.json');
       const sfdxContent = fs.readFileSync(sfdxProjectPath, 'utf8');
-      expect(sfdxContent).to.not.contain('defaultLWCLanguage');
+      expect(sfdxContent).to.not.contain('defaultLwcLanguage');
     });
 
     it('should create TypeScript project with empty template including full toolchain', () => {
@@ -483,9 +483,9 @@ describe('template generate project:', () => {
         assert.file([path.join(projectDir, '.vscode', `${file}.json`)]);
       }
 
-      // Verify sfdx-project.json includes defaultLWCLanguage
+      // Verify sfdx-project.json includes defaultLwcLanguage
       const sfdxProjectPath = path.join(projectDir, 'sfdx-project.json');
-      assert.fileContent(sfdxProjectPath, '"defaultLWCLanguage": "typescript"');
+      assert.fileContent(sfdxProjectPath, '"defaultLwcLanguage": "typescript"');
 
       // Verify package.json has TypeScript dependencies
       const packageJsonPath = path.join(projectDir, 'package.json');
