@@ -1,24 +1,24 @@
 {
   "name": "@salesforce/plugin-templates",
   "description": "Commands to create metadata from a default or custom template",
-  "version": "56.10.7",
+  "version": "56.11.5",
   "author": "Salesforce",
   "bugs": "https://github.com/salesforcecli/plugin-templates/issues",
   "enableO11y": true,
   "o11yUploadEndpoint": "https://794testsite.my.site.com/byolwr/webruntime/log/metrics",
   "dependencies": {
-    "@salesforce/core": "^8.27.0",
+    "@salesforce/core": "^8.27.1",
     "@salesforce/sf-plugins-core": "^12",
-    "@salesforce/templates": "^66.4.1"
+    "@salesforce/templates": "^66.5.6"
   },
   "devDependencies": {
-    "@oclif/plugin-command-snapshot": "^5.3.12",
+    "@oclif/plugin-command-snapshot": "^5.3.13",
     "@salesforce/cli-plugins-testkit": "^5.3.41",
     "@salesforce/dev-scripts": "^11.0.4",
-    "@salesforce/plugin-command-reference": "^3.1.81",
+    "@salesforce/plugin-command-reference": "^3.1.82",
     "@types/yeoman-assert": "^3.1.4",
     "eslint-plugin-sf-plugin": "^1.20.33",
-    "oclif": "^4.22.87",
+    "oclif": "^4.22.96",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
     "yeoman-assert": "^3.1.1"
@@ -84,12 +84,15 @@
               "visualforce": {
                 "description": "Create a visualforce page or component."
               },
-              "webapp": {
-                "description": "Create a web application."
+              "ui-bundle": {
+                "description": "Generate a UI bundle."
               }
             }
           }
         }
+      },
+      "ui-bundle": {
+        "description": "Work with UI bundles."
       }
     },
     "flexibleTaxonomy": true,
