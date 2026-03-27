@@ -63,6 +63,11 @@ export default class Project extends SfCommand<CreateOutput> {
       aliases: ['loginurl'],
       deprecateAliases: true,
     }),
+    'lwc-language': Flags.option({
+      summary: messages.getMessage('flags.lwc-language.summary'),
+      description: messages.getMessage('flags.lwc-language.description'),
+      options: ['javascript', 'typescript'] as const,
+    })(),
     loglevel,
     'api-version': Flags.orgApiVersion({
       summary: messages.getMessage('flags.api-version.summary'),
@@ -81,6 +86,7 @@ export default class Project extends SfCommand<CreateOutput> {
       ns: flags.namespace,
       defaultpackagedir: flags['default-package-dir'],
       apiversion: flags['api-version'],
+      lwcLanguage: flags['lwc-language'],
     };
     return runGenerator({
       templateType: TemplateType.Project,
