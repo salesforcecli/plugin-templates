@@ -33,7 +33,7 @@ export default class Project extends SfCommand<CreateOutput> {
       summary: messages.getMessage('flags.template.summary'),
       description: messages.getMessage('flags.template.description'),
       default: 'standard',
-      options: ['standard', 'empty', 'analytics', 'reactb2e', 'reactb2x'] as const,
+      options: ['standard', 'empty', 'analytics', 'reactb2e', 'reactb2x', 'agent'] as const,
     })(),
     'output-dir': outputDirFlag,
     namespace: Flags.string({

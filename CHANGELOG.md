@@ -1,3 +1,39 @@
+## [56.11.5](https://github.com/salesforcecli/plugin-templates/compare/56.11.4...56.11.5) (2026-03-27)
+
+### Bug Fixes
+
+- **deps:** bump handlebars from 4.7.8 to 4.7.9 ([30d4fd5](https://github.com/salesforcecli/plugin-templates/commit/30d4fd581c850bde75b1f7c3310c81af60948770))
+
+## [56.11.4](https://github.com/salesforcecli/plugin-templates/compare/56.11.3...56.11.4) (2026-03-23)
+
+## [56.11.3](https://github.com/salesforcecli/plugin-templates/compare/56.11.2...56.11.3) (2026-03-22)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/core from 8.27.0 to 8.27.1 ([b427b7e](https://github.com/salesforcecli/plugin-templates/commit/b427b7e6d5450d4c320393469147e26151f3f695))
+
+## [56.11.2](https://github.com/salesforcecli/plugin-templates/compare/56.11.1...56.11.2) (2026-03-22)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/templates from 66.5.0 to 66.5.4 ([a0a96c3](https://github.com/salesforcecli/plugin-templates/commit/a0a96c377a491f3a3ef69f829f39de22e280fc2d))
+
+## [56.11.1](https://github.com/salesforcecli/plugin-templates/compare/56.11.0...56.11.1) (2026-03-20)
+
+### Bug Fixes
+
+- **deps:** bump flatted from 3.2.9 to 3.4.2 ([3cc4847](https://github.com/salesforcecli/plugin-templates/commit/3cc4847a4024f3e1733bf2806c42c4bfd0c047a9))
+
+# [56.11.0](https://github.com/salesforcecli/plugin-templates/compare/56.10.7...56.11.0) (2026-03-19)
+
+### Bug Fixes
+
+- update tests for changes ([b83b10c](https://github.com/salesforcecli/plugin-templates/commit/b83b10c090faddc9e58bf2d15afa19534623356d))
+
+### Features
+
+- add support for creating agent project templates ([b5fe45e](https://github.com/salesforcecli/plugin-templates/commit/b5fe45e5eacec584993d0cae745a7c6948f03a62))
+
 ## [56.10.7](https://github.com/salesforcecli/plugin-templates/compare/56.10.6...56.10.7) (2026-03-15)
 
 ### Bug Fixes

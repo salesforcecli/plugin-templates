@@ -60,6 +60,8 @@ The analytics template provides similar files and the force-app/main/default/wav
 
 The reactb2e and reactb2x templates provide React-based project scaffolding for B2E and B2X web application use cases.
 
+The agent template provides project scaffolding for building Agentforce agents and includes a sample agent called Local Info Agent.
+
 # flags.namespace.summary
 
 Namespace associated with this project and any connected scratch orgs.
