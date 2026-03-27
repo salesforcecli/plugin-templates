@@ -3,8 +3,7 @@ updates:
   - package-ecosystem: 'npm'
     directory: '/'
     schedule:
-      interval: 'weekly'
-      day: 'saturday'
+      interval: 'daily'
     versioning-strategy: 'increase'
     labels:
       - 'dependencies'
@@ -16,6 +15,10 @@ updates:
       prefix: fix(deps)
       # no release for dev-deps
       prefix-development: chore(dev-deps)
+    groups:
+      salesforce-templates:
+        patterns:
+          - '@salesforce/templates'
     ignore:
       - dependency-name: '@salesforce/dev-scripts'
       - dependency-name: '*'
