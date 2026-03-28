@@ -1,3 +1,9 @@
+## [56.12.1](https://github.com/salesforcecli/plugin-templates/compare/56.12.0...56.12.1) (2026-03-28)
+
+### Bug Fixes
+
+- **deps:** configure daily dependabot updates for @salesforce/templates ([582e1ba](https://github.com/salesforcecli/plugin-templates/commit/582e1ba287e11ad3111824ca411c1969064468a8))
+
 # [56.12.0](https://github.com/salesforcecli/plugin-templates/compare/56.11.5...56.12.0) (2026-03-27)
 
 ### Features
