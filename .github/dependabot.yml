@@ -18,5 +18,25 @@ updates:
       prefix-development: chore(dev-deps)
     ignore:
       - dependency-name: '@salesforce/dev-scripts'
+      - dependency-name: '@salesforce/templates'
       - dependency-name: '*'
         update-types: ['version-update:semver-major']
+
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'daily'
+    versioning-strategy: 'increase'
+    labels:
+      - 'dependencies'
+    open-pull-requests-limit: 1
+    pull-request-branch-name:
+      separator: '-'
+    commit-message:
+      prefix: fix(deps)
+    allow:
+      - dependency-name: '@salesforce/templates'
+    groups:
+      salesforce-templates:
+        patterns:
+          - '@salesforce/templates'
