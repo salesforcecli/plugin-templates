@@ -58,7 +58,7 @@ The standard template provides a complete force-app directory structure so you k
 
 The analytics template provides similar files and the force-app/main/default/waveTemplates directory.
 
-The reactinternalapp and reactexternalapp templates provide React-based project scaffolding for internal and external web application use cases.
+The reactinternalapp and reactexternalapp templates provide React-based project scaffolding for internal and external UI bundle use cases.
 
 The agent template provides project scaffolding for building Agentforce agents and includes a sample agent called Local Info Agent.
 

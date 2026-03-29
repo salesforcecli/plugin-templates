@@ -84,12 +84,15 @@
               "visualforce": {
                 "description": "Create a visualforce page or component."
               },
-              "webapp": {
-                "description": "Create a web application."
+              "ui-bundle": {
+                "description": "Generate a UI bundle."
               }
             }
           }
         }
+      },
+      "ui-bundle": {
+        "description": "Work with UI bundles."
       }
     },
     "flexibleTaxonomy": true,
@@ -247,5 +250,9 @@
     }
   },
   "exports": "./lib/index.js",
-  "type": "module"
+  "type": "module",
+  "volta": {
+    "node": "24.14.1",
+    "yarn": "1.22.22"
+  }
 }

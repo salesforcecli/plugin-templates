@@ -2,6 +2,7 @@
 name: add-template-generator
 description: Add a new template generator command to the CLI
 ---
+
 Use this workflow whenever exposing a generator from salesforcedx-templates to CLI users.
 
 # Add Template Generator Command Workflow
@@ -24,6 +25,7 @@ sf dev generate command -n template:generate:{metadataType}:{optionalSubTemplate
 ```
 
 **Notes:**
+
 - Replace `{metadataType}` with your metadata type (e.g., `flexipage`, `apex`)
 - Only add `{optionalSubTemplate}` if you need nested generators (e.g., `digital-experience:site`)
 - This creates the command file, updates oclif metadata, and adds NUTs
@@ -61,6 +63,7 @@ public static readonly state = 'beta'; // or 'preview'
 ```
 
 **State options:**
+
 - `beta`: Shows beta warning to users
 - `preview`: Shows preview warning to users
 - No state: Command is GA (requires backwards compatibility)
@@ -100,11 +103,13 @@ sf dev generate flag
 ```
 
 This will:
+
 - Add the flag to your command's `flags` object
 - Generate TypeScript types
 - Add entries to the `messages.md` file
 
 **Common flags to consider:**
+
 - `--name` / `-n`: Name of the generated item (usually required)
 - `--output-dir` / `-d`: Output directory (default: '.')
 - `--template` / `-t`: Template type selection (if multiple templates)
@@ -113,6 +118,7 @@ This will:
 ## Step 6: Review Message Files
 
 Check `messages/{metadataType}.md` (merge from `template.generate.{metadataType}.md` if generator created a separate file) and ensure:
+
 - Summary is clear and concise
 - Description provides helpful context
 - Flag descriptions are detailed and explain constraints
@@ -129,9 +135,9 @@ import { runGenerator } from '../../utils/templateCommand.js';
 
 public async run(): Promise<CreateOutput> {
   const { flags } = await this.parse(CommandClass);
-  
+
   // Add any pre-processing or validation here
-  
+
   return runGenerator({
     templateType: TemplateType.{YourMetadataType},
     opts: flags,
@@ -143,6 +149,7 @@ public async run(): Promise<CreateOutput> {
 ## Step 8: Write/Update NUTs
 
 Review the auto-generated NUTs in `test/commands/template/generate/{metadataType}/`. Add tests to validate:
+
 - Required flags work correctly
 - Optional flags are respected
 - Correct files are created in the right locations
