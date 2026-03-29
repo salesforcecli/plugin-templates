@@ -93,9 +93,9 @@ Only GA commands require permanent backwards compatibility.
 All generators should call:
 
 runGenerator({
-templateType: TemplateType.X,
-opts: flags,
-ux
+  templateType: TemplateType.X,
+  opts: flags,
+  ux
 })
 
 ---
