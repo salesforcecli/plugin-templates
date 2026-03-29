@@ -7,7 +7,7 @@
 
 import path from 'node:path';
 import { Flags, SfCommand, Ux } from '@salesforce/sf-plugins-core';
-import { CreateOutput, WebApplicationOptions, TemplateType } from '@salesforce/templates';
+import { CreateOutput, UIBundleOptions, TemplateType } from '@salesforce/templates';
 import { Messages, SfProject } from '@salesforce/core';
 import { getCustomTemplates, runGenerator } from '../../../../utils/templateCommand.js';
 
@@ -21,7 +21,7 @@ export default class UiBundleGenerate extends SfCommand<CreateOutput> {
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
   public static readonly hidden = true; // Hide from external developers until GA
-  public static readonly aliases = ['ui-bundle:generate', 'webapp:generate'];
+  public static readonly aliases = ['ui-bundle:generate'];
   public static readonly flags = {
     name: Flags.string({
       char: 'n',
@@ -69,8 +69,8 @@ export default class UiBundleGenerate extends SfCommand<CreateOutput> {
 
     const outputDir = flags['output-dir'] ?? (await UiBundleGenerate.getDefaultOutputDir());
 
-    const flagsAsOptions: WebApplicationOptions = {
-      webappname: flags.name,
+    const flagsAsOptions: UIBundleOptions = {
+      bundlename: flags.name,
       template: flags.template,
       masterlabel: flags.label,
       outputdir: outputDir,
@@ -78,7 +78,7 @@ export default class UiBundleGenerate extends SfCommand<CreateOutput> {
     };
 
     return runGenerator({
-      templateType: TemplateType.WebApplication,
+      templateType: TemplateType.UIBundle,
       opts: flagsAsOptions,
       ux: new Ux({ jsonEnabled: this.jsonEnabled() }),
       templates: getCustomTemplates(this.configAggregator),
