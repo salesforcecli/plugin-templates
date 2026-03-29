@@ -1,3 +1,16 @@
+## [56.12.1](https://github.com/salesforcecli/plugin-templates/compare/56.12.0...56.12.1) (2026-03-28)
+
+### Bug Fixes
+
+- **deps:** configure daily dependabot updates for @salesforce/templates ([582e1ba](https://github.com/salesforcecli/plugin-templates/commit/582e1ba287e11ad3111824ca411c1969064468a8))
+
+# [56.12.0](https://github.com/salesforcecli/plugin-templates/compare/56.11.5...56.12.0) (2026-03-27)
+
+### Features
+
+- rename webapp templates ([d82346d](https://github.com/salesforcecli/plugin-templates/commit/d82346d64a0959ab1c18bcd4acbdda1d183f9a40))
+- update dependency ([40aaa49](https://github.com/salesforcecli/plugin-templates/commit/40aaa49bfc61a0c1885aa1eb9c033ff4b1f3353f))
+
 ## [56.11.5](https://github.com/salesforcecli/plugin-templates/compare/56.11.4...56.11.5) (2026-03-27)
 
 ### Bug Fixes
