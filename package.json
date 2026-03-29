@@ -93,6 +93,14 @@
       },
       "ui-bundle": {
         "description": "Work with UI bundles."
+      },
+      "webapp": {
+        "description": "Work with UI bundles.",
+        "subtopics": {
+          "generate": {
+            "description": "Generate a UI bundle."
+          }
+        }
       }
     },
     "flexibleTaxonomy": true,
@@ -250,5 +258,9 @@
     }
   },
   "exports": "./lib/index.js",
-  "type": "module"
+  "type": "module",
+  "volta": {
+    "node": "24.14.1",
+    "yarn": "1.22.22"
+  }
 }

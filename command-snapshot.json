@@ -148,7 +148,7 @@
     "plugin": "@salesforce/plugin-templates"
   },
   {
-    "alias": ["ui-bundle:generate"],
+    "alias": ["ui-bundle:generate", "webapp:generate"],
     "command": "template:generate:ui-bundle",
     "flagAliases": [],
     "flagChars": ["d", "l", "n", "t"],
