@@ -26,7 +26,7 @@ sf dev generate command -n template:generate:{metadataType}:{optionalSubTemplate
 
 **Notes:**
 
-- Replace `{metadataType}` with your metadata type (e.g., `flexipage`, `ui-bundle`, `apex`)
+- Replace `{metadataType}` with your metadata type (e.g., `flexipage`, `apex`)
 - Only add `{optionalSubTemplate}` if you need nested generators (e.g., `digital-experience:site`)
 - This creates the command file, updates oclif metadata, and adds NUTs
 
@@ -171,7 +171,6 @@ Test your command:
 
 ```bash
 sf template generate {metadataType} --name TestExample --output-dir ./test-output
-# e.g. sf template generate ui-bundle --name MyApp --output-dir ./test-output
 ```
 
 Verify the generated files are correct.
