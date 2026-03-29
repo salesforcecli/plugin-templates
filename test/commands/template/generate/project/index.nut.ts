@@ -252,7 +252,7 @@ describe('template generate project:', () => {
       const projectDir = path.join(session.project.dir, projectName);
       assert.file([path.join(projectDir, 'sfdx-project.json')]);
       assert.fileContent(path.join(projectDir, 'sfdx-project.json'), 'sourceApiVersion');
-      const webappMetaPath = path.join(
+      const uiBundleMetaPath = path.join(
         projectDir,
         'force-app',
         'main',
@@ -261,8 +261,8 @@ describe('template generate project:', () => {
         alphanumericName,
         `${alphanumericName}.uibundle-meta.xml`
       );
-      assert.file([webappMetaPath]);
-      assert.fileContent(webappMetaPath, alphanumericName);
+      assert.file([uiBundleMetaPath]);
+      assert.fileContent(uiBundleMetaPath, alphanumericName);
     });
 
     it('should create project with reactinternalapp template', () => {
@@ -274,7 +274,7 @@ describe('template generate project:', () => {
       const projectDir = path.join(session.project.dir, projectName);
       assert.file([path.join(projectDir, 'sfdx-project.json')]);
       assert.fileContent(path.join(projectDir, 'sfdx-project.json'), 'sourceApiVersion');
-      const webappMetaPath = path.join(
+      const uiBundleMetaPath = path.join(
         projectDir,
         'force-app',
         'main',
@@ -283,8 +283,8 @@ describe('template generate project:', () => {
         alphanumericName,
         `${alphanumericName}.uibundle-meta.xml`
       );
-      assert.file([webappMetaPath]);
-      assert.fileContent(webappMetaPath, alphanumericName);
+      assert.file([uiBundleMetaPath]);
+      assert.fileContent(uiBundleMetaPath, alphanumericName);
     });
 
     it('should create project with agent template', () => {
