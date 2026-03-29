@@ -30,7 +30,6 @@ Command structure:
 src/commands/template/generate/{metadataType}/
 
 Files:
-
 - index.ts → top-level generator
 - {subTemplate}.ts → nested generator
 
