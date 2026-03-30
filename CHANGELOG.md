@@ -1,3 +1,10 @@
+## [56.13.1](https://github.com/salesforcecli/plugin-templates/compare/56.13.0...56.13.1) (2026-03-30)
+
+### Bug Fixes
+
+- remove the unnecessary casting ([f6b2472](https://github.com/salesforcecli/plugin-templates/commit/f6b24724abef55b21f2e914de59348cf37d779b6))
+- unhide webapps from sf --help ([b8c9610](https://github.com/salesforcecli/plugin-templates/commit/b8c96104d00b8b18ea18b155208d3716afb8d2c6))
+
 # [56.13.0](https://github.com/salesforcecli/plugin-templates/compare/56.12.1...56.13.0) (2026-03-30)
 
 ### Bug Fixes

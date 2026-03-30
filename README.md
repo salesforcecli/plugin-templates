@@ -131,6 +131,7 @@ Congrats, you are debugging!
 - [`sf template generate lightning test`](#sf-template-generate-lightning-test)
 - [`sf template generate project`](#sf-template-generate-project)
 - [`sf template generate static-resource`](#sf-template-generate-static-resource)
+- [`sf template generate ui-bundle`](#sf-template-generate-ui-bundle)
 - [`sf template generate visualforce component`](#sf-template-generate-visualforce-component)
 - [`sf template generate visualforce page`](#sf-template-generate-visualforce-page)
 
@@ -176,7 +177,7 @@ FLAG DESCRIPTIONS
     directory.
 ```
 
-_See code: [src/commands/template/generate/analytics/template.ts](https://github.com/salesforcecli/plugin-templates/blob/56.13.0/src/commands/template/generate/analytics/template.ts)_
+_See code: [src/commands/template/generate/analytics/template.ts](https://github.com/salesforcecli/plugin-templates/blob/56.13.1/src/commands/template/generate/analytics/template.ts)_
 
 ## `sf template generate apex class`
 
@@ -236,7 +237,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/template/generate/apex/class.ts](https://github.com/salesforcecli/plugin-templates/blob/56.13.0/src/commands/template/generate/apex/class.ts)_
+_See code: [src/commands/template/generate/apex/class.ts](https://github.com/salesforcecli/plugin-templates/blob/56.13.1/src/commands/template/generate/apex/class.ts)_
 
 ## `sf template generate apex trigger`
 
@@ -306,7 +307,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/template/generate/apex/trigger.ts](https://github.com/salesforcecli/plugin-templates/blob/56.13.0/src/commands/template/generate/apex/trigger.ts)_
+_See code: [src/commands/template/generate/apex/trigger.ts](https://github.com/salesforcecli/plugin-templates/blob/56.13.1/src/commands/template/generate/apex/trigger.ts)_
 
 ## `sf template generate digital-experience site`
 
@@ -360,7 +361,7 @@ FLAG DESCRIPTIONS
     project, defaults to the current directory.
 ```
 
-_See code: [src/commands/template/generate/digital-experience/site.ts](https://github.com/salesforcecli/plugin-templates/blob/56.13.0/src/commands/template/generate/digital-experience/site.ts)_
+_See code: [src/commands/template/generate/digital-experience/site.ts](https://github.com/salesforcecli/plugin-templates/blob/56.13.1/src/commands/template/generate/digital-experience/site.ts)_
 
 ## `sf template generate flexipage`
 
@@ -442,7 +443,7 @@ FLAG DESCRIPTIONS
     'Custom_Object__c'. This sets the `sobjectType` field in the FlexiPage metadata.
 ```
 
-_See code: [src/commands/template/generate/flexipage/index.ts](https://github.com/salesforcecli/plugin-templates/blob/56.13.0/src/commands/template/generate/flexipage/index.ts)_
+_See code: [src/commands/template/generate/flexipage/index.ts](https://github.com/salesforcecli/plugin-templates/blob/56.13.1/src/commands/template/generate/flexipage/index.ts)_
 
 ## `sf template generate lightning app`
 
@@ -498,7 +499,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/template/generate/lightning/app.ts](https://github.com/salesforcecli/plugin-templates/blob/56.13.0/src/commands/template/generate/lightning/app.ts)_
+_See code: [src/commands/template/generate/lightning/app.ts](https://github.com/salesforcecli/plugin-templates/blob/56.13.1/src/commands/template/generate/lightning/app.ts)_
 
 ## `sf template generate lightning component`
 
@@ -568,7 +569,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/template/generate/lightning/component.ts](https://github.com/salesforcecli/plugin-templates/blob/56.13.0/src/commands/template/generate/lightning/component.ts)_
+_See code: [src/commands/template/generate/lightning/component.ts](https://github.com/salesforcecli/plugin-templates/blob/56.13.1/src/commands/template/generate/lightning/component.ts)_
 
 ## `sf template generate lightning event`
 
@@ -624,7 +625,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/template/generate/lightning/event.ts](https://github.com/salesforcecli/plugin-templates/blob/56.13.0/src/commands/template/generate/lightning/event.ts)_
+_See code: [src/commands/template/generate/lightning/event.ts](https://github.com/salesforcecli/plugin-templates/blob/56.13.1/src/commands/template/generate/lightning/event.ts)_
 
 ## `sf template generate lightning interface`
 
@@ -680,7 +681,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/template/generate/lightning/interface.ts](https://github.com/salesforcecli/plugin-templates/blob/56.13.0/src/commands/template/generate/lightning/interface.ts)_
+_See code: [src/commands/template/generate/lightning/interface.ts](https://github.com/salesforcecli/plugin-templates/blob/56.13.1/src/commands/template/generate/lightning/interface.ts)_
 
 ## `sf template generate lightning test`
 
@@ -736,7 +737,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/template/generate/lightning/test.ts](https://github.com/salesforcecli/plugin-templates/blob/56.13.0/src/commands/template/generate/lightning/test.ts)_
+_See code: [src/commands/template/generate/lightning/test.ts](https://github.com/salesforcecli/plugin-templates/blob/56.13.1/src/commands/template/generate/lightning/test.ts)_
 
 ## `sf template generate project`
 
@@ -849,7 +850,7 @@ FLAG DESCRIPTIONS
     Override the api version used for api requests made by this command
 ```
 
-_See code: [src/commands/template/generate/project/index.ts](https://github.com/salesforcecli/plugin-templates/blob/56.13.0/src/commands/template/generate/project/index.ts)_
+_See code: [src/commands/template/generate/project/index.ts](https://github.com/salesforcecli/plugin-templates/blob/56.13.1/src/commands/template/generate/project/index.ts)_
 
 ## `sf template generate static-resource`
 
@@ -912,7 +913,85 @@ FLAG DESCRIPTIONS
     etc.
 ```
 
-_See code: [src/commands/template/generate/static-resource/index.ts](https://github.com/salesforcecli/plugin-templates/blob/56.13.0/src/commands/template/generate/static-resource/index.ts)_
+_See code: [src/commands/template/generate/static-resource/index.ts](https://github.com/salesforcecli/plugin-templates/blob/56.13.1/src/commands/template/generate/static-resource/index.ts)_
+
+## `sf template generate ui-bundle`
+
+Generate a UI bundle.
+
+```
+USAGE
+  $ sf template generate ui-bundle -n <value> [--json] [--flags-dir <value>] [-t default|reactbasic] [-l <value>] [-d <value>]
+    [--api-version <value>]
+
+FLAGS
+  -d, --output-dir=<value>   Directory for saving the created files.
+  -l, --label=<value>        Master label for the UI bundle.
+  -n, --name=<value>         (required) Name of the generated UI bundle.
+  -t, --template=<option>    [default: default] Template to use for file creation.
+                             <options: default|reactbasic>
+      --api-version=<value>  Override the api version used for api requests made by this command
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Generate a UI bundle.
+
+  Generates a UI bundle in the specified directory or the current working directory. The UI bundle files are created in
+  a folder with the designated name. UI bundle files must be contained in a parent directory called "uiBundles" in your
+  package directory. Either run this command from an existing directory of this name, or use the --output-dir flag to
+  create one or point to an existing one.
+
+ALIASES
+  $ sf ui-bundle generate
+
+EXAMPLES
+  Generate a UI bundle called MyUiBundle in the current directory:
+
+    $ sf template generate ui-bundle --name MyUiBundle
+
+  Generate a React-based UI bundle:
+
+    $ sf template generate ui-bundle --name MyReactApp --template reactbasic
+
+  Generate the UI bundle in the "force-app/main/default/uiBundles" directory:
+
+    $ sf template generate ui-bundle --name MyUiBundle --output-dir force-app/main/default/uiBundles
+
+FLAG DESCRIPTIONS
+  -d, --output-dir=<value>  Directory for saving the created files.
+
+    The location can be an absolute path or relative to the current working directory.
+
+    **Important:** The generator automatically ensures the output directory ends with "uiBundles". If your specified
+    path doesn't end with "uiBundles", it's automatically appended. The UI bundle is created at "<output-dir>/<name>".
+
+    **Examples:**
+
+    - "--output-dir force-app/main/default" → Creates a UI bundle at "force-app/main/default/uiBundles/MyUiBundle/"
+    - "--output-dir force-app/main/default/uiBundles" → Creates a UI bundle at
+    "force-app/main/default/uiBundles/MyUiBundle/" (no change)
+
+    If not specified, the command reads your sfdx-project.json and defaults to "uiBundles" directory within your default
+    package directory. When running outside a Salesforce DX project, defaults to the current directory.
+
+  -l, --label=<value>  Master label for the UI bundle.
+
+    If not specified, the label is derived from the name.
+
+  -n, --name=<value>  Name of the generated UI bundle.
+
+    This name can contain only underscores and alphanumeric characters, and must be unique in your org. It must begin
+    with a letter, not include spaces, not end with an underscore, and not contain two consecutive underscores.
+
+  -t, --template=default|reactbasic  Template to use for file creation.
+
+    Supplied parameter values or default values are filled into a copy of the template.
+```
+
+_See code: [src/commands/template/generate/ui-bundle/index.ts](https://github.com/salesforcecli/plugin-templates/blob/56.13.1/src/commands/template/generate/ui-bundle/index.ts)_
 
 ## `sf template generate visualforce component`
 
@@ -969,7 +1048,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/template/generate/visualforce/component.ts](https://github.com/salesforcecli/plugin-templates/blob/56.13.0/src/commands/template/generate/visualforce/component.ts)_
+_See code: [src/commands/template/generate/visualforce/component.ts](https://github.com/salesforcecli/plugin-templates/blob/56.13.1/src/commands/template/generate/visualforce/component.ts)_
 
 ## `sf template generate visualforce page`
 
@@ -1020,6 +1099,6 @@ FLAG DESCRIPTIONS
     The name can be up to 40 characters and must start with a letter.
 ```
 
-_See code: [src/commands/template/generate/visualforce/page.ts](https://github.com/salesforcecli/plugin-templates/blob/56.13.0/src/commands/template/generate/visualforce/page.ts)_
+_See code: [src/commands/template/generate/visualforce/page.ts](https://github.com/salesforcecli/plugin-templates/blob/56.13.1/src/commands/template/generate/visualforce/page.ts)_
 
 <!-- commandsstop -->
