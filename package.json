@@ -93,14 +93,6 @@
       },
       "ui-bundle": {
         "description": "Work with UI bundles."
-      },
-      "webapp": {
-        "description": "Work with UI bundles.",
-        "subtopics": {
-          "generate": {
-            "description": "Generate a UI bundle."
-          }
-        }
       }
     },
     "flexibleTaxonomy": true,

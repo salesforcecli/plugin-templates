@@ -30,12 +30,12 @@ describe('template generate ui-bundle:', () => {
       const outputDir = path.join(projectDir, 'force-app', 'main', 'default', UI_BUNDLES_DIR);
       execCmd(`template generate ui-bundle --name MyUiBundle --output-dir "${outputDir}"`, { ensureExitCode: 0 });
       assert.file([
-        path.join(outputDir, 'MyUiBundle', 'MyUiBundle.webapplication-meta.xml'),
+        path.join(outputDir, 'MyUiBundle', 'MyUiBundle.uibundle-meta.xml'),
         path.join(outputDir, 'MyUiBundle', 'src', 'index.html'),
-        path.join(outputDir, 'MyUiBundle', 'webapplication.json'),
+        path.join(outputDir, 'MyUiBundle', 'ui-bundle.json'),
       ]);
       assert.fileContent(
-        path.join(outputDir, 'MyUiBundle', 'MyUiBundle.webapplication-meta.xml'),
+        path.join(outputDir, 'MyUiBundle', 'MyUiBundle.uibundle-meta.xml'),
         '<masterLabel>My Ui Bundle</masterLabel>'
       );
     });
@@ -44,9 +44,9 @@ describe('template generate ui-bundle:', () => {
       const expectedOutputDir = path.join(projectDir, 'force-app', 'main', 'default', UI_BUNDLES_DIR);
       execCmd('template generate ui-bundle --name DefaultDirApp', { ensureExitCode: 0 });
       assert.file([
-        path.join(expectedOutputDir, 'DefaultDirApp', 'DefaultDirApp.webapplication-meta.xml'),
+        path.join(expectedOutputDir, 'DefaultDirApp', 'DefaultDirApp.uibundle-meta.xml'),
         path.join(expectedOutputDir, 'DefaultDirApp', 'src', 'index.html'),
-        path.join(expectedOutputDir, 'DefaultDirApp', 'webapplication.json'),
+        path.join(expectedOutputDir, 'DefaultDirApp', 'ui-bundle.json'),
       ]);
     });
 
@@ -56,7 +56,7 @@ describe('template generate ui-bundle:', () => {
         ensureExitCode: 0,
       });
       assert.file([
-        path.join(outputDir, 'TestApp', 'TestApp.webapplication-meta.xml'),
+        path.join(outputDir, 'TestApp', 'TestApp.uibundle-meta.xml'),
         path.join(outputDir, 'TestApp', 'src', 'index.html'),
       ]);
       assert.fileContent(path.join(outputDir, 'TestApp', 'src', 'index.html'), '<title>Welcome to Web App</title>');
@@ -70,9 +70,9 @@ describe('template generate ui-bundle:', () => {
         ensureExitCode: 0,
       });
       assert.file([
-        path.join(outputDir, 'MyReactApp', 'MyReactApp.webapplication-meta.xml'),
+        path.join(outputDir, 'MyReactApp', 'MyReactApp.uibundle-meta.xml'),
         path.join(outputDir, 'MyReactApp', 'index.html'),
-        path.join(outputDir, 'MyReactApp', 'webapplication.json'),
+        path.join(outputDir, 'MyReactApp', 'ui-bundle.json'),
         path.join(outputDir, 'MyReactApp', 'package.json'),
       ]);
       assert.fileContent(path.join(outputDir, 'MyReactApp', 'package.json'), '"name": "base-react-app"');
@@ -114,9 +114,9 @@ describe('template generate ui-bundle:', () => {
       const expectedOutputDir = path.join(outputDir, UI_BUNDLES_DIR);
       execCmd(`template generate ui-bundle --name TestApp --output-dir "${outputDir}"`, { ensureExitCode: 0 });
       assert.file([
-        path.join(expectedOutputDir, 'TestApp', 'TestApp.webapplication-meta.xml'),
+        path.join(expectedOutputDir, 'TestApp', 'TestApp.uibundle-meta.xml'),
         path.join(expectedOutputDir, 'TestApp', 'src', 'index.html'),
-        path.join(expectedOutputDir, 'TestApp', 'webapplication.json'),
+        path.join(expectedOutputDir, 'TestApp', 'ui-bundle.json'),
       ]);
     });
   });

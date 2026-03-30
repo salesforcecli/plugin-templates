@@ -259,7 +259,7 @@ describe('template generate project:', () => {
         'default',
         'uiBundles',
         alphanumericName,
-        `${alphanumericName}.webapplication-meta.xml`
+        `${alphanumericName}.uibundle-meta.xml`
       );
       assert.file([webappMetaPath]);
       assert.fileContent(webappMetaPath, alphanumericName);
@@ -281,7 +281,7 @@ describe('template generate project:', () => {
         'default',
         'uiBundles',
         alphanumericName,
-        `${alphanumericName}.webapplication-meta.xml`
+        `${alphanumericName}.uibundle-meta.xml`
       );
       assert.file([webappMetaPath]);
       assert.fileContent(webappMetaPath, alphanumericName);
