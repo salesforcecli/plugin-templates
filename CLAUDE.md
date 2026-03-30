@@ -30,6 +30,7 @@ Command structure:
 src/commands/template/generate/{metadataType}/
 
 Files:
+
 - index.ts → top-level generator
 - {subTemplate}.ts → nested generator
 
@@ -38,8 +39,8 @@ Naming pattern:
 sf template generate {metadataType} {optionalSubTemplate}
 
 Examples:
+
 - sf template generate flexipage
-- sf template generate ui-bundle
 - sf template generate digital-experience site
 
 ---
@@ -93,9 +94,9 @@ Only GA commands require permanent backwards compatibility.
 All generators should call:
 
 runGenerator({
-  templateType: TemplateType.X,
-  opts: flags,
-  ux
+templateType: TemplateType.X,
+opts: flags,
+ux
 })
 
 ---
