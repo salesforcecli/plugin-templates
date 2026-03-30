@@ -20,3 +20,7 @@ updates:
       - dependency-name: '@salesforce/dev-scripts'
       - dependency-name: '*'
         update-types: ['version-update:semver-major']
+    groups:
+      salesforce-templates:
+        patterns:
+          - '@salesforce/templates'
