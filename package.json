@@ -250,9 +250,5 @@
     }
   },
   "exports": "./lib/index.js",
-  "type": "module",
-  "volta": {
-    "node": "24.14.1",
-    "yarn": "1.22.22"
-  }
+  "type": "module"
 }
