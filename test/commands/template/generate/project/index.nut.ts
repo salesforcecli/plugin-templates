@@ -243,8 +243,30 @@ describe('template generate project:', () => {
       assert.file([path.join(session.project.dir, 'analytics1', 'eslint.config.js')]);
     });
 
+    it('should create project with reactexternalapp template', () => {
+      const projectName = 'react-externalapp-test';
+      const alphanumericName = 'reactexternalapptest';
+      execCmd(`template generate project --projectname ${projectName} --template reactexternalapp`, {
+        ensureExitCode: 0,
+      });
+      const projectDir = path.join(session.project.dir, projectName);
+      assert.file([path.join(projectDir, 'sfdx-project.json')]);
+      assert.fileContent(path.join(projectDir, 'sfdx-project.json'), 'sourceApiVersion');
+      const uiBundleMetaPath = path.join(
+        projectDir,
+        'force-app',
+        'main',
+        'default',
+        'uiBundles',
+        alphanumericName,
+        `${alphanumericName}.uibundle-meta.xml`
+      );
+      assert.file([uiBundleMetaPath]);
+      assert.fileContent(uiBundleMetaPath, alphanumericName);
+    });
+
     it('should create project with reactinternalapp template', () => {
-      const projectName = 'react-internal-app-test';
+      const projectName = 'react-internalapp-test';
       const alphanumericName = 'reactinternalapptest';
       execCmd(`template generate project --projectname ${projectName} --template reactinternalapp`, {
         ensureExitCode: 0,
@@ -252,39 +274,17 @@ describe('template generate project:', () => {
       const projectDir = path.join(session.project.dir, projectName);
       assert.file([path.join(projectDir, 'sfdx-project.json')]);
       assert.fileContent(path.join(projectDir, 'sfdx-project.json'), 'sourceApiVersion');
-      const webappMetaPath = path.join(
+      const uiBundleMetaPath = path.join(
         projectDir,
         'force-app',
         'main',
         'default',
-        'webapplications',
+        'uiBundles',
         alphanumericName,
-        `${alphanumericName}.webapplication-meta.xml`
+        `${alphanumericName}.uibundle-meta.xml`
       );
-      assert.file([webappMetaPath]);
-      assert.fileContent(webappMetaPath, alphanumericName);
-    });
-
-    it('should create project with reactexternalapp template', () => {
-      const projectName = 'react-b2x-test';
-      const alphanumericName = 'reactb2xtest';
-      execCmd(`template generate project --projectname ${projectName} --template reactexternalapp`, {
-        ensureExitCode: 0,
-      });
-      const projectDir = path.join(session.project.dir, projectName);
-      assert.file([path.join(projectDir, 'sfdx-project.json')]);
-      assert.fileContent(path.join(projectDir, 'sfdx-project.json'), 'sourceApiVersion');
-      const webappMetaPath = path.join(
-        projectDir,
-        'force-app',
-        'main',
-        'default',
-        'webapplications',
-        alphanumericName,
-        `${alphanumericName}.webapplication-meta.xml`
-      );
-      assert.file([webappMetaPath]);
-      assert.fileContent(webappMetaPath, alphanumericName);
+      assert.file([uiBundleMetaPath]);
+      assert.fileContent(uiBundleMetaPath, alphanumericName);
     });
 
     it('should create project with agent template', () => {

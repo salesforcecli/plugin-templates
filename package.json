@@ -9,7 +9,7 @@
   "dependencies": {
     "@salesforce/core": "^8.27.1",
     "@salesforce/sf-plugins-core": "^12",
-    "@salesforce/templates": "^66.6.2"
+    "@salesforce/templates": "^66.7.2"
   },
   "devDependencies": {
     "@oclif/plugin-command-snapshot": "^5.3.13",
@@ -84,12 +84,15 @@
               "visualforce": {
                 "description": "Create a visualforce page or component."
               },
-              "webapp": {
-                "description": "Create a web application."
+              "ui-bundle": {
+                "description": "Generate a UI bundle."
               }
             }
           }
         }
+      },
+      "ui-bundle": {
+        "description": "Work with UI bundles."
       }
     },
     "flexibleTaxonomy": true,
