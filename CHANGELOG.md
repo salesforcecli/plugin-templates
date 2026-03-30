@@ -1,3 +1,10 @@
+## [56.13.2](https://github.com/salesforcecli/plugin-templates/compare/56.13.1...56.13.2) (2026-03-30)
+
+### Bug Fixes
+
+- edit help for "template generate ui-bundle" ([a4c576c](https://github.com/salesforcecli/plugin-templates/commit/a4c576c4768ab0381d67f95b11503beeb7d66c4a))
+- editing tweaks ([252513c](https://github.com/salesforcecli/plugin-templates/commit/252513c2d63506e6f00b59238944f9e3d4876e62))
+
 ## [56.13.1](https://github.com/salesforcecli/plugin-templates/compare/56.13.0...56.13.1) (2026-03-30)
 
 ### Bug Fixes
