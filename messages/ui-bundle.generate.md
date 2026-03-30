@@ -4,11 +4,11 @@ Generate a UI bundle, which contains the code and metadata to build a UI experie
 
 # description
 
-Salesforce provides native UI frameworks, such as Lighting Web Components (LWC), to build applications on Salesforce Platform. But you can also use other non-native UI frameworks, such as the open-source React framework, to build a UI experience that also runs on the Salesforce Platform and that you can launch from the App Launcher.
+Salesforce provides native UI frameworks, such as Lighting Web Components (LWC), to build applications that run on the Salesforce Platform. But you can also use non-native JavaScript- or TypeScript-based UI frameworks, such as React, to build a UI experience for the Salesforce Platform and that you can launch from the App Launcher.
 
-These non-native UI frameworks are defined in your DX project with the "UIBundle" metadata type. Use this command to generate the required structure and files. For example, when you run this command and specify the name MyUiBundle, then the files are generated into a "uiBundles/MyUiBundle" directory. Use the --output-dir flag to specify a different directory.
+These non-native UI frameworks are defined by the "UIBundle" metadata type in your DX project. Use this command to generate the required DX project structure and files. For example, when you run this command and specify the name MyUiBundle, then the files are generated into a "uiBundles/MyUiBundle" directory. Use the --output-dir flag to specify a different directory.
 
-Use the --template flag to generate files for getting started with a speciic UI framework, such as React. Check out the README.md file in the generated "uiBundles/<bundlename>" directory for more information about a specific template.
+Use the --template flag for generating the files to get started with a speciic UI framework, such as React. Check out the README.md file in the generated "uiBundles/<bundlename>" directory for more information about the template.
 
 # examples
 
