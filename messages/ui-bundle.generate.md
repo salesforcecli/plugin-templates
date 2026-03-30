@@ -1,10 +1,14 @@
 # summary
 
-Generate a UI bundle.
+Generate a UI bundle, which contains the code and metadata to build a UI experience that uses non-native Salesforce frameworks, such as React.
 
 # description
 
-Generates a UI bundle in the specified directory or the current working directory. The UI bundle files are created in a folder with the designated name. UI bundle files must be contained in a parent directory called "uiBundles" in your package directory. Either run this command from an existing directory of this name, or use the --output-dir flag to create one or point to an existing one.
+Salesforce provides native UI frameworks, such as Lighting Web Components (LWC), to build applications that run on the Salesforce Platform. But you can also use non-native JavaScript- or TypeScript-based UI frameworks, such as React, to build a UI experience for the Salesforce Platform and that you can launch from the App Launcher.
+
+These non-native UI experiences are defined by the "UIBundle" metadata type in your DX project. Use this command to generate the required DX project structure and files. For example, when you run this command and specify the name MyUiBundle, then the files are generated into a "uiBundles/MyUiBundle" directory. Use the --output-dir flag to specify a different directory.
+
+Use the --template flag for generating the files to get started with a speciic UI framework, such as React. Check out the README.md file in the generated "uiBundles/<bundlename>" directory for more information about the template.
 
 # examples
 
@@ -16,13 +20,13 @@ Generates a UI bundle in the specified directory or the current working director
 
   <%= config.bin %> <%= command.id %> --name MyReactApp --template reactbasic
 
-- Generate the UI bundle in the "force-app/main/default/uiBundles" directory:
+- Generate the React-based UI bundle in the "force-app/main/default/uiBundles" directory:
 
-  <%= config.bin %> <%= command.id %> --name MyUiBundle --output-dir force-app/main/default/uiBundles
+  <%= config.bin %> <%= command.id %> --name MyUiBundle --template reactbasic --output-dir force-app/main/default/uiBundles
 
 # flags.name.summary
 
-Name of the generated UI bundle.
+API name of the generated UI bundle.
 
 # flags.name.description
 
@@ -30,7 +34,7 @@ This name can contain only underscores and alphanumeric characters, and must be 
 
 # flags.template.summary
 
-Template to use for file creation.
+Template to use when creating the files for a specific UI framework.
 
 # flags.template.description
 
@@ -46,17 +50,17 @@ If not specified, the label is derived from the name.
 
 # flags.output-dir.summary
 
-Directory for saving the created files.
+Directory into which the files are created.
 
 # flags.output-dir.description
 
 The location can be an absolute path or relative to the current working directory.
 
-**Important:** The generator automatically ensures the output directory ends with "uiBundles". If your specified path doesn't end with "uiBundles", it's automatically appended. The UI bundle is created at "<output-dir>/<name>".
+If not specified, the command reads your sfdx-project.json and defaults to "uiBundles" directory within your default package directory. When running outside a Salesforce DX project, defaults to the current directory.
+
+**Important:** This command automatically ensures the output directory ends with "uiBundles". If your specified path doesn't end with "uiBundles", it's automatically appended. The UI bundle is created at "<output-dir>/<name>".
 
 **Examples:**
 
 - "--output-dir force-app/main/default" → Creates a UI bundle at "force-app/main/default/uiBundles/MyUiBundle/"
 - "--output-dir force-app/main/default/uiBundles" → Creates a UI bundle at "force-app/main/default/uiBundles/MyUiBundle/" (no change)
-
-If not specified, the command reads your sfdx-project.json and defaults to "uiBundles" directory within your default package directory. When running outside a Salesforce DX project, defaults to the current directory.
