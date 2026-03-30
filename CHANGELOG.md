@@ -1,3 +1,19 @@
+# [56.13.0](https://github.com/salesforcecli/plugin-templates/compare/56.12.1...56.13.0) (2026-03-30)
+
+### Bug Fixes
+
+- update command snapshot with webapp:generate alias and update project messages ([4502b49](https://github.com/salesforcecli/plugin-templates/commit/4502b4937b9a2512d8025ca29480b491412beabb))
+- update NUT tests to expect uibundle-meta.xml and ui-bundle.json filenames ([8e35554](https://github.com/salesforcecli/plugin-templates/commit/8e3555402476e46cdef9073c2976955cb818f21c))
+
+### Features
+
+- rename react project templates from reactb2e/reactb2x to reactinternalapp/reactexternalapp ([541a7d9](https://github.com/salesforcecli/plugin-templates/commit/541a7d9eb0e4c0c1465b5148370e73c34df72b92))
+
+### Reverts
+
+- restore CLAUDE.md and SKILL.md to match upstream main ([4724392](https://github.com/salesforcecli/plugin-templates/commit/4724392efebc3493e2e63e22475c19c38ca6d791))
+- restore SKILL.md to match origin/main, no rename changes needed ([ee7b71f](https://github.com/salesforcecli/plugin-templates/commit/ee7b71f3a220d6782105a38bd05bc7a9bb8fe0ad))
+
 ## [56.12.1](https://github.com/salesforcecli/plugin-templates/compare/56.12.0...56.12.1) (2026-03-28)
 
 ### Bug Fixes
