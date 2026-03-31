@@ -77,6 +77,9 @@ export default class Project extends SfCommand<CreateOutput> {
   public async run(): Promise<CreateOutput> {
     const { flags } = await this.parse(Project);
 
+    // Only include lwcLanguage if user explicitly provided the flag
+    const userProvidedLwcLanguage = this.argv.includes('--lwc-language');
+
     const flagsAsOptions: ProjectOptions = {
       projectname: flags.name,
       outputdir: flags['output-dir'],
@@ -87,7 +90,7 @@ export default class Project extends SfCommand<CreateOutput> {
       ns: flags.namespace,
       defaultpackagedir: flags['default-package-dir'],
       apiversion: flags['api-version'],
-      lwcLanguage: flags['lwc-language'],
+      ...(userProvidedLwcLanguage && { lwcLanguage: flags['lwc-language'] }),
     };
     return runGenerator({
       templateType: TemplateType.Project,
