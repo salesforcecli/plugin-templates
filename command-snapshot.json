@@ -132,6 +132,14 @@
     "plugin": "@salesforce/plugin-templates"
   },
   {
+    "alias": [],
+    "command": "template:generate:ui-bundle",
+    "flagAliases": [],
+    "flagChars": ["d", "l", "n", "t"],
+    "flags": ["api-version", "flags-dir", "json", "label", "name", "output-dir", "template"],
+    "plugin": "@salesforce/plugin-templates"
+  },
+  {
     "alias": ["force:visualforce:component:create", "visualforce:generate:component"],
     "command": "template:generate:visualforce:component",
     "flagAliases": ["apiversion", "componentname", "outputdir"],
@@ -145,14 +153,6 @@
     "flagAliases": ["apiversion", "outputdir", "pagename"],
     "flagChars": ["d", "l", "n", "t"],
     "flags": ["api-version", "flags-dir", "json", "label", "loglevel", "name", "output-dir", "template"],
-    "plugin": "@salesforce/plugin-templates"
-  },
-  {
-    "alias": ["ui-bundle:generate"],
-    "command": "template:generate:ui-bundle",
-    "flagAliases": [],
-    "flagChars": ["d", "l", "n", "t"],
-    "flags": ["api-version", "flags-dir", "json", "label", "name", "output-dir", "template"],
     "plugin": "@salesforce/plugin-templates"
   }
 ]
