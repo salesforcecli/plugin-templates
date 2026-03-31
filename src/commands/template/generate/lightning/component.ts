@@ -39,7 +39,7 @@ export default class LightningComponent extends SfCommand<CreateOutput> {
       default: 'default',
       // Note: keep this list here and LightningComponentOptions#template in-sync with the
       // templates/lightningcomponents/[aura|lwc]/* folders
-      options: ['default', 'analyticsDashboard', 'analyticsDashboardWithStep', 'typeScript'] as const,
+      options: ['default', 'analyticsDashboard', 'analyticsDashboardWithStep', 'typescript'] as const,
     })(),
     'output-dir': outputDirFlagLightning,
     'api-version': orgApiVersionFlagWithDeprecations,
@@ -62,25 +62,23 @@ export default class LightningComponent extends SfCommand<CreateOutput> {
     // If template not explicitly provided and generating LWC, check project preference
     if (!userExplicitlySetTemplate && flags.type === 'lwc') {
       try {
-        // Try to resolve project from output directory if provided, otherwise use cwd
         const projectPath = flags['output-dir'] || process.cwd();
         const project = await SfProject.resolve(projectPath);
         const projectJson = await project.resolveProjectConfig();
         const defaultLwcLanguage = projectJson.defaultLwcLanguage as string | undefined;
 
         if (defaultLwcLanguage === 'typescript') {
-          template = 'typeScript';
+          template = 'typescript';
         }
-        // If defaultLwcLanguage is undefined or non-typescript, template remains default.
       } catch (error) {
-        // Not in a project context or project config not available, use default
         this.debug('Could not resolve project config for intelligent defaulting:', error);
       }
     }
 
     const flagsAsOptions: LightningComponentOptions = {
       componentname: flags.name,
-      template,
+      // Temp re-mapping to allow lowercase typescript flag
+      template: template === 'typescript' ? 'typeScript' : template,
       outputdir: flags['output-dir'],
       apiversion: flags['api-version'],
       internal: flags.internal,

@@ -18,7 +18,7 @@
 
 - Generate a TypeScript Lightning web component:
 
-  <%= config.bin %> <%= command.id %> --name mycomponent --type lwc --template typeScript
+  <%= config.bin %> <%= command.id %> --name mycomponent --type lwc --template typescript
 
 # summary
 
