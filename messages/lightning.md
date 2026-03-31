@@ -24,4 +24,4 @@ Template to use for file creation.
 
 # flags.template.description
 
-Supplied parameter values or default values are filled into a copy of the template. For Lightning Web Components, if not specified, the CLI automatically selects the template based on the project's sfdx-project.json "defaultLwcLanguage" field: TypeScript template for "typescript", JavaScript template for "javascript".
+Supplied parameter values or default values are filled into a copy of the template. For Lightning Web Components, if this flag isn't specified, the CLI command automatically selects the template based on the "defaultLwcLanguage" field in the DX project's "sfdx-project.json" file.
