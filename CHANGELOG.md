@@ -1,3 +1,17 @@
+# [56.14.0](https://github.com/salesforcecli/plugin-templates/compare/56.13.4...56.14.0) (2026-03-31)
+
+### Bug Fixes
+
+- address PR review comments for lwc-language flag ([1bc5916](https://github.com/salesforcecli/plugin-templates/commit/1bc59168a5cd1138b3e976e036235e7b7d087e1d))
+- bump templates lib ([3358b8c](https://github.com/salesforcecli/plugin-templates/commit/3358b8c6776946bb32be2542c91b2ea9739f7703))
+- only pass lwcLanguage when explicitly provided ([837a878](https://github.com/salesforcecli/plugin-templates/commit/837a87868092a706883954ac061b6d66022fec05))
+- only set defaultLwcLanguage when --lwc-language flag is explicitly provided ([23c14ca](https://github.com/salesforcecli/plugin-templates/commit/23c14ca20220863f8c397ee0d16a4add762ab052))
+- update TypeScript project NUT tests to match current implementation ([c992773](https://github.com/salesforcecli/plugin-templates/commit/c9927737f5e3d1d123ec06d5f89345f096164873))
+
+### Features
+
+- **project:** add --lwc-language flag to project generate command ([74662f3](https://github.com/salesforcecli/plugin-templates/commit/74662f37423fb3a9ae4cb2efbdee14d6cca4439d))
+
 ## [56.13.4](https://github.com/salesforcecli/plugin-templates/compare/56.13.3...56.13.4) (2026-03-31)
 
 ### Bug Fixes
