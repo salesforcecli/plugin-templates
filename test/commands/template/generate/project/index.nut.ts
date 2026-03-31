@@ -368,7 +368,7 @@ describe('template generate project:', () => {
       assert.fileContent(tsconfigPath, '**/__tests__/**');
     });
 
-    it('should verify .forceignore excludes dist/ folder', () => {
+    it('should verify .forceignore excludes TypeScript configuration files', () => {
       execCmd('template generate project --projectname forceignore-test --lwc-language typescript', {
         ensureExitCode: 0,
       });
@@ -454,6 +454,45 @@ describe('template generate project:', () => {
       const sfdxContent = fs.readFileSync(sfdxProjectPath, 'utf8');
       expect(sfdxContent).to.not.contain('defaultLwcLanguage');
     });
+
+    it('should create TypeScript project with empty template including full toolchain', () => {
+      execCmd('template generate project --projectname empty-ts --template empty --lwc-language typescript', {
+        ensureExitCode: 0,
+      });
+
+      const projectDir = path.join(session.project.dir, 'empty-ts');
+
+      // Verify TypeScript-specific files exist
+      assert.file([path.join(projectDir, 'tsconfig.json')]);
+      assert.file([path.join(projectDir, 'package.json')]);
+      assert.file([path.join(projectDir, 'eslint.config.js')]);
+      assert.file([path.join(projectDir, '.forceignore')]);
+      assert.file([path.join(projectDir, '.gitignore')]);
+
+      // Verify Husky hooks exist for empty template
+      for (const file of huskyhookarray) {
+        assert.file([path.join(projectDir, '.husky', file)]);
+      }
+
+      // Verify VSCode config files exist
+      for (const file of vscodearray) {
+        assert.file([path.join(projectDir, '.vscode', `${file}.json`)]);
+      }
+
+      // Verify sfdx-project.json includes defaultLwcLanguage
+      const sfdxProjectPath = path.join(projectDir, 'sfdx-project.json');
+      assert.fileContent(sfdxProjectPath, '"defaultLwcLanguage": "typescript"');
+
+      // Verify package.json has TypeScript dependencies
+      const packageJsonPath = path.join(projectDir, 'package.json');
+      assert.fileContent(packageJsonPath, '"typescript"');
+      assert.fileContent(packageJsonPath, '"build": "tsc"');
+
+      // Verify empty template folders exist
+      for (const folder of emptyfolderarray) {
+        assert(fs.existsSync(path.join(projectDir, 'force-app', 'main', 'default', folder)));
+      }
+    });
   });
 
   describe('project creation failures', () => {
@@ -465,6 +504,12 @@ describe('template generate project:', () => {
     it('should throw invalid template name error', () => {
       const stderr = execCmd('template generate project --projectname foo --template foo').shellOutput.stderr;
       expect(stderr).to.contain(messages.getMessage('InvalidTemplate'));
+    });
+
+    it('should throw error for invalid lwc-language value', () => {
+      const stderr = execCmd('template generate project --projectname foo --lwc-language python').shellOutput.stderr;
+      expect(stderr).to.contain('Expected --lwc-language');
+      expect(stderr).to.match(/(javascript|typescript)/);
     });
   });
 });

@@ -165,6 +165,166 @@ describe('template generate lightning component:', () => {
     });
   });
 
+  describe('TypeScript Lightning web component generation', () => {
+    it('should create TypeScript LWC with explicit template flag', () => {
+      execCmd(
+        'template generate lightning component --componentname tsComponent --outputdir lwc --type lwc --template typescript',
+        { ensureExitCode: 0 }
+      );
+
+      // Verify TypeScript files exist
+      assert.file(path.join(session.project.dir, 'lwc', 'tsComponent', 'tsComponent.ts'));
+      assert.file(path.join(session.project.dir, 'lwc', 'tsComponent', 'tsComponent.html'));
+      assert.file(path.join(session.project.dir, 'lwc', 'tsComponent', '__tests__', 'tsComponent.test.ts'));
+      assert.file(path.join(session.project.dir, 'lwc', 'tsComponent', 'tsComponent.js-meta.xml'));
+
+      // Verify no .js file in component folder
+      assert.noFile(path.join(session.project.dir, 'lwc', 'tsComponent', 'tsComponent.js'));
+
+      // Verify TypeScript content
+      assert.fileContent(
+        path.join(session.project.dir, 'lwc', 'tsComponent', 'tsComponent.ts'),
+        'export default class TsComponent extends LightningElement {}'
+      );
+
+      // Verify TypeScript test content
+      assert.fileContent(
+        path.join(session.project.dir, 'lwc', 'tsComponent', '__tests__', 'tsComponent.test.ts'),
+        "import TsComponent from 'c/tsComponent';"
+      );
+    });
+
+    it('should automatically use TypeScript template in TypeScript project', () => {
+      // Create a TypeScript project
+      execCmd('template generate project --name tsProject --lwc-language typescript', {
+        ensureExitCode: 0,
+      });
+
+      // Generate component without specifying template
+      execCmd(
+        'template generate lightning component --componentname autoTs --outputdir tsProject/force-app/main/default/lwc --type lwc',
+        { ensureExitCode: 0 }
+      );
+
+      // Verify TypeScript files were created
+      assert.file(
+        path.join(session.project.dir, 'tsProject', 'force-app', 'main', 'default', 'lwc', 'autoTs', 'autoTs.ts')
+      );
+      assert.file(
+        path.join(
+          session.project.dir,
+          'tsProject',
+          'force-app',
+          'main',
+          'default',
+          'lwc',
+          'autoTs',
+          '__tests__',
+          'autoTs.test.ts'
+        )
+      );
+
+      // Verify no .js file
+      assert.noFile(
+        path.join(session.project.dir, 'tsProject', 'force-app', 'main', 'default', 'lwc', 'autoTs', 'autoTs.js')
+      );
+    });
+
+    it('should use JavaScript template in JavaScript project', () => {
+      // Create a JavaScript project
+      execCmd('template generate project --name jsProject --lwc-language javascript', {
+        ensureExitCode: 0,
+      });
+
+      // Generate component without specifying template
+      execCmd(
+        'template generate lightning component --componentname autoJs --outputdir jsProject/force-app/main/default/lwc --type lwc',
+        { ensureExitCode: 0 }
+      );
+
+      // Verify JavaScript files were created
+      assert.file(
+        path.join(session.project.dir, 'jsProject', 'force-app', 'main', 'default', 'lwc', 'autoJs', 'autoJs.js')
+      );
+      assert.file(
+        path.join(
+          session.project.dir,
+          'jsProject',
+          'force-app',
+          'main',
+          'default',
+          'lwc',
+          'autoJs',
+          '__tests__',
+          'autoJs.test.js'
+        )
+      );
+
+      // Verify no .ts file
+      assert.noFile(
+        path.join(session.project.dir, 'jsProject', 'force-app', 'main', 'default', 'lwc', 'autoJs', 'autoJs.ts')
+      );
+    });
+
+    it('should allow explicit template override in TypeScript project', () => {
+      // Create a TypeScript project
+      execCmd('template generate project --name tsOverrideProject --lwc-language typescript', {
+        ensureExitCode: 0,
+      });
+
+      // Generate JavaScript component explicitly in TypeScript project
+      execCmd(
+        'template generate lightning component --componentname jsInTs --outputdir tsOverrideProject/force-app/main/default/lwc --type lwc --template default',
+        { ensureExitCode: 0 }
+      );
+
+      // Verify JavaScript files were created (override worked)
+      assert.file(
+        path.join(
+          session.project.dir,
+          'tsOverrideProject',
+          'force-app',
+          'main',
+          'default',
+          'lwc',
+          'jsInTs',
+          'jsInTs.js'
+        )
+      );
+      assert.noFile(
+        path.join(
+          session.project.dir,
+          'tsOverrideProject',
+          'force-app',
+          'main',
+          'default',
+          'lwc',
+          'jsInTs',
+          'jsInTs.ts'
+        )
+      );
+    });
+
+    it('should create TypeScript component with proper class naming', () => {
+      execCmd(
+        'template generate lightning component --componentname mySpecialComponent --outputdir lwc --type lwc --template typescript',
+        { ensureExitCode: 0 }
+      );
+
+      // Verify PascalCase class name
+      assert.fileContent(
+        path.join(session.project.dir, 'lwc', 'mySpecialComponent', 'mySpecialComponent.ts'),
+        'export default class MySpecialComponent extends LightningElement {}'
+      );
+
+      // Verify test imports use camelCase
+      assert.fileContent(
+        path.join(session.project.dir, 'lwc', 'mySpecialComponent', '__tests__', 'mySpecialComponent.test.ts'),
+        "import MySpecialComponent from 'c/mySpecialComponent';"
+      );
+    });
+  });
+
   describe('lightning component failures', () => {
     it('should throw missing component name error', () => {
       const stderr = execCmd('template generate lightning component --outputdir aura').shellOutput.stderr;
@@ -195,6 +355,47 @@ describe('template generate lightning component:', () => {
       expect(stderr).to.contain(
         messages.getMessage('MissingLightningComponentTemplate', ['analyticsDashboard', 'aura'])
       );
+    });
+
+    it('should throw error when using typescript template with aura type', () => {
+      const stderr = execCmd(
+        'template generate lightning component --outputdir aura --componentname foo --type aura --template typescript'
+      ).shellOutput.stderr;
+      expect(stderr).to.contain(messages.getMessage('MissingLightningComponentTemplate', ['typeScript', 'aura']));
+    });
+  });
+
+  describe('Component generation outside project context', () => {
+    it('should create JavaScript component outside project with no template flag', () => {
+      // Generate component in a directory without sfdx-project.json
+      execCmd(
+        'template generate lightning component --componentname outsideComponent --outputdir standalone/lwc --type lwc',
+        {
+          ensureExitCode: 0,
+        }
+      );
+
+      // Verify JavaScript files were created (default when no project context)
+      assert.file(path.join(session.project.dir, 'standalone', 'lwc', 'outsideComponent', 'outsideComponent.js'));
+      assert.file(path.join(session.project.dir, 'standalone', 'lwc', 'outsideComponent', 'outsideComponent.html'));
+
+      // Verify no TypeScript file
+      assert.noFile(path.join(session.project.dir, 'standalone', 'lwc', 'outsideComponent', 'outsideComponent.ts'));
+    });
+
+    it('should create TypeScript component outside project with explicit template flag', () => {
+      // Generate TypeScript component outside project
+      execCmd(
+        'template generate lightning component --componentname outsideTsComponent --outputdir standalone/lwc --type lwc --template typescript',
+        { ensureExitCode: 0 }
+      );
+
+      // Verify TypeScript files were created
+      assert.file(path.join(session.project.dir, 'standalone', 'lwc', 'outsideTsComponent', 'outsideTsComponent.ts'));
+      assert.file(path.join(session.project.dir, 'standalone', 'lwc', 'outsideTsComponent', 'outsideTsComponent.html'));
+
+      // Verify no JavaScript file
+      assert.noFile(path.join(session.project.dir, 'standalone', 'lwc', 'outsideTsComponent', 'outsideTsComponent.js'));
     });
   });
 });
