@@ -1,3 +1,10 @@
+## [56.13.4](https://github.com/salesforcecli/plugin-templates/compare/56.13.3...56.13.4) (2026-03-31)
+
+### Bug Fixes
+
+- remove top-level ui-bundle topic ([0b62477](https://github.com/salesforcecli/plugin-templates/commit/0b624770e176efb79cfedd2cab967f395a97f5d3))
+- remove unnecessary alias ([92210bb](https://github.com/salesforcecli/plugin-templates/commit/92210bb47980c2fd6726724ce22c82a7fce17c0b))
+
 ## [56.13.3](https://github.com/salesforcecli/plugin-templates/compare/56.13.2...56.13.3) (2026-03-31)
 
 ### Bug Fixes
