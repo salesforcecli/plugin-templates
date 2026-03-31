@@ -356,40 +356,36 @@ describe('template generate project:', () => {
       assert.file([path.join(session.project.dir, 'tsproject', '.gitignore')]);
     });
 
-    it('should verify tsconfig.json has outDir: "dist" configuration', () => {
+    it('should verify tsconfig.json has correct TypeScript configuration', () => {
       execCmd('template generate project --projectname tsconfig-test --lwc-language typescript', { ensureExitCode: 0 });
 
       const tsconfigPath = path.join(session.project.dir, 'tsconfig-test', 'tsconfig.json');
       assert.file([tsconfigPath]);
-      assert.fileContent(tsconfigPath, '"outDir": "dist"');
-      assert.fileContent(tsconfigPath, '"rootDir": "."');
+      assert.fileContent(tsconfigPath, '"erasableSyntaxOnly": true');
       assert.fileContent(tsconfigPath, '"include"');
       assert.fileContent(tsconfigPath, 'force-app/**/*.ts');
       assert.fileContent(tsconfigPath, '"exclude"');
-      assert.fileContent(tsconfigPath, 'node_modules');
-      assert.fileContent(tsconfigPath, 'dist');
+      assert.fileContent(tsconfigPath, '**/__tests__/**');
     });
 
-    it('should verify .forceignore excludes dist/ folder', () => {
+    it('should verify .forceignore excludes TypeScript configuration files', () => {
       execCmd('template generate project --projectname forceignore-test --lwc-language typescript', {
         ensureExitCode: 0,
       });
 
       const forceignorePath = path.join(session.project.dir, 'forceignore-test', '.forceignore');
       assert.file([forceignorePath]);
-      assert.fileContent(forceignorePath, 'dist/');
-      assert.fileContent(forceignorePath, '**/dist/');
       assert.fileContent(forceignorePath, 'tsconfig.json');
+      assert.fileContent(forceignorePath, '**/tsconfig.*.json');
     });
 
-    it('should verify .gitignore excludes dist/ folder', () => {
+    it('should verify .gitignore excludes TypeScript build artifacts', () => {
       execCmd('template generate project --projectname gitignore-test --lwc-language typescript', {
         ensureExitCode: 0,
       });
 
       const gitignorePath = path.join(session.project.dir, 'gitignore-test', '.gitignore');
       assert.file([gitignorePath]);
-      assert.fileContent(gitignorePath, 'dist/');
       assert.fileContent(gitignorePath, '*.tsbuildinfo');
     });
 
@@ -422,7 +418,7 @@ describe('template generate project:', () => {
       const eslintConfigPath = path.join(session.project.dir, 'eslint-test', 'eslint.config.js');
       assert.file([eslintConfigPath]);
       assert.fileContent(eslintConfigPath, "files: ['**/lwc/**/*.{js,ts}']");
-      assert.fileContent(eslintConfigPath, 'parser: tsparser');
+      assert.fileContent(eslintConfigPath, 'parser: tseslint.parser');
       assert.fileContent(eslintConfigPath, '@typescript-eslint');
     });
 
