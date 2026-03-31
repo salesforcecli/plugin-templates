@@ -1,3 +1,20 @@
+# [56.15.0](https://github.com/salesforcecli/plugin-templates/compare/56.14.0...56.15.0) (2026-03-31)
+
+### Bug Fixes
+
+- only set defaultLwcLanguage when --lwc-language flag is explicitly provided ([6f0d2ed](https://github.com/salesforcecli/plugin-templates/commit/6f0d2edc2f975938a82ae7ec490590bf7240d234))
+- simplify lwc language default handling ([258bafd](https://github.com/salesforcecli/plugin-templates/commit/258bafd753ab6a5a86b827845c8dd9e485122b95))
+- typeScript to typescript ([055d291](https://github.com/salesforcecli/plugin-templates/commit/055d2914f9a43e33ec2902a58d8154bec78cdf81))
+- update component NUT tests to use valid lwc output directory ([19144cf](https://github.com/salesforcecli/plugin-templates/commit/19144cfde9a31e1d67a4015ccb47936352ff6899))
+- update naming convention and documentation for TypeScript support ([1d76655](https://github.com/salesforcecli/plugin-templates/commit/1d766556537d466049f149e9d34fdd0b510747c5)), closes [#877](https://github.com/salesforcecli/plugin-templates/issues/877)
+- update TypeScript project NUT tests to match current implementation ([08481d9](https://github.com/salesforcecli/plugin-templates/commit/08481d93fa8a536187ea4bcff0f2b209feb49316))
+
+### Features
+
+- add intelligent template defaulting for LWC components ([a89b175](https://github.com/salesforcecli/plugin-templates/commit/a89b175afe07ed713e0fd03fa37a74696b5f1a6e))
+- add intelligent TypeScript component generation defaulting ([c9e1dc5](https://github.com/salesforcecli/plugin-templates/commit/c9e1dc5b53deb6e445b452909135392c1cf850cc))
+- add TypeScript template for LWC component generation ([b0c304a](https://github.com/salesforcecli/plugin-templates/commit/b0c304a81f388fe3d3e4f6f917d47f14dab6734a))
+
 # [56.14.0](https://github.com/salesforcecli/plugin-templates/compare/56.13.4...56.14.0) (2026-03-31)
 
 ### Bug Fixes
