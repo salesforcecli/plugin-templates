@@ -67,7 +67,6 @@ export default class Project extends SfCommand<CreateOutput> {
       summary: messages.getMessage('flags.lwc-language.summary'),
       description: messages.getMessage('flags.lwc-language.description'),
       options: ['javascript', 'typescript'] as const,
-      default: 'javascript',
     })(),
     loglevel,
     'api-version': Flags.orgApiVersion({
@@ -76,9 +75,6 @@ export default class Project extends SfCommand<CreateOutput> {
   };
   public async run(): Promise<CreateOutput> {
     const { flags } = await this.parse(Project);
-
-    // Only include lwcLanguage if user explicitly provided the flag
-    const userProvidedLwcLanguage = this.argv.includes('--lwc-language');
 
     const flagsAsOptions: ProjectOptions = {
       projectname: flags.name,
@@ -90,8 +86,11 @@ export default class Project extends SfCommand<CreateOutput> {
       ns: flags.namespace,
       defaultpackagedir: flags['default-package-dir'],
       apiversion: flags['api-version'],
-      ...(userProvidedLwcLanguage && { lwcLanguage: flags['lwc-language'] }),
     };
+    if (flags['lwc-language']) {
+      flagsAsOptions.lwcLanguage = flags['lwc-language'];
+    }
+
     return runGenerator({
       templateType: TemplateType.Project,
       opts: flagsAsOptions,
