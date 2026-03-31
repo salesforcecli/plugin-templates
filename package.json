@@ -1,7 +1,7 @@
 {
   "name": "@salesforce/plugin-templates",
   "description": "Commands to create metadata from a default or custom template",
-  "version": "56.13.3",
+  "version": "56.14.0",
   "author": "Salesforce",
   "bugs": "https://github.com/salesforcecli/plugin-templates/issues",
   "enableO11y": true,
@@ -90,9 +90,6 @@
             }
           }
         }
-      },
-      "ui-bundle": {
-        "description": "Work with UI bundles."
       }
     },
     "flexibleTaxonomy": true,
