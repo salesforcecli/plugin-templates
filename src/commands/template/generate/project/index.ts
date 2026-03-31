@@ -67,6 +67,7 @@ export default class Project extends SfCommand<CreateOutput> {
       summary: messages.getMessage('flags.lwc-language.summary'),
       description: messages.getMessage('flags.lwc-language.description'),
       options: ['javascript', 'typescript'] as const,
+      default: 'javascript',
     })(),
     loglevel,
     'api-version': Flags.orgApiVersion({

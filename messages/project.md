@@ -26,7 +26,7 @@ By default, the generated sfdx-project.json file sets the sourceApiVersion prope
 
   <%= config.bin %> <%= command.id %> --name mywork --template empty
 
-- Generate a TypeScript project for Lightning Web Components:
+- Generate a project in which the Lightning Web Components use TypeScript rather than the default JavaScript:
 
   <%= config.bin %> <%= command.id %> --name mywork --lwc-language typescript
 
