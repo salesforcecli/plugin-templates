@@ -20,7 +20,6 @@ export default class UiBundleGenerate extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
-  public static readonly aliases = ['ui-bundle:generate'];
   public static readonly flags = {
     name: Flags.string({
       char: 'n',
