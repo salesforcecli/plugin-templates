@@ -104,4 +104,4 @@ Language of the Lightning Web Components. Default is "javascript".
 
 # flags.lwc-language.description
 
-Sets the default language for Lightning Web Components in this project. When set to `'typescript'`, generates TypeScript configuration files (tsconfig.json, package.json with TypeScript dependencies, and TypeScript-aware ESLint config). TypeScript files are compiled in-place to JavaScript, and the compiled JavaScript files are deployed to Salesforce. If not specified, the project uses JavaScript.
+Sets the default language for Lightning Web Components in this project. When set to `'typescript'`, generates TypeScript configuration files (tsconfig.json, package.json with TypeScript dependencies, and TypeScript-aware ESLint config). TypeScript files are compiled locally for validation, and the TypeScript (`.ts`) files are deployed to Salesforce for server-side type stripping. If not specified, the project uses JavaScript.
