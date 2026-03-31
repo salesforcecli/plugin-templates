@@ -90,9 +90,6 @@
             }
           }
         }
-      },
-      "ui-bundle": {
-        "description": "Work with UI bundles."
       }
     },
     "flexibleTaxonomy": true,
