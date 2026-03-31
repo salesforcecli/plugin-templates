@@ -115,6 +115,7 @@
       "json",
       "login-url",
       "loglevel",
+      "lwc-language",
       "manifest",
       "name",
       "namespace",

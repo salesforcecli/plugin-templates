@@ -339,6 +339,123 @@ describe('template generate project:', () => {
     });
   });
 
+  describe('TypeScript project creation', () => {
+    it('should create TypeScript project with all required files', () => {
+      execCmd('template generate project --projectname tsproject --lwc-language typescript', { ensureExitCode: 0 });
+
+      // Verify standard files exist
+      assert.file([path.join(session.project.dir, 'tsproject', 'config', 'project-scratch-def.json')]);
+      assert.file([path.join(session.project.dir, 'tsproject', 'README.md')]);
+      assert.file([path.join(session.project.dir, 'tsproject', 'sfdx-project.json')]);
+
+      // Verify TypeScript-specific files exist
+      assert.file([path.join(session.project.dir, 'tsproject', 'tsconfig.json')]);
+      assert.file([path.join(session.project.dir, 'tsproject', 'package.json')]);
+      assert.file([path.join(session.project.dir, 'tsproject', 'eslint.config.js')]);
+      assert.file([path.join(session.project.dir, 'tsproject', '.forceignore')]);
+      assert.file([path.join(session.project.dir, 'tsproject', '.gitignore')]);
+    });
+
+    it('should verify tsconfig.json has correct TypeScript configuration', () => {
+      execCmd('template generate project --projectname tsconfig-test --lwc-language typescript', { ensureExitCode: 0 });
+
+      const tsconfigPath = path.join(session.project.dir, 'tsconfig-test', 'tsconfig.json');
+      assert.file([tsconfigPath]);
+      assert.fileContent(tsconfigPath, '"erasableSyntaxOnly": true');
+      assert.fileContent(tsconfigPath, '"include"');
+      assert.fileContent(tsconfigPath, 'force-app/**/*.ts');
+      assert.fileContent(tsconfigPath, '"exclude"');
+      assert.fileContent(tsconfigPath, '**/__tests__/**');
+    });
+
+    it('should verify .forceignore excludes dist/ folder', () => {
+      execCmd('template generate project --projectname forceignore-test --lwc-language typescript', {
+        ensureExitCode: 0,
+      });
+
+      const forceignorePath = path.join(session.project.dir, 'forceignore-test', '.forceignore');
+      assert.file([forceignorePath]);
+      assert.fileContent(forceignorePath, 'tsconfig.json');
+      assert.fileContent(forceignorePath, '**/tsconfig.*.json');
+    });
+
+    it('should verify .gitignore excludes TypeScript build artifacts', () => {
+      execCmd('template generate project --projectname gitignore-test --lwc-language typescript', {
+        ensureExitCode: 0,
+      });
+
+      const gitignorePath = path.join(session.project.dir, 'gitignore-test', '.gitignore');
+      assert.file([gitignorePath]);
+      assert.fileContent(gitignorePath, '*.tsbuildinfo');
+    });
+
+    it('should verify package.json has TypeScript dependencies', () => {
+      execCmd('template generate project --projectname packagejson-test --lwc-language typescript', {
+        ensureExitCode: 0,
+      });
+
+      const packageJsonPath = path.join(session.project.dir, 'packagejson-test', 'package.json');
+      assert.file([packageJsonPath]);
+      assert.fileContent(packageJsonPath, '"typescript"');
+      assert.fileContent(packageJsonPath, '"@typescript-eslint/eslint-plugin"');
+      assert.fileContent(packageJsonPath, '"@typescript-eslint/parser"');
+      assert.fileContent(packageJsonPath, '"@types/jest"');
+      assert.fileContent(packageJsonPath, '"build": "tsc"');
+      assert.fileContent(packageJsonPath, '"build:watch": "tsc --watch"');
+    });
+
+    it('should verify sfdx-project.json includes defaultLwcLanguage field', () => {
+      execCmd('template generate project --projectname sfdx-test --lwc-language typescript', { ensureExitCode: 0 });
+
+      const sfdxProjectPath = path.join(session.project.dir, 'sfdx-test', 'sfdx-project.json');
+      assert.file([sfdxProjectPath]);
+      assert.fileContent(sfdxProjectPath, '"defaultLwcLanguage": "typescript"');
+    });
+
+    it('should verify ESLint config uses TypeScript parser for both JS and TS', () => {
+      execCmd('template generate project --projectname eslint-test --lwc-language typescript', { ensureExitCode: 0 });
+
+      const eslintConfigPath = path.join(session.project.dir, 'eslint-test', 'eslint.config.js');
+      assert.file([eslintConfigPath]);
+      assert.fileContent(eslintConfigPath, "files: ['**/lwc/**/*.{js,ts}']");
+      assert.fileContent(eslintConfigPath, 'parser: tseslint.parser');
+      assert.fileContent(eslintConfigPath, '@typescript-eslint');
+    });
+
+    it('should create JavaScript project without TypeScript files when using javascript flag', () => {
+      execCmd('template generate project --projectname jsproject --lwc-language javascript', { ensureExitCode: 0 });
+
+      // TypeScript files should NOT exist
+      assert.noFile([path.join(session.project.dir, 'jsproject', 'tsconfig.json')]);
+
+      // Standard files should exist
+      assert.file([path.join(session.project.dir, 'jsproject', 'package.json')]);
+      assert.file([path.join(session.project.dir, 'jsproject', 'eslint.config.js')]);
+
+      // Verify sfdx-project.json has javascript as default
+      const sfdxProjectPath = path.join(session.project.dir, 'jsproject', 'sfdx-project.json');
+      assert.fileContent(sfdxProjectPath, '"defaultLwcLanguage": "javascript"');
+
+      // Verify package.json does NOT have TypeScript dependencies
+      const packageJsonPath = path.join(session.project.dir, 'jsproject', 'package.json');
+      const packageContent = fs.readFileSync(packageJsonPath, 'utf8');
+      expect(packageContent).to.not.contain('typescript');
+      expect(packageContent).to.not.contain('@typescript-eslint');
+    });
+
+    it('should create default project without TypeScript files when no flag specified', () => {
+      execCmd('template generate project --projectname defaultproject', { ensureExitCode: 0 });
+
+      // TypeScript files should NOT exist
+      assert.noFile([path.join(session.project.dir, 'defaultproject', 'tsconfig.json')]);
+
+      // sfdx-project.json should NOT have defaultLwcLanguage field
+      const sfdxProjectPath = path.join(session.project.dir, 'defaultproject', 'sfdx-project.json');
+      const sfdxContent = fs.readFileSync(sfdxProjectPath, 'utf8');
+      expect(sfdxContent).to.not.contain('defaultLwcLanguage');
+    });
+  });
+
   describe('project creation failures', () => {
     it('should throw missing required flag error', () => {
       const stderr = execCmd('template generate project').shellOutput.stderr;

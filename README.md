@@ -1,6 +1,6 @@
 # plugin-templates
 
-This repository provides a series of commands, templates, and generators for various metadata types.
+This repository provides a series of commands, templates, and generators for various metadata types, including support for TypeScript Lightning Web Components.
 
 [![Known Vulnerabilities](https://snyk.io/test/github/salesforcecli/plugin-templates/badge.svg)](https://snyk.io/test/github/salesforcecli/plugin-templates)
 [![License](https://img.shields.io/npm/l/@salesforce/plugin-templates.svg)](https://github.com/salesforcecli/plugin-templates/blob/master/package.json)
