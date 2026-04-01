@@ -1,3 +1,9 @@
+## [56.15.2](https://github.com/salesforcecli/plugin-templates/compare/56.15.1...56.15.2) (2026-04-01)
+
+### Bug Fixes
+
+- updating ui bundles to the latest ([c11d499](https://github.com/salesforcecli/plugin-templates/commit/c11d499012332dae61944482d7b507b867ec1dc8))
+
 ## [56.15.1](https://github.com/salesforcecli/plugin-templates/compare/56.15.0...56.15.1) (2026-03-31)
 
 ### Bug Fixes
