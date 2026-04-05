@@ -1,3 +1,9 @@
+## [56.15.4](https://github.com/salesforcecli/plugin-templates/compare/56.15.3...56.15.4) (2026-04-05)
+
+### Bug Fixes
+
+- **deps:** bump lodash from 4.17.23 to 4.18.1 ([db9624d](https://github.com/salesforcecli/plugin-templates/commit/db9624d65189f509b50c6fa28839075336339027))
+
 ## [56.15.3](https://github.com/salesforcecli/plugin-templates/compare/56.15.2...56.15.3) (2026-04-01)
 
 ### Bug Fixes
