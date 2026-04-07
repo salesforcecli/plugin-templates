@@ -1,3 +1,7 @@
+# Local Salesforce scaffolds with their own .git (breaks parent `git add .`)
+hello-React-App1/
+hello-React-App2/
+
 # -- CLEAN
 tmp/
 # use yarn by default, so ignore npm
