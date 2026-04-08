@@ -1,3 +1,51 @@
+## [56.15.5](https://github.com/salesforcecli/plugin-templates/compare/56.15.4...56.15.5) (2026-04-08)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/templates to 66.7.9 ([b1ada6b](https://github.com/salesforcecli/plugin-templates/commit/b1ada6b0a37c0fd4220fcb8ce86800f594f269f6))
+- updating template to 66.7.10 ([baff1fb](https://github.com/salesforcecli/plugin-templates/commit/baff1fb2e078364e8a1d27d561b55d3143048267))
+
+## [56.15.4](https://github.com/salesforcecli/plugin-templates/compare/56.15.3...56.15.4) (2026-04-05)
+
+### Bug Fixes
+
+- **deps:** bump lodash from 4.17.23 to 4.18.1 ([db9624d](https://github.com/salesforcecli/plugin-templates/commit/db9624d65189f509b50c6fa28839075336339027))
+
+## [56.15.3](https://github.com/salesforcecli/plugin-templates/compare/56.15.2...56.15.3) (2026-04-01)
+
+### Bug Fixes
+
+- updating ui bundles to the latest @W-21835637@ ([b5d126c](https://github.com/salesforcecli/plugin-templates/commit/b5d126ca0c4a646d45bc78757a96cdec32a7fc70))
+
+## [56.15.2](https://github.com/salesforcecli/plugin-templates/compare/56.15.1...56.15.2) (2026-04-01)
+
+### Bug Fixes
+
+- updating ui bundles to the latest ([c11d499](https://github.com/salesforcecli/plugin-templates/commit/c11d499012332dae61944482d7b507b867ec1dc8))
+
+## [56.15.1](https://github.com/salesforcecli/plugin-templates/compare/56.15.0...56.15.1) (2026-03-31)
+
+### Bug Fixes
+
+- docs update ([5e6a5f5](https://github.com/salesforcecli/plugin-templates/commit/5e6a5f58f435df235ae9c2e5cc402391fb8e7ef3))
+
+# [56.15.0](https://github.com/salesforcecli/plugin-templates/compare/56.14.0...56.15.0) (2026-03-31)
+
+### Bug Fixes
+
+- only set defaultLwcLanguage when --lwc-language flag is explicitly provided ([6f0d2ed](https://github.com/salesforcecli/plugin-templates/commit/6f0d2edc2f975938a82ae7ec490590bf7240d234))
+- simplify lwc language default handling ([258bafd](https://github.com/salesforcecli/plugin-templates/commit/258bafd753ab6a5a86b827845c8dd9e485122b95))
+- typeScript to typescript ([055d291](https://github.com/salesforcecli/plugin-templates/commit/055d2914f9a43e33ec2902a58d8154bec78cdf81))
+- update component NUT tests to use valid lwc output directory ([19144cf](https://github.com/salesforcecli/plugin-templates/commit/19144cfde9a31e1d67a4015ccb47936352ff6899))
+- update naming convention and documentation for TypeScript support ([1d76655](https://github.com/salesforcecli/plugin-templates/commit/1d766556537d466049f149e9d34fdd0b510747c5)), closes [#877](https://github.com/salesforcecli/plugin-templates/issues/877)
+- update TypeScript project NUT tests to match current implementation ([08481d9](https://github.com/salesforcecli/plugin-templates/commit/08481d93fa8a536187ea4bcff0f2b209feb49316))
+
+### Features
+
+- add intelligent template defaulting for LWC components ([a89b175](https://github.com/salesforcecli/plugin-templates/commit/a89b175afe07ed713e0fd03fa37a74696b5f1a6e))
+- add intelligent TypeScript component generation defaulting ([c9e1dc5](https://github.com/salesforcecli/plugin-templates/commit/c9e1dc5b53deb6e445b452909135392c1cf850cc))
+- add TypeScript template for LWC component generation ([b0c304a](https://github.com/salesforcecli/plugin-templates/commit/b0c304a81f388fe3d3e4f6f917d47f14dab6734a))
+
 # [56.14.0](https://github.com/salesforcecli/plugin-templates/compare/56.13.4...56.14.0) (2026-03-31)
 
 ### Bug Fixes
