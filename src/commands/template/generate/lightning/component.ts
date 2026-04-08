@@ -39,7 +39,8 @@ export default class LightningComponent extends SfCommand<CreateOutput> {
       default: 'default',
       // Note: keep this list here and LightningComponentOptions#template in-sync with the
       // templates/lightningcomponents/[aura|lwc]/* folders
-      options: ['default', 'analyticsDashboard', 'analyticsDashboardWithStep', 'typescript'] as const,
+      // 'typescript' removed from options - hidden from external users, but intelligent defaulting still works
+      options: ['default', 'analyticsDashboard', 'analyticsDashboardWithStep'] as const,
     })(),
     'output-dir': outputDirFlagLightning,
     'api-version': orgApiVersionFlagWithDeprecations,
@@ -57,7 +58,8 @@ export default class LightningComponent extends SfCommand<CreateOutput> {
 
     // Determine if user explicitly set the template flag
     const userExplicitlySetTemplate = this.argv.includes('--template') || this.argv.includes('-t');
-    let template = flags.template;
+    // Allow 'typescript' for intelligent defaulting even though it's hidden from CLI options
+    let template: typeof flags.template | 'typescript' = flags.template;
 
     // If template not explicitly provided and generating LWC, check project preference
     if (!userExplicitlySetTemplate && flags.type === 'lwc') {
@@ -73,6 +75,13 @@ export default class LightningComponent extends SfCommand<CreateOutput> {
       } catch (error) {
         this.debug('Could not resolve project config for intelligent defaulting:', error);
       }
+    }
+
+    // Warn users about TypeScript deployment limitations
+    if (template === 'typescript' && flags.type === 'lwc') {
+      this.warn(
+        'TypeScript support is in preview. Direct deployment of .ts files is not yet supported. You must compile TypeScript to JavaScript using "npm run build" before deploying to Salesforce.'
+      );
     }
 
     const flagsAsOptions: LightningComponentOptions = {
