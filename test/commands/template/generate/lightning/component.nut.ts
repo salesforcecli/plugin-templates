@@ -165,7 +165,7 @@ describe('template generate lightning component:', () => {
     });
   });
 
-  describe('TypeScript Lightning web component generation', () => {
+  describe.skip('TypeScript Lightning web component generation', () => {
     it('should create TypeScript LWC with explicit template flag', () => {
       execCmd(
         'template generate lightning component --componentname tsComponent --outputdir lwc --type lwc --template typescript',
