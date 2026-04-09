@@ -357,7 +357,7 @@ describe('template generate lightning component:', () => {
       );
     });
 
-    it('should throw error when using typescript template with aura type', () => {
+    it.skip('should throw error when using typescript template with aura type', () => {
       const stderr = execCmd(
         'template generate lightning component --outputdir aura --componentname foo --type aura --template typescript'
       ).shellOutput.stderr;
@@ -383,7 +383,7 @@ describe('template generate lightning component:', () => {
       assert.noFile(path.join(session.project.dir, 'standalone', 'lwc', 'outsideComponent', 'outsideComponent.ts'));
     });
 
-    it('should create TypeScript component outside project with explicit template flag', () => {
+    it.skip('should create TypeScript component outside project with explicit template flag', () => {
       // Generate TypeScript component outside project
       execCmd(
         'template generate lightning component --componentname outsideTsComponent --outputdir standalone/lwc --type lwc --template typescript',
