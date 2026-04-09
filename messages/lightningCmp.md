@@ -16,7 +16,7 @@
 
   <%= config.bin %> <%= command.id %> --name mycomponent --type lwc --output-dir force-app/main/default/lwc
 
-- Generate a TypeScript Lightning web component:
+- Generate a TypeScript Lightning Web Component:
 
   <%= config.bin %> <%= command.id %> --name mycomponent --type lwc --template typescript
 

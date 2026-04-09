@@ -177,7 +177,7 @@ FLAG DESCRIPTIONS
     directory.
 ```
 
-_See code: [src/commands/template/generate/analytics/template.ts](https://github.com/salesforcecli/plugin-templates/blob/56.14.0/src/commands/template/generate/analytics/template.ts)_
+_See code: [src/commands/template/generate/analytics/template.ts](https://github.com/salesforcecli/plugin-templates/blob/56.15.5/src/commands/template/generate/analytics/template.ts)_
 
 ## `sf template generate apex class`
 
@@ -237,7 +237,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/template/generate/apex/class.ts](https://github.com/salesforcecli/plugin-templates/blob/56.14.0/src/commands/template/generate/apex/class.ts)_
+_See code: [src/commands/template/generate/apex/class.ts](https://github.com/salesforcecli/plugin-templates/blob/56.15.5/src/commands/template/generate/apex/class.ts)_
 
 ## `sf template generate apex trigger`
 
@@ -307,7 +307,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/template/generate/apex/trigger.ts](https://github.com/salesforcecli/plugin-templates/blob/56.14.0/src/commands/template/generate/apex/trigger.ts)_
+_See code: [src/commands/template/generate/apex/trigger.ts](https://github.com/salesforcecli/plugin-templates/blob/56.15.5/src/commands/template/generate/apex/trigger.ts)_
 
 ## `sf template generate digital-experience site`
 
@@ -361,7 +361,7 @@ FLAG DESCRIPTIONS
     project, defaults to the current directory.
 ```
 
-_See code: [src/commands/template/generate/digital-experience/site.ts](https://github.com/salesforcecli/plugin-templates/blob/56.14.0/src/commands/template/generate/digital-experience/site.ts)_
+_See code: [src/commands/template/generate/digital-experience/site.ts](https://github.com/salesforcecli/plugin-templates/blob/56.15.5/src/commands/template/generate/digital-experience/site.ts)_
 
 ## `sf template generate flexipage`
 
@@ -443,7 +443,7 @@ FLAG DESCRIPTIONS
     'Custom_Object__c'. This sets the `sobjectType` field in the FlexiPage metadata.
 ```
 
-_See code: [src/commands/template/generate/flexipage/index.ts](https://github.com/salesforcecli/plugin-templates/blob/56.14.0/src/commands/template/generate/flexipage/index.ts)_
+_See code: [src/commands/template/generate/flexipage/index.ts](https://github.com/salesforcecli/plugin-templates/blob/56.15.5/src/commands/template/generate/flexipage/index.ts)_
 
 ## `sf template generate lightning app`
 
@@ -496,10 +496,12 @@ FLAG DESCRIPTIONS
 
   -t, --template=DefaultLightningApp  Template to use for file creation.
 
-    Supplied parameter values or default values are filled into a copy of the template.
+    Supplied parameter values or default values are filled into a copy of the template. For Lightning Web Components, if
+    this flag isn't specified, the CLI command automatically selects the template based on the "defaultLwcLanguage"
+    field in the DX project's "sfdx-project.json" file.
 ```
 
-_See code: [src/commands/template/generate/lightning/app.ts](https://github.com/salesforcecli/plugin-templates/blob/56.14.0/src/commands/template/generate/lightning/app.ts)_
+_See code: [src/commands/template/generate/lightning/app.ts](https://github.com/salesforcecli/plugin-templates/blob/56.15.5/src/commands/template/generate/lightning/app.ts)_
 
 ## `sf template generate lightning component`
 
@@ -508,13 +510,14 @@ Generate a bundle for an Aura component or a Lightning web component.
 ```
 USAGE
   $ sf template generate lightning component -n <value> [--json] [--flags-dir <value>] [-t
-    default|analyticsDashboard|analyticsDashboardWithStep] [-d <value>] [--api-version <value>] [--type aura|lwc]
+    default|analyticsDashboard|analyticsDashboardWithStep|typescript] [-d <value>] [--api-version <value>] [--type
+    aura|lwc]
 
 FLAGS
   -d, --output-dir=<value>   [default: .] Directory for saving the created files.
   -n, --name=<value>         (required) Name of the generated Lightning Component.
   -t, --template=<option>    [default: default] Template to use for file creation.
-                             <options: default|analyticsDashboard|analyticsDashboardWithStep>
+                             <options: default|analyticsDashboard|analyticsDashboardWithStep|typescript>
       --api-version=<value>  Override the api version used for api requests made by this command
       --type=<option>        [default: aura] Type of the component bundle.
                              <options: aura|lwc>
@@ -554,6 +557,10 @@ EXAMPLES
 
     $ sf template generate lightning component --name mycomponent --type lwc --output-dir force-app/main/default/lwc
 
+  Generate a TypeScript Lightning Web Component:
+
+    $ sf template generate lightning component --name mycomponent --type lwc --template typescript
+
 FLAG DESCRIPTIONS
   -d, --output-dir=<value>  Directory for saving the created files.
 
@@ -564,12 +571,14 @@ FLAG DESCRIPTIONS
 
     The name can be up to 40 characters and must start with a letter.
 
-  -t, --template=default|analyticsDashboard|analyticsDashboardWithStep  Template to use for file creation.
+  -t, --template=default|analyticsDashboard|analyticsDashboardWithStep|typescript  Template to use for file creation.
 
-    Supplied parameter values or default values are filled into a copy of the template.
+    Supplied parameter values or default values are filled into a copy of the template. For Lightning Web Components, if
+    this flag isn't specified, the CLI command automatically selects the template based on the "defaultLwcLanguage"
+    field in the DX project's "sfdx-project.json" file.
 ```
 
-_See code: [src/commands/template/generate/lightning/component.ts](https://github.com/salesforcecli/plugin-templates/blob/56.14.0/src/commands/template/generate/lightning/component.ts)_
+_See code: [src/commands/template/generate/lightning/component.ts](https://github.com/salesforcecli/plugin-templates/blob/56.15.5/src/commands/template/generate/lightning/component.ts)_
 
 ## `sf template generate lightning event`
 
@@ -622,10 +631,12 @@ FLAG DESCRIPTIONS
 
   -t, --template=DefaultLightningEvt  Template to use for file creation.
 
-    Supplied parameter values or default values are filled into a copy of the template.
+    Supplied parameter values or default values are filled into a copy of the template. For Lightning Web Components, if
+    this flag isn't specified, the CLI command automatically selects the template based on the "defaultLwcLanguage"
+    field in the DX project's "sfdx-project.json" file.
 ```
 
-_See code: [src/commands/template/generate/lightning/event.ts](https://github.com/salesforcecli/plugin-templates/blob/56.14.0/src/commands/template/generate/lightning/event.ts)_
+_See code: [src/commands/template/generate/lightning/event.ts](https://github.com/salesforcecli/plugin-templates/blob/56.15.5/src/commands/template/generate/lightning/event.ts)_
 
 ## `sf template generate lightning interface`
 
@@ -678,10 +689,12 @@ FLAG DESCRIPTIONS
 
   -t, --template=DefaultLightningIntf  Template to use for file creation.
 
-    Supplied parameter values or default values are filled into a copy of the template.
+    Supplied parameter values or default values are filled into a copy of the template. For Lightning Web Components, if
+    this flag isn't specified, the CLI command automatically selects the template based on the "defaultLwcLanguage"
+    field in the DX project's "sfdx-project.json" file.
 ```
 
-_See code: [src/commands/template/generate/lightning/interface.ts](https://github.com/salesforcecli/plugin-templates/blob/56.14.0/src/commands/template/generate/lightning/interface.ts)_
+_See code: [src/commands/template/generate/lightning/interface.ts](https://github.com/salesforcecli/plugin-templates/blob/56.15.5/src/commands/template/generate/lightning/interface.ts)_
 
 ## `sf template generate lightning test`
 
@@ -734,10 +747,12 @@ FLAG DESCRIPTIONS
 
   -t, --template=DefaultLightningTest  Template to use for file creation.
 
-    Supplied parameter values or default values are filled into a copy of the template.
+    Supplied parameter values or default values are filled into a copy of the template. For Lightning Web Components, if
+    this flag isn't specified, the CLI command automatically selects the template based on the "defaultLwcLanguage"
+    field in the DX project's "sfdx-project.json" file.
 ```
 
-_See code: [src/commands/template/generate/lightning/test.ts](https://github.com/salesforcecli/plugin-templates/blob/56.14.0/src/commands/template/generate/lightning/test.ts)_
+_See code: [src/commands/template/generate/lightning/test.ts](https://github.com/salesforcecli/plugin-templates/blob/56.15.5/src/commands/template/generate/lightning/test.ts)_
 
 ## `sf template generate project`
 
@@ -758,7 +773,7 @@ FLAGS
                                      <options: standard|empty|analytics|reactinternalapp|reactexternalapp|agent>
   -x, --manifest                     Generate a manifest (package.xml) for change-set based development.
       --api-version=<value>          Will set this version as sourceApiVersion in the sfdx-project.json file
-      --lwc-language=<option>        Default language for Lightning Web Components.
+      --lwc-language=<option>        Language of the Lightning Web Components. If not specified, "javascript" is used.
                                      <options: javascript|typescript>
 
 GLOBAL FLAGS
@@ -855,15 +870,15 @@ FLAG DESCRIPTIONS
 
     Override the api version used for api requests made by this command
 
-  --lwc-language=javascript|typescript  Default language for Lightning Web Components.
+  --lwc-language=javascript|typescript  Language of the Lightning Web Components. If not specified, "javascript" is used.
 
-    Sets the default language for Lightning Web Components in this project. When set to 'typescript', generates
-    TypeScript configuration files (tsconfig.json, package.json with TypeScript dependencies, and TypeScript-aware
-    ESLint config). TypeScript files are compiled locally for validation, and the TypeScript (.ts) files are deployed
-    to Salesforce for server-side type stripping. Defaults to 'javascript'.
+    When set to `'typescript'`, generates TypeScript configuration files (tsconfig.json, package.json with TypeScript
+    dependencies, and TypeScript-aware ESLint config). When you deploy the TypeScript-based Lightning Web Components,
+    the TypeScript files are first compiled locally for validation and then the `.ts` files are deployed to your org for
+    server-side type stripping.
 ```
 
-_See code: [src/commands/template/generate/project/index.ts](https://github.com/salesforcecli/plugin-templates/blob/56.14.0/src/commands/template/generate/project/index.ts)_
+_See code: [src/commands/template/generate/project/index.ts](https://github.com/salesforcecli/plugin-templates/blob/56.15.5/src/commands/template/generate/project/index.ts)_
 
 ## `sf template generate static-resource`
 
@@ -926,7 +941,7 @@ FLAG DESCRIPTIONS
     etc.
 ```
 
-_See code: [src/commands/template/generate/static-resource/index.ts](https://github.com/salesforcecli/plugin-templates/blob/56.14.0/src/commands/template/generate/static-resource/index.ts)_
+_See code: [src/commands/template/generate/static-resource/index.ts](https://github.com/salesforcecli/plugin-templates/blob/56.15.5/src/commands/template/generate/static-resource/index.ts)_
 
 ## `sf template generate ui-bundle`
 
@@ -1010,7 +1025,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/template/generate/ui-bundle/index.ts](https://github.com/salesforcecli/plugin-templates/blob/56.14.0/src/commands/template/generate/ui-bundle/index.ts)_
+_See code: [src/commands/template/generate/ui-bundle/index.ts](https://github.com/salesforcecli/plugin-templates/blob/56.15.5/src/commands/template/generate/ui-bundle/index.ts)_
 
 ## `sf template generate visualforce component`
 
@@ -1067,7 +1082,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/template/generate/visualforce/component.ts](https://github.com/salesforcecli/plugin-templates/blob/56.14.0/src/commands/template/generate/visualforce/component.ts)_
+_See code: [src/commands/template/generate/visualforce/component.ts](https://github.com/salesforcecli/plugin-templates/blob/56.15.5/src/commands/template/generate/visualforce/component.ts)_
 
 ## `sf template generate visualforce page`
 
@@ -1118,6 +1133,6 @@ FLAG DESCRIPTIONS
     The name can be up to 40 characters and must start with a letter.
 ```
 
-_See code: [src/commands/template/generate/visualforce/page.ts](https://github.com/salesforcecli/plugin-templates/blob/56.14.0/src/commands/template/generate/visualforce/page.ts)_
+_See code: [src/commands/template/generate/visualforce/page.ts](https://github.com/salesforcecli/plugin-templates/blob/56.15.5/src/commands/template/generate/visualforce/page.ts)_
 
 <!-- commandsstop -->

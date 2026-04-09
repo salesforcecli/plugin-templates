@@ -100,7 +100,7 @@ Normally defaults to https://login.salesforce.com.
 
 # flags.lwc-language.summary
 
-Language of the Lightning Web Components. Default is "javascript".
+Language of the Lightning Web Components. If not specified, "javascript" is used.
 
 # flags.lwc-language.description
 
