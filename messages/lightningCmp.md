@@ -16,10 +16,6 @@
 
   <%= config.bin %> <%= command.id %> --name mycomponent --type lwc --output-dir force-app/main/default/lwc
 
-- Generate a TypeScript Lightning Web Component:
-
-  <%= config.bin %> <%= command.id %> --name mycomponent --type lwc --template typescript
-
 # summary
 
 Generate a bundle for an Aura component or a Lightning web component.
@@ -33,3 +29,8 @@ To generate a Lightning web component, pass "--type lwc" to the command. If you 
 # flags.type.summary
 
 Type of the component bundle.
+
+<!-- TODO: Add back TypeScript example when support is GA:
+  - Generate a TypeScript Lightning Web Component:
+    <%= config.bin %> <%= command.id %> --name mycomponent --type lwc --template typescript
+-->

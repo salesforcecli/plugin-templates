@@ -9,7 +9,7 @@
 
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { CreateOutput, LightningComponentOptions, TemplateType } from '@salesforce/templates';
-import { Messages, SfProject } from '@salesforce/core';
+import { Messages } from '@salesforce/core';
 import { getCustomTemplates, runGenerator } from '../../../../utils/templateCommand.js';
 import { internalFlag, outputDirFlagLightning } from '../../../../utils/flags.js';
 const BUNDLE_TYPE = 'Component';
@@ -39,7 +39,7 @@ export default class LightningComponent extends SfCommand<CreateOutput> {
       default: 'default',
       // Note: keep this list here and LightningComponentOptions#template in-sync with the
       // templates/lightningcomponents/[aura|lwc]/* folders
-      options: ['default', 'analyticsDashboard', 'analyticsDashboardWithStep', 'typescript'] as const,
+      options: ['default', 'analyticsDashboard', 'analyticsDashboardWithStep'] as const,
     })(),
     'output-dir': outputDirFlagLightning,
     'api-version': orgApiVersionFlagWithDeprecations,
@@ -55,30 +55,9 @@ export default class LightningComponent extends SfCommand<CreateOutput> {
   public async run(): Promise<CreateOutput> {
     const { flags } = await this.parse(LightningComponent);
 
-    // Determine if user explicitly set the template flag
-    const userExplicitlySetTemplate = this.argv.includes('--template') || this.argv.includes('-t');
-    let template = flags.template;
-
-    // If template not explicitly provided and generating LWC, check project preference
-    if (!userExplicitlySetTemplate && flags.type === 'lwc') {
-      try {
-        const projectPath = flags['output-dir'] || process.cwd();
-        const project = await SfProject.resolve(projectPath);
-        const projectJson = await project.resolveProjectConfig();
-        const defaultLwcLanguage = projectJson.defaultLwcLanguage as string | undefined;
-
-        if (defaultLwcLanguage === 'typescript') {
-          template = 'typescript';
-        }
-      } catch (error) {
-        this.debug('Could not resolve project config for intelligent defaulting:', error);
-      }
-    }
-
     const flagsAsOptions: LightningComponentOptions = {
       componentname: flags.name,
-      // Temp re-mapping to allow lowercase typescript flag
-      template: template === 'typescript' ? 'typeScript' : template,
+      template: flags.template,
       outputdir: flags['output-dir'],
       apiversion: flags['api-version'],
       internal: flags.internal,

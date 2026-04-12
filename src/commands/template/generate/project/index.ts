@@ -67,6 +67,7 @@ export default class Project extends SfCommand<CreateOutput> {
       summary: messages.getMessage('flags.lwc-language.summary'),
       description: messages.getMessage('flags.lwc-language.description'),
       options: ['javascript', 'typescript'] as const,
+      hidden: true, // Hide from external developers until GA
     })(),
     loglevel,
     'api-version': Flags.orgApiVersion({
@@ -89,6 +90,13 @@ export default class Project extends SfCommand<CreateOutput> {
     };
     if (flags['lwc-language']) {
       flagsAsOptions.lwcLanguage = flags['lwc-language'];
+
+      // Warn users about TypeScript deployment limitations
+      if (flags['lwc-language'] === 'typescript') {
+        this.warn(
+          'TypeScript support is in preview. Direct deployment of .ts files is not yet supported. You must compile TypeScript to JavaScript using "npm run build" before deploying to Salesforce.'
+        );
+      }
     }
 
     return runGenerator({

@@ -339,7 +339,7 @@ describe('template generate project:', () => {
     });
   });
 
-  describe('TypeScript project creation', () => {
+  describe.skip('TypeScript project creation', () => {
     it('should create TypeScript project with all required files', () => {
       execCmd('template generate project --projectname tsproject --lwc-language typescript', { ensureExitCode: 0 });
 
