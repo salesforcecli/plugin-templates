@@ -92,7 +92,7 @@ export default class Project extends SfCommand<CreateOutput> {
       flagsAsOptions.lwcLanguage = flags['lwc-language'];
     }
 
-    void Lifecycle.getInstance().emitTelemetry({ eventName: 'template_flag_value', template: flags.template });
+    void Lifecycle.getInstance().emitTelemetry({ eventName: 'project_template_flag_value', template: flags.template });
 
     return runGenerator({
       templateType: TemplateType.Project,
