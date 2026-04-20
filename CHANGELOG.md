@@ -1,3 +1,9 @@
+# [56.16.0](https://github.com/salesforcecli/plugin-templates/compare/56.15.7...56.16.0) (2026-04-20)
+
+### Features
+
+- add template flag telem ([0e004db](https://github.com/salesforcecli/plugin-templates/commit/0e004dbfbc9a13f4a0398453c525d5247a68cf76))
+
 ## [56.15.7](https://github.com/salesforcecli/plugin-templates/compare/56.15.6...56.15.7) (2026-04-19)
 
 ### Bug Fixes
