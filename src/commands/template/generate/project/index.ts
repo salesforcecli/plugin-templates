@@ -7,7 +7,7 @@
 
 import { Flags, loglevel, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { CreateOutput, ProjectOptions, TemplateType } from '@salesforce/templates';
-import { Messages } from '@salesforce/core';
+import { Lifecycle, Messages } from '@salesforce/core';
 import { getCustomTemplates, runGenerator } from '../../../../utils/templateCommand.js';
 import { outputDirFlag } from '../../../../utils/flags.js';
 
@@ -87,9 +87,12 @@ export default class Project extends SfCommand<CreateOutput> {
       defaultpackagedir: flags['default-package-dir'],
       apiversion: flags['api-version'],
     };
+
     if (flags['lwc-language']) {
       flagsAsOptions.lwcLanguage = flags['lwc-language'];
     }
+
+    void Lifecycle.getInstance().emitTelemetry({ eventName: 'project_template_flag_value', template: flags.template });
 
     return runGenerator({
       templateType: TemplateType.Project,
