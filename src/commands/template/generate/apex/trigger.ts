@@ -13,8 +13,7 @@ import {
   SfCommand,
   Ux,
 } from '@salesforce/sf-plugins-core';
-import { ApexTriggerOptions, CreateOutput, TemplateType } from '@salesforce/templates';
-import { CreateUtil } from '@salesforce/templates/lib/utils/index.js';
+import { ApexTriggerOptions, CreateOutput, CreateUtil, TemplateType } from '@salesforce/templates';
 import { Messages } from '@salesforce/core';
 import { getCustomTemplates, runGenerator } from '../../../../utils/templateCommand.js';
 import { outputDirFlag } from '../../../../utils/flags.js';

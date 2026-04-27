@@ -6,8 +6,7 @@
  */
 
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
-import { CreateOutput, LightningEventOptions, TemplateType } from '@salesforce/templates';
-import { CreateUtil } from '@salesforce/templates/lib/utils/index.js';
+import { CreateOutput, CreateUtil, LightningEventOptions, TemplateType } from '@salesforce/templates';
 import { Messages } from '@salesforce/core';
 import { getCustomTemplates, runGenerator } from '../../../../utils/templateCommand.js';
 import { internalFlag, outputDirFlagLightning } from '../../../../utils/flags.js';
