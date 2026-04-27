@@ -6,9 +6,8 @@
  */
 
 import { Flags, SfCommand, orgApiVersionFlagWithDeprecations, Ux, loglevel } from '@salesforce/sf-plugins-core';
-import { CreateOutput, TemplateType, VisualforceComponentOptions } from '@salesforce/templates';
+import { CreateOutput, CreateUtil, TemplateType, VisualforceComponentOptions } from '@salesforce/templates';
 import { Messages } from '@salesforce/core';
-import { CreateUtil } from '@salesforce/templates/lib/utils/index.js';
 import { outputDirFlag } from '../../../../utils/flags.js';
 import { runGenerator, getCustomTemplates } from '../../../../utils/templateCommand.js';
 const visualforceComponentFileSuffix = /.component$/;

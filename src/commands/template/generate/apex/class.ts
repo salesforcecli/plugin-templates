@@ -6,8 +6,7 @@
  */
 
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
-import { ApexClassOptions, CreateOutput, TemplateType } from '@salesforce/templates';
-import { CreateUtil } from '@salesforce/templates/lib/utils/index.js';
+import { ApexClassOptions, CreateOutput, CreateUtil, TemplateType } from '@salesforce/templates';
 import { Messages } from '@salesforce/core';
 import { runGenerator, getCustomTemplates } from '../../../../utils/templateCommand.js';
 import { outputDirFlag } from '../../../../utils/flags.js';
