@@ -1,3 +1,9 @@
+## [56.16.3](https://github.com/salesforcecli/plugin-templates/compare/56.16.2...56.16.3) (2026-04-28)
+
+### Reverts
+
+- Revert "fix(deps): configure daily dependabot updates for @salesforce/templates" ([92e7be9](https://github.com/salesforcecli/plugin-templates/commit/92e7be9bfda8e874026de9f389309c92b4df1a46))
+
 ## [56.16.2](https://github.com/salesforcecli/plugin-templates/compare/56.16.1...56.16.2) (2026-04-27)
 
 ### Bug Fixes
