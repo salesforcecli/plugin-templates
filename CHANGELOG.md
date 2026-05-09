@@ -1,3 +1,9 @@
+## [56.16.6](https://github.com/salesforcecli/plugin-templates/compare/56.16.5...56.16.6) (2026-05-09)
+
+### Bug Fixes
+
+- **deps:** bump fast-uri from 3.0.1 to 3.1.2 ([8b467ba](https://github.com/salesforcecli/plugin-templates/commit/8b467bac2115ad8d1f91924f3e5fd18bd63ea7e5))
+
 ## [56.16.5](https://github.com/salesforcecli/plugin-templates/compare/56.16.4...56.16.5) (2026-05-09)
 
 ### Bug Fixes
