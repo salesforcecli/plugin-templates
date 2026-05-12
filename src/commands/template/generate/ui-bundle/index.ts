@@ -6,6 +6,7 @@
  */
 
 import path from 'node:path';
+import fs from 'node:fs/promises';
 import { Flags, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { CreateOutput, UIBundleOptions, TemplateType } from '@salesforce/templates';
 import { Messages, SfProject } from '@salesforce/core';
@@ -15,6 +16,7 @@ Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@salesforce/plugin-templates', 'ui-bundle.generate');
 
 export const UI_BUNDLES_DIR = 'uiBundles';
+const GRAPHQLRC_FILENAME = '.graphqlrc.yml';
 
 export default class UiBundleGenerate extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary');
@@ -62,6 +64,43 @@ export default class UiBundleGenerate extends SfCommand<CreateOutput> {
     }
   }
 
+  /**
+   * Creates a new `.graphqlrc.yml` at the sfdx project root so the GraphQL LSP extension
+   * can auto-discover it. The file at the project root references `schema.graphql` as a
+   * sibling and uses a recursive glob for documents so nested ui-bundle src trees are picked up.
+   *
+   * Returns the new file path on success, or undefined when not running inside an sfdx project,
+   * when the bundle's `.graphqlrc.yml` was not generated, or when a `.graphqlrc.yml` already
+   * exists at the project root.
+   */
+  private static async createGraphqlrcAtProjectRoot(bundleSourcePath: string): Promise<string | undefined> {
+    let projectRoot: string;
+    try {
+      const project = await SfProject.resolve();
+      projectRoot = project.getPath();
+    } catch {
+      return undefined;
+    }
+
+    try {
+      await fs.access(bundleSourcePath);
+    } catch {
+      return undefined;
+    }
+
+    const targetPath = path.join(projectRoot, GRAPHQLRC_FILENAME);
+    try {
+      await fs.access(targetPath);
+      return undefined;
+    } catch {
+      // target does not exist — proceed
+    }
+
+    const content = "schema: 'schema.graphql'\ndocuments: './**/src/**/*.{graphql,js,ts,jsx,tsx}'\n";
+    await fs.writeFile(targetPath, content);
+    return targetPath;
+  }
+
   public async run(): Promise<CreateOutput> {
     const { flags } = await this.parse(UiBundleGenerate);
 
@@ -75,11 +114,26 @@ export default class UiBundleGenerate extends SfCommand<CreateOutput> {
       apiversion: flags['api-version'],
     };
 
-    return runGenerator({
+    const result = await runGenerator({
       templateType: TemplateType.UIBundle,
       opts: flagsAsOptions,
       ux: new Ux({ jsonEnabled: this.jsonEnabled() }),
       templates: getCustomTemplates(this.configAggregator),
     });
+
+    if (flags.template === 'reactbasic') {
+      const bundleSourcePath = path.join(result.outputDir, flags.name, GRAPHQLRC_FILENAME);
+      const newPath = await UiBundleGenerate.createGraphqlrcAtProjectRoot(bundleSourcePath);
+      if (newPath) {
+        const targetRelative = path.relative(process.cwd(), newPath);
+        return {
+          ...result,
+          created: [...result.created, targetRelative],
+          rawOutput: `${result.rawOutput.replace(/\n$/, '')}\n  create ${targetRelative}\n`,
+        };
+      }
+    }
+
+    return result;
   }
 }

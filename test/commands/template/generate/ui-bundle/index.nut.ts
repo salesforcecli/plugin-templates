@@ -5,6 +5,7 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 import path from 'node:path';
+import fs from 'node:fs';
 import { expect } from 'chai';
 import { TestSession, execCmd } from '@salesforce/cli-plugins-testkit';
 import { nls } from '@salesforce/templates/lib/i18n/index.js';
@@ -38,6 +39,7 @@ describe('template generate ui-bundle:', () => {
         path.join(outputDir, 'MyUiBundle', 'MyUiBundle.uibundle-meta.xml'),
         '<masterLabel>My Ui Bundle</masterLabel>'
       );
+      assert.noFile(path.join(projectDir, '.graphqlrc.yml'));
     });
 
     it('should default to project uiBundles directory when --output-dir is omitted', () => {
@@ -64,7 +66,14 @@ describe('template generate ui-bundle:', () => {
   });
 
   describe('Check UI bundle creation with reactbasic template', () => {
-    it('should create React UI bundle with all required files', () => {
+    afterEach(() => {
+      const rootGraphqlrc = path.join(projectDir, '.graphqlrc.yml');
+      if (fs.existsSync(rootGraphqlrc)) {
+        fs.unlinkSync(rootGraphqlrc);
+      }
+    });
+
+    it('should create React UI bundle with all required files and create .graphqlrc.yml at the project root', () => {
       const outputDir = path.join(projectDir, 'force-app', 'main', 'default', UI_BUNDLES_DIR);
       execCmd(`template generate ui-bundle --name MyReactApp --template reactbasic --output-dir "${outputDir}"`, {
         ensureExitCode: 0,
@@ -76,6 +85,53 @@ describe('template generate ui-bundle:', () => {
         path.join(outputDir, 'MyReactApp', 'package.json'),
       ]);
       assert.fileContent(path.join(outputDir, 'MyReactApp', 'package.json'), '"name": "base-react-app"');
+
+      const rootGraphqlrc = path.join(projectDir, '.graphqlrc.yml');
+      assert.file(rootGraphqlrc);
+      assert.fileContent(rootGraphqlrc, "schema: 'schema.graphql'");
+      assert.fileContent(rootGraphqlrc, "documents: './**/src/**/*.{graphql,js,ts,jsx,tsx}'");
+
+      const contentBefore = fs.readFileSync(rootGraphqlrc, 'utf8');
+      const mtimeBefore = fs.statSync(rootGraphqlrc).mtimeMs;
+
+      execCmd(`template generate ui-bundle --name MyReactApp2 --template reactbasic --output-dir "${outputDir}"`, {
+        ensureExitCode: 0,
+      });
+      assert.file([
+        path.join(outputDir, 'MyReactApp2', 'MyReactApp2.uibundle-meta.xml'),
+        path.join(outputDir, 'MyReactApp2', 'package.json'),
+      ]);
+
+      const contentAfter = fs.readFileSync(rootGraphqlrc, 'utf8');
+      const mtimeAfter = fs.statSync(rootGraphqlrc).mtimeMs;
+      expect(contentAfter).to.equal(contentBefore);
+      expect(mtimeAfter).to.equal(mtimeBefore);
+    });
+
+    it('should write the same project-root .graphqlrc.yml regardless of bundle output-dir', () => {
+      const outputDir = path.join(projectDir, 'force-app', 'main', 'default', 'custom-dir');
+      execCmd(
+        `template generate ui-bundle --name CustomDirReactApp --template reactbasic --output-dir "${outputDir}"`,
+        {
+          ensureExitCode: 0,
+        }
+      );
+      assert.file(path.join(projectDir, '.graphqlrc.yml'));
+      assert.fileContent(path.join(projectDir, '.graphqlrc.yml'), "schema: 'schema.graphql'");
+      assert.fileContent(path.join(projectDir, '.graphqlrc.yml'), "documents: './**/src/**/*.{graphql,js,ts,jsx,tsx}'");
+    });
+
+    it('should not overwrite an existing .graphqlrc.yml at the project root', () => {
+      const outputDir = path.join(projectDir, 'force-app', 'main', 'default', UI_BUNDLES_DIR);
+      const rootGraphqlrc = path.join(projectDir, '.graphqlrc.yml');
+      const preexisting = "schema: 'preexisting.graphql'\ndocuments: 'preexisting/**/*.ts'\n";
+      fs.writeFileSync(rootGraphqlrc, preexisting);
+
+      execCmd(`template generate ui-bundle --name SecondReactApp --template reactbasic --output-dir "${outputDir}"`, {
+        ensureExitCode: 0,
+      });
+
+      assert.fileContent(rootGraphqlrc, "schema: 'preexisting.graphql'");
     });
   });
 
