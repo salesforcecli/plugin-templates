@@ -75,9 +75,12 @@ describe('template generate ui-bundle:', () => {
 
     it('should create React UI bundle with all required files and create .graphqlrc.yml at the project root', () => {
       const outputDir = path.join(projectDir, 'force-app', 'main', 'default', UI_BUNDLES_DIR);
-      execCmd(`template generate ui-bundle --name MyReactApp --template reactbasic --output-dir "${outputDir}"`, {
-        ensureExitCode: 0,
-      });
+      const firstResult = execCmd(
+        `template generate ui-bundle --name MyReactApp --template reactbasic --output-dir "${outputDir}"`,
+        {
+          ensureExitCode: 0,
+        }
+      );
       assert.file([
         path.join(outputDir, 'MyReactApp', 'MyReactApp.uibundle-meta.xml'),
         path.join(outputDir, 'MyReactApp', 'index.html'),
@@ -90,17 +93,22 @@ describe('template generate ui-bundle:', () => {
       assert.file(rootGraphqlrc);
       assert.fileContent(rootGraphqlrc, "schema: 'schema.graphql'");
       assert.fileContent(rootGraphqlrc, "documents: './**/src/**/*.{graphql,js,ts,jsx,tsx}'");
+      expect(firstResult.shellOutput.stdout).to.contain('create .graphqlrc.yml');
 
       const contentBefore = fs.readFileSync(rootGraphqlrc, 'utf8');
       const mtimeBefore = fs.statSync(rootGraphqlrc).mtimeMs;
 
-      execCmd(`template generate ui-bundle --name MyReactApp2 --template reactbasic --output-dir "${outputDir}"`, {
-        ensureExitCode: 0,
-      });
+      const secondResult = execCmd(
+        `template generate ui-bundle --name MyReactApp2 --template reactbasic --output-dir "${outputDir}"`,
+        {
+          ensureExitCode: 0,
+        }
+      );
       assert.file([
         path.join(outputDir, 'MyReactApp2', 'MyReactApp2.uibundle-meta.xml'),
         path.join(outputDir, 'MyReactApp2', 'package.json'),
       ]);
+      expect(secondResult.shellOutput.stdout).to.not.contain('create .graphqlrc.yml');
 
       const contentAfter = fs.readFileSync(rootGraphqlrc, 'utf8');
       const mtimeAfter = fs.statSync(rootGraphqlrc).mtimeMs;

@@ -114,10 +114,12 @@ export default class UiBundleGenerate extends SfCommand<CreateOutput> {
       apiversion: flags['api-version'],
     };
 
+    const ux = new Ux({ jsonEnabled: this.jsonEnabled() });
+
     const result = await runGenerator({
       templateType: TemplateType.UIBundle,
       opts: flagsAsOptions,
-      ux: new Ux({ jsonEnabled: this.jsonEnabled() }),
+      ux,
       templates: getCustomTemplates(this.configAggregator),
     });
 
@@ -126,10 +128,12 @@ export default class UiBundleGenerate extends SfCommand<CreateOutput> {
       const newPath = await UiBundleGenerate.createGraphqlrcAtProjectRoot(bundleSourcePath);
       if (newPath) {
         const targetRelative = path.relative(process.cwd(), newPath);
+        const createLine = `  create ${targetRelative}`;
+        ux.log(createLine);
         return {
           ...result,
           created: [...result.created, targetRelative],
-          rawOutput: `${result.rawOutput.replace(/\n$/, '')}\n  create ${targetRelative}\n`,
+          rawOutput: `${result.rawOutput.replace(/\n$/, '')}\n${createLine}\n`,
         };
       }
     }
