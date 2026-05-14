@@ -1,3 +1,9 @@
+# [56.17.0](https://github.com/salesforcecli/plugin-templates/compare/56.16.7...56.17.0) (2026-05-14)
+
+### Features
+
+- add generation of top level graphqlrc.yml file for generating react uiBundles ([12fb6b5](https://github.com/salesforcecli/plugin-templates/commit/12fb6b5d117c924f22e0cacb2c296a6681abf6f3))
+
 ## [56.16.7](https://github.com/salesforcecli/plugin-templates/compare/56.16.6...56.16.7) (2026-05-10)
 
 ### Bug Fixes
