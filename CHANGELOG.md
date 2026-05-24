@@ -1,3 +1,9 @@
+## [56.17.3](https://github.com/salesforcecli/plugin-templates/compare/56.17.2...56.17.3) (2026-05-24)
+
+### Bug Fixes
+
+- **deps:** bump ws from 8.18.0 to 8.21.0 ([b3d01f5](https://github.com/salesforcecli/plugin-templates/commit/b3d01f5c16ecdfb1ff04e1fb9e719602195ae34a))
+
 ## [56.17.2](https://github.com/salesforcecli/plugin-templates/compare/56.17.1...56.17.2) (2026-05-17)
 
 ### Bug Fixes
