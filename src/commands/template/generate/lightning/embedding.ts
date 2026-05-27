@@ -6,15 +6,15 @@
  */
 
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
-import { CreateOutput, MicrofrontendOptions, TemplateType } from '@salesforce/templates';
+import { CreateOutput, LightningEmbeddingOptions, TemplateType } from '@salesforce/templates';
 import { Messages } from '@salesforce/core';
-import { getCustomTemplates, runGenerator } from '../../../utils/templateCommand.js';
-import { internalFlag, outputDirFlagLightning } from '../../../utils/flags.js';
+import { getCustomTemplates, runGenerator } from '../../../../utils/templateCommand.js';
+import { internalFlag, outputDirFlagLightning } from '../../../../utils/flags.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
-const messages = Messages.loadMessages('@salesforce/plugin-templates', 'microfrontend');
+const messages = Messages.loadMessages('@salesforce/plugin-templates', 'lightningEmbedding');
 
-// Keep in-sync with VALID_SANDBOX_TOKENS in salesforcedx-templates/src/generators/microfrontendGenerator.ts
+// Keep in-sync with VALID_SANDBOX_TOKENS in salesforcedx-templates/src/generators/lightningEmbeddingGenerator.ts
 const SANDBOX_TOKENS = [
   'allow-forms',
   'allow-modals',
@@ -30,7 +30,7 @@ const SANDBOX_TOKENS = [
   'allow-top-navigation-by-user-activation',
 ] as const;
 
-export default class Microfrontend extends SfCommand<CreateOutput> {
+export default class LightningEmbedding extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
@@ -67,9 +67,9 @@ export default class Microfrontend extends SfCommand<CreateOutput> {
   };
 
   public async run(): Promise<CreateOutput> {
-    const { flags } = await this.parse(Microfrontend);
+    const { flags } = await this.parse(LightningEmbedding);
 
-    const flagsAsOptions: MicrofrontendOptions = {
+    const flagsAsOptions: LightningEmbeddingOptions = {
       componentname: flags.name,
       src: flags.src,
       sandbox: flags.sandbox.join(' '),
@@ -80,7 +80,7 @@ export default class Microfrontend extends SfCommand<CreateOutput> {
     };
 
     return runGenerator({
-      templateType: TemplateType.Microfrontend,
+      templateType: TemplateType.LightningEmbedding,
       opts: flagsAsOptions,
       ux: new Ux({ jsonEnabled: this.jsonEnabled() }),
       templates: getCustomTemplates(this.configAggregator),
