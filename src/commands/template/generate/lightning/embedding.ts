@@ -6,7 +6,13 @@
  */
 
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
-import { CreateOutput, LightningEmbeddingOptions, TemplateType } from '@salesforce/templates';
+import {
+  CreateOutput,
+  isAllowedLightningEmbeddingSrcUrl,
+  LIGHTNING_EMBEDDING_SANDBOX_TOKENS,
+  LightningEmbeddingOptions,
+  TemplateType,
+} from '@salesforce/templates';
 import { Messages } from '@salesforce/core';
 import { getCustomTemplates, runGenerator } from '../../../../utils/templateCommand.js';
 import { internalFlag, outputDirFlagLightning } from '../../../../utils/flags.js';
@@ -14,26 +20,11 @@ import { internalFlag, outputDirFlagLightning } from '../../../../utils/flags.js
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@salesforce/plugin-templates', 'lightningEmbedding');
 
-// Keep in-sync with VALID_SANDBOX_TOKENS in salesforcedx-templates/src/generators/lightningEmbeddingGenerator.ts
-const SANDBOX_TOKENS = [
-  'allow-forms',
-  'allow-modals',
-  'allow-orientation-lock',
-  'allow-pointer-lock',
-  'allow-popups',
-  'allow-popups-to-escape-sandbox',
-  'allow-presentation',
-  'allow-same-origin',
-  'allow-scripts',
-  'allow-storage-access-by-user-activation',
-  'allow-top-navigation',
-  'allow-top-navigation-by-user-activation',
-] as const;
-
 export default class LightningEmbedding extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
+  public static readonly state = 'beta';
   public static readonly hidden = true;
 
   public static readonly flags = {
@@ -48,17 +39,24 @@ export default class LightningEmbedding extends SfCommand<CreateOutput> {
       summary: messages.getMessage('flags.src.summary'),
       description: messages.getMessage('flags.src.description'),
       required: true,
+      parse: (input: string) => {
+        if (!isAllowedLightningEmbeddingSrcUrl(input)) {
+          throw new Error(messages.getMessage('flags.src.error'));
+        }
+        return Promise.resolve(input);
+      },
     }),
     sandbox: Flags.option({
       summary: messages.getMessage('flags.sandbox.summary'),
       description: messages.getMessage('flags.sandbox.description'),
-      options: SANDBOX_TOKENS,
+      options: LIGHTNING_EMBEDDING_SANDBOX_TOKENS,
       multiple: true,
       required: true,
     })(),
     'shell-title': Flags.string({
       summary: messages.getMessage('flags.shell-title.summary'),
       description: messages.getMessage('flags.shell-title.description'),
+      required: true,
     }),
     'output-dir': outputDirFlagLightning,
     'api-version': orgApiVersionFlagWithDeprecations,
@@ -73,7 +71,7 @@ export default class LightningEmbedding extends SfCommand<CreateOutput> {
       componentname: flags.name,
       src: flags.src,
       sandbox: flags.sandbox.join(' '),
-      shellTitle: flags['shell-title'] ?? flags.name,
+      shellTitle: flags['shell-title'],
       outputdir: flags['output-dir'],
       apiversion: flags['api-version'],
       internal: flags.internal,

@@ -34,6 +34,10 @@ Absolute https URL the iframe will load.
 
 The URL is bound to the <lightning-embedding> "src" attribute as a reactive property in the generated LWC. Must use https; plain http is only allowed for localhost or 127.0.0.1 (for local development).
 
+# flags.src.error
+
+The --src flag must be an absolute https URL (e.g., https://app.example.com). Plain http is only allowed for localhost or 127.0.0.1.
+
 # flags.sandbox.summary
 
 Iframe sandbox token (specify the flag multiple times to set more than one token).
@@ -48,4 +52,4 @@ Accessible title for the embedded iframe.
 
 # flags.shell-title.description
 
-Written to the "shell-title" attribute on <lightning-embedding> and used as the iframe's accessible name (announced by screen readers). Must be a non-empty string.
+Written to the "shell-title" attribute on <lightning-embedding> and used as the iframe's accessible name (announced by screen readers).
