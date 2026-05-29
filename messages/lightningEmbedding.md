@@ -10,17 +10,17 @@
 
 # summary
 
-Generate a Lightning Web Component that wraps the lightning-embedding base component.
+Generate a Lightning Web Component (LWC) bundle that wraps the lightning-embedding base component.
 
 # description
 
-Generates a Lightning Web Component bundle that consumes the first-party <lightning-embedding> component, pre-wired with the three required attributes: the widget URL (src), iframe sandbox tokens, and an accessible iframe title (shell-title).
+The generated LWC bundle consumes the first-party <lightning-embedding> component, which is pre-wired with the three required attributes: the widget URL (src), iframe sandbox tokens, and an accessible iframe title (shell-title).
 
-The generated bundle contains four files (.html, .js, .js-meta.xml, .css) in a directory named with the camelCased component name. The bundle must live under a parent folder named "lwc".
+The generated LWC bundle contains four files (.html, .js, .js-meta.xml, .css) in a directory named with the camelCased component name. The bundle must live under a parent folder named "lwc".
 
 # flags.name.summary
 
-PascalCase name of the generated component.
+Name of the generated component; must be in PascalCase format.
 
 # flags.name.description
 
@@ -28,19 +28,19 @@ The component name is also used (camelCased) as the LWC folder name and file ste
 
 # flags.src.summary
 
-Absolute https URL the iframe will load.
+Absolute HTTPS URL that the iframe will load.
 
 # flags.src.description
 
-The URL is bound to the <lightning-embedding> "src" attribute as a reactive property in the generated LWC. Must use https; plain http is only allowed for localhost or 127.0.0.1 (for local development).
+The URL is bound to the <lightning-embedding> "src" attribute as a reactive property in the generated LWC. Must use HTTPS; plain HTTP is allowed only for localhost or 127.0.0.1 (for local development).
 
 # flags.src.error
 
-The --src flag must be an absolute https URL (e.g., https://app.example.com). Plain http is only allowed for localhost or 127.0.0.1.
+The --src flag must be an absolute HTTPS URL, such as https://app.example.com. Plain HTTP is allowed only for localhost or 127.0.0.1.
 
 # flags.sandbox.summary
 
-Iframe sandbox token (specify the flag multiple times to set more than one token).
+Iframe sandbox token. Specify this flag multiple times to set more than one token.
 
 # flags.sandbox.description
 
