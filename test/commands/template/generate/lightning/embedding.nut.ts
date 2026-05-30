@@ -114,21 +114,21 @@ describe('template generate lightning embedding:', () => {
       const stderr = execCmd(
         `template generate lightning embedding --name Foo --src http://attacker.com --sandbox allow-forms --shell-title "Demo" --output-dir ${lwcDir()}`
       ).shellOutput.stderr;
-      expect(stderr).to.contain('https URL');
+      expect(stderr).to.contain('HTTPS URL');
     });
 
     it('should reject non-http(s) protocols', () => {
       const stderr = execCmd(
         `template generate lightning embedding --name Foo --src ftp://example.com --sandbox allow-forms --shell-title "Demo" --output-dir ${lwcDir()}`
       ).shellOutput.stderr;
-      expect(stderr).to.contain('https URL');
+      expect(stderr).to.contain('HTTPS URL');
     });
 
     it('should reject malformed --src input', () => {
       const stderr = execCmd(
         `template generate lightning embedding --name Foo --src not-a-url --sandbox allow-forms --shell-title "Demo" --output-dir ${lwcDir()}`
       ).shellOutput.stderr;
-      expect(stderr).to.contain('https URL');
+      expect(stderr).to.contain('HTTPS URL');
     });
 
     it('should reject an unknown sandbox token', () => {
