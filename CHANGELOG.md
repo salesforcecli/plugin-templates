@@ -1,3 +1,35 @@
+## [56.17.5](https://github.com/salesforcecli/plugin-templates/compare/56.17.4...56.17.5) (2026-05-29)
+
+## [56.17.4](https://github.com/salesforcecli/plugin-templates/compare/56.17.3...56.17.4) (2026-05-25)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/core from 8.30.3 to 8.31.0 ([3d415da](https://github.com/salesforcecli/plugin-templates/commit/3d415dacf2a1fbd58dcbec66aa1c3a2eff76ecc0))
+
+## [56.17.3](https://github.com/salesforcecli/plugin-templates/compare/56.17.2...56.17.3) (2026-05-24)
+
+### Bug Fixes
+
+- **deps:** bump ws from 8.18.0 to 8.21.0 ([b3d01f5](https://github.com/salesforcecli/plugin-templates/commit/b3d01f5c16ecdfb1ff04e1fb9e719602195ae34a))
+
+## [56.17.2](https://github.com/salesforcecli/plugin-templates/compare/56.17.1...56.17.2) (2026-05-17)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/templates from 66.7.12 to 66.7.13 ([d08ab72](https://github.com/salesforcecli/plugin-templates/commit/d08ab72c340023ac6b5de9c62778597ed1ea49ca))
+
+## [56.17.1](https://github.com/salesforcecli/plugin-templates/compare/56.17.0...56.17.1) (2026-05-17)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/core from 8.29.1 to 8.30.3 ([8b12e76](https://github.com/salesforcecli/plugin-templates/commit/8b12e767bd3b232bc99861aec23f0bc7803e6bed))
+
+# [56.17.0](https://github.com/salesforcecli/plugin-templates/compare/56.16.7...56.17.0) (2026-05-14)
+
+### Features
+
+- add generation of top level graphqlrc.yml file for generating react uiBundles ([12fb6b5](https://github.com/salesforcecli/plugin-templates/commit/12fb6b5d117c924f22e0cacb2c296a6681abf6f3))
+
 ## [56.16.7](https://github.com/salesforcecli/plugin-templates/compare/56.16.6...56.16.7) (2026-05-10)
 
 ### Bug Fixes
