@@ -1456,10 +1456,10 @@
     cli-progress "^3.12.0"
     terminal-link "^3.0.0"
 
-"@salesforce/templates@^66.9.0":
-  version "66.9.0"
-  resolved "https://registry.yarnpkg.com/@salesforce/templates/-/templates-66.9.0.tgz#78755a9409e04f0263248b6d8c16705e4fc2e1a3"
-  integrity sha512-5eNZvN6GjELQ5KGx3AISH4MmTfit96sTdQYfqLpW0ZgAceS8os5TmHYp7BaZtvPeSsMw9AZMimtYhm0VBjSQtg==
+"@salesforce/templates@^66.9.1":
+  version "66.9.1"
+  resolved "https://registry.yarnpkg.com/@salesforce/templates/-/templates-66.9.1.tgz#a6bb811a8ad7d33f662e0451574d39d8d320a7b2"
+  integrity sha512-3Z0cSqhSjH8NqmHjlJJXcaGIuzzVSi49TRo7JG9X9wsUS2exuTaEf8KN6N4dU11nUA03DlwxPM9d3bkUC8RzHQ==
   dependencies:
     "@salesforce/kit" "^3.2.6"
     ejs "^3.1.10"
