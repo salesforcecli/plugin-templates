@@ -1,7 +1,7 @@
 {
   "name": "@salesforce/plugin-templates",
   "description": "Commands to create metadata from a default or custom template",
-  "version": "56.17.5",
+  "version": "56.17.6",
   "author": "Salesforce",
   "bugs": "https://github.com/salesforcecli/plugin-templates/issues",
   "enableO11y": true,
@@ -12,10 +12,10 @@
     "@salesforce/templates": "^66.9.0"
   },
   "devDependencies": {
-    "@oclif/plugin-command-snapshot": "^5.3.21",
+    "@oclif/plugin-command-snapshot": "^5.3.22",
     "@salesforce/cli-plugins-testkit": "^5.3.58",
     "@salesforce/dev-scripts": "^11.0.4",
-    "@salesforce/plugin-command-reference": "^3.1.103",
+    "@salesforce/plugin-command-reference": "^3.1.106",
     "@types/yeoman-assert": "^3.1.4",
     "eslint-plugin-sf-plugin": "^1.20.33",
     "oclif": "^4.23.8",
