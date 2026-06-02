@@ -1,3 +1,9 @@
+# [56.18.0](https://github.com/salesforcecli/plugin-templates/compare/56.17.7...56.18.0) (2026-06-02)
+
+### Features
+
+- add microfrontend template generator command ([0efa415](https://github.com/salesforcecli/plugin-templates/commit/0efa415a0c285617336b7171b11486093fd87e02))
+
 ## [56.17.7](https://github.com/salesforcecli/plugin-templates/compare/56.17.6...56.17.7) (2026-06-02)
 
 ## [56.17.6](https://github.com/salesforcecli/plugin-templates/compare/56.17.5...56.17.6) (2026-05-31)
