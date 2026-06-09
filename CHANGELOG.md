@@ -1,3 +1,10 @@
+## [56.18.2](https://github.com/salesforcecli/plugin-templates/compare/56.18.1...56.18.2) (2026-06-09)
+
+### Bug Fixes
+
+- bump lib ([c07fd62](https://github.com/salesforcecli/plugin-templates/commit/c07fd6217fb1cd125f798f65c8a68fbd86dc54de))
+- fix tests after changing standard README ([8170587](https://github.com/salesforcecli/plugin-templates/commit/81705872f647ed33cf87550b5bd84006d3d3a6d3))
+
 ## [56.18.1](https://github.com/salesforcecli/plugin-templates/compare/56.18.0...56.18.1) (2026-06-07)
 
 ### Bug Fixes
