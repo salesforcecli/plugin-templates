@@ -1,3 +1,9 @@
+## [56.18.5](https://github.com/salesforcecli/plugin-templates/compare/56.18.4...56.18.5) (2026-06-17)
+
+### Bug Fixes
+
+- **deps:** bump markdown-it from 14.1.0 to 14.2.0 ([af8cd8d](https://github.com/salesforcecli/plugin-templates/commit/af8cd8dafe20c88d6c171b3c2ab3e47b2a3e4804))
+
 ## [56.18.4](https://github.com/salesforcecli/plugin-templates/compare/56.18.3...56.18.4) (2026-06-14)
 
 ### Bug Fixes
