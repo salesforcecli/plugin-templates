@@ -1,3 +1,9 @@
+## [56.18.6](https://github.com/salesforcecli/plugin-templates/compare/56.18.5...56.18.6) (2026-06-17)
+
+### Bug Fixes
+
+- **deps:** bump @babel/core from 7.25.2 to 7.29.7 ([f08d481](https://github.com/salesforcecli/plugin-templates/commit/f08d48136449cb35e8394969c1e08f3e3e5a0cb7))
+
 ## [56.18.5](https://github.com/salesforcecli/plugin-templates/compare/56.18.4...56.18.5) (2026-06-17)
 
 ### Bug Fixes
