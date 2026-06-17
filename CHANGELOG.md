@@ -1,3 +1,9 @@
+## [56.18.7](https://github.com/salesforcecli/plugin-templates/compare/56.18.6...56.18.7) (2026-06-17)
+
+### Bug Fixes
+
+- **deps:** bump form-data from 4.0.5 to 4.0.6 ([010040a](https://github.com/salesforcecli/plugin-templates/commit/010040a55ac77bc7f4dad93c25d140fd520a4d89))
+
 ## [56.18.6](https://github.com/salesforcecli/plugin-templates/compare/56.18.5...56.18.6) (2026-06-17)
 
 ### Bug Fixes
