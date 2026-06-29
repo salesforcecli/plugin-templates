@@ -151,7 +151,7 @@ describe('template generate ui-bundle:', () => {
       });
       assert.file([
         path.join(outputDir, 'MyAngularApp', 'MyAngularApp.uibundle-meta.xml'),
-        path.join(outputDir, 'MyAngularApp', 'index.html'),
+        path.join(outputDir, 'MyAngularApp', 'src', 'index.html'),
         path.join(outputDir, 'MyAngularApp', 'ui-bundle.json'),
         path.join(outputDir, 'MyAngularApp', 'package.json'),
       ]);
