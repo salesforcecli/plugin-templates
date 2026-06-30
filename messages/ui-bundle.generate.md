@@ -1,6 +1,6 @@
 # summary
 
-Generate a UI bundle, which contains the code and metadata to build a UI experience that uses non-native Salesforce frameworks, such as React.
+Generate a UI bundle, which contains the code and metadata to build a UI experience that uses non-native Salesforce frameworks, such as React or Angular.
 
 # description
 
@@ -8,7 +8,7 @@ Salesforce provides native UI frameworks, such as Lighting Web Components (LWC),
 
 These non-native UI experiences are defined by the "UIBundle" metadata type in your DX project. Use this command to generate the required DX project structure and files. For example, when you run this command and specify the name MyUiBundle, then the files are generated into a "uiBundles/MyUiBundle" directory. Use the --output-dir flag to specify a different directory.
 
-Use the --template flag for generating the files to get started with a speciic UI framework, such as React. Check out the README.md file in the generated "uiBundles/<bundlename>" directory for more information about the template.
+Use the --template flag for generating the files to get started with a specific UI framework, such as React or Angular. Check out the README.md file in the generated "uiBundles/<bundlename>" directory for more information about the template.
 
 # examples
 
@@ -19,6 +19,10 @@ Use the --template flag for generating the files to get started with a speciic U
 - Generate a React-based UI bundle:
 
   <%= config.bin %> <%= command.id %> --name MyReactApp --template reactbasic
+
+- Generate an Angular-based UI bundle:
+
+  <%= config.bin %> <%= command.id %> --name MyAngularApp --template angularbasic
 
 - Generate the React-based UI bundle in the "force-app/main/default/uiBundles" directory:
 

@@ -143,6 +143,21 @@ describe('template generate ui-bundle:', () => {
     });
   });
 
+  describe('Check UI bundle creation with angularbasic template', () => {
+    it('should create Angular UI bundle with all required files', () => {
+      const outputDir = path.join(projectDir, 'force-app', 'main', 'default', UI_BUNDLES_DIR);
+      execCmd(`template generate ui-bundle --name MyAngularApp --template angularbasic --output-dir "${outputDir}"`, {
+        ensureExitCode: 0,
+      });
+      assert.file([
+        path.join(outputDir, 'MyAngularApp', 'MyAngularApp.uibundle-meta.xml'),
+        path.join(outputDir, 'MyAngularApp', 'src', 'index.html'),
+        path.join(outputDir, 'MyAngularApp', 'ui-bundle.json'),
+        path.join(outputDir, 'MyAngularApp', 'package.json'),
+      ]);
+    });
+  });
+
   describe('Check that all invalid name errors are thrown', () => {
     it('should throw a missing name error', () => {
       const stderr = execCmd('template generate ui-bundle').shellOutput.stderr;

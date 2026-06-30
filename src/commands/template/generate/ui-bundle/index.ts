@@ -34,7 +34,7 @@ export default class UiBundleGenerate extends SfCommand<CreateOutput> {
       summary: messages.getMessage('flags.template.summary'),
       description: messages.getMessage('flags.template.description'),
       default: 'default',
-      options: ['default', 'reactbasic'],
+      options: ['default', 'reactbasic', 'angularbasic'],
     }),
     label: Flags.string({
       char: 'l',
