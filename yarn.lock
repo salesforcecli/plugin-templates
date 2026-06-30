@@ -1576,10 +1576,10 @@
     cli-progress "^3.12.0"
     terminal-link "^3.0.0"
 
-"@salesforce/templates@^66.10.2":
-  version "66.10.2"
-  resolved "https://registry.yarnpkg.com/@salesforce/templates/-/templates-66.10.2.tgz#b3835afa83a7c0543453a557a40f7cf0b0e00ba9"
-  integrity sha512-J4o19lrDvmAJ5VP1WDBnRLbGhqyf4yWnytyw92bj+09b56qZ8fKPDrZHjWVaPqjr/oAHDqUAi328gKvEIC5NsQ==
+"@salesforce/templates@^66.10.4":
+  version "66.10.4"
+  resolved "https://registry.yarnpkg.com/@salesforce/templates/-/templates-66.10.4.tgz#8734ced3aa8fe9877704a6eb30273f4034bfdfd6"
+  integrity sha512-bc3EkvaiU+9ioOJKIy6a0TN/9pfLX3m7lTAqcZNjHotTS0swq1zxzuA9dANNUhQVspffK+t7J0EM/viRs6aK9g==
   dependencies:
     "@salesforce/kit" "^3.2.6"
     ejs "^3.1.10"
@@ -1587,7 +1587,7 @@
     hpagent "^1.2.0"
     mime-types "^3.0.2"
     proxy-from-env "^1.1.0"
-    tar "^7.5.16"
+    tar "^7.5.19"
     tslib "^2.8.1"
 
 "@salesforce/ts-types@^2.0.11", "@salesforce/ts-types@^2.0.12":
@@ -6888,10 +6888,10 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-tar@^7.5.16:
-  version "7.5.16"
-  resolved "https://registry.yarnpkg.com/tar/-/tar-7.5.16.tgz#f11e063afed4554f758049d082909e37d6b53ced"
-  integrity sha512-56adEpPMouktRlBLXiaYFFzZ/3+JXa8P9n7WbR+ibIjtviN55mEaOkiysCnPnWm+7kkui1Dn8J9l+g6zV8731w==
+tar@^7.5.19:
+  version "7.5.19"
+  resolved "https://registry.yarnpkg.com/tar/-/tar-7.5.19.tgz#d8915e6b717f8036a79d839ca9448198b002b0a7"
+  integrity sha512-4LeEWl96twnS2Q7Bz4MGqgazLqO+hJN63GZxXoIqh1T3VweYD997gbU1ItNsQafqqXTXd5WFyFdReLtwvRBNiw==
   dependencies:
     "@isaacs/fs-minipass" "^4.0.0"
     chownr "^3.0.0"

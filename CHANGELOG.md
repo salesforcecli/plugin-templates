@@ -1,3 +1,9 @@
+## [56.18.12](https://github.com/salesforcecli/plugin-templates/compare/56.18.11...56.18.12) (2026-06-30)
+
+### Bug Fixes
+
+- correct angularbasic test to expect src/index.html path ([ed66bf8](https://github.com/salesforcecli/plugin-templates/commit/ed66bf8a5fa04e0dbb74e5d25beeca140a4d0420))
+
 ## [56.18.11](https://github.com/salesforcecli/plugin-templates/compare/56.18.10...56.18.11) (2026-06-28)
 
 ### Bug Fixes

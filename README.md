@@ -177,7 +177,7 @@ FLAG DESCRIPTIONS
     directory.
 ```
 
-_See code: [src/commands/template/generate/analytics/template.ts](https://github.com/salesforcecli/plugin-templates/blob/56.18.11/src/commands/template/generate/analytics/template.ts)_
+_See code: [src/commands/template/generate/analytics/template.ts](https://github.com/salesforcecli/plugin-templates/blob/56.18.12/src/commands/template/generate/analytics/template.ts)_
 
 ## `sf template generate apex class`
 
@@ -237,7 +237,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/template/generate/apex/class.ts](https://github.com/salesforcecli/plugin-templates/blob/56.18.11/src/commands/template/generate/apex/class.ts)_
+_See code: [src/commands/template/generate/apex/class.ts](https://github.com/salesforcecli/plugin-templates/blob/56.18.12/src/commands/template/generate/apex/class.ts)_
 
 ## `sf template generate apex trigger`
 
@@ -307,7 +307,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/template/generate/apex/trigger.ts](https://github.com/salesforcecli/plugin-templates/blob/56.18.11/src/commands/template/generate/apex/trigger.ts)_
+_See code: [src/commands/template/generate/apex/trigger.ts](https://github.com/salesforcecli/plugin-templates/blob/56.18.12/src/commands/template/generate/apex/trigger.ts)_
 
 ## `sf template generate digital-experience site`
 
@@ -361,7 +361,7 @@ FLAG DESCRIPTIONS
     project, defaults to the current directory.
 ```
 
-_See code: [src/commands/template/generate/digital-experience/site.ts](https://github.com/salesforcecli/plugin-templates/blob/56.18.11/src/commands/template/generate/digital-experience/site.ts)_
+_See code: [src/commands/template/generate/digital-experience/site.ts](https://github.com/salesforcecli/plugin-templates/blob/56.18.12/src/commands/template/generate/digital-experience/site.ts)_
 
 ## `sf template generate flexipage`
 
@@ -443,7 +443,7 @@ FLAG DESCRIPTIONS
     'Custom_Object__c'. This sets the `sobjectType` field in the FlexiPage metadata.
 ```
 
-_See code: [src/commands/template/generate/flexipage/index.ts](https://github.com/salesforcecli/plugin-templates/blob/56.18.11/src/commands/template/generate/flexipage/index.ts)_
+_See code: [src/commands/template/generate/flexipage/index.ts](https://github.com/salesforcecli/plugin-templates/blob/56.18.12/src/commands/template/generate/flexipage/index.ts)_
 
 ## `sf template generate lightning app`
 
@@ -501,7 +501,7 @@ FLAG DESCRIPTIONS
     field in the DX project's "sfdx-project.json" file.
 ```
 
-_See code: [src/commands/template/generate/lightning/app.ts](https://github.com/salesforcecli/plugin-templates/blob/56.18.11/src/commands/template/generate/lightning/app.ts)_
+_See code: [src/commands/template/generate/lightning/app.ts](https://github.com/salesforcecli/plugin-templates/blob/56.18.12/src/commands/template/generate/lightning/app.ts)_
 
 ## `sf template generate lightning component`
 
@@ -578,7 +578,7 @@ FLAG DESCRIPTIONS
     field in the DX project's "sfdx-project.json" file.
 ```
 
-_See code: [src/commands/template/generate/lightning/component.ts](https://github.com/salesforcecli/plugin-templates/blob/56.18.11/src/commands/template/generate/lightning/component.ts)_
+_See code: [src/commands/template/generate/lightning/component.ts](https://github.com/salesforcecli/plugin-templates/blob/56.18.12/src/commands/template/generate/lightning/component.ts)_
 
 ## `sf template generate lightning event`
 
@@ -636,7 +636,7 @@ FLAG DESCRIPTIONS
     field in the DX project's "sfdx-project.json" file.
 ```
 
-_See code: [src/commands/template/generate/lightning/event.ts](https://github.com/salesforcecli/plugin-templates/blob/56.18.11/src/commands/template/generate/lightning/event.ts)_
+_See code: [src/commands/template/generate/lightning/event.ts](https://github.com/salesforcecli/plugin-templates/blob/56.18.12/src/commands/template/generate/lightning/event.ts)_
 
 ## `sf template generate lightning interface`
 
@@ -694,7 +694,7 @@ FLAG DESCRIPTIONS
     field in the DX project's "sfdx-project.json" file.
 ```
 
-_See code: [src/commands/template/generate/lightning/interface.ts](https://github.com/salesforcecli/plugin-templates/blob/56.18.11/src/commands/template/generate/lightning/interface.ts)_
+_See code: [src/commands/template/generate/lightning/interface.ts](https://github.com/salesforcecli/plugin-templates/blob/56.18.12/src/commands/template/generate/lightning/interface.ts)_
 
 ## `sf template generate lightning test`
 
@@ -752,7 +752,7 @@ FLAG DESCRIPTIONS
     field in the DX project's "sfdx-project.json" file.
 ```
 
-_See code: [src/commands/template/generate/lightning/test.ts](https://github.com/salesforcecli/plugin-templates/blob/56.18.11/src/commands/template/generate/lightning/test.ts)_
+_See code: [src/commands/template/generate/lightning/test.ts](https://github.com/salesforcecli/plugin-templates/blob/56.18.12/src/commands/template/generate/lightning/test.ts)_
 
 ## `sf template generate project`
 
@@ -878,7 +878,7 @@ FLAG DESCRIPTIONS
     server-side type stripping.
 ```
 
-_See code: [src/commands/template/generate/project/index.ts](https://github.com/salesforcecli/plugin-templates/blob/56.18.11/src/commands/template/generate/project/index.ts)_
+_See code: [src/commands/template/generate/project/index.ts](https://github.com/salesforcecli/plugin-templates/blob/56.18.12/src/commands/template/generate/project/index.ts)_
 
 ## `sf template generate static-resource`
 
@@ -941,23 +941,23 @@ FLAG DESCRIPTIONS
     etc.
 ```
 
-_See code: [src/commands/template/generate/static-resource/index.ts](https://github.com/salesforcecli/plugin-templates/blob/56.18.11/src/commands/template/generate/static-resource/index.ts)_
+_See code: [src/commands/template/generate/static-resource/index.ts](https://github.com/salesforcecli/plugin-templates/blob/56.18.12/src/commands/template/generate/static-resource/index.ts)_
 
 ## `sf template generate ui-bundle`
 
-Generate a UI bundle, which contains the code and metadata to build a UI experience that uses non-native Salesforce frameworks, such as React.
+Generate a UI bundle, which contains the code and metadata to build a UI experience that uses non-native Salesforce frameworks, such as React or Angular.
 
 ```
 USAGE
-  $ sf template generate ui-bundle -n <value> [--json] [--flags-dir <value>] [-t default|reactbasic] [-l <value>] [-d <value>]
-    [--api-version <value>]
+  $ sf template generate ui-bundle -n <value> [--json] [--flags-dir <value>] [-t default|reactbasic|angularbasic] [-l <value>]
+    [-d <value>] [--api-version <value>]
 
 FLAGS
   -d, --output-dir=<value>   Directory into which the files are created.
   -l, --label=<value>        Master label for the UI bundle.
   -n, --name=<value>         (required) API name of the generated UI bundle.
   -t, --template=<option>    [default: default] Template to use when creating the files for a specific UI framework.
-                             <options: default|reactbasic>
+                             <options: default|reactbasic|angularbasic>
       --api-version=<value>  Override the api version used for api requests made by this command
 
 GLOBAL FLAGS
@@ -966,7 +966,7 @@ GLOBAL FLAGS
 
 DESCRIPTION
   Generate a UI bundle, which contains the code and metadata to build a UI experience that uses non-native Salesforce
-  frameworks, such as React.
+  frameworks, such as React or Angular.
 
   Salesforce provides native UI frameworks, such as Lighting Web Components (LWC), to build applications that run on the
   Salesforce Platform. But you can also use non-native JavaScript- or TypeScript-based UI frameworks, such as React, to
@@ -977,8 +977,9 @@ DESCRIPTION
   MyUiBundle, then the files are generated into a "uiBundles/MyUiBundle" directory. Use the --output-dir flag to specify
   a different directory.
 
-  Use the --template flag for generating the files to get started with a speciic UI framework, such as React. Check out
-  the README.md file in the generated "uiBundles/<bundlename>" directory for more information about the template.
+  Use the --template flag for generating the files to get started with a specific UI framework, such as React or
+  Angular. Check out the README.md file in the generated "uiBundles/<bundlename>" directory for more information about
+  the template.
 
 EXAMPLES
   Generate a UI bundle called MyUiBundle in the current directory:
@@ -988,6 +989,10 @@ EXAMPLES
   Generate a React-based UI bundle:
 
     $ sf template generate ui-bundle --name MyReactApp --template reactbasic
+
+  Generate an Angular-based UI bundle:
+
+    $ sf template generate ui-bundle --name MyAngularApp --template angularbasic
 
   Generate the React-based UI bundle in the "force-app/main/default/uiBundles" directory:
 
@@ -1020,12 +1025,12 @@ FLAG DESCRIPTIONS
     This name can contain only underscores and alphanumeric characters, and must be unique in your org. It must begin
     with a letter, not include spaces, not end with an underscore, and not contain two consecutive underscores.
 
-  -t, --template=default|reactbasic  Template to use when creating the files for a specific UI framework.
+  -t, --template=default|reactbasic|angularbasic  Template to use when creating the files for a specific UI framework.
 
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/template/generate/ui-bundle/index.ts](https://github.com/salesforcecli/plugin-templates/blob/56.18.11/src/commands/template/generate/ui-bundle/index.ts)_
+_See code: [src/commands/template/generate/ui-bundle/index.ts](https://github.com/salesforcecli/plugin-templates/blob/56.18.12/src/commands/template/generate/ui-bundle/index.ts)_
 
 ## `sf template generate visualforce component`
 
@@ -1082,7 +1087,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/template/generate/visualforce/component.ts](https://github.com/salesforcecli/plugin-templates/blob/56.18.11/src/commands/template/generate/visualforce/component.ts)_
+_See code: [src/commands/template/generate/visualforce/component.ts](https://github.com/salesforcecli/plugin-templates/blob/56.18.12/src/commands/template/generate/visualforce/component.ts)_
 
 ## `sf template generate visualforce page`
 
@@ -1133,6 +1138,6 @@ FLAG DESCRIPTIONS
     The name can be up to 40 characters and must start with a letter.
 ```
 
-_See code: [src/commands/template/generate/visualforce/page.ts](https://github.com/salesforcecli/plugin-templates/blob/56.18.11/src/commands/template/generate/visualforce/page.ts)_
+_See code: [src/commands/template/generate/visualforce/page.ts](https://github.com/salesforcecli/plugin-templates/blob/56.18.12/src/commands/template/generate/visualforce/page.ts)_
 
 <!-- commandsstop -->
