@@ -79,6 +79,22 @@ describe('template generate ui-bundle:', () => {
     });
   });
 
+  // TODO: unskip once @salesforce/templates ships the vuebasic template
+  describe.skip('Check UI bundle creation with vuebasic template', () => {
+    it('should create Vue UI bundle with all required files', () => {
+      const outputDir = path.join(projectDir, 'force-app', 'main', 'default', UI_BUNDLES_DIR);
+      execCmd(`template generate ui-bundle --name MyVueApp --template vuebasic --output-dir "${outputDir}"`, {
+        ensureExitCode: 0,
+      });
+      assert.file([
+        path.join(outputDir, 'MyVueApp', 'MyVueApp.uibundle-meta.xml'),
+        path.join(outputDir, 'MyVueApp', 'index.html'),
+        path.join(outputDir, 'MyVueApp', 'ui-bundle.json'),
+        path.join(outputDir, 'MyVueApp', 'package.json'),
+      ]);
+    });
+  });
+
   describe('Check that all invalid name errors are thrown', () => {
     it('should throw a missing name error', () => {
       const stderr = execCmd('template generate ui-bundle').shellOutput.stderr;
