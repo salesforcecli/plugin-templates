@@ -33,7 +33,7 @@ export default class Project extends SfCommand<CreateOutput> {
       summary: messages.getMessage('flags.template.summary'),
       description: messages.getMessage('flags.template.description'),
       default: 'standard',
-      options: ['standard', 'empty', 'analytics', 'reactinternalapp', 'reactexternalapp', 'agent'] as const,
+      options: ['standard', 'empty', 'analytics', 'reactinternalapp', 'reactexternalapp', 'angularinternalapp', 'angularexternalapp', 'agent'] as const,
     })(),
     'output-dir': outputDirFlag,
     namespace: Flags.string({
@@ -81,7 +81,7 @@ export default class Project extends SfCommand<CreateOutput> {
       outputdir: flags['output-dir'],
       manifest: flags.manifest,
       loginurl: flags['login-url'],
-      template: flags.template,
+      template: flags.template as ProjectOptions['template'],
       // namespace is a reserved keyword for the generator
       ns: flags.namespace,
       defaultpackagedir: flags['default-package-dir'],
