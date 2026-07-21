@@ -8,9 +8,9 @@
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import {
   CreateOutput,
-  isAllowedLightningEmbeddingSrcUrl,
-  LIGHTNING_EMBEDDING_SANDBOX_TOKENS,
-  LightningEmbeddingOptions,
+  isAllowedUIEmbeddingSrcUrl,
+  UI_EMBEDDING_SANDBOX_TOKENS,
+  UIEmbeddingOptions,
   TemplateType,
 } from '@salesforce/templates';
 import { Messages } from '@salesforce/core';
@@ -18,9 +18,9 @@ import { getCustomTemplates, runGenerator } from '../../../../utils/templateComm
 import { internalFlag, outputDirFlagLightning } from '../../../../utils/flags.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
-const messages = Messages.loadMessages('@salesforce/plugin-templates', 'lightningEmbedding');
+const messages = Messages.loadMessages('@salesforce/plugin-templates', 'uiEmbedding');
 
-export default class LightningEmbedding extends SfCommand<CreateOutput> {
+export default class UIEmbedding extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
@@ -40,7 +40,7 @@ export default class LightningEmbedding extends SfCommand<CreateOutput> {
       description: messages.getMessage('flags.src.description'),
       required: true,
       parse: (input: string) => {
-        if (!isAllowedLightningEmbeddingSrcUrl(input)) {
+        if (!isAllowedUIEmbeddingSrcUrl(input)) {
           throw new Error(messages.getMessage('flags.src.error'));
         }
         return Promise.resolve(input);
@@ -49,7 +49,7 @@ export default class LightningEmbedding extends SfCommand<CreateOutput> {
     sandbox: Flags.option({
       summary: messages.getMessage('flags.sandbox.summary'),
       description: messages.getMessage('flags.sandbox.description'),
-      options: LIGHTNING_EMBEDDING_SANDBOX_TOKENS,
+      options: UI_EMBEDDING_SANDBOX_TOKENS,
       multiple: true,
       required: true,
     })(),
@@ -65,9 +65,9 @@ export default class LightningEmbedding extends SfCommand<CreateOutput> {
   };
 
   public async run(): Promise<CreateOutput> {
-    const { flags } = await this.parse(LightningEmbedding);
+    const { flags } = await this.parse(UIEmbedding);
 
-    const flagsAsOptions: LightningEmbeddingOptions = {
+    const flagsAsOptions: UIEmbeddingOptions = {
       componentname: flags.name,
       src: flags.src,
       sandbox: flags.sandbox.join(' '),
@@ -78,7 +78,7 @@ export default class LightningEmbedding extends SfCommand<CreateOutput> {
     };
 
     return runGenerator({
-      templateType: TemplateType.LightningEmbedding,
+      templateType: TemplateType.UIEmbedding,
       opts: flagsAsOptions,
       ux: new Ux({ jsonEnabled: this.jsonEnabled() }),
       templates: getCustomTemplates(this.configAggregator),
