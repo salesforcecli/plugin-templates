@@ -48,7 +48,7 @@ describe('template generate lightning embedding:', () => {
         { ensureExitCode: 0 }
       );
       const camel = name.charAt(0).toLowerCase() + name.slice(1);
-      assert.fileContent(path.join(lwcDir(), camel, `${camel}.html`), '<lightning-embedding');
+      assert.fileContent(path.join(lwcDir(), camel, `${camel}.html`), '<lightning-ui-embedding');
     });
 
     it('should join multiple --sandbox tokens into a single space-separated attribute', () => {
