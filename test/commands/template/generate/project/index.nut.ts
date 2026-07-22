@@ -287,6 +287,50 @@ describe('template generate project:', () => {
       assert.fileContent(uiBundleMetaPath, alphanumericName);
     });
 
+    it('should create project with angularexternalapp template', () => {
+      const projectName = 'angular-externalapp-test';
+      const alphanumericName = 'angularexternalapptest';
+      execCmd(`template generate project --projectname ${projectName} --template angularexternalapp`, {
+        ensureExitCode: 0,
+      });
+      const projectDir = path.join(session.project.dir, projectName);
+      assert.file([path.join(projectDir, 'sfdx-project.json')]);
+      assert.fileContent(path.join(projectDir, 'sfdx-project.json'), 'sourceApiVersion');
+      const uiBundleMetaPath = path.join(
+        projectDir,
+        'force-app',
+        'main',
+        'default',
+        'uiBundles',
+        alphanumericName,
+        `${alphanumericName}.uibundle-meta.xml`
+      );
+      assert.file([uiBundleMetaPath]);
+      assert.fileContent(uiBundleMetaPath, alphanumericName);
+    });
+
+    it('should create project with angularinternalapp template', () => {
+      const projectName = 'angular-internalapp-test';
+      const alphanumericName = 'angularinternalapptest';
+      execCmd(`template generate project --projectname ${projectName} --template angularinternalapp`, {
+        ensureExitCode: 0,
+      });
+      const projectDir = path.join(session.project.dir, projectName);
+      assert.file([path.join(projectDir, 'sfdx-project.json')]);
+      assert.fileContent(path.join(projectDir, 'sfdx-project.json'), 'sourceApiVersion');
+      const uiBundleMetaPath = path.join(
+        projectDir,
+        'force-app',
+        'main',
+        'default',
+        'uiBundles',
+        alphanumericName,
+        `${alphanumericName}.uibundle-meta.xml`
+      );
+      assert.file([uiBundleMetaPath]);
+      assert.fileContent(uiBundleMetaPath, alphanumericName);
+    });
+
     it('should create project with agent template', () => {
       execCmd('template generate project --projectname agent1 --template agent --manifest', {
         ensureExitCode: 0,
