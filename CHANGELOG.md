@@ -1,3 +1,17 @@
+# [56.19.0](https://github.com/salesforcecli/plugin-templates/compare/56.18.18...56.19.0) (2026-07-21)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/core from 8.31.4 to 8.31.5 ([09b360c](https://github.com/salesforcecli/plugin-templates/commit/09b360c9f265921277602e2e18b0230c6e98e2f2))
+- **deps:** bump @salesforce/core from 8.31.5 to 8.32.2 ([9645065](https://github.com/salesforcecli/plugin-templates/commit/96450652de5b3f82c094c3b4efbf16200488f962))
+- **deps:** bump @salesforce/sf-plugins-core from 12.2.25 to 12.2.26 ([a12b5c7](https://github.com/salesforcecli/plugin-templates/commit/a12b5c74d09703adab1632478166c32bad1583de))
+- **deps:** bump @salesforce/templates from 66.10.4 to 66.11.0 ([2a973d9](https://github.com/salesforcecli/plugin-templates/commit/2a973d9123ee849014a8194668c3ad077a73f5e8))
+- **deps:** bump websocket-driver from 0.7.4 to 0.7.5 ([4ed11ab](https://github.com/salesforcecli/plugin-templates/commit/4ed11abf372b2d8c4b5cbb2293da72ece287e5ae))
+
+### Features
+
+- add Angular options to sf project generate --template ([7ff35b7](https://github.com/salesforcecli/plugin-templates/commit/7ff35b7a380e84c03e9a9fd6dbac7b0547ad903e))
+
 ## [56.18.18](https://github.com/salesforcecli/plugin-templates/compare/56.18.17...56.18.18) (2026-07-19)
 
 ### Bug Fixes
