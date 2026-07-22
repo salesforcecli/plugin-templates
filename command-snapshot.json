@@ -80,25 +80,6 @@
     "plugin": "@salesforce/plugin-templates"
   },
   {
-    "alias": [],
-    "command": "template:generate:lightning:embedding",
-    "flagAliases": ["apiversion", "outputdir"],
-    "flagChars": ["d", "i", "n", "s"],
-    "flags": [
-      "api-version",
-      "flags-dir",
-      "internal",
-      "json",
-      "loglevel",
-      "name",
-      "output-dir",
-      "sandbox",
-      "shell-title",
-      "src"
-    ],
-    "plugin": "@salesforce/plugin-templates"
-  },
-  {
     "alias": ["force:lightning:event:create", "lightning:generate:event"],
     "command": "template:generate:lightning:event",
     "flagAliases": ["apiversion", "eventname", "outputdir"],
@@ -157,6 +138,25 @@
     "flagAliases": [],
     "flagChars": ["d", "l", "n", "t"],
     "flags": ["api-version", "flags-dir", "json", "label", "name", "output-dir", "template"],
+    "plugin": "@salesforce/plugin-templates"
+  },
+  {
+    "alias": [],
+    "command": "template:generate:ui-embedding",
+    "flagAliases": ["apiversion", "outputdir"],
+    "flagChars": ["d", "i", "n", "s"],
+    "flags": [
+      "api-version",
+      "flags-dir",
+      "internal",
+      "json",
+      "loglevel",
+      "name",
+      "output-dir",
+      "sandbox",
+      "shell-title",
+      "src"
+    ],
     "plugin": "@salesforce/plugin-templates"
   },
   {
