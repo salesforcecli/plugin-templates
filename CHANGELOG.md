@@ -1,3 +1,9 @@
+# [56.20.0](https://github.com/salesforcecli/plugin-templates/compare/56.19.5...56.20.0) (2026-07-27)
+
+### Features
+
+- rename lightning embedding command to ui-embedding ([c879fb8](https://github.com/salesforcecli/plugin-templates/commit/c879fb80c4827644cbabea4f3d4d2ad62591cda3))
+
 ## [56.19.5](https://github.com/salesforcecli/plugin-templates/compare/56.19.4...56.19.5) (2026-07-27)
 
 ### Bug Fixes
