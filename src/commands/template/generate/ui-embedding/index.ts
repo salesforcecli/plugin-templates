@@ -18,9 +18,9 @@ import { getCustomTemplates, runGenerator } from '../../../../utils/templateComm
 import { internalFlag, outputDirFlagLightning } from '../../../../utils/flags.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
-const messages = Messages.loadMessages('@salesforce/plugin-templates', 'lightningEmbedding');
+const messages = Messages.loadMessages('@salesforce/plugin-templates', 'uiEmbedding');
 
-export default class LightningEmbedding extends SfCommand<CreateOutput> {
+export default class UIEmbedding extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
@@ -65,7 +65,7 @@ export default class LightningEmbedding extends SfCommand<CreateOutput> {
   };
 
   public async run(): Promise<CreateOutput> {
-    const { flags } = await this.parse(LightningEmbedding);
+    const { flags } = await this.parse(UIEmbedding);
 
     const flagsAsOptions: UIEmbeddingOptions = {
       componentname: flags.name,

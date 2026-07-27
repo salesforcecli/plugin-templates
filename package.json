@@ -86,6 +86,9 @@
               },
               "ui-bundle": {
                 "description": "Generate a UI bundle."
+              },
+              "ui-embedding": {
+                "description": "Generate a UI embedding wrapper LWC."
               }
             }
           }
