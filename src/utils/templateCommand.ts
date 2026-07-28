@@ -6,7 +6,7 @@
  */
 
 import { Ux } from '@salesforce/sf-plugins-core';
-import { ConfigAggregator, OrgConfigProperties } from '@salesforce/core';
+import { ConfigAggregator, Lifecycle, OrgConfigProperties } from '@salesforce/core';
 import { CreateOutput, TemplateOptions, TemplateService, TemplateType } from '@salesforce/templates';
 
 export type GeneratorInputs = {
@@ -25,8 +25,15 @@ export async function runGenerator({ ux, templates, templateType, opts }: Genera
 
 export const getCustomTemplates = (configAggregator: ConfigAggregator): string | undefined => {
   try {
-    // we're still accessing the old `customOrgMetadataTemplates` key, but this is deprecated and we'll use the new key to access the value
-    return configAggregator.getPropertyValue(OrgConfigProperties.ORG_CUSTOM_METADATA_TEMPLATES) as string;
+    const info = configAggregator.getInfo(OrgConfigProperties.ORG_CUSTOM_METADATA_TEMPLATES);
+    if (info.isLocal()) {
+      void Lifecycle.getInstance().emitWarning(
+        'Setting "org-custom-metadata-templates" in local project config (.sf/config.json) is deprecated ' +
+          'due to security concerns and will stop being honored in a future release. ' +
+          'Use "sf config set --global org-custom-metadata-templates=<path>" instead.'
+      );
+    }
+    return info.value as string | undefined;
   } catch (err) {
     return undefined;
   }
