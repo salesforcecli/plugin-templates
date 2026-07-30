@@ -7,8 +7,8 @@
   "enableO11y": true,
   "o11yUploadEndpoint": "https://794testsite.my.site.com/byolwr/webruntime/log/metrics",
   "dependencies": {
-    "@salesforce/core": "^8.32.6",
-    "@salesforce/sf-plugins-core": "^12",
+    "@salesforce/core": "^9.0.0",
+    "@salesforce/sf-plugins-core": "^13.0.0",
     "@salesforce/templates": "^66.13.2"
   },
   "devDependencies": {
@@ -99,7 +99,7 @@
     "topicSeparator": " "
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=22.0.0"
   },
   "repository": "salesforcecli/plugin-templates",
   "scripts": {
