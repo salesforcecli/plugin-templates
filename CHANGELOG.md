@@ -1,3 +1,9 @@
+## [57.0.1](https://github.com/salesforcecli/plugin-templates/compare/57.0.0...57.0.1) (2026-08-02)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/templates from 66.13.2 to 66.13.4 ([f663752](https://github.com/salesforcecli/plugin-templates/commit/f663752fb081cb0461e163f377c10b0e66bd6069))
+
 # [57.0.0](https://github.com/salesforcecli/plugin-templates/compare/56.20.0...57.0.0) (2026-07-30)
 
 - feat!: require Node >=22, drop EOL Node versions @W-23480655@ ([a35f8af](https://github.com/salesforcecli/plugin-templates/commit/a35f8af0c70bb63cb9db826b8a0f57d970ab7cb7))
