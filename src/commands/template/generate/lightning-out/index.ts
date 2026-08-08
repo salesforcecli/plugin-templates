@@ -7,10 +7,11 @@
 
 import { readFile } from 'node:fs/promises';
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
-import { CreateOutput, LightningOutOptions, TemplateType } from '@salesforce/templates';
+import { CreateOutput, IframeWhiteListEntry, LightningOutOptions, TemplateType } from '@salesforce/templates';
 import { Messages, SfError } from '@salesforce/core';
 import { getCustomTemplates, runGenerator } from '../../../../utils/templateCommand.js';
 import { outputDirFlagLightning } from '../../../../utils/flags.js';
+import { retrieveIframeEntries } from '../../../../utils/lightningOutIframe.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@salesforce/plugin-templates', 'lightningOut');
@@ -60,6 +61,14 @@ export default class LightningOut extends SfCommand<CreateOutput> {
       description: messages.getMessage('flags.force.description'),
       default: false,
     }),
+    'merge-iframe': Flags.boolean({
+      summary: messages.getMessage('flags.merge-iframe.summary'),
+      description: messages.getMessage('flags.merge-iframe.description'),
+      default: false,
+    }),
+    'target-org': Flags.optionalOrg({
+      summary: messages.getMessage('flags.target-org.summary'),
+    }),
     'api-version': orgApiVersionFlagWithDeprecations,
     loglevel,
   };
@@ -69,7 +78,19 @@ export default class LightningOut extends SfCommand<CreateOutput> {
 
     const def = await readDefinition(flags['definition-file']);
 
-    this.warn(messages.getMessage('warning.iframe-replace'));
+    // Option B (retrieve-merge): read the org's current Trusted Domains for
+    // Inline Frames so the generator preserves them instead of wiping the list.
+    let existingIframeEntries: IframeWhiteListEntry[] | undefined;
+    if (flags['merge-iframe']) {
+      const org = flags['target-org'];
+      if (!org) {
+        throw new SfError(messages.getMessage('error.merge-iframe-requires-org'));
+      }
+      existingIframeEntries = await retrieveIframeEntries(org.getConnection(flags['api-version']));
+      this.info(messages.getMessage('info.merged-iframe-count', [existingIframeEntries.length]));
+    } else {
+      this.warn(messages.getMessage('warning.iframe-replace'));
+    }
 
     const flagsAsOptions: LightningOutOptions = {
       name: def.name as string,
@@ -80,6 +101,7 @@ export default class LightningOut extends SfCommand<CreateOutput> {
       outputdir: flags['output-dir'],
       apiversion: flags['api-version'],
       force: flags.force,
+      existingIframeEntries,
     };
 
     return runGenerator({

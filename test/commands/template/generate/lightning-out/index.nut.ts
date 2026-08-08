@@ -161,5 +161,15 @@ describe('template generate lightning-out:', () => {
       ).shellOutput.stderr;
       expect(stderr).to.match(/not valid JSON/i);
     });
+
+    it('should error when --merge-iframe is set without --target-org', () => {
+      const stderr = execCmd(
+        `template generate lightning-out --definition-file ${defFile} --output-dir ${outDir(
+          'merge-noorg'
+        )} --merge-iframe`,
+        { ensureExitCode: 'nonZero' }
+      ).shellOutput.stderr;
+      expect(stderr).to.match(/requires a target org|target-org/i);
+    });
   });
 });
