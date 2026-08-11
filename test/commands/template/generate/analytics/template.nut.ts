@@ -57,6 +57,7 @@ describe('template generate analytics template:', () => {
       name: 'fooDashboard_tp',
       state: {
         widgets: {
+          // eslint-disable-next-line camelcase
           text_1: {
             parameters: {
               content: {
