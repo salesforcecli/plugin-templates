@@ -36,7 +36,7 @@ export const getCustomTemplates = (configAggregator: ConfigAggregator): string |
   try {
     // we're still accessing the old `customOrgMetadataTemplates` key, but this is deprecated and we'll use the new key to access the value
     return configAggregator.getPropertyValue(OrgConfigProperties.ORG_CUSTOM_METADATA_TEMPLATES);
-  } catch (err) {
+  } catch {
     return undefined;
   }
 };
