@@ -1,3 +1,10 @@
+## [57.0.9](https://github.com/salesforcecli/plugin-templates/compare/57.0.8...57.0.9) (2026-08-17)
+
+### Bug Fixes
+
+- bump Angular template version in cli ([6a3c9e5](https://github.com/salesforcecli/plugin-templates/commit/6a3c9e5fe620969f6d387809957cf6242a5e6a35))
+- regen yarn.lock ([51db891](https://github.com/salesforcecli/plugin-templates/commit/51db8912f2d866cf84f0068855b3056dbb628269))
+
 ## [57.0.8](https://github.com/salesforcecli/plugin-templates/compare/57.0.7...57.0.8) (2026-08-16)
 
 ### Bug Fixes
