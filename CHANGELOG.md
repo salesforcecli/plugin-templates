@@ -1,3 +1,9 @@
+## [57.0.10](https://github.com/salesforcecli/plugin-templates/compare/57.0.9...57.0.10) (2026-08-20)
+
+### Bug Fixes
+
+- rejiggered eslint.config.mjs (W-23928423) ([f82d333](https://github.com/salesforcecli/plugin-templates/commit/f82d3332d7c4ec0a2c43edddd3fa61be778982bd))
+
 ## [57.0.9](https://github.com/salesforcecli/plugin-templates/compare/57.0.8...57.0.9) (2026-08-17)
 
 ### Bug Fixes
