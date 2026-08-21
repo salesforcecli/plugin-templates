@@ -27,6 +27,11 @@ const messages = Messages.loadMessages('@salesforce/plugin-templates', 'ui-bundl
 export const UI_BUNDLES_DIR = 'uiBundles';
 const GRAPHQLRC_FILENAME = '.graphqlrc.yml';
 
+// Templates that scaffold GraphQL tooling (a bundle-level .graphqlrc.yml plus a codegen config) and
+// therefore need a project-root .graphqlrc.yml so the GraphQL LSP and lint tooling can auto-discover
+// the schema across every ui-bundle in the project.
+const TEMPLATES_WITH_GRAPHQL = new Set(['reactbasic', 'angularbasic']);
+
 export default class UiBundleGenerate extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
@@ -132,7 +137,7 @@ export default class UiBundleGenerate extends SfCommand<CreateOutput> {
       templates: getCustomTemplates(this.configAggregator),
     });
 
-    if (flags.template === 'reactbasic') {
+    if (TEMPLATES_WITH_GRAPHQL.has(flags.template)) {
       const bundleSourcePath = path.join(result.outputDir, flags.name, GRAPHQLRC_FILENAME);
       const newPath = await UiBundleGenerate.createGraphqlrcAtProjectRoot(bundleSourcePath);
       if (newPath) {
