@@ -153,17 +153,53 @@ describe('template generate ui-bundle:', () => {
   });
 
   describe('Check UI bundle creation with angularbasic template', () => {
-    it('should create Angular UI bundle with all required files', () => {
+    afterEach(() => {
+      const rootGraphqlrc = path.join(projectDir, '.graphqlrc.yml');
+      if (fs.existsSync(rootGraphqlrc)) {
+        fs.unlinkSync(rootGraphqlrc);
+      }
+    });
+
+    it('should create Angular UI bundle with all required files and create .graphqlrc.yml at the project root', () => {
       const outputDir = path.join(projectDir, 'force-app', 'main', 'default', UI_BUNDLES_DIR);
-      execCmd(`template generate ui-bundle --name MyAngularApp --template angularbasic --output-dir "${outputDir}"`, {
-        ensureExitCode: 0,
-      });
+      const firstResult = execCmd(
+        `template generate ui-bundle --name MyAngularApp --template angularbasic --output-dir "${outputDir}"`,
+        {
+          ensureExitCode: 0,
+        }
+      );
       assert.file([
         path.join(outputDir, 'MyAngularApp', 'MyAngularApp.uibundle-meta.xml'),
         path.join(outputDir, 'MyAngularApp', 'src', 'index.html'),
         path.join(outputDir, 'MyAngularApp', 'ui-bundle.json'),
         path.join(outputDir, 'MyAngularApp', 'package.json'),
       ]);
+
+      const rootGraphqlrc = path.join(projectDir, '.graphqlrc.yml');
+      assert.file(rootGraphqlrc);
+      assert.fileContent(rootGraphqlrc, "schema: 'schema.graphql'");
+      assert.fileContent(rootGraphqlrc, "documents: './**/src/**/*.{graphql,js,ts,jsx,tsx}'");
+      expect(firstResult.shellOutput.stdout).to.contain('create .graphqlrc.yml');
+
+      const contentBefore = fs.readFileSync(rootGraphqlrc, 'utf8');
+      const mtimeBefore = fs.statSync(rootGraphqlrc).mtimeMs;
+
+      const secondResult = execCmd(
+        `template generate ui-bundle --name MyAngularApp2 --template angularbasic --output-dir "${outputDir}"`,
+        {
+          ensureExitCode: 0,
+        }
+      );
+      assert.file([
+        path.join(outputDir, 'MyAngularApp2', 'MyAngularApp2.uibundle-meta.xml'),
+        path.join(outputDir, 'MyAngularApp2', 'package.json'),
+      ]);
+      expect(secondResult.shellOutput.stdout).to.not.contain('create .graphqlrc.yml');
+
+      const contentAfter = fs.readFileSync(rootGraphqlrc, 'utf8');
+      const mtimeAfter = fs.statSync(rootGraphqlrc).mtimeMs;
+      expect(contentAfter).to.equal(contentBefore);
+      expect(mtimeAfter).to.equal(mtimeBefore);
     });
   });
 
