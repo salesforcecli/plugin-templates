@@ -134,7 +134,7 @@ export default class LightningOut extends SfCommand<CreateOutput> {
     }
 
     // Success guidance (suppressed automatically under --json).
-    this.log(messages.getMessage('success.next-step', [opts.outputdir ?? '.']));
+    this.log(messages.getMessage('success.next-step', [opts.outputdir ?? '.', opts.outputdir ?? '.']));
     this.info(messages.getMessage('success.app-id'));
     this.info(messages.getMessage('success.dont-delete'));
     this.info(messages.getMessage('success.eca-overwrite', [opts.eca.name ?? '']));

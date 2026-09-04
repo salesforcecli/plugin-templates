@@ -5,12 +5,17 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
+import { Messages } from '@salesforce/core';
 import { TestContext } from '@salesforce/core/testSetup';
 import { expect } from 'chai';
 import { stubSfCommandUx } from '@salesforce/sf-plugins-core';
 import LightningOut, {
   mergeLightningOutInputs,
 } from '../../../../../src/commands/template/generate/lightning-out/index.js';
+
+// LightningOut's own module-level Messages.importMessagesDirectoryFromMetaUrl() registration
+// (triggered by the import above) makes the 'lightningOut' bundle loadable here too.
+const messages = Messages.loadMessages('@salesforce/plugin-templates', 'lightningOut');
 
 describe('template generate lightning-out (unit)', () => {
   const $$ = new TestContext();
@@ -24,6 +29,13 @@ describe('template generate lightning-out (unit)', () => {
   it('is a beta, hidden command', () => {
     expect(LightningOut.state).to.equal('beta');
     expect(LightningOut.hidden).to.equal(true);
+  });
+
+  it('renders the actual output dir (not a literal placeholder) into the success.next-step deploy command', () => {
+    const outputdir = 'force-app/main/default';
+    const rendered = messages.getMessage('success.next-step', [outputdir, outputdir]);
+    expect(rendered).to.include(`sf project deploy start -d ${outputdir} --api-version 68.0`);
+    expect(rendered).to.not.include('<output-dir>');
   });
 
   describe('mergeLightningOutInputs', () => {
