@@ -51,13 +51,41 @@ export default class LightningOut extends SfCommand<CreateOutput> {
       char: 'f',
       summary: messages.getMessage('flags.definition-file.summary'),
       description: messages.getMessage('flags.definition-file.description'),
-      required: true,
       exists: true,
+    }),
+    // --- Individual input flags (--flags-dir experiment) ---
+    // Declaring each input as its own flag is what lets the built-in global `--flags-dir`
+    // populate them from a directory: one file per flag (filename = flag name, contents = value),
+    // arrays = one value per line, and a `.json`-suffixed file is JSON-parsed. These are an
+    // ALTERNATIVE to --definition-file; when both are supplied, individual flags win.
+    name: Flags.string({ summary: messages.getMessage('flags.name.summary') }),
+    runtime: Flags.string({
+      summary: messages.getMessage('flags.runtime.summary'),
+      options: ['LWR_CORE', 'CLWR'],
+    }),
+    components: Flags.string({ summary: messages.getMessage('flags.components.summary'), multiple: true }),
+    'host-domains': Flags.string({ summary: messages.getMessage('flags.host-domains.summary'), multiple: true }),
+    // The nested `eca` block is flattened into individual flags so every input is a flat, discoverable
+    // flag (shows in --help, populates cleanly from --flags-dir with no `.json` convention needed).
+    'eca-contact-email': Flags.string({ summary: messages.getMessage('flags.eca-contact-email.summary') }),
+    'eca-distribution-state': Flags.string({
+      summary: messages.getMessage('flags.eca-distribution-state.summary'),
+      options: ['Local', 'Packaged'],
+    }),
+    'eca-callback-url': Flags.string({ summary: messages.getMessage('flags.eca-callback-url.summary') }),
+    'eca-oauth-scopes': Flags.string({
+      summary: messages.getMessage('flags.eca-oauth-scopes.summary'),
+      multiple: true,
     }),
     'output-dir': outputDirFlagLightning,
     force: Flags.boolean({
       summary: messages.getMessage('flags.force.summary'),
       description: messages.getMessage('flags.force.description'),
+      default: false,
+    }),
+    'no-prompt': Flags.boolean({
+      summary: messages.getMessage('flags.no-prompt.summary'),
+      description: messages.getMessage('flags.no-prompt.description'),
       default: false,
     }),
     'api-version': orgApiVersionFlagWithDeprecations,
@@ -67,9 +95,69 @@ export default class LightningOut extends SfCommand<CreateOutput> {
   public async run(): Promise<CreateOutput> {
     const { flags } = await this.parse(LightningOut);
 
-    const def = await readDefinition(flags['definition-file']);
+    // Inputs arrive two ways: a single --definition-file JSON (original), or individual flags —
+    // which the built-in global --flags-dir can populate from a directory (one file per flag).
+    // Start from the file (if provided), then let any individual flags override it.
+    const base: LightningOutDefinition = flags['definition-file']
+      ? await readDefinition(flags['definition-file'])
+      : {};
 
+    // Assemble the nested `eca` block from the flattened flags, overlaying any file-provided values.
+    // Only build an object if at least one eca-* flag or a file `eca` block is present, so an
+    // all-empty eca stays undefined and trips the validation below.
+    const baseEca = base.eca ?? ({} as NonNullable<LightningOutDefinition['eca']>);
+    const eca: LightningOutDefinition['eca'] = {
+      contactEmail: flags['eca-contact-email'] ?? baseEca.contactEmail,
+      distributionState:
+        (flags['eca-distribution-state'] as NonNullable<LightningOutDefinition['eca']>['distributionState']) ??
+        baseEca.distributionState,
+      callbackUrl: flags['eca-callback-url'] ?? baseEca.callbackUrl,
+      oauthScopes: flags['eca-oauth-scopes'] ?? baseEca.oauthScopes,
+    };
+
+    const def: LightningOutDefinition = {
+      name: flags.name ?? base.name,
+      runtime: (flags.runtime as LightningOutOptions['runtime']) ?? base.runtime,
+      components: flags.components ?? base.components,
+      hostDomains: flags['host-domains'] ?? base.hostDomains,
+      eca,
+    };
+
+    // Minimal validation now that inputs can come from three sources (file / flags / flags-dir).
+    const missing = [
+      !def.name && 'name',
+      !def.runtime && 'runtime',
+      !def.components?.length && 'components',
+      !def.hostDomains?.length && 'hostDomains',
+      !def.eca?.contactEmail && 'eca.contactEmail',
+    ].filter(Boolean) as string[];
+    if (missing.length) {
+      throw new SfError(messages.getMessage('error.missing-inputs', [missing.join(', ')]));
+    }
+
+    // Warn (stderr) that the generated IframeWhiteListUrlSettings is REPLACE-type. This prints in
+    // addition to the comment embedded in the generated .xml file itself — belt and suspenders.
     this.warn(messages.getMessage('warning.iframe-replace'));
+
+    // Interactive acknowledgment before we write the REPLACE-type file. Only prompt in an
+    // interactive terminal; skip it for --no-prompt, --json, and any non-TTY context (CI, piped
+    // stdin) where a prompt would otherwise error or hang. The warning above still prints in all
+    // cases. NOTE: this gates GENERATION only. The destructive replace happens later, at
+    // `sf project deploy start`, which this generate-only command never runs — so it's an
+    // awareness gate, not deploy-time protection.
+    const interactive = Boolean(process.stdin.isTTY && process.stdout.isTTY);
+    if (!flags['no-prompt'] && !this.jsonEnabled() && interactive) {
+      const proceed = await this.confirm({
+        message: messages.getMessage('prompt.iframe-confirm'),
+        defaultAnswer: false,
+      });
+      if (!proceed) {
+        // User-initiated cancel is not a failure — print the remediation and return cleanly
+        // (exit 0, nothing generated) rather than throwing, which would render a red error.
+        this.log(messages.getMessage('info.cancelled-remediation'));
+        return { outputDir: flags['output-dir'] ?? '', created: [], rawOutput: '' };
+      }
+    }
 
     const flagsAsOptions: LightningOutOptions = {
       name: def.name as string,
