@@ -5,37 +5,84 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import { readFile } from 'node:fs/promises';
+import * as fs from 'node:fs';
 import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { CreateOutput, LightningOutOptions, TemplateType } from '@salesforce/templates';
-import { Messages, SfError } from '@salesforce/core';
+import { Messages, SfProject } from '@salesforce/core';
 import { getCustomTemplates, runGenerator } from '../../../../utils/templateCommand.js';
 import { outputDirFlagLightning } from '../../../../utils/flags.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@salesforce/plugin-templates', 'lightningOut');
 
-/** Shape of the --definition-file JSON (spec §3.2). */
-type LightningOutDefinition = {
-  name?: string;
-  runtime?: LightningOutOptions['runtime'];
+/** Flat flag shape read by {@link mergeLightningOutInputs} — a structural subset of the parsed oclif flags. */
+type LightningOutFlags = {
+  'app-name'?: string;
+  'eca-name'?: string;
+  runtime?: 'LWR_CORE' | 'CLWR';
+  'host-domains'?: string[];
   components?: string[];
-  hostDomains?: string[];
-  eca?: LightningOutOptions['eca'];
+  'eca-contact-email'?: string;
+  'eca-callback-url'?: string;
+  'output-dir'?: string;
+  'api-version'?: string;
 };
 
-/** Parse the definition file as JSON, surfacing a clear error on malformed input. */
-async function readDefinition(file: string): Promise<LightningOutDefinition> {
-  let raw: string;
+/** Parse the --definition-file JSON, surfacing a clear error on malformed or non-object input. */
+function readDefinition(file: string): Record<string, unknown> {
+  let parsed: unknown;
   try {
-    raw = await readFile(file, 'utf8');
+    parsed = JSON.parse(fs.readFileSync(file, 'utf8'));
   } catch (e) {
-    throw new SfError(messages.getMessage('error.definition-file-read', [file, (e as Error).message]));
+    throw messages.createError('error.definition-file-json', [file, (e as Error).message]);
   }
+  if (parsed === null || typeof parsed !== 'object' || Array.isArray(parsed)) {
+    throw messages.createError('error.definition-file-not-object', [file]);
+  }
+  return parsed as Record<string, unknown>;
+}
+
+/**
+ * Merge the --definition-file JSON with individual flags into one LightningOutOptions, with
+ * per-key precedence (flags win over the file) and wholesale list-replace semantics for
+ * hostDomains/components (never merge/concat). All structural validation (required-ness, shape,
+ * formats) is the generator's job — this function only resolves precedence.
+ */
+export function mergeLightningOutInputs(
+  defn: Record<string, unknown>,
+  flags: LightningOutFlags
+): { opts: LightningOutOptions; unknownKeys: string[] } {
+  const known = new Set(['appName', 'runtime', 'hostDomains', 'components', 'eca']);
+  const unknownKeys = Object.keys(defn).filter((k) => !known.has(k));
+  const ecaDefn = (defn.eca ?? {}) as Record<string, unknown>;
+  const opts: LightningOutOptions = {
+    appName: flags['app-name'] ?? (defn.appName as string),
+    runtime: (flags.runtime ?? defn.runtime) as LightningOutOptions['runtime'],
+    hostDomains: flags['host-domains'] ?? (defn.hostDomains as string[]) ?? [],
+    components: flags.components ?? (defn.components as string[]),
+    eca: {
+      name: flags['eca-name'] ?? (ecaDefn.name as string),
+      contactEmail: flags['eca-contact-email'] ?? (ecaDefn.contactEmail as string),
+      callbackUrl: flags['eca-callback-url'] ?? (ecaDefn.callbackUrl as string),
+    },
+    outputdir: flags['output-dir'],
+    apiversion: flags['api-version'],
+  };
+  return { opts, unknownKeys };
+}
+
+/**
+ * Resolve the local DX project's `sourceApiVersion`, used only for a CLI-side advisory warning
+ * (the generator itself has no project context). Returns undefined when there's no DX project —
+ * generating outside a project must not error.
+ */
+async function getSourceApiVersion(): Promise<string | undefined> {
   try {
-    return JSON.parse(raw) as LightningOutDefinition;
+    const project = await SfProject.resolve();
+    const projectJson = await project.resolveProjectConfig();
+    return projectJson.sourceApiVersion as string | undefined;
   } catch (e) {
-    throw new SfError(messages.getMessage('error.definition-file-json', [file, (e as Error).message]));
+    return undefined;
   }
 }
 
@@ -47,134 +94,53 @@ export default class LightningOut extends SfCommand<CreateOutput> {
   public static readonly hidden = true;
 
   public static readonly flags = {
-    'definition-file': Flags.file({
-      char: 'f',
-      summary: messages.getMessage('flags.definition-file.summary'),
-      description: messages.getMessage('flags.definition-file.description'),
-      exists: true,
-    }),
-    // --- Individual input flags (--flags-dir experiment) ---
-    // Declaring each input as its own flag is what lets the built-in global `--flags-dir`
-    // populate them from a directory: one file per flag (filename = flag name, contents = value),
-    // arrays = one value per line, and a `.json`-suffixed file is JSON-parsed. These are an
-    // ALTERNATIVE to --definition-file; when both are supplied, individual flags win.
-    name: Flags.string({ summary: messages.getMessage('flags.name.summary') }),
-    runtime: Flags.string({
+    'app-name': Flags.string({ summary: messages.getMessage('flags.app-name.summary'), required: false }),
+    'eca-name': Flags.string({ summary: messages.getMessage('flags.eca-name.summary'), required: false }),
+    runtime: Flags.option({
+      options: ['LWR_CORE', 'CLWR'] as const,
       summary: messages.getMessage('flags.runtime.summary'),
-      options: ['LWR_CORE', 'CLWR'],
-    }),
-    components: Flags.string({ summary: messages.getMessage('flags.components.summary'), multiple: true }),
+    })(),
     'host-domains': Flags.string({ summary: messages.getMessage('flags.host-domains.summary'), multiple: true }),
-    // The nested `eca` block is flattened into individual flags so every input is a flat, discoverable
-    // flag (shows in --help, populates cleanly from --flags-dir with no `.json` convention needed).
+    components: Flags.string({ summary: messages.getMessage('flags.components.summary'), multiple: true }),
     'eca-contact-email': Flags.string({ summary: messages.getMessage('flags.eca-contact-email.summary') }),
-    'eca-distribution-state': Flags.string({
-      summary: messages.getMessage('flags.eca-distribution-state.summary'),
-      options: ['Local', 'Packaged'],
-    }),
     'eca-callback-url': Flags.string({ summary: messages.getMessage('flags.eca-callback-url.summary') }),
-    'eca-oauth-scopes': Flags.string({
-      summary: messages.getMessage('flags.eca-oauth-scopes.summary'),
-      multiple: true,
-    }),
+    'definition-file': Flags.file({ exists: true, summary: messages.getMessage('flags.definition-file.summary') }),
     'output-dir': outputDirFlagLightning,
-    force: Flags.boolean({
-      summary: messages.getMessage('flags.force.summary'),
-      description: messages.getMessage('flags.force.description'),
-      default: false,
-    }),
-    'no-prompt': Flags.boolean({
-      summary: messages.getMessage('flags.no-prompt.summary'),
-      description: messages.getMessage('flags.no-prompt.description'),
-      default: false,
-    }),
     'api-version': orgApiVersionFlagWithDeprecations,
     loglevel,
   };
 
   public async run(): Promise<CreateOutput> {
     const { flags } = await this.parse(LightningOut);
+    const defn = flags['definition-file'] ? readDefinition(flags['definition-file']) : {};
+    const { opts, unknownKeys } = mergeLightningOutInputs(defn, flags as LightningOutFlags);
 
-    // Inputs arrive two ways: a single --definition-file JSON (original), or individual flags —
-    // which the built-in global --flags-dir can populate from a directory (one file per flag).
-    // Start from the file (if provided), then let any individual flags override it.
-    const base: LightningOutDefinition = flags['definition-file']
-      ? await readDefinition(flags['definition-file'])
-      : {};
+    unknownKeys.forEach((k) => this.warn(messages.getMessage('warning.unknown-definition-key', [k])));
 
-    // Assemble the nested `eca` block from the flattened flags, overlaying any file-provided values.
-    // Only build an object if at least one eca-* flag or a file `eca` block is present, so an
-    // all-empty eca stays undefined and trips the validation below.
-    const baseEca = base.eca ?? ({} as NonNullable<LightningOutDefinition['eca']>);
-    const eca: LightningOutDefinition['eca'] = {
-      contactEmail: flags['eca-contact-email'] ?? baseEca.contactEmail,
-      distributionState:
-        (flags['eca-distribution-state'] as NonNullable<LightningOutDefinition['eca']>['distributionState']) ??
-        baseEca.distributionState,
-      callbackUrl: flags['eca-callback-url'] ?? baseEca.callbackUrl,
-      oauthScopes: flags['eca-oauth-scopes'] ?? baseEca.oauthScopes,
-    };
-
-    const def: LightningOutDefinition = {
-      name: flags.name ?? base.name,
-      runtime: (flags.runtime as LightningOutOptions['runtime']) ?? base.runtime,
-      components: flags.components ?? base.components,
-      hostDomains: flags['host-domains'] ?? base.hostDomains,
-      eca,
-    };
-
-    // Minimal validation now that inputs can come from three sources (file / flags / flags-dir).
-    const missing = [
-      !def.name && 'name',
-      !def.runtime && 'runtime',
-      !def.components?.length && 'components',
-      !def.hostDomains?.length && 'hostDomains',
-      !def.eca?.contactEmail && 'eca.contactEmail',
-    ].filter(Boolean) as string[];
-    if (missing.length) {
-      throw new SfError(messages.getMessage('error.missing-inputs', [missing.join(', ')]));
-    }
-
-    // Warn (stderr) that the generated IframeWhiteListUrlSettings is REPLACE-type. This prints in
-    // addition to the comment embedded in the generated .xml file itself — belt and suspenders.
-    this.warn(messages.getMessage('warning.iframe-replace'));
-
-    // Interactive acknowledgment before we write the REPLACE-type file. Only prompt in an
-    // interactive terminal; skip it for --no-prompt, --json, and any non-TTY context (CI, piped
-    // stdin) where a prompt would otherwise error or hang. The warning above still prints in all
-    // cases. NOTE: this gates GENERATION only. The destructive replace happens later, at
-    // `sf project deploy start`, which this generate-only command never runs — so it's an
-    // awareness gate, not deploy-time protection.
-    const interactive = Boolean(process.stdin.isTTY && process.stdout.isTTY);
-    if (!flags['no-prompt'] && !this.jsonEnabled() && interactive) {
-      const proceed = await this.confirm({
-        message: messages.getMessage('prompt.iframe-confirm'),
-        defaultAnswer: false,
-      });
-      if (!proceed) {
-        // User-initiated cancel is not a failure — print the remediation and return cleanly
-        // (exit 0, nothing generated) rather than throwing, which would render a red error.
-        this.log(messages.getMessage('info.cancelled-remediation'));
-        return { outputDir: flags['output-dir'] ?? '', created: [], rawOutput: '' };
-      }
-    }
-
-    const flagsAsOptions: LightningOutOptions = {
-      name: def.name as string,
-      runtime: def.runtime as LightningOutOptions['runtime'],
-      components: def.components as string[],
-      hostDomains: def.hostDomains as string[],
-      eca: def.eca as LightningOutOptions['eca'],
-      outputdir: flags['output-dir'],
-      apiversion: flags['api-version'],
-      force: flags.force,
-    };
-
-    return runGenerator({
+    const result = await runGenerator({
       templateType: TemplateType.LightningOut,
-      opts: flagsAsOptions,
+      opts,
       ux: new Ux({ jsonEnabled: this.jsonEnabled() }),
       templates: getCustomTemplates(this.configAggregator),
     });
+
+    // Generator warnings (empty components, callback∉hostDomains, CLWR, host-domain dedupe, localhost http).
+    (result.warnings ?? []).forEach((w) => this.warn(w));
+
+    // CLI-side sourceApiVersion floor check (the generator has no project context).
+    const projApi = await getSourceApiVersion();
+    if (projApi && Number(projApi) < 68) {
+      this.warn(messages.getMessage('warning.source-api-version', [String(projApi)]));
+    }
+
+    // Success guidance (suppressed automatically under --json).
+    this.log(messages.getMessage('success.next-step', [opts.outputdir ?? '.']));
+    this.info(messages.getMessage('success.app-id'));
+    this.info(messages.getMessage('success.dont-delete'));
+    this.info(messages.getMessage('success.eca-overwrite', [opts.eca.name ?? '']));
+    this.info(messages.getMessage('success.components-exist'));
+    this.info(messages.getMessage('success.frontdoor'));
+
+    return result; // --json returns the full CreateOutput (created[] + warnings[])
   }
 }

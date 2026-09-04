@@ -64,6 +64,28 @@
     "plugin": "@salesforce/plugin-templates"
   },
   {
+    "alias": [],
+    "command": "template:generate:lightning-out",
+    "flagAliases": ["apiversion", "outputdir"],
+    "flagChars": ["d"],
+    "flags": [
+      "api-version",
+      "app-name",
+      "components",
+      "definition-file",
+      "eca-callback-url",
+      "eca-contact-email",
+      "eca-name",
+      "flags-dir",
+      "host-domains",
+      "json",
+      "loglevel",
+      "output-dir",
+      "runtime"
+    ],
+    "plugin": "@salesforce/plugin-templates"
+  },
+  {
     "alias": ["force:lightning:app:create", "lightning:generate:app"],
     "command": "template:generate:lightning:app",
     "flagAliases": ["apiversion", "appname", "outputdir"],

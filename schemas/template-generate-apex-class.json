@@ -16,6 +16,13 @@
         },
         "rawOutput": {
           "type": "string"
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Non-fatal advisories surfaced to the caller (CLI / VS Code). Empty for generators that emit none."
         }
       },
       "required": ["outputDir", "created", "rawOutput"],
