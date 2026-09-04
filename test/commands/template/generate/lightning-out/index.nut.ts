@@ -9,29 +9,18 @@ import fs from 'node:fs';
 import { expect, config } from 'chai';
 import { TestSession, execCmd } from '@salesforce/cli-plugins-testkit';
 import assert from 'yeoman-assert';
+import { CreateOutput } from '@salesforce/templates';
 
 config.truncateThreshold = 0;
 
 describe('template generate lightning-out:', () => {
   let session: TestSession;
-  let defFile: string;
 
   before(async () => {
     session = await TestSession.create({
       project: {},
       devhubAuthStrategy: 'NONE',
     });
-    defFile = path.join(session.project.dir, 'lo-def.json');
-    fs.writeFileSync(
-      defFile,
-      JSON.stringify({
-        name: 'MyLoApp',
-        runtime: 'LWR_CORE',
-        components: ['c-my-button', 'c-my-card'],
-        hostDomains: ['https://app.example.com', 'https://portal.example.com'],
-        eca: { contactEmail: 'dev@example.com', distributionState: 'Local', oauthScopes: ['Web', 'Api'] },
-      })
-    );
   });
   after(async () => {
     await session?.clean();
@@ -39,127 +28,115 @@ describe('template generate lightning-out:', () => {
 
   const outDir = (name: string): string => path.join(session.project.dir, name);
 
-  const allArtifacts = (dir: string): string[] => [
-    path.join(dir, 'lightningOutApps', 'MyLoApp.lightningOutApp-meta.xml'),
-    path.join(dir, 'iframeWhiteListUrlSettings', 'IframeWhiteListUrlSettings.iframeWhiteListUrlSettings-meta.xml'),
-    path.join(dir, 'settings', 'MyDomain.settings-meta.xml'),
-    path.join(dir, 'settings', 'Security.settings-meta.xml'),
-    path.join(dir, 'corsWhitelistOrigins', 'app_example_com.corsWhitelistOrigin-meta.xml'),
-    path.join(dir, 'corsWhitelistOrigins', 'portal_example_com.corsWhitelistOrigin-meta.xml'),
-    path.join(dir, 'externalClientApps', 'MyLoApp.eca-meta.xml'),
-    path.join(dir, 'extlClntAppGlobalOauthSets', 'MyLoApp.ecaGlblOauth-meta.xml'),
-    path.join(dir, 'extlClntAppOauthSettings', 'MyLoApp.ecaOauth-meta.xml'),
-  ];
+  describe('happy path — 7 artifacts, no iframe artifact', () => {
+    let result: CreateOutput | undefined;
 
-  describe('generation', () => {
-    it('should scaffold all nine metadata artifacts', () => {
-      const dir = outDir('gen-all');
-      execCmd(`template generate lightning-out --definition-file ${defFile} --output-dir ${dir}`, {
-        ensureExitCode: 0,
-      });
-      assert.file(allArtifacts(dir));
+    before(() => {
+      result = execCmd<CreateOutput>(
+        'template generate lightning-out --app-name MyLoApp --eca-name MyLoApp_ECA ' +
+          '--runtime LWR_CORE --host-domains https://app.example.com --host-domains https://portal.example.com:8080 ' +
+          '--components c/myButton --eca-contact-email dev@example.com ' +
+          '--eca-callback-url https://app.example.com/frontdoor.html --output-dir force-app/main/default --json',
+        { ensureExitCode: 0 }
+      ).jsonOutput?.result;
     });
 
-    it('should render app name, runtime, and components into the LightningOutApp', () => {
-      const dir = outDir('gen-app');
-      execCmd(`template generate lightning-out --definition-file ${defFile} --output-dir ${dir}`, {
-        ensureExitCode: 0,
-      });
-      const app = path.join(dir, 'lightningOutApps', 'MyLoApp.lightningOutApp-meta.xml');
-      assert.fileContent(app, '<applicationName>MyLoApp</applicationName>');
-      assert.fileContent(app, '<runtime>LWR_CORE</runtime>');
-      assert.fileContent(app, 'c-my-button');
-      assert.fileContent(app, 'c-my-card');
+    it('should scaffold exactly the seven artifact types', () => {
+      const projectOutDir = path.join(session.project.dir, 'force-app', 'main', 'default');
+      assert.file([
+        path.join(projectOutDir, 'lightningOutApps', 'MyLoApp.lightningOutApp-meta.xml'),
+        path.join(projectOutDir, 'settings', 'MyDomain.settings-meta.xml'),
+        path.join(projectOutDir, 'settings', 'Security.settings-meta.xml'),
+        path.join(projectOutDir, 'corsWhitelistOrigins', 'app_example_com.corsWhitelistOrigin-meta.xml'),
+        path.join(projectOutDir, 'corsWhitelistOrigins', 'portal_example_com_8080.corsWhitelistOrigin-meta.xml'),
+        path.join(projectOutDir, 'externalClientApps', 'MyLoApp_ECA.eca-meta.xml'),
+        path.join(projectOutDir, 'extlClntAppGlobalOauthSets', 'MyLoApp_ECA.ecaGlblOauth-meta.xml'),
+        path.join(projectOutDir, 'extlClntAppOauthSettings', 'MyLoApp_ECA.ecaOauth-meta.xml'),
+      ]);
+      expect(fs.existsSync(path.join(projectOutDir, 'iframeWhiteListUrlSettings'))).to.be.false;
     });
 
-    it('should list this app host domains under LightningOut context in the iframe artifact', () => {
-      const dir = outDir('gen-iframe');
-      execCmd(`template generate lightning-out --definition-file ${defFile} --output-dir ${dir}`, {
-        ensureExitCode: 0,
-      });
-      const iframe = path.join(
-        dir,
-        'iframeWhiteListUrlSettings',
-        'IframeWhiteListUrlSettings.iframeWhiteListUrlSettings-meta.xml'
+    it('should return a CreateOutput with non-empty created[] and a warnings[] array', () => {
+      assert(result);
+      expect(result.created).to.be.an('array').that.is.not.empty;
+      expect(result.warnings).to.be.an('array');
+      expect(result.warnings ?? []).to.satisfy(
+        (warnings: string[]) => !warnings.some((w) => /No components specified/i.test(w)),
+        'expected no "no components" advisory when --components is supplied'
       );
-      assert.fileContent(iframe, '<url>https://app.example.com</url>');
-      assert.fileContent(iframe, '<url>https://portal.example.com</url>');
-      assert.fileContent(iframe, '<context>LightningOut</context>');
-    });
-
-    it('should warn about the REPLACE risk when not merging', () => {
-      const dir = outDir('gen-warn');
-      const result = execCmd(`template generate lightning-out --definition-file ${defFile} --output-dir ${dir}`, {
-        ensureExitCode: 0,
-      });
-      expect(result.shellOutput.stderr).to.match(/REPLACES your org's entire/i);
     });
   });
 
-  describe('Option A — no silent overwrite', () => {
-    it('should fail on a second run without --force', () => {
-      const dir = outDir('gen-guard');
-      execCmd(`template generate lightning-out --definition-file ${defFile} --output-dir ${dir}`, {
-        ensureExitCode: 0,
-      });
-      const stderr = execCmd(`template generate lightning-out --definition-file ${defFile} --output-dir ${dir}`, {
-        ensureExitCode: 'nonZero',
-      }).shellOutput.stderr;
-      expect(stderr).to.match(/already exist/i);
-    });
-
-    it('should overwrite on a second run with --force', () => {
-      const dir = outDir('gen-force');
-      execCmd(`template generate lightning-out --definition-file ${defFile} --output-dir ${dir}`, {
-        ensureExitCode: 0,
-      });
-      execCmd(`template generate lightning-out --definition-file ${defFile} --output-dir ${dir} --force`, {
-        ensureExitCode: 0,
-      });
-      assert.file(allArtifacts(dir));
-    });
-  });
-
-  describe('failures', () => {
-    it('should error when --definition-file is missing', () => {
-      const stderr = execCmd('template generate lightning-out').shellOutput.stderr;
-      expect(stderr).to.contain('Missing required flag');
-    });
-
-    it('should error when --definition-file does not exist', () => {
+  describe('warnings surface in human mode', () => {
+    it('should warn about missing components on stderr when --components is omitted', () => {
+      const dir = outDir('warn-no-components');
       const stderr = execCmd(
-        `template generate lightning-out --definition-file ${path.join(session.project.dir, 'nope.json')}`
+        'template generate lightning-out --app-name WarnApp --eca-name WarnApp_ECA --runtime LWR_CORE ' +
+          `--host-domains https://app.example.com --eca-contact-email dev@example.com --eca-callback-url https://app.example.com/cb --output-dir ${dir}`,
+        { ensureExitCode: 0 }
       ).shellOutput.stderr;
-      expect(stderr).to.match(/No file found|does not exist|cannot find/i);
+      expect(stderr).to.match(/components/i);
     });
 
-    it('should error on an invalid definition (bad runtime)', () => {
-      const bad = path.join(session.project.dir, 'bad-runtime.json');
+    it('should warn that CLWR is experimental', () => {
+      const dir = outDir('warn-clwr');
+      const stderr = execCmd(
+        'template generate lightning-out --app-name ClwrApp --eca-name ClwrApp_ECA --runtime CLWR ' +
+          `--host-domains https://app.example.com --components c/myButton --eca-contact-email dev@example.com --eca-callback-url https://app.example.com/cb --output-dir ${dir}`,
+        { ensureExitCode: 0 }
+      ).shellOutput.stderr;
+      expect(stderr).to.match(/experimental/i);
+    });
+  });
+
+  describe('--definition-file', () => {
+    let defFile: string;
+
+    before(() => {
+      defFile = path.join(session.project.dir, 'lo-def.json');
       fs.writeFileSync(
-        bad,
+        defFile,
         JSON.stringify({
-          name: 'BadApp',
-          runtime: 'NOPE',
-          components: ['c-x'],
+          appName: 'DefApp',
+          runtime: 'LWR_CORE',
           hostDomains: ['https://app.example.com'],
-          eca: { contactEmail: 'dev@example.com' },
+          components: ['c/myButton'],
+          eca: { name: 'DefApp_ECA', contactEmail: 'dev@example.com', callbackUrl: 'https://app.example.com/cb' },
         })
       );
-      const stderr = execCmd(
-        `template generate lightning-out --definition-file ${bad} --output-dir ${outDir('bad-runtime')}`,
-        { ensureExitCode: 'nonZero' }
-      ).shellOutput.stderr;
-      expect(stderr).to.match(/runtime/i);
     });
 
-    it('should error on malformed JSON', () => {
-      const bad = path.join(session.project.dir, 'bad-json.json');
-      fs.writeFileSync(bad, '{ not valid json ');
+    it('should generate the app + ECA files with the names from the definition file', () => {
+      const dir = outDir('def-plain');
+      execCmd(`template generate lightning-out --definition-file ${defFile} --output-dir ${dir} --json`, {
+        ensureExitCode: 0,
+      });
+      assert.file([
+        path.join(dir, 'lightningOutApps', 'DefApp.lightningOutApp-meta.xml'),
+        path.join(dir, 'externalClientApps', 'DefApp_ECA.eca-meta.xml'),
+      ]);
+    });
+
+    it('should let --app-name override the definition file appName', () => {
+      const dir = outDir('def-override');
+      execCmd(
+        `template generate lightning-out --definition-file ${defFile} --app-name OverrideApp --output-dir ${dir} --json`,
+        { ensureExitCode: 0 }
+      );
+      assert.file(path.join(dir, 'lightningOutApps', 'OverrideApp.lightningOutApp-meta.xml'));
+    });
+  });
+
+  describe('validation failure', () => {
+    it('should exit non-zero with a message naming the invalid host domain', () => {
+      const dir = outDir('bad-host-domain');
       const stderr = execCmd(
-        `template generate lightning-out --definition-file ${bad} --output-dir ${outDir('bad-json')}`,
-        { ensureExitCode: 'nonZero' }
+        'template generate lightning-out --app-name BadHostApp --eca-name BadHostApp_ECA --runtime LWR_CORE ' +
+          `--host-domains http://app.example.com --components c/myButton --eca-contact-email dev@example.com --eca-callback-url https://app.example.com/cb --output-dir ${dir}`,
+        { ensureExitCode: 1 }
       ).shellOutput.stderr;
-      expect(stderr).to.match(/not valid JSON/i);
+      expect(stderr).to.match(/host domain/i);
+      expect(stderr).to.match(/https/i);
     });
   });
 });
