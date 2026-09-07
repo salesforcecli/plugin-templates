@@ -56,36 +56,9 @@ describe('template generate lightning-out:', () => {
       expect(fs.existsSync(path.join(projectOutDir, 'iframeWhiteListUrlSettings'))).to.be.false;
     });
 
-    it('should return a CreateOutput with non-empty created[] and a warnings[] array', () => {
+    it('should return a CreateOutput with non-empty created[]', () => {
       assert(result);
       expect(result.created).to.be.an('array').that.is.not.empty;
-      expect(result.warnings).to.be.an('array');
-      expect(result.warnings ?? []).to.satisfy(
-        (warnings: string[]) => !warnings.some((w) => /No components specified/i.test(w)),
-        'expected no "no components" advisory when --components is supplied'
-      );
-    });
-  });
-
-  describe('warnings surface in human mode', () => {
-    it('should warn about missing components on stderr when --components is omitted', () => {
-      const dir = outDir('warn-no-components');
-      const stderr = execCmd(
-        'template generate lightning-out --app-name WarnApp --eca-name WarnApp_ECA --runtime LWR_CORE ' +
-          `--host-domains https://app.example.com --eca-contact-email dev@example.com --eca-callback-url https://app.example.com/cb --output-dir ${dir}`,
-        { ensureExitCode: 0 }
-      ).shellOutput.stderr;
-      expect(stderr).to.match(/components/i);
-    });
-
-    it('should warn that CLWR is experimental', () => {
-      const dir = outDir('warn-clwr');
-      const stderr = execCmd(
-        'template generate lightning-out --app-name ClwrApp --eca-name ClwrApp_ECA --runtime CLWR ' +
-          `--host-domains https://app.example.com --components c/myButton --eca-contact-email dev@example.com --eca-callback-url https://app.example.com/cb --output-dir ${dir}`,
-        { ensureExitCode: 0 }
-      ).shellOutput.stderr;
-      expect(stderr).to.match(/experimental/i);
     });
   });
 

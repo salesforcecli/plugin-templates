@@ -129,9 +129,6 @@ export default class LightningOut extends SfCommand<CreateOutput> {
       templates: getCustomTemplates(this.configAggregator),
     });
 
-    // Generator warnings (empty components, callback∉hostDomains, CLWR, host-domain dedupe, localhost http).
-    (result.warnings ?? []).forEach((w) => this.warn(w));
-
     // CLI-side sourceApiVersion floor check (the generator has no project context).
     const projApi = await getSourceApiVersion();
     if (isBelowApiFloor(projApi)) {
@@ -146,6 +143,6 @@ export default class LightningOut extends SfCommand<CreateOutput> {
     this.info(messages.getMessage('success.components-exist'));
     this.info(messages.getMessage('success.frontdoor'));
 
-    return result; // --json returns the full CreateOutput (created[] + warnings[])
+    return result; // --json returns the full CreateOutput (created[])
   }
 }
