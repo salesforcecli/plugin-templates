@@ -5,12 +5,17 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
+import * as fs from 'node:fs';
+import * as os from 'node:os';
+import * as path from 'node:path';
 import { Messages } from '@salesforce/core';
 import { TestContext } from '@salesforce/core/testSetup';
 import { expect } from 'chai';
 import { stubSfCommandUx } from '@salesforce/sf-plugins-core';
 import LightningOut, {
   mergeLightningOutInputs,
+  readDefinition,
+  isBelowApiFloor,
 } from '../../../../../src/commands/template/generate/lightning-out/index.js';
 
 // LightningOut's own module-level Messages.importMessagesDirectoryFromMetaUrl() registration
@@ -77,6 +82,74 @@ describe('template generate lightning-out (unit)', () => {
       const { opts } = mergeLightningOutInputs({}, {});
       expect(opts.hostDomains).to.deep.equal([]);
       expect(opts.components).to.equal(undefined);
+    });
+  });
+
+  describe('readDefinition', () => {
+    const tmpFiles: string[] = [];
+
+    const writeTmpFile = (contents: string): string => {
+      const file = path.join(os.tmpdir(), `lightning-out-readDefinition-${Date.now()}-${Math.random()}.json`);
+      fs.writeFileSync(file, contents, 'utf8');
+      tmpFiles.push(file);
+      return file;
+    };
+
+    afterEach(() => {
+      while (tmpFiles.length) {
+        const file = tmpFiles.pop();
+        if (file && fs.existsSync(file)) fs.rmSync(file);
+      }
+    });
+
+    it('returns the parsed object for a valid JSON object file', () => {
+      const file = writeTmpFile('{"appName":"A"}');
+      expect(readDefinition(file)).to.deep.equal({ appName: 'A' });
+    });
+
+    it('throws a definition-file-json error for malformed JSON', () => {
+      const file = writeTmpFile('{bad json');
+      expect(() => readDefinition(file)).to.throw();
+      try {
+        readDefinition(file);
+        expect.fail('expected readDefinition to throw');
+      } catch (e) {
+        expect((e as Error).name).to.equal('Definition-file-jsonError');
+      }
+    });
+
+    it('throws a definition-file-not-object error for a JSON array', () => {
+      const file = writeTmpFile('[]');
+      expect(() => readDefinition(file)).to.throw();
+      try {
+        readDefinition(file);
+        expect.fail('expected readDefinition to throw');
+      } catch (e) {
+        expect((e as Error).name).to.equal('Definition-file-not-objectError');
+      }
+    });
+  });
+
+  describe('isBelowApiFloor', () => {
+    const cases: Array<[string | undefined, boolean]> = [
+      ['64', true],
+      ['67.0', true],
+      ['68', false],
+      ['68.0', false],
+      ['70', false],
+      [undefined, false],
+      ['', false],
+    ];
+
+    cases.forEach(([input, expected]) => {
+      it(`returns ${String(expected)} for ${JSON.stringify(input)}`, () => {
+        expect(isBelowApiFloor(input)).to.equal(expected);
+      });
+    });
+
+    it('treats non-numeric strings as not below the floor (current behavior)', () => {
+      // current behavior: Number('garbage')=NaN, NaN<68 is false
+      expect(isBelowApiFloor('garbage')).to.equal(false);
     });
   });
 });

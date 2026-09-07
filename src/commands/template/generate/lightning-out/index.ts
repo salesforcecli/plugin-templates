@@ -29,7 +29,7 @@ type LightningOutFlags = {
 };
 
 /** Parse the --definition-file JSON, surfacing a clear error on malformed or non-object input. */
-function readDefinition(file: string): Record<string, unknown> {
+export function readDefinition(file: string): Record<string, unknown> {
   let parsed: unknown;
   try {
     parsed = JSON.parse(fs.readFileSync(file, 'utf8'));
@@ -86,6 +86,11 @@ async function getSourceApiVersion(): Promise<string | undefined> {
   }
 }
 
+/** True when a project sourceApiVersion is present and below the v68.0 deploy floor. Pure; testable. */
+export function isBelowApiFloor(projApi: string | undefined): boolean {
+  return !!projApi && Number(projApi) < 68;
+}
+
 export default class LightningOut extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
@@ -129,7 +134,7 @@ export default class LightningOut extends SfCommand<CreateOutput> {
 
     // CLI-side sourceApiVersion floor check (the generator has no project context).
     const projApi = await getSourceApiVersion();
-    if (projApi && Number(projApi) < 68) {
+    if (isBelowApiFloor(projApi)) {
       this.warn(messages.getMessage('warning.source-api-version', [String(projApi)]));
     }
 
