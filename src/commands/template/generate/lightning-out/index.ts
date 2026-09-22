@@ -15,7 +15,7 @@
  */
 
 import * as fs from 'node:fs';
-import { Flags, loglevel, orgApiVersionFlagWithDeprecations, SfCommand, Ux } from '@salesforce/sf-plugins-core';
+import { Flags, loglevel, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { CreateOutput, LightningOutOptions, TemplateType } from '@salesforce/templates';
 import { Messages, SfProject } from '@salesforce/core';
 import { getCustomTemplates, runGenerator } from '../../../../utils/templateCommand.js';
@@ -34,7 +34,6 @@ type LightningOutFlags = {
   'eca-contact-email'?: string;
   'eca-callback-url'?: string;
   'output-dir'?: string;
-  'api-version'?: string;
 };
 
 /** Parse the --definition-file JSON, surfacing a clear error on malformed or non-object input. */
@@ -49,6 +48,45 @@ export function readDefinition(file: string): Record<string, unknown> {
     throw messages.createError('error.definition-file-not-object', [file]);
   }
   return parsed as Record<string, unknown>;
+}
+
+/** True when a value is an array whose every element is a string. */
+function isStringArray(v: unknown): boolean {
+  return Array.isArray(v) && v.every((x) => typeof x === 'string');
+}
+
+/**
+ * Validate the types of --definition-file fields before they reach the generator, so wrong-typed
+ * JSON (e.g. `"appName": 123`) yields an actionable error here rather than an internal TypeError
+ * from the generator (which calls `.trim()` on string fields). A field is skipped when the matching
+ * flag overrides it, since flags always arrive as strings and win per-key (see mergeLightningOutInputs).
+ */
+export function validateDefinitionShape(defn: Record<string, unknown>, flags: LightningOutFlags): void {
+  const requireString = (overridden: boolean, val: unknown, key: string): void => {
+    if (!overridden && val !== undefined && typeof val !== 'string') {
+      throw messages.createError('error.definition-file-field-type', [key, 'a string']);
+    }
+  };
+  const requireStringArray = (overridden: boolean, val: unknown, key: string): void => {
+    if (!overridden && val !== undefined && !isStringArray(val)) {
+      throw messages.createError('error.definition-file-field-type', [key, 'an array of strings']);
+    }
+  };
+
+  requireString(flags['app-name'] !== undefined, defn.appName, 'appName');
+  requireString(flags.runtime !== undefined, defn.runtime, 'runtime');
+  requireStringArray(flags['host-domains'] !== undefined, defn.hostDomains, 'hostDomains');
+  requireStringArray(flags.components !== undefined, defn.components, 'components');
+
+  if (defn.eca !== undefined) {
+    if (typeof defn.eca !== 'object' || defn.eca === null || Array.isArray(defn.eca)) {
+      throw messages.createError('error.definition-file-field-type', ['eca', 'an object']);
+    }
+    const eca = defn.eca as Record<string, unknown>;
+    requireString(flags['eca-name'] !== undefined, eca.name, 'eca.name');
+    requireString(flags['eca-contact-email'] !== undefined, eca.contactEmail, 'eca.contactEmail');
+    requireString(flags['eca-callback-url'] !== undefined, eca.callbackUrl, 'eca.callbackUrl');
+  }
 }
 
 /**
@@ -75,7 +113,6 @@ export function mergeLightningOutInputs(
       callbackUrl: flags['eca-callback-url'] ?? (ecaDefn.callbackUrl as string),
     },
     outputdir: flags['output-dir'],
-    apiversion: flags['api-version'],
   };
   return { opts, unknownKeys };
 }
@@ -100,6 +137,14 @@ export function isBelowApiFloor(projApi: string | undefined): boolean {
   return !!projApi && Number(projApi) < 68;
 }
 
+/**
+ * Quote a path for safe copy-paste into a POSIX shell when it contains whitespace or quote chars,
+ * so the suggested deploy command survives output dirs such as "/tmp/Lightning Out".
+ */
+export function shellQuoteArg(p: string): string {
+  return /[\s"'\\]/.test(p) ? `'${p.replace(/'/g, "'\\''")}'` : p;
+}
+
 export default class LightningOut extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
@@ -120,13 +165,13 @@ export default class LightningOut extends SfCommand<CreateOutput> {
     'eca-callback-url': Flags.string({ summary: messages.getMessage('flags.eca-callback-url.summary') }),
     'definition-file': Flags.file({ exists: true, summary: messages.getMessage('flags.definition-file.summary') }),
     'output-dir': outputDirFlagLightning,
-    'api-version': orgApiVersionFlagWithDeprecations,
     loglevel,
   };
 
   public async run(): Promise<CreateOutput> {
     const { flags } = await this.parse(LightningOut);
     const defn = flags['definition-file'] ? readDefinition(flags['definition-file']) : {};
+    validateDefinitionShape(defn, flags);
     const { opts, unknownKeys } = mergeLightningOutInputs(defn, flags);
 
     unknownKeys.forEach((k) => this.warn(messages.getMessage('warning.unknown-definition-key', [k])));
@@ -145,7 +190,8 @@ export default class LightningOut extends SfCommand<CreateOutput> {
     }
 
     // Success guidance (suppressed automatically under --json).
-    this.log(messages.getMessage('success.next-step', [opts.outputdir ?? '.', opts.outputdir ?? '.']));
+    const outputDir = opts.outputdir ?? '.';
+    this.log(messages.getMessage('success.next-step', [outputDir, shellQuoteArg(outputDir)]));
     this.info(messages.getMessage('success.app-id'));
     this.info(messages.getMessage('success.dont-delete'));
     this.info(messages.getMessage('success.eca-overwrite', [opts.eca.name ?? '']));

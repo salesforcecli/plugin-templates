@@ -65,6 +65,30 @@ describe('template generate lightning-out:', () => {
       expect(fs.existsSync(path.join(projectOutDir, 'iframeWhiteListUrlSettings'))).to.be.false;
     });
 
+    it('should render the input values into the generated metadata (not just create the files)', () => {
+      const projectOutDir = path.join(session.project.dir, 'force-app', 'main', 'default');
+
+      const loApp = fs.readFileSync(
+        path.join(projectOutDir, 'lightningOutApps', 'MyLoApp.lightningOutApp-meta.xml'),
+        'utf8'
+      );
+      expect(loApp).to.include('<runtime>LWR_CORE</runtime>');
+      expect(loApp).to.include('<componentName>c/myButton</componentName>');
+      expect(loApp).to.include('<hostDomain>https://app.example.com</hostDomain>');
+      expect(loApp).to.include('<hostDomain>https://portal.example.com:8080</hostDomain>');
+
+      // contactEmail lives only in the ExternalClientApplication artifact.
+      const eca = fs.readFileSync(path.join(projectOutDir, 'externalClientApps', 'MyLoApp_ECA.eca-meta.xml'), 'utf8');
+      expect(eca).to.include('dev@example.com');
+
+      // callbackUrl lives only in the ExtlClntAppGlobalOauthSettings artifact.
+      const ecaGlobalOauth = fs.readFileSync(
+        path.join(projectOutDir, 'extlClntAppGlobalOauthSets', 'MyLoApp_ECA.ecaGlblOauth-meta.xml'),
+        'utf8'
+      );
+      expect(ecaGlobalOauth).to.include('https://app.example.com/frontdoor.html');
+    });
+
     it('should return a CreateOutput with non-empty created[]', () => {
       assert(result);
       expect(result.created).to.be.an('array').that.is.not.empty;
@@ -110,15 +134,16 @@ describe('template generate lightning-out:', () => {
   });
 
   describe('validation failure', () => {
-    it('should exit non-zero with a message naming the invalid host domain', () => {
+    it('should exit non-zero with a message naming the invalid host-domain scheme', () => {
       const dir = outDir('bad-host-domain');
+      // The generator accepts both http and https origins; only a non-http(s) scheme is rejected.
       const stderr = execCmd(
         'template generate lightning-out --app-name BadHostApp --eca-name BadHostApp_ECA --runtime LWR_CORE ' +
-          `--host-domains http://app.example.com --components c/myButton --eca-contact-email dev@example.com --eca-callback-url https://app.example.com/cb --output-dir ${dir}`,
+          `--host-domains ftp://app.example.com --components c/myButton --eca-contact-email dev@example.com --eca-callback-url https://app.example.com/cb --output-dir ${dir}`,
         { ensureExitCode: 1 }
       ).shellOutput.stderr;
       expect(stderr).to.match(/host domain/i);
-      expect(stderr).to.match(/https/i);
+      expect(stderr).to.match(/http or https/i);
     });
   });
 });

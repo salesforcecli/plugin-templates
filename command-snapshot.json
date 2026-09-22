@@ -66,10 +66,9 @@
   {
     "alias": [],
     "command": "template:generate:lightning-out",
-    "flagAliases": ["apiversion", "outputdir"],
+    "flagAliases": ["outputdir"],
     "flagChars": ["d"],
     "flags": [
-      "api-version",
       "app-name",
       "components",
       "definition-file",

@@ -25,6 +25,8 @@ import LightningOut, {
   mergeLightningOutInputs,
   readDefinition,
   isBelowApiFloor,
+  shellQuoteArg,
+  validateDefinitionShape,
 } from '../../../../../src/commands/template/generate/lightning-out/index.js';
 
 // LightningOut's own module-level Messages.importMessagesDirectoryFromMetaUrl() registration
@@ -48,7 +50,7 @@ describe('template generate lightning-out (unit)', () => {
   it('renders the actual output dir (not a literal placeholder) into the success.next-step deploy command', () => {
     const outputdir = 'force-app/main/default';
     const rendered = messages.getMessage('success.next-step', [outputdir, outputdir]);
-    expect(rendered).to.include(`sf project deploy start -d ${outputdir} --api-version 68.0`);
+    expect(rendered).to.include(`sf project deploy start --source-dir ${outputdir} --api-version 68.0`);
     expect(rendered).to.not.include('<output-dir>');
   });
 
@@ -159,6 +161,62 @@ describe('template generate lightning-out (unit)', () => {
     it('treats non-numeric strings as not below the floor (current behavior)', () => {
       // current behavior: Number('garbage')=NaN, NaN<68 is false
       expect(isBelowApiFloor('garbage')).to.equal(false);
+    });
+  });
+
+  describe('shellQuoteArg', () => {
+    it('leaves a plain path untouched', () => {
+      expect(shellQuoteArg('force-app/main/default')).to.equal('force-app/main/default');
+    });
+    it('single-quotes a path containing whitespace', () => {
+      expect(shellQuoteArg('/tmp/Lightning Out')).to.equal("'/tmp/Lightning Out'");
+    });
+    it('escapes an embedded single quote', () => {
+      expect(shellQuoteArg("/tmp/o'brien")).to.equal("'/tmp/o'\\''brien'");
+    });
+  });
+
+  describe('validateDefinitionShape', () => {
+    it('accepts a well-typed definition', () => {
+      expect(() =>
+        validateDefinitionShape(
+          {
+            appName: 'A',
+            runtime: 'LWR_CORE',
+            hostDomains: ['https://a.com'],
+            components: ['c/x'],
+            eca: { name: 'E', contactEmail: 'e@e.com', callbackUrl: 'https://a.com/cb' },
+          },
+          {}
+        )
+      ).to.not.throw();
+    });
+    it('is a no-op for an empty definition', () => {
+      expect(() => validateDefinitionShape({}, {})).to.not.throw();
+    });
+    it('rejects a string field of the wrong type', () => {
+      expect(() => validateDefinitionShape({ appName: 123 }, {})).to.throw(/appName/);
+      expect(() => validateDefinitionShape({ runtime: 5 }, {})).to.throw(/runtime/);
+    });
+    it('rejects a list field that is not an array of strings', () => {
+      expect(() => validateDefinitionShape({ hostDomains: 'https://a.com' }, {})).to.throw(/hostDomains/);
+      expect(() => validateDefinitionShape({ components: [1, 2] }, {})).to.throw(/components/);
+    });
+    it('rejects eca when it is not an object', () => {
+      expect(() => validateDefinitionShape({ eca: 'nope' }, {})).to.throw(/eca/);
+      expect(() => validateDefinitionShape({ eca: [] }, {})).to.throw(/eca/);
+    });
+    it('rejects a wrong-typed nested eca field', () => {
+      expect(() => validateDefinitionShape({ eca: { contactEmail: 123 } }, {})).to.throw(/eca\.contactEmail/);
+    });
+    it('skips a bad file value when the matching flag overrides it', () => {
+      expect(() => validateDefinitionShape({ appName: 123 }, { 'app-name': 'Foo' })).to.not.throw();
+      expect(() =>
+        validateDefinitionShape({ hostDomains: 'bad' }, { 'host-domains': ['https://a.com'] })
+      ).to.not.throw();
+      expect(() =>
+        validateDefinitionShape({ eca: { contactEmail: 123 } }, { 'eca-contact-email': 'x@y.com' })
+      ).to.not.throw();
     });
   });
 });
