@@ -22,9 +22,9 @@ Generate the required metadata to scaffold a Lightning Out 2.0 app.
 
 # description
 
-Lightning Out 2.0 is a Salesforce app that you use to embed custom Lightning web components (LWC) into your external, non-Salesforce apps.
+Lightning Out 2.0 lets you embed custom Lightning web components (LWCs) into your external, non-Salesforce apps.
 
-This command gets you started by generating into your Salesforce DX project the seven metadata artifact types that a Lightning Out 2.0 app requires: LightningOutApp, MyDomain and Security settings, one CorsWhitelistOrigin per host domain, and the External Client Application OAuth trio (ExternalClientApplication, ExtlClntAppGlobalOauthSettings, ExtlClntAppOauthSettings). The command is generate-only; it doesn't deploy any metadata to an org.
+This command gets you started by generating the seven metadata artifact types that a Lightning Out 2.0 app requires into your Salesforce DX project: LightningOutApp, MyDomain and Security settings, one CorsWhitelistOrigin per host domain, and the three External Client Application OAuth components (ExternalClientApplication, ExtlClntAppGlobalOauthSettings, ExtlClntAppOauthSettings). The command is generate-only; it doesn't deploy any metadata to an org.
 
 Inputs may come from a --definition-file JSON, individual flags, or both. Flag values take precedence over the file on a per-key basis. The command validates the types of definition-file fields; the underlying generator performs the remaining structural validation, such as required fields and formats.
 
@@ -34,7 +34,7 @@ Developer name of the new Lightning Out 2.0 app.
 
 # flags.eca-name.summary
 
-Developer name of the External Client Application (OAuth) associated with the app.
+Developer name of the External Client Application associated with the app.
 
 # flags.runtime.summary
 
@@ -42,15 +42,15 @@ Runtime the app targets. LWR_CORE serves from your Salesforce org for authentica
 
 # flags.host-domains.summary
 
-HTTP or HTTPS origin of an external host page that embeds the app; can be specified multiple times. Replaces, rather than merges with, any hostDomains specified in the --definition-file.
+HTTP or HTTPS origin of an external host page that embeds the app. Repeat the flag to specify more than one. Replaces, rather than merges with, any hostDomains in the --definition-file.
 
 # flags.components.summary
 
-Name of a Lightning web component exposed by the app; can be specified multiple times. Replaces, rather than merges with, any components specified in the --definition-file.
+Name of a Lightning web component exposed by the app. Repeat the flag to specify more than one. Replaces, rather than merges with, any components in the --definition-file.
 
 # flags.eca-contact-email.summary
 
-Contact email for the External Client Application (OAuth).
+Contact email for the External Client Application.
 
 # flags.eca-callback-url.summary
 
