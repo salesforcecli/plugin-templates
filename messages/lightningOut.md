@@ -82,7 +82,7 @@ Your local project's sourceApiVersion (%s) is below 68.0, the minimum API versio
 
 # success.next-step
 
-Scaffold generated in %s. Deploy it with: sf project deploy start --source-dir %s --api-version 68.0
+Scaffold generated in %s. Deploy it with: sf project deploy start --source-dir %s%s
 
 # success.app-id
 

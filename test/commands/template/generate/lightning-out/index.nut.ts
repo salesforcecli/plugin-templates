@@ -146,4 +146,39 @@ describe('template generate lightning-out:', () => {
       expect(stderr).to.match(/http or https/i);
     });
   });
+
+  describe('sourceApiVersion floor guidance in the deploy suggestion', () => {
+    const projectJsonPath = (): string => path.join(session.project.dir, 'sfdx-project.json');
+
+    const setSourceApiVersion = (version: string): void => {
+      const cfg = JSON.parse(fs.readFileSync(projectJsonPath(), 'utf8')) as Record<string, unknown>;
+      cfg.sourceApiVersion = version;
+      fs.writeFileSync(projectJsonPath(), JSON.stringify(cfg, null, 2));
+    };
+
+    // Run without --json so the this.log/this.warn guidance is actually emitted.
+    const runNoJson = (dir: string): { stdout: string; stderr: string } =>
+      execCmd(
+        'template generate lightning-out --app-name FloorApp --eca-name FloorApp_ECA --runtime LWR_CORE ' +
+          `--host-domains https://app.example.com --components c/myButton --eca-contact-email dev@example.com ` +
+          `--eca-callback-url https://app.example.com/cb --output-dir ${dir}`,
+        { ensureExitCode: 0 }
+      ).shellOutput;
+
+    it('warns and pins --api-version 68.0 when sourceApiVersion is below the floor', () => {
+      setSourceApiVersion('64.0');
+      const { stdout, stderr } = runNoJson(outDir('floor-below'));
+      expect(stderr).to.match(/is below 68\.0/); // floor warning fired
+      expect(stdout).to.include('sf project deploy start');
+      expect(stdout).to.include('--api-version 68.0');
+    });
+
+    it('omits --api-version (lets the project default win) when sourceApiVersion is at or above the floor', () => {
+      setSourceApiVersion('70.0');
+      const { stdout, stderr } = runNoJson(outDir('floor-above'));
+      expect(stderr).to.not.match(/is below 68\.0/); // no floor warning
+      expect(stdout).to.include('sf project deploy start');
+      expect(stdout).to.not.include('--api-version');
+    });
+  });
 });

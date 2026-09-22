@@ -47,11 +47,18 @@ describe('template generate lightning-out (unit)', () => {
     expect(LightningOut.hidden).to.equal(true);
   });
 
-  it('renders the actual output dir (not a literal placeholder) into the success.next-step deploy command', () => {
+  it('renders the output dir into success.next-step and includes --api-version only when the suffix is supplied', () => {
     const outputdir = 'force-app/main/default';
-    const rendered = messages.getMessage('success.next-step', [outputdir, outputdir]);
-    expect(rendered).to.include(`sf project deploy start --source-dir ${outputdir} --api-version 68.0`);
-    expect(rendered).to.not.include('<output-dir>');
+
+    // Below-floor projects get the explicit 68.0 pin.
+    const belowFloor = messages.getMessage('success.next-step', [outputdir, outputdir, ' --api-version 68.0']);
+    expect(belowFloor).to.include(`sf project deploy start --source-dir ${outputdir} --api-version 68.0`);
+    expect(belowFloor).to.not.include('<output-dir>');
+
+    // At/above-floor projects omit the optional flag so the project's own default applies.
+    const atOrAboveFloor = messages.getMessage('success.next-step', [outputdir, outputdir, '']);
+    expect(atOrAboveFloor).to.include(`sf project deploy start --source-dir ${outputdir}`);
+    expect(atOrAboveFloor).to.not.include('--api-version');
   });
 
   describe('mergeLightningOutInputs', () => {
