@@ -178,7 +178,7 @@ FLAG DESCRIPTIONS
     directory.
 ```
 
-_See code: [src/commands/template/generate/analytics/template.ts](https://github.com/salesforcecli/plugin-templates/blob/57.3.0/src/commands/template/generate/analytics/template.ts)_
+_See code: [src/commands/template/generate/analytics/template.ts](https://github.com/salesforcecli/plugin-templates/blob/57.4.0/src/commands/template/generate/analytics/template.ts)_
 
 ## `sf template generate apex class`
 
@@ -240,7 +240,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/template/generate/apex/class.ts](https://github.com/salesforcecli/plugin-templates/blob/57.3.0/src/commands/template/generate/apex/class.ts)_
+_See code: [src/commands/template/generate/apex/class.ts](https://github.com/salesforcecli/plugin-templates/blob/57.4.0/src/commands/template/generate/apex/class.ts)_
 
 ## `sf template generate apex trigger`
 
@@ -310,7 +310,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/template/generate/apex/trigger.ts](https://github.com/salesforcecli/plugin-templates/blob/57.3.0/src/commands/template/generate/apex/trigger.ts)_
+_See code: [src/commands/template/generate/apex/trigger.ts](https://github.com/salesforcecli/plugin-templates/blob/57.4.0/src/commands/template/generate/apex/trigger.ts)_
 
 ## `sf template generate digital-experience site`
 
@@ -364,7 +364,7 @@ FLAG DESCRIPTIONS
     project, defaults to the current directory.
 ```
 
-_See code: [src/commands/template/generate/digital-experience/site.ts](https://github.com/salesforcecli/plugin-templates/blob/57.3.0/src/commands/template/generate/digital-experience/site.ts)_
+_See code: [src/commands/template/generate/digital-experience/site.ts](https://github.com/salesforcecli/plugin-templates/blob/57.4.0/src/commands/template/generate/digital-experience/site.ts)_
 
 ## `sf template generate flexipage`
 
@@ -446,7 +446,7 @@ FLAG DESCRIPTIONS
     'Custom_Object__c'. This sets the `sobjectType` field in the FlexiPage metadata.
 ```
 
-_See code: [src/commands/template/generate/flexipage/index.ts](https://github.com/salesforcecli/plugin-templates/blob/57.3.0/src/commands/template/generate/flexipage/index.ts)_
+_See code: [src/commands/template/generate/flexipage/index.ts](https://github.com/salesforcecli/plugin-templates/blob/57.4.0/src/commands/template/generate/flexipage/index.ts)_
 
 ## `sf template generate lightning app`
 
@@ -504,7 +504,7 @@ FLAG DESCRIPTIONS
     field in the DX project's "sfdx-project.json" file.
 ```
 
-_See code: [src/commands/template/generate/lightning/app.ts](https://github.com/salesforcecli/plugin-templates/blob/57.3.0/src/commands/template/generate/lightning/app.ts)_
+_See code: [src/commands/template/generate/lightning/app.ts](https://github.com/salesforcecli/plugin-templates/blob/57.4.0/src/commands/template/generate/lightning/app.ts)_
 
 ## `sf template generate lightning component`
 
@@ -581,7 +581,7 @@ FLAG DESCRIPTIONS
     field in the DX project's "sfdx-project.json" file.
 ```
 
-_See code: [src/commands/template/generate/lightning/component.ts](https://github.com/salesforcecli/plugin-templates/blob/57.3.0/src/commands/template/generate/lightning/component.ts)_
+_See code: [src/commands/template/generate/lightning/component.ts](https://github.com/salesforcecli/plugin-templates/blob/57.4.0/src/commands/template/generate/lightning/component.ts)_
 
 ## `sf template generate lightning event`
 
@@ -639,7 +639,7 @@ FLAG DESCRIPTIONS
     field in the DX project's "sfdx-project.json" file.
 ```
 
-_See code: [src/commands/template/generate/lightning/event.ts](https://github.com/salesforcecli/plugin-templates/blob/57.3.0/src/commands/template/generate/lightning/event.ts)_
+_See code: [src/commands/template/generate/lightning/event.ts](https://github.com/salesforcecli/plugin-templates/blob/57.4.0/src/commands/template/generate/lightning/event.ts)_
 
 ## `sf template generate lightning interface`
 
@@ -697,7 +697,7 @@ FLAG DESCRIPTIONS
     field in the DX project's "sfdx-project.json" file.
 ```
 
-_See code: [src/commands/template/generate/lightning/interface.ts](https://github.com/salesforcecli/plugin-templates/blob/57.3.0/src/commands/template/generate/lightning/interface.ts)_
+_See code: [src/commands/template/generate/lightning/interface.ts](https://github.com/salesforcecli/plugin-templates/blob/57.4.0/src/commands/template/generate/lightning/interface.ts)_
 
 ## `sf template generate lightning test`
 
@@ -755,7 +755,7 @@ FLAG DESCRIPTIONS
     field in the DX project's "sfdx-project.json" file.
 ```
 
-_See code: [src/commands/template/generate/lightning/test.ts](https://github.com/salesforcecli/plugin-templates/blob/57.3.0/src/commands/template/generate/lightning/test.ts)_
+_See code: [src/commands/template/generate/lightning/test.ts](https://github.com/salesforcecli/plugin-templates/blob/57.4.0/src/commands/template/generate/lightning/test.ts)_
 
 ## `sf template generate project`
 
@@ -887,7 +887,7 @@ FLAG DESCRIPTIONS
     server-side type stripping.
 ```
 
-_See code: [src/commands/template/generate/project/index.ts](https://github.com/salesforcecli/plugin-templates/blob/57.3.0/src/commands/template/generate/project/index.ts)_
+_See code: [src/commands/template/generate/project/index.ts](https://github.com/salesforcecli/plugin-templates/blob/57.4.0/src/commands/template/generate/project/index.ts)_
 
 ## `sf template generate static-resource`
 
@@ -950,7 +950,7 @@ FLAG DESCRIPTIONS
     etc.
 ```
 
-_See code: [src/commands/template/generate/static-resource/index.ts](https://github.com/salesforcecli/plugin-templates/blob/57.3.0/src/commands/template/generate/static-resource/index.ts)_
+_See code: [src/commands/template/generate/static-resource/index.ts](https://github.com/salesforcecli/plugin-templates/blob/57.4.0/src/commands/template/generate/static-resource/index.ts)_
 
 ## `sf template generate ui-bundle`
 
@@ -1039,7 +1039,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/template/generate/ui-bundle/index.ts](https://github.com/salesforcecli/plugin-templates/blob/57.3.0/src/commands/template/generate/ui-bundle/index.ts)_
+_See code: [src/commands/template/generate/ui-bundle/index.ts](https://github.com/salesforcecli/plugin-templates/blob/57.4.0/src/commands/template/generate/ui-bundle/index.ts)_
 
 ## `sf template generate ui-embedding`
 
@@ -1118,7 +1118,7 @@ FLAG DESCRIPTIONS
     (announced by screen readers).
 ```
 
-_See code: [src/commands/template/generate/ui-embedding/index.ts](https://github.com/salesforcecli/plugin-templates/blob/57.3.0/src/commands/template/generate/ui-embedding/index.ts)_
+_See code: [src/commands/template/generate/ui-embedding/index.ts](https://github.com/salesforcecli/plugin-templates/blob/57.4.0/src/commands/template/generate/ui-embedding/index.ts)_
 
 ## `sf template generate visualforce component`
 
@@ -1175,7 +1175,7 @@ FLAG DESCRIPTIONS
     Supplied parameter values or default values are filled into a copy of the template.
 ```
 
-_See code: [src/commands/template/generate/visualforce/component.ts](https://github.com/salesforcecli/plugin-templates/blob/57.3.0/src/commands/template/generate/visualforce/component.ts)_
+_See code: [src/commands/template/generate/visualforce/component.ts](https://github.com/salesforcecli/plugin-templates/blob/57.4.0/src/commands/template/generate/visualforce/component.ts)_
 
 ## `sf template generate visualforce page`
 
@@ -1226,6 +1226,6 @@ FLAG DESCRIPTIONS
     The name can be up to 40 characters and must start with a letter.
 ```
 
-_See code: [src/commands/template/generate/visualforce/page.ts](https://github.com/salesforcecli/plugin-templates/blob/57.3.0/src/commands/template/generate/visualforce/page.ts)_
+_See code: [src/commands/template/generate/visualforce/page.ts](https://github.com/salesforcecli/plugin-templates/blob/57.4.0/src/commands/template/generate/visualforce/page.ts)_
 
 <!-- commandsstop -->

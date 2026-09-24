@@ -1,3 +1,17 @@
+# [57.4.0](https://github.com/salesforcecli/plugin-templates/compare/57.3.0...57.4.0) (2026-09-24)
+
+### Bug Fixes
+
+- **lightning-out:** address PR review — wording, def-file type validation, drop inert --api-version ([5272b27](https://github.com/salesforcecli/plugin-templates/commit/5272b27716a4ebc9acd9dd949fe0439efb4f1867))
+- **lightning-out:** suggest --api-version only below the deploy floor; gate CLWR frontdoor note ([c8a4317](https://github.com/salesforcecli/plugin-templates/commit/c8a43171be68737f136aca514a448a166659b9e3))
+- **lightning-out:** use repo Apache license header and drop redundant flags cast ([9050ac9](https://github.com/salesforcecli/plugin-templates/commit/9050ac9134a1bf7b2e9029d34f41de9e50b085c3))
+
+### Features
+
+- add template generate lightning-out command (Option A) ([b3f7d49](https://github.com/salesforcecli/plugin-templates/commit/b3f7d49a9e1a5128fd6e2bc0af32a9486e575072))
+- **lightning-out:** app-name/eca-name flags, input merge, warnings + success output ([5b17066](https://github.com/salesforcecli/plugin-templates/commit/5b17066b881d5b4fd33b1130b9eb1f594804c573))
+- **lightning-out:** substitute output dir into deploy guidance ([4312e7d](https://github.com/salesforcecli/plugin-templates/commit/4312e7d5abc7548607502eccfd3fb9cd88108182))
+
 # [57.3.0](https://github.com/salesforcecli/plugin-templates/compare/57.2.0...57.3.0) (2026-09-09)
 
 ### Features
