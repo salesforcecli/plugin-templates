@@ -1,3 +1,9 @@
+## [57.4.1](https://github.com/salesforcecli/plugin-templates/compare/57.4.0...57.4.1) (2026-10-02)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/core from 9.1.9 to 9.2.0 ([597acd9](https://github.com/salesforcecli/plugin-templates/commit/597acd98976d61065c68f3687565f84ea84043bb))
+
 # [57.4.0](https://github.com/salesforcecli/plugin-templates/compare/57.3.0...57.4.0) (2026-09-24)
 
 ### Bug Fixes
