@@ -1,3 +1,9 @@
+## [57.4.3](https://github.com/salesforcecli/plugin-templates/compare/57.4.2...57.4.3) (2026-10-09)
+
+### Bug Fixes
+
+- **deps:** bump handlebars from 4.7.9 to 4.7.10 ([755b55c](https://github.com/salesforcecli/plugin-templates/commit/755b55c5ec7d7992e680fc4ea07e696a9659d797))
+
 ## [57.4.2](https://github.com/salesforcecli/plugin-templates/compare/57.4.1...57.4.2) (2026-10-05)
 
 ### Bug Fixes
