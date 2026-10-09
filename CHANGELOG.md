@@ -1,3 +1,9 @@
+## [57.4.5](https://github.com/salesforcecli/plugin-templates/compare/57.4.4...57.4.5) (2026-10-09)
+
+### Bug Fixes
+
+- **deps:** bump source-map-js from 1.2.1 to 1.2.2 ([8d310af](https://github.com/salesforcecli/plugin-templates/commit/8d310af856ff46b18f19bc9772f399efef917cb8))
+
 ## [57.4.4](https://github.com/salesforcecli/plugin-templates/compare/57.4.3...57.4.4) (2026-10-09)
 
 ### Bug Fixes
