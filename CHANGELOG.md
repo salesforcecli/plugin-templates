@@ -1,3 +1,9 @@
+## [57.4.4](https://github.com/salesforcecli/plugin-templates/compare/57.4.3...57.4.4) (2026-10-09)
+
+### Bug Fixes
+
+- **deps:** bump fast-copy from 3.0.2 to 3.1.0 ([8dd6fbe](https://github.com/salesforcecli/plugin-templates/commit/8dd6fbe76bf324081e1c2607827735775650404e))
+
 ## [57.4.3](https://github.com/salesforcecli/plugin-templates/compare/57.4.2...57.4.3) (2026-10-09)
 
 ### Bug Fixes
