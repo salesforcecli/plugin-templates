@@ -203,6 +203,57 @@ describe('template generate ui-bundle:', () => {
     });
   });
 
+  describe('Check UI bundle creation with vuebasic template', () => {
+    afterEach(() => {
+      const rootGraphqlrc = path.join(projectDir, '.graphqlrc.yml');
+      if (fs.existsSync(rootGraphqlrc)) {
+        fs.unlinkSync(rootGraphqlrc);
+      }
+    });
+
+    it('should create Vue UI bundle with all required files and create .graphqlrc.yml at the project root', () => {
+      const outputDir = path.join(projectDir, 'force-app', 'main', 'default', UI_BUNDLES_DIR);
+      const firstResult = execCmd(
+        `template generate ui-bundle --name MyVueApp --template vuebasic --output-dir "${outputDir}"`,
+        {
+          ensureExitCode: 0,
+        }
+      );
+      assert.file([
+        path.join(outputDir, 'MyVueApp', 'MyVueApp.uibundle-meta.xml'),
+        path.join(outputDir, 'MyVueApp', 'index.html'),
+        path.join(outputDir, 'MyVueApp', 'ui-bundle.json'),
+        path.join(outputDir, 'MyVueApp', 'package.json'),
+      ]);
+
+      const rootGraphqlrc = path.join(projectDir, '.graphqlrc.yml');
+      assert.file(rootGraphqlrc);
+      assert.fileContent(rootGraphqlrc, "schema: 'schema.graphql'");
+      assert.fileContent(rootGraphqlrc, "documents: './**/src/**/*.{graphql,js,ts,jsx,tsx}'");
+      expect(firstResult.shellOutput.stdout).to.contain('create .graphqlrc.yml');
+
+      const contentBefore = fs.readFileSync(rootGraphqlrc, 'utf8');
+      const mtimeBefore = fs.statSync(rootGraphqlrc).mtimeMs;
+
+      const secondResult = execCmd(
+        `template generate ui-bundle --name MyVueApp2 --template vuebasic --output-dir "${outputDir}"`,
+        {
+          ensureExitCode: 0,
+        }
+      );
+      assert.file([
+        path.join(outputDir, 'MyVueApp2', 'MyVueApp2.uibundle-meta.xml'),
+        path.join(outputDir, 'MyVueApp2', 'package.json'),
+      ]);
+      expect(secondResult.shellOutput.stdout).to.not.contain('create .graphqlrc.yml');
+
+      const contentAfter = fs.readFileSync(rootGraphqlrc, 'utf8');
+      const mtimeAfter = fs.statSync(rootGraphqlrc).mtimeMs;
+      expect(contentAfter).to.equal(contentBefore);
+      expect(mtimeAfter).to.equal(mtimeBefore);
+    });
+  });
+
   describe('Check that all invalid name errors are thrown', () => {
     it('should throw a missing name error', () => {
       const stderr = execCmd('template generate ui-bundle').shellOutput.stderr;

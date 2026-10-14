@@ -24,6 +24,10 @@ Use the --template flag for generating the files to get started with a specific 
 
   <%= config.bin %> <%= command.id %> --name MyAngularApp --template angularbasic
 
+- Generate a Vue-based UI bundle:
+
+  <%= config.bin %> <%= command.id %> --name MyVueApp --template vuebasic
+
 - Generate the React-based UI bundle in the "force-app/main/default/uiBundles" directory:
 
   <%= config.bin %> <%= command.id %> --name MyUiBundle --template reactbasic --output-dir force-app/main/default/uiBundles

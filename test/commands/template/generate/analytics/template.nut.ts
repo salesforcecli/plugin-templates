@@ -57,7 +57,6 @@ describe('template generate analytics template:', () => {
       name: 'fooDashboard_tp',
       state: {
         widgets: {
-           
           text_1: {
             parameters: {
               content: {
