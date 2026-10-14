@@ -1,3 +1,27 @@
+## [57.4.6](https://github.com/salesforcecli/plugin-templates/compare/57.4.5...57.4.6) (2026-10-11)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/sf-plugins-core from 13.0.4 to 13.0.5 ([eddb12f](https://github.com/salesforcecli/plugin-templates/commit/eddb12ff653fe631ce789b0d856be01aee91014d))
+
+## [57.4.5](https://github.com/salesforcecli/plugin-templates/compare/57.4.4...57.4.5) (2026-10-09)
+
+### Bug Fixes
+
+- **deps:** bump source-map-js from 1.2.1 to 1.2.2 ([8d310af](https://github.com/salesforcecli/plugin-templates/commit/8d310af856ff46b18f19bc9772f399efef917cb8))
+
+## [57.4.4](https://github.com/salesforcecli/plugin-templates/compare/57.4.3...57.4.4) (2026-10-09)
+
+### Bug Fixes
+
+- **deps:** bump fast-copy from 3.0.2 to 3.1.0 ([8dd6fbe](https://github.com/salesforcecli/plugin-templates/commit/8dd6fbe76bf324081e1c2607827735775650404e))
+
+## [57.4.3](https://github.com/salesforcecli/plugin-templates/compare/57.4.2...57.4.3) (2026-10-09)
+
+### Bug Fixes
+
+- **deps:** bump handlebars from 4.7.9 to 4.7.10 ([755b55c](https://github.com/salesforcecli/plugin-templates/commit/755b55c5ec7d7992e680fc4ea07e696a9659d797))
+
 ## [57.4.2](https://github.com/salesforcecli/plugin-templates/compare/57.4.1...57.4.2) (2026-10-05)
 
 ### Bug Fixes
