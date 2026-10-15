@@ -86,11 +86,11 @@ Scaffold generated in %s. Deploy it with: sf project deploy start --source-dir %
 
 # success.app-id
 
-After deploying, note the LightningOutApp's App ID from Setup — your host page needs it to embed the app.
+After deploying, note the LightningOutApp's App ID from Setup; your host page needs it to embed the app.
 
 # success.dont-delete
 
-Don't delete the generated ExternalClientApplication after deploying — Lightning Out uses it for OAuth at runtime.
+Don't delete the generated ExternalClientApplication after deploying. Lightning Out 2.0 uses it for OAuth at runtime.
 
 # success.eca-overwrite
 
@@ -98,7 +98,7 @@ Re-running this command overwrites the generated files for the "%s" External Cli
 
 # success.components-exist
 
-Verify that every component you referenced already exists and is exposed for Lightning Out before deploying.
+Verify that every component you referenced already exists and is exposed for Lightning Out 2.0 before deploying.
 
 # success.frontdoor
 

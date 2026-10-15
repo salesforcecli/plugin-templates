@@ -149,8 +149,6 @@ export default class LightningOut extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
-  public static readonly state = 'beta';
-  public static readonly hidden = true;
 
   public static readonly flags = {
     'app-name': Flags.string({ summary: messages.getMessage('flags.app-name.summary'), required: false }),

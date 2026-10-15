@@ -42,9 +42,9 @@ describe('template generate lightning-out (unit)', () => {
     $$.restore();
   });
 
-  it('is a beta, hidden command', () => {
-    expect(LightningOut.state).to.equal('beta');
-    expect(LightningOut.hidden).to.equal(true);
+  it('is a GA command (neither beta nor hidden)', () => {
+    expect(LightningOut.state).to.equal(undefined);
+    expect(LightningOut.hidden).to.not.equal(true);
   });
 
   it('renders the output dir into success.next-step and includes --api-version only when the suffix is supplied', () => {
