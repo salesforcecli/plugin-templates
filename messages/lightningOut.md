@@ -38,7 +38,11 @@ Developer name of the External Client Application associated with the app.
 
 # flags.runtime.summary
 
-Runtime the app targets. LWR_CORE serves from your Salesforce org for authenticated users; CLWR serves from an Experience Cloud site (guest access, extra site-deployment step).
+Runtime the app targets: LWR_CORE or CLWR.
+
+# flags.runtime.description
+
+LWR_CORE serves the app from your Salesforce org to authenticated users. CLWR serves it from an Experience Cloud site to guest and authenticated users. After you deploy a CLWR app, link it to your site in Setup.
 
 # flags.host-domains.summary
 
@@ -86,7 +90,7 @@ Scaffold generated in %s. Deploy it with: sf project deploy start --source-dir %
 
 # success.app-id
 
-After deploying, note the LightningOutApp's App ID from Setup; your host page needs it to embed the app.
+After deploying, copy the App ID from Lightning Out 2.0 App Manager in Setup, and set it as the "app-id" attribute on the <lightning-out-application> tag on your host page. For LWR_CORE, this is what adds your host domains to the allowed frame ancestors.
 
 # success.dont-delete
 
@@ -99,6 +103,14 @@ Re-running this command overwrites the generated files for the "%s" External Cli
 # success.components-exist
 
 Verify that every component you referenced already exists and is exposed for Lightning Out 2.0 before deploying.
+
+# success.org-settings
+
+The generated MyDomain and Security settings apply to the whole org when you deploy them: isFirstPartyCookieUseRequired is set to false and enableOauthCorsPolicy is set to true. Review both settings before deploying to a production org.
+
+# success.clwr-site
+
+For CLWR, link the app to your Experience Cloud site after deploying. From Setup, in the Quick Find box, enter Lightning Out, and then select Lightning Out 2.0 App Manager. Edit the app, select your site on the "Linked Communities Site" tab, and save. Then follow the steps in the "Complete Deployment in Experience Builder" dialog, which include publishing the site.
 
 # success.frontdoor
 

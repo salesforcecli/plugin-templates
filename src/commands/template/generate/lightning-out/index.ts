@@ -156,6 +156,7 @@ export default class LightningOut extends SfCommand<CreateOutput> {
     runtime: Flags.option({
       options: ['LWR_CORE', 'CLWR'] as const,
       summary: messages.getMessage('flags.runtime.summary'),
+      description: messages.getMessage('flags.runtime.description'),
     })(),
     'host-domains': Flags.string({ summary: messages.getMessage('flags.host-domains.summary'), multiple: true }),
     components: Flags.string({ summary: messages.getMessage('flags.components.summary'), multiple: true }),
@@ -194,12 +195,14 @@ export default class LightningOut extends SfCommand<CreateOutput> {
     const outputDir = opts.outputdir ?? '.';
     const apiVersionSuffix = belowFloor ? ' --api-version 68.0' : '';
     this.log(messages.getMessage('success.next-step', [outputDir, shellQuoteArg(outputDir), apiVersionSuffix]));
+    this.warn(messages.getMessage('success.org-settings'));
     this.info(messages.getMessage('success.app-id'));
     this.info(messages.getMessage('success.dont-delete'));
     this.info(messages.getMessage('success.eca-overwrite', [opts.eca.name ?? '']));
     this.info(messages.getMessage('success.components-exist'));
     // frontdoor.jsp handoff is a CLWR-only concern; don't show it for LWR_CORE runs.
     if (opts.runtime === 'CLWR') {
+      this.info(messages.getMessage('success.clwr-site'));
       this.info(messages.getMessage('success.frontdoor'));
     }
 

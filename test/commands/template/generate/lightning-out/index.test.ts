@@ -61,6 +61,19 @@ describe('template generate lightning-out (unit)', () => {
     expect(atOrAboveFloor).to.not.include('--api-version');
   });
 
+  it('describes the CLWR site link and org-wide settings in the output messages', () => {
+    expect(messages.getMessage('success.clwr-site')).to.include('Linked Communities Site');
+    expect(messages.getMessage('success.org-settings'))
+      .to.include('isFirstPartyCookieUseRequired')
+      .and.to.include('enableOauthCorsPolicy');
+    expect(messages.getMessage('success.app-id')).to.include('app-id').and.to.include('Lightning Out 2.0 App Manager');
+  });
+
+  it('keeps the runtime flag summary short and puts the detail in its description', () => {
+    expect(LightningOut.flags.runtime.summary).to.not.include('Setup');
+    expect(LightningOut.flags.runtime.description).to.include('link it to your site in Setup');
+  });
+
   describe('mergeLightningOutInputs', () => {
     it('takes appName/eca.name from flags over the definition file', () => {
       const { opts } = mergeLightningOutInputs(
