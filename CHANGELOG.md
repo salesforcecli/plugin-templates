@@ -1,3 +1,5 @@
+## [57.4.7](https://github.com/salesforcecli/plugin-templates/compare/57.4.6...57.4.7) (2026-10-15)
+
 ## [57.4.6](https://github.com/salesforcecli/plugin-templates/compare/57.4.5...57.4.6) (2026-10-11)
 
 ### Bug Fixes
