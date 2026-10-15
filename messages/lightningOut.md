@@ -84,13 +84,17 @@ Ignoring unrecognized key "%s" in --definition-file.
 
 Your local project's sourceApiVersion (%s) is below 68.0, the minimum API version this scaffold supports for deployment. Set sourceApiVersion to 68.0 or later in sfdx-project.json, or pass --api-version 68.0 or later when you deploy.
 
+# warning.org-settings
+
+The generated MyDomain and Security settings apply to the whole org when you deploy them: isFirstPartyCookieUseRequired is set to false and enableOauthCorsPolicy is set to true. Review both settings before deploying to a production org.
+
 # success.next-step
 
 Scaffold generated in %s. Deploy it with: sf project deploy start --source-dir %s%s
 
 # success.app-id
 
-After deploying, copy the App ID from Lightning Out 2.0 App Manager in Setup, and set it as the "app-id" attribute on the <lightning-out-application> tag on your host page. For LWR_CORE, this is what adds your host domains to the allowed frame ancestors.
+After deploying, copy the App ID from Lightning Out 2.0 App Manager in Setup, and set it as the "app-id" attribute on the <lightning-out-application> tag on your host page. For LWR_CORE apps, the "app-id" attribute is what adds your host domains to the CSP frame-ancestors directive.
 
 # success.dont-delete
 
@@ -103,10 +107,6 @@ Re-running this command overwrites the generated files for the "%s" External Cli
 # success.components-exist
 
 Verify that every component you referenced already exists and is exposed for Lightning Out 2.0 before deploying.
-
-# success.org-settings
-
-The generated MyDomain and Security settings apply to the whole org when you deploy them: isFirstPartyCookieUseRequired is set to false and enableOauthCorsPolicy is set to true. Review both settings before deploying to a production org.
 
 # success.clwr-site
 

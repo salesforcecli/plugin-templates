@@ -189,20 +189,24 @@ export default class LightningOut extends SfCommand<CreateOutput> {
       this.warn(messages.getMessage('warning.source-api-version', [String(projApi)]));
     }
 
-    // Success guidance (suppressed automatically under --json).
+    // The org-wide settings notice is a warning, so it also appears in the --json `warnings` array.
+    this.warn(messages.getMessage('warning.org-settings'));
+
+    // Success guidance (log/info are suppressed automatically under --json).
     // Only pin --api-version to the 68.0 deploy floor when the project is below it; otherwise omit
     // the optional flag so the user's own (>= floor) project default applies rather than being downgraded.
     const outputDir = opts.outputdir ?? '.';
     const apiVersionSuffix = belowFloor ? ' --api-version 68.0' : '';
     this.log(messages.getMessage('success.next-step', [outputDir, shellQuoteArg(outputDir), apiVersionSuffix]));
-    this.warn(messages.getMessage('success.org-settings'));
+    if (opts.runtime === 'CLWR') {
+      this.info(messages.getMessage('success.clwr-site'));
+    }
     this.info(messages.getMessage('success.app-id'));
     this.info(messages.getMessage('success.dont-delete'));
     this.info(messages.getMessage('success.eca-overwrite', [opts.eca.name ?? '']));
     this.info(messages.getMessage('success.components-exist'));
-    // frontdoor.jsp handoff is a CLWR-only concern; don't show it for LWR_CORE runs.
+    // The frontdoor.jsp handoff is a CLWR-only concern; don't show it for LWR_CORE runs.
     if (opts.runtime === 'CLWR') {
-      this.info(messages.getMessage('success.clwr-site'));
       this.info(messages.getMessage('success.frontdoor'));
     }
 

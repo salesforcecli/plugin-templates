@@ -20,7 +20,8 @@ import * as path from 'node:path';
 import { Messages } from '@salesforce/core';
 import { TestContext } from '@salesforce/core/testSetup';
 import { expect } from 'chai';
-import { stubSfCommandUx } from '@salesforce/sf-plugins-core';
+import { stubSfCommandUx, stubUx } from '@salesforce/sf-plugins-core';
+import { TemplateService } from '@salesforce/templates';
 import LightningOut, {
   mergeLightningOutInputs,
   readDefinition,
@@ -35,8 +36,9 @@ const messages = Messages.loadMessages('@salesforce/plugin-templates', 'lightnin
 
 describe('template generate lightning-out (unit)', () => {
   const $$ = new TestContext();
+  let cmdStubs: ReturnType<typeof stubSfCommandUx>;
   beforeEach(() => {
-    stubSfCommandUx($$.SANDBOX);
+    cmdStubs = stubSfCommandUx($$.SANDBOX);
   });
   afterEach(() => {
     $$.restore();
@@ -61,12 +63,63 @@ describe('template generate lightning-out (unit)', () => {
     expect(atOrAboveFloor).to.not.include('--api-version');
   });
 
-  it('describes the CLWR site link and org-wide settings in the output messages', () => {
-    expect(messages.getMessage('success.clwr-site')).to.include('Linked Communities Site');
-    expect(messages.getMessage('success.org-settings'))
-      .to.include('isFirstPartyCookieUseRequired')
-      .and.to.include('enableOauthCorsPolicy');
-    expect(messages.getMessage('success.app-id')).to.include('app-id').and.to.include('Lightning Out 2.0 App Manager');
+  describe('post-run output', () => {
+    const base = [
+      '--app-name',
+      'MyLoApp',
+      '--eca-name',
+      'MyLoAppEca',
+      '--eca-contact-email',
+      'dev@example.com',
+      '--eca-callback-url',
+      'https://example.com/cb',
+      '--host-domains',
+      'https://example.com',
+    ];
+
+    beforeEach(() => {
+      stubUx($$.SANDBOX);
+      $$.SANDBOX.stub(TemplateService.prototype, 'create').resolves({
+        outputDir: '.',
+        created: [],
+        rawOutput: '',
+      });
+    });
+
+    it('shows the site-link and frontdoor guidance for CLWR', async () => {
+      await LightningOut.run([...base, '--runtime', 'CLWR']);
+      const info = cmdStubs.info.args.flat();
+      expect(info).to.include(messages.getMessage('success.clwr-site'));
+      expect(info).to.include(messages.getMessage('success.frontdoor'));
+      expect(messages.getMessage('success.clwr-site')).to.include('Linked Communities Site');
+    });
+
+    it('omits the CLWR guidance for LWR_CORE', async () => {
+      await LightningOut.run([...base, '--runtime', 'LWR_CORE']);
+      const info = cmdStubs.info.args.flat();
+      expect(info).to.not.include(messages.getMessage('success.clwr-site'));
+      expect(info).to.not.include(messages.getMessage('success.frontdoor'));
+      expect(info).to.include(messages.getMessage('success.app-id'));
+    });
+
+    it('warns that the generated settings are org-wide for every runtime', async () => {
+      for (const runtime of ['LWR_CORE', 'CLWR']) {
+        cmdStubs.warn.resetHistory();
+        // eslint-disable-next-line no-await-in-loop
+        await LightningOut.run([...base, '--runtime', runtime]);
+        const warned = cmdStubs.warn.args.flat();
+        expect(warned).to.include(messages.getMessage('warning.org-settings'));
+      }
+      expect(messages.getMessage('warning.org-settings'))
+        .to.include('isFirstPartyCookieUseRequired')
+        .and.to.include('enableOauthCorsPolicy');
+    });
+
+    it('points to the App ID location and the app-id attribute', () => {
+      expect(messages.getMessage('success.app-id'))
+        .to.include('Lightning Out 2.0 App Manager')
+        .and.to.include('"app-id"');
+    });
   });
 
   it('keeps the runtime flag summary short and puts the detail in its description', () => {
