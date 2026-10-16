@@ -149,8 +149,6 @@ export default class LightningOut extends SfCommand<CreateOutput> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
-  public static readonly state = 'beta';
-  public static readonly hidden = true;
 
   public static readonly flags = {
     'app-name': Flags.string({ summary: messages.getMessage('flags.app-name.summary'), required: false }),
@@ -158,6 +156,7 @@ export default class LightningOut extends SfCommand<CreateOutput> {
     runtime: Flags.option({
       options: ['LWR_CORE', 'CLWR'] as const,
       summary: messages.getMessage('flags.runtime.summary'),
+      description: messages.getMessage('flags.runtime.description'),
     })(),
     'host-domains': Flags.string({ summary: messages.getMessage('flags.host-domains.summary'), multiple: true }),
     components: Flags.string({ summary: messages.getMessage('flags.components.summary'), multiple: true }),
@@ -190,20 +189,24 @@ export default class LightningOut extends SfCommand<CreateOutput> {
       this.warn(messages.getMessage('warning.source-api-version', [String(projApi)]));
     }
 
-    // Success guidance (suppressed automatically under --json).
+    // The org-wide settings notice is a warning, so it also appears in the --json `warnings` array.
+    this.warn(messages.getMessage('warning.org-settings'));
+
+    // Success guidance (log/info are suppressed automatically under --json).
     // Only pin --api-version to the 68.0 deploy floor when the project is below it; otherwise omit
     // the optional flag so the user's own (>= floor) project default applies rather than being downgraded.
     const outputDir = opts.outputdir ?? '.';
     const apiVersionSuffix = belowFloor ? ' --api-version 68.0' : '';
     this.log(messages.getMessage('success.next-step', [outputDir, shellQuoteArg(outputDir), apiVersionSuffix]));
-    this.info(messages.getMessage('success.app-id'));
+    // CLWR finds the app through the site link; app-id only applies to LWR_CORE.
+    if (opts.runtime === 'CLWR') {
+      this.info(messages.getMessage('success.clwr-site'));
+    } else {
+      this.info(messages.getMessage('success.app-id'));
+    }
     this.info(messages.getMessage('success.dont-delete'));
     this.info(messages.getMessage('success.eca-overwrite', [opts.eca.name ?? '']));
     this.info(messages.getMessage('success.components-exist'));
-    // frontdoor.jsp handoff is a CLWR-only concern; don't show it for LWR_CORE runs.
-    if (opts.runtime === 'CLWR') {
-      this.info(messages.getMessage('success.frontdoor'));
-    }
 
     return result; // --json returns the full CreateOutput (created[])
   }
