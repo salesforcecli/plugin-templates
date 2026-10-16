@@ -38,7 +38,11 @@ Developer name of the External Client Application associated with the app.
 
 # flags.runtime.summary
 
-Runtime the app targets. LWR_CORE serves from your Salesforce org for authenticated users; CLWR serves from an Experience Cloud site (guest access, extra site-deployment step).
+Runtime the app targets: LWR_CORE or CLWR.
+
+# flags.runtime.description
+
+LWR_CORE serves the app from your Salesforce org to authenticated users. CLWR serves it from an Experience Cloud site to guest and authenticated users. After you deploy a CLWR app, link it to your site in Setup.
 
 # flags.host-domains.summary
 
@@ -80,17 +84,21 @@ Ignoring unrecognized key "%s" in --definition-file.
 
 Your local project's sourceApiVersion (%s) is below 68.0, the minimum API version this scaffold supports for deployment. Set sourceApiVersion to 68.0 or later in sfdx-project.json, or pass --api-version 68.0 or later when you deploy.
 
+# warning.org-settings
+
+The generated MyDomain and Security settings apply to the whole org when you deploy them: isFirstPartyCookieUseRequired is set to false and enableOauthCorsPolicy is set to true. Review both settings before deploying to a production org.
+
 # success.next-step
 
 Scaffold generated in %s. Deploy it with: sf project deploy start --source-dir %s%s
 
 # success.app-id
 
-After deploying, note the LightningOutApp's App ID from Setup — your host page needs it to embed the app.
+After deploying, copy the App ID from Lightning Out 2.0 App Manager in Setup, and set it as the "app-id" attribute on the <lightning-out-application> tag on your host page. Without it, your host domains aren't added to the CSP frame-ancestors directive.
 
 # success.dont-delete
 
-Don't delete the generated ExternalClientApplication after deploying — Lightning Out uses it for OAuth at runtime.
+Don't delete the generated ExternalClientApplication after deploying. Lightning Out 2.0 uses it for OAuth at runtime.
 
 # success.eca-overwrite
 
@@ -98,8 +106,8 @@ Re-running this command overwrites the generated files for the "%s" External Cli
 
 # success.components-exist
 
-Verify that every component you referenced already exists and is exposed for Lightning Out before deploying.
+Verify that every component you referenced already exists and is exposed for Lightning Out 2.0 before deploying.
 
-# success.frontdoor
+# success.clwr-site
 
-For CLWR, host pages must complete a frontdoor.jsp handoff before the embedded app can authenticate.
+For CLWR, link the app to your Experience Cloud site after deploying. From Setup, in the Quick Find box, enter Lightning Out, and then select Lightning Out 2.0 App Manager. Edit the app, select your site on the "Linked Communities Site" tab, and save. Then follow the steps in the "Complete Deployment in Experience Builder" dialog, which include publishing the site.
