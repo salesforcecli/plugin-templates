@@ -197,6 +197,7 @@ export default class LightningOut extends SfCommand<CreateOutput> {
     // the optional flag so the user's own (>= floor) project default applies rather than being downgraded.
     const outputDir = opts.outputdir ?? '.';
     const apiVersionSuffix = belowFloor ? ' --api-version 68.0' : '';
+    this.info(messages.getMessage('success.components-exist'));
     this.log(messages.getMessage('success.next-step', [outputDir, shellQuoteArg(outputDir), apiVersionSuffix]));
     // CLWR finds the app through the site link; app-id only applies to LWR_CORE.
     if (opts.runtime === 'CLWR') {
@@ -206,7 +207,6 @@ export default class LightningOut extends SfCommand<CreateOutput> {
     }
     this.info(messages.getMessage('success.dont-delete'));
     this.info(messages.getMessage('success.eca-overwrite', [opts.eca.name ?? '']));
-    this.info(messages.getMessage('success.components-exist'));
 
     return result; // --json returns the full CreateOutput (created[])
   }

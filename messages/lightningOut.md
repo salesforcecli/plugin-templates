@@ -12,6 +12,10 @@
 
   <%= config.bin %> <%= command.id %> --definition-file lo-def.json --output-dir force-app/main/default
 
+- Generate a CLWR app for an Experience Cloud site using a definition file:
+
+  <%= config.bin %> <%= command.id %> --runtime CLWR --definition-file lo-def.json
+
 - Generate the app using most of the values from a definition file, but the --host-domains value overrides its equivalent in the file:
 
   <%= config.bin %> <%= command.id %> --definition-file lo-def.json --host-domains https://staging.example.com
@@ -38,7 +42,7 @@ Developer name of the External Client Application associated with the app.
 
 # flags.runtime.summary
 
-Runtime the app targets: LWR_CORE or CLWR.
+Runtime that serves the app.
 
 # flags.runtime.description
 
@@ -46,7 +50,7 @@ LWR_CORE serves the app from your Salesforce org to authenticated users. CLWR se
 
 # flags.host-domains.summary
 
-HTTP or HTTPS origin of an external host page that embeds the app. Repeat the flag to specify more than one. Replaces, rather than merges with, any hostDomains in the --definition-file.
+HTTP or HTTPS origin of an external host page that embeds the app. Repeat the flag to specify more than one. Replaces, rather than merges with, any hostDomains in the --definition-file. For CLWR apps, host domains are used only for CORS, which authenticated users need. Set up framing for the site in Experience Builder.
 
 # flags.components.summary
 
@@ -86,7 +90,7 @@ Your local project's sourceApiVersion (%s) is below 68.0, the minimum API versio
 
 # warning.org-settings
 
-The generated MyDomain and Security settings apply to the whole org when you deploy them: isFirstPartyCookieUseRequired is set to false and enableOauthCorsPolicy is set to true. Review both settings before deploying to a production org.
+Deploying the generated MyDomain and Security settings changes two org-wide settings: isFirstPartyCookieUseRequired is set to false (Require first-party use of Salesforce cookies) and enableOauthCorsPolicy is set to true (Enable CORS for OAuth endpoints). These settings affect every app in the org, so review them before you deploy to a production org.
 
 # success.next-step
 
@@ -94,15 +98,15 @@ Scaffold generated in %s. Deploy it with: sf project deploy start --source-dir %
 
 # success.app-id
 
-After deploying, copy the App ID from Lightning Out 2.0 App Manager in Setup, and set it as the "app-id" attribute on the <lightning-out-application> tag on your host page. Without it, your host domains aren't added to the CSP frame-ancestors directive.
+After deploying, from Setup, in the Quick Find box, enter Lightning Out, and then select "Lightning Out 2.0 App Manager". Copy the App ID and set it as the "app-id" attribute on the <lightning-out-application> tag on your host page. Without it, your host domains aren't added to the CSP frame-ancestors directive, and the browser blocks the app from loading on your host page.
 
 # success.dont-delete
 
-Don't delete the generated ExternalClientApplication after deploying. Lightning Out 2.0 uses it for OAuth at runtime.
+Don't delete the generated External Client Application after deploying. Lightning Out 2.0 uses it for OAuth at runtime.
 
 # success.eca-overwrite
 
-Re-running this command overwrites the generated files for the "%s" External Client Application; back up local edits first.
+Re-running this command overwrites the generated files for the "%s" External Client Application. Back up local edits first.
 
 # success.components-exist
 
@@ -110,4 +114,4 @@ Verify that every component you referenced already exists and is exposed for Lig
 
 # success.clwr-site
 
-For CLWR, link the app to your Experience Cloud site after deploying. From Setup, in the Quick Find box, enter Lightning Out, and then select Lightning Out 2.0 App Manager. Edit the app, select your site on the "Linked Communities Site" tab, and save. Then follow the steps in the "Complete Deployment in Experience Builder" dialog, which include publishing the site.
+Link the app to your Experience Cloud site after deploying. From Setup, in the Quick Find box, enter Lightning Out, and then select "Lightning Out 2.0 App Manager". Edit the app, select your site on the "Linked Communities Site" tab, and save. Then follow the steps in the "Complete Deployment in Experience Builder" dialog, which include publishing the site. On your host page, set the "site-prefix" attribute on the <lightning-out-application> tag to your site's URL path prefix, for example "/mysite". For host-page setup, see "Lightning Out 2.0" in the Lightning Web Components Developer Guide.

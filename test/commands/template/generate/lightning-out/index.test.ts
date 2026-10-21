@@ -113,6 +113,15 @@ describe('template generate lightning-out (unit)', () => {
       }
     });
 
+    it('prints the pre-deploy component check before the deploy command', async () => {
+      await LightningOut.run([...base, '--runtime', 'LWR_CORE']);
+      const check = cmdStubs.info.getCalls().find((c) => c.args[0] === messages.getMessage('success.components-exist'));
+      const deploy = cmdStubs.log.getCalls().find((c) => String(c.args[0]).includes('sf project deploy start'));
+      expect(check, 'components-exist was not printed').to.not.equal(undefined);
+      expect(deploy, 'next-step was not printed').to.not.equal(undefined);
+      expect(check!.calledBefore(deploy!)).to.equal(true);
+    });
+
     it('warns that the generated settings are org-wide for every runtime', async () => {
       for (const runtime of ['LWR_CORE', 'CLWR']) {
         cmdStubs.warn.resetHistory();
