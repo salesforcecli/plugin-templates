@@ -20,7 +20,8 @@ import * as path from 'node:path';
 import { Messages } from '@salesforce/core';
 import { TestContext } from '@salesforce/core/testSetup';
 import { expect } from 'chai';
-import { stubSfCommandUx } from '@salesforce/sf-plugins-core';
+import { stubSfCommandUx, stubUx } from '@salesforce/sf-plugins-core';
+import { TemplateService } from '@salesforce/templates';
 import LightningOut, {
   mergeLightningOutInputs,
   readDefinition,
@@ -35,16 +36,17 @@ const messages = Messages.loadMessages('@salesforce/plugin-templates', 'lightnin
 
 describe('template generate lightning-out (unit)', () => {
   const $$ = new TestContext();
+  let cmdStubs: ReturnType<typeof stubSfCommandUx>;
   beforeEach(() => {
-    stubSfCommandUx($$.SANDBOX);
+    cmdStubs = stubSfCommandUx($$.SANDBOX);
   });
   afterEach(() => {
     $$.restore();
   });
 
-  it('is a beta, hidden command', () => {
-    expect(LightningOut.state).to.equal('beta');
-    expect(LightningOut.hidden).to.equal(true);
+  it('is a GA command (neither beta nor hidden)', () => {
+    expect(LightningOut.state).to.equal(undefined);
+    expect(LightningOut.hidden).to.not.equal(true);
   });
 
   it('renders the output dir into success.next-step and includes --api-version only when the suffix is supplied', () => {
@@ -59,6 +61,90 @@ describe('template generate lightning-out (unit)', () => {
     const atOrAboveFloor = messages.getMessage('success.next-step', [outputdir, outputdir, '']);
     expect(atOrAboveFloor).to.include(`sf project deploy start --source-dir ${outputdir}`);
     expect(atOrAboveFloor).to.not.include('--api-version');
+  });
+
+  describe('post-run output', () => {
+    const base = [
+      '--app-name',
+      'MyLoApp',
+      '--eca-name',
+      'MyLoAppEca',
+      '--eca-contact-email',
+      'dev@example.com',
+      '--eca-callback-url',
+      'https://example.com/cb',
+      '--host-domains',
+      'https://example.com',
+    ];
+
+    beforeEach(() => {
+      stubUx($$.SANDBOX);
+      $$.SANDBOX.stub(TemplateService.prototype, 'create').resolves({
+        outputDir: '.',
+        created: [],
+        rawOutput: '',
+      });
+    });
+
+    it('shows the site-link guidance, and not the App ID line, for CLWR', async () => {
+      await LightningOut.run([...base, '--runtime', 'CLWR']);
+      const info = cmdStubs.info.args.flat();
+      expect(info).to.include(messages.getMessage('success.clwr-site'));
+      expect(info).to.not.include(messages.getMessage('success.app-id'));
+      expect(messages.getMessage('success.clwr-site')).to.include('Linked Communities Site');
+    });
+
+    it('shows the App ID line, and not the CLWR site-link guidance, for LWR_CORE', async () => {
+      await LightningOut.run([...base, '--runtime', 'LWR_CORE']);
+      const info = cmdStubs.info.args.flat();
+      expect(info).to.include(messages.getMessage('success.app-id'));
+      expect(info).to.not.include(messages.getMessage('success.clwr-site'));
+    });
+
+    it('shows the shared guidance for every runtime', async () => {
+      for (const runtime of ['LWR_CORE', 'CLWR']) {
+        cmdStubs.info.resetHistory();
+        // eslint-disable-next-line no-await-in-loop
+        await LightningOut.run([...base, '--runtime', runtime]);
+        const info = cmdStubs.info.args.flat();
+        expect(info).to.include(messages.getMessage('success.dont-delete'));
+        expect(info).to.include(messages.getMessage('success.eca-overwrite', ['MyLoAppEca']));
+        expect(info).to.include(messages.getMessage('success.components-exist'));
+      }
+    });
+
+    it('prints the pre-deploy component check before the deploy command', async () => {
+      await LightningOut.run([...base, '--runtime', 'LWR_CORE']);
+      const check = cmdStubs.info.getCalls().find((c) => c.args[0] === messages.getMessage('success.components-exist'));
+      const deploy = cmdStubs.log.getCalls().find((c) => String(c.args[0]).includes('sf project deploy start'));
+      expect(check, 'components-exist was not printed').to.not.equal(undefined);
+      expect(deploy, 'next-step was not printed').to.not.equal(undefined);
+      expect(check!.calledBefore(deploy!)).to.equal(true);
+    });
+
+    it('warns that the generated settings are org-wide for every runtime', async () => {
+      for (const runtime of ['LWR_CORE', 'CLWR']) {
+        cmdStubs.warn.resetHistory();
+        // eslint-disable-next-line no-await-in-loop
+        await LightningOut.run([...base, '--runtime', runtime]);
+        const warned = cmdStubs.warn.args.flat();
+        expect(warned).to.include(messages.getMessage('warning.org-settings'));
+      }
+      expect(messages.getMessage('warning.org-settings'))
+        .to.include('isFirstPartyCookieUseRequired')
+        .and.to.include('enableOauthCorsPolicy');
+    });
+
+    it('points to the App ID location and the app-id attribute', () => {
+      expect(messages.getMessage('success.app-id'))
+        .to.include('Lightning Out 2.0 App Manager')
+        .and.to.include('"app-id"');
+    });
+  });
+
+  it('keeps the runtime flag summary short and puts the detail in its description', () => {
+    expect(LightningOut.flags.runtime.summary).to.not.include('Setup');
+    expect(LightningOut.flags.runtime.description).to.include('link it to your site in Setup');
   });
 
   describe('mergeLightningOutInputs', () => {
