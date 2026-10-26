@@ -1,3 +1,9 @@
+## [57.4.13](https://github.com/salesforcecli/plugin-templates/compare/57.4.12...57.4.13) (2026-10-26)
+
+### Bug Fixes
+
+- **deps:** bump zod from 4.4.3 to 4.6.7 ([b8a3902](https://github.com/salesforcecli/plugin-templates/commit/b8a3902abf87c2014e283b36dcb83e66d990e078))
+
 ## [57.4.12](https://github.com/salesforcecli/plugin-templates/compare/57.4.11...57.4.12) (2026-10-26)
 
 ### Bug Fixes
