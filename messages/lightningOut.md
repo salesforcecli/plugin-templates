@@ -28,9 +28,9 @@ Generate the required metadata to scaffold a Lightning Out 2.0 app.
 
 Lightning Out 2.0 lets you embed custom Lightning web components (LWCs) into your external, non-Salesforce apps.
 
-This command gets you started by generating the seven metadata artifact types that a Lightning Out 2.0 app requires into your Salesforce DX project: LightningOutApp, MyDomain and Security settings, one CorsWhitelistOrigin per host domain, and the three External Client Application OAuth components (ExternalClientApplication, ExtlClntAppGlobalOauthSettings, ExtlClntAppOauthSettings). The command is generate-only; it doesn't deploy any metadata to an org.
+This command gets you started by generating the seven metadata artifact types that a Lightning Out 2.0 app requires into your Salesforce DX project: LightningOutApp, MyDomain and Security settings, one CorsWhitelistOrigin per host domain, and the three External Client Application OAuth components (ExternalClientApplication, ExtlClntAppGlobalOauthSettings, ExtlClntAppOauthSettings). The command only generates files. It doesn't deploy any metadata to an org.
 
-Inputs may come from a --definition-file JSON, individual flags, or both. Flag values take precedence over the file on a per-key basis. The command validates the types of definition-file fields; the underlying generator performs the remaining structural validation, such as required fields and formats.
+Inputs can come from a --definition-file JSON, individual flags, or both. Flag values take precedence over the file on a per-key basis. The command validates the types of definition-file fields; the underlying generator performs the remaining structural validation, such as required fields and formats.
 
 # flags.app-name.summary
 
