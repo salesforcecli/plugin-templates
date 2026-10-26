@@ -1,3 +1,9 @@
+## [57.4.12](https://github.com/salesforcecli/plugin-templates/compare/57.4.11...57.4.12) (2026-10-26)
+
+### Bug Fixes
+
+- **deps:** bump js-yaml from 3.15.1 to 3.15.2 ([15aac55](https://github.com/salesforcecli/plugin-templates/commit/15aac55b8098322573025a1f228340bff9954615))
+
 ## [57.4.11](https://github.com/salesforcecli/plugin-templates/compare/57.4.10...57.4.11) (2026-10-25)
 
 ### Bug Fixes
