@@ -1,3 +1,9 @@
+# [57.5.0](https://github.com/salesforcecli/plugin-templates/compare/57.4.13...57.5.0) (2026-10-27)
+
+### Features
+
+- **lightning-out:** @W-24501804@ promote command to GA and improve post-run guidance ([#1070](https://github.com/salesforcecli/plugin-templates/issues/1070)) ([3c503c2](https://github.com/salesforcecli/plugin-templates/commit/3c503c28d23b6963d8c79233954c6016f07cea13))
+
 ## [57.4.13](https://github.com/salesforcecli/plugin-templates/compare/57.4.12...57.4.13) (2026-10-26)
 
 ### Bug Fixes
