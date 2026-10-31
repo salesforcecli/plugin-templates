@@ -1424,12 +1424,12 @@
     cli-progress "^3.12.0"
     terminal-link "^3.0.0"
 
-"@salesforce/templates@^66.17.2":
-  version "66.17.2"
-  resolved "https://registry.yarnpkg.com/@salesforce/templates/-/templates-66.17.2.tgz#ba615bc3f2195c93ac5f3f8feaeccb512236914e"
-  integrity sha512-6TU/NHWVPIgjG4FDwrJ3En+1n3OFRVTEkwWPyh6JSR7LkH/Iwmi1kuHyrHVNi8m0TCJZxBxNrZ2qdrL9CJuOIw==
+"@salesforce/templates@^66.17.4":
+  version "66.17.4"
+  resolved "https://registry.yarnpkg.com/@salesforce/templates/-/templates-66.17.4.tgz#4fb802b7ca4b045c0a57f3c2820e6268027ae628"
+  integrity sha512-WPC2GgZl02FKYICgVNGGPkD2gKaGTtnzz5Utbm2rjHomSyF48246q+GX4FcriZy+Gcii/kP/TTBmEiMWCoHi5Q==
   dependencies:
-    "@salesforce/kit" "^4.0.0"
+    "@salesforce/kit" "^4.0.1"
     ejs "^3.1.10"
     got "^11.8.6"
     hpagent "^1.2.0"
