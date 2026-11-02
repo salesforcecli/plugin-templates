@@ -1,3 +1,9 @@
+## [57.5.2](https://github.com/salesforcecli/plugin-templates/compare/57.5.1...57.5.2) (2026-11-02)
+
+### Bug Fixes
+
+- **deps:** bump brace-expansion from 1.1.18 to 1.1.21 ([1dcc216](https://github.com/salesforcecli/plugin-templates/commit/1dcc216bb0c1af89f50070553a451dc1dbbca431))
+
 ## [57.5.1](https://github.com/salesforcecli/plugin-templates/compare/57.5.0...57.5.1) (2026-11-01)
 
 ### Bug Fixes
