@@ -1,3 +1,9 @@
+# [57.6.0](https://github.com/salesforcecli/plugin-templates/compare/57.5.2...57.6.0) (2026-11-03)
+
+### Features
+
+- **project:** @W-24573598@ add vueinternalapp template option ([#1090](https://github.com/salesforcecli/plugin-templates/issues/1090)) ([24a0515](https://github.com/salesforcecli/plugin-templates/commit/24a0515e619e3a04c496a3e85622875f44a63d17))
+
 ## [57.5.2](https://github.com/salesforcecli/plugin-templates/compare/57.5.1...57.5.2) (2026-11-02)
 
 ### Bug Fixes
