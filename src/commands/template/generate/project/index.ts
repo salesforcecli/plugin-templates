@@ -42,7 +42,17 @@ export default class Project extends SfCommand<CreateOutput> {
       summary: messages.getMessage('flags.template.summary'),
       description: messages.getMessage('flags.template.description'),
       default: 'standard',
-      options: ['standard', 'empty', 'analytics', 'reactinternalapp', 'reactexternalapp', 'angularinternalapp', 'angularexternalapp', 'agent'] as const,
+      options: [
+        'standard',
+        'empty',
+        'analytics',
+        'reactinternalapp',
+        'reactexternalapp',
+        'angularinternalapp',
+        'angularexternalapp',
+        'vueinternalapp',
+        'agent',
+      ] as const,
     })(),
     'output-dir': outputDirFlag,
     namespace: Flags.string({
