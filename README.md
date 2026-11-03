@@ -7,15 +7,15 @@ This repository provides a series of commands, templates, and generators for var
 
 # Getting Started
 
-To use, install the [Salesforce CLI](https://developer.salesforce.com/tools/sfdxcli) and run the following commands.
+To use, install the [Salesforce CLI](https://developer.salesforce.com/tools/salesforcecli) and run the following commands.
 
 ```
 Verify the CLI is installed
-  $ sfdx (-v | --version)
+  $ sf (-v | --version)
 Install the @salesforce/plugin-templates plugin
-  $ sfdx plugins install @salesforce/plugin-templates
+  $ sf plugins install @salesforce/plugin-templates
 To run a command
-  $ sfdx [command]
+  $ sf [command]
 ```
 
 ## Install
@@ -29,8 +29,7 @@ git clone git@github.com:salesforcecli/plugin-templates.git
 2. Ensure you have [Yarn](https://yarnpkg.com/) installed and run the following to build:
 
 ```
-yarn install
-yarn build
+yarn && yarn build
 ```
 
 ## Issues
@@ -58,7 +57,7 @@ Agreement. You can do so by going to https://cla.salesforce.com/sign-cla.
 
 ## Developing Plugin
 
-To test plugin locally, use `bin/dev` in place of `sfdx`. For example:
+To test plugin locally, use `bin/dev.js` in place of `sf`. For example:
 
 ```sh
 ./bin/dev.js force:apex:class:create --classname 'TestClass' --template 'DefaultApexClass' --outputdir ./testsoutput/myApex/
@@ -67,13 +66,13 @@ To test plugin locally, use `bin/dev` in place of `sfdx`. For example:
 Link your plugin to Salesforce CLI:
 
 ```sh
-sfdx plugins link .
+sf plugins link .
 ```
 
 Verify plugin is linked:
 
 ```sh
-sfdx plugins
+sf plugins
 ```
 
 To test plugin locally with Salesforce CLI, add `"@salesforce/plugin-templates": "file://path/to/plugin-templates"` to the plugin's `package.json`.
@@ -87,7 +86,7 @@ To debug the `hello:org` command:
 1. If you linked your plugin to the Salesforce CLI, call your command with the `dev-suspend` switch:
 
 ```sh-session
-$ sfdx hello:org -u myOrg@example.com --dev-suspend
+$ sf hello:org -u myOrg@example.com --dev-suspend
 ```
 
 Alternatively, to call your command using the `bin/dev` script, set the `NODE_OPTIONS` environment variable to `--inspect-brk` when starting the debugger:
