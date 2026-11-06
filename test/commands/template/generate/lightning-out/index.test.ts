@@ -84,14 +84,15 @@ describe('template generate lightning-out (unit)', () => {
     ];
 
     let create: sinon.SinonStub;
-    /** Stub the DX project lookup; undefined = no project found. */
+    let resolveProject: sinon.SinonStub;
+    /** Re-point the DX project lookup; undefined = no project found. Defaults to 69.0 (beforeEach). */
     const stubProject = (sourceApiVersion?: string): void => {
       if (sourceApiVersion === undefined) {
-        $$.SANDBOX.stub(SfProject, 'resolve').rejects(new Error('no project'));
+        resolveProject.rejects(new Error('no project'));
       } else {
-        $$.SANDBOX.stub(SfProject, 'resolve').resolves({
+        resolveProject.resolves({
           resolveProjectConfig: () => Promise.resolve({ sourceApiVersion }),
-        } as unknown as SfProject);
+        });
       }
     };
     const runtimeArgs = (runtime: string): string[] =>
@@ -99,6 +100,9 @@ describe('template generate lightning-out (unit)', () => {
 
     beforeEach(() => {
       stubUx($$.SANDBOX);
+      // Never resolve the real project from the test's cwd.
+      resolveProject = $$.SANDBOX.stub(SfProject, 'resolve');
+      stubProject('69.0');
       create = $$.SANDBOX.stub(TemplateService.prototype, 'create').resolves({
         outputDir: '.',
         created: [],
@@ -295,14 +299,70 @@ describe('template generate lightning-out (unit)', () => {
           fs.mkdirSync(path.join(dir, 'externalClientApps'));
           fs.writeFileSync(path.join(dir, 'externalClientApps', 'Old.eca-meta.xml'), '');
           await LightningOut.run([...guest, '--output-dir', dir]);
-          const stale = cmdStubs.warn.args
-            .flat()
-            .map(String)
-            .find((m) => m.includes('guest access doesn'));
-          expect(stale).to.include(path.join('externalClientApps', 'Old.eca-meta.xml'));
+          expect(cmdStubs.warn.args.flat()).to.include(
+            messages.getMessage('warning.guest-stale-files', [dir, path.join('externalClientApps', 'Old.eca-meta.xml')])
+          );
         } finally {
           fs.rmSync(dir, { recursive: true, force: true });
         }
+      });
+
+      it('--site below 69.0 pins --api-version 69.0 and drops the 68.0 floor warning', async () => {
+        stubProject('66.0');
+        await LightningOut.run(guest);
+        const deploy = cmdStubs.log.args
+          .flat()
+          .map(String)
+          .find((m) => m.includes('sf project deploy start'));
+        expect(deploy).to.match(/--api-version 69\.0$/);
+        expect(cmdStubs.warn.args.flat()).to.not.include(messages.getMessage('warning.source-api-version', ['66.0']));
+        expect(cmdStubs.warn.args.flat()).to.include(messages.getMessage('warning.site-api-version', ['66.0']));
+      });
+
+      it('no site below 68.0 keeps the existing 68.0 pin and warning', async () => {
+        stubProject('66.0');
+        await LightningOut.run([...base, '--runtime', 'CLWR']);
+        const deploy = cmdStubs.log.args
+          .flat()
+          .map(String)
+          .find((m) => m.includes('sf project deploy start'));
+        expect(deploy).to.match(/--api-version 68\.0$/);
+        expect(cmdStubs.warn.args.flat()).to.include(messages.getMessage('warning.source-api-version', ['66.0']));
+      });
+
+      it('an empty --site reaches the generator blank-site error, not the site-required error', async () => {
+        create.restore();
+        let err: Error | undefined;
+        try {
+          await LightningOut.run([...guest.slice(0, -1), '']);
+        } catch (e) {
+          err = e as Error;
+        }
+        expect(err?.message).to.match(/site must be a non-empty/);
+      });
+
+      it('validates access from a flag against runtime from the file (merged runtime)', async () => {
+        const file = path.join(os.tmpdir(), `lo-def-${Date.now()}-${Math.random()}.json`);
+        fs.writeFileSync(file, JSON.stringify({ appName: 'A', runtime: 'CLWR', site: 'S' }));
+        try {
+          await LightningOut.run(['--definition-file', file, '--access', 'guest']);
+          expect(passedOpts()).to.deep.include({ runtime: 'CLWR', access: 'guest', site: 'S' });
+        } finally {
+          fs.rmSync(file, { force: true });
+        }
+      });
+
+      it('a dotted top-level key is not suggested as itself', async () => {
+        const file = path.join(os.tmpdir(), `lo-def-${Date.now()}-${Math.random()}.json`);
+        fs.writeFileSync(file, JSON.stringify({ 'eca.callbackUrl': 'x' }));
+        try {
+          await LightningOut.run([...guest, '--definition-file', file]);
+        } finally {
+          fs.rmSync(file, { force: true });
+        }
+        expect(cmdStubs.warn.args.flat()).to.include(
+          messages.getMessage('warning.unknown-definition-key', ['eca.callbackUrl'])
+        );
       });
 
       it('warns with a suggestion for a near-miss definition-file key', async () => {
@@ -386,19 +446,20 @@ describe('template generate lightning-out (unit)', () => {
       expect(suggestKey('bogus', known)).to.equal(undefined);
     });
     it('unknownKeyWarning suggests within eca.* for nested keys', () => {
-      expect(unknownKeyWarning('eca.Name')).to.equal(
+      expect(unknownKeyWarning('Name', true)).to.equal(
         messages.getMessage('warning.unknown-definition-key-suggest', ['eca.Name', 'eca.name'])
       );
-      expect(unknownKeyWarning('eca.scopes')).to.equal(
+      expect(unknownKeyWarning('scopes', true)).to.equal(
         messages.getMessage('warning.unknown-definition-key', ['eca.scopes'])
       );
     });
     it('mergeLightningOutInputs reports unknown nested eca keys and passes site/access through', () => {
-      const { opts, unknownKeys } = mergeLightningOutInputs(
+      const { opts, unknownKeys, unknownEcaKeys } = mergeLightningOutInputs(
         { site: 'S', access: 'guest', eca: { name: 'E', scopes: 'x', distributionState: 'y' } },
         {}
       );
-      expect(unknownKeys).to.have.members(['eca.scopes', 'eca.distributionState']);
+      expect(unknownKeys).to.deep.equal([]);
+      expect(unknownEcaKeys).to.have.members(['scopes', 'distributionState']);
       expect(opts).to.deep.include({ site: 'S', access: 'guest' });
     });
     it('validateDefinitionShape type-checks site and access (null is not "unlink")', () => {
@@ -412,6 +473,8 @@ describe('template generate lightning-out (unit)', () => {
       expect(isBelowSitesApi('69.0')).to.equal(false);
       expect(isBelowSitesApi('70')).to.equal(false);
       expect(isBelowSitesApi(undefined)).to.equal(false);
+      // non-numeric fails safe: not "below", so CLWR without a site errors
+      expect(isBelowSitesApi('latest')).to.equal(false);
     });
     it('ignoredGuestEcaInputs names flags first, else definition-file keys', () => {
       expect(

@@ -139,17 +139,13 @@ export function validateDefinitionShape(defn: Record<string, unknown>, flags: Li
 export function mergeLightningOutInputs(
   defn: Record<string, unknown>,
   flags: LightningOutFlags
-): { opts: LightningOutOptions; unknownKeys: string[] } {
+): { opts: LightningOutOptions; unknownKeys: string[]; unknownEcaKeys: string[] } {
   const known: ReadonlySet<string> = new Set(KNOWN_KEYS);
   const knownEca: ReadonlySet<string> = new Set(KNOWN_ECA_KEYS);
   const ecaDefn = (defn.eca ?? {}) as Record<string, unknown>;
   // Nested eca.* keys are reported too, so a typo like "eca.callbackURL" isn't silently dropped.
-  const unknownKeys = [
-    ...Object.keys(defn).filter((k) => !known.has(k)),
-    ...Object.keys(ecaDefn)
-      .filter((k) => !knownEca.has(k))
-      .map((k) => `eca.${k}`),
-  ];
+  const unknownKeys = Object.keys(defn).filter((k) => !known.has(k));
+  const unknownEcaKeys = Object.keys(ecaDefn).filter((k) => !knownEca.has(k));
   const opts: LightningOutOptions = {
     appName: flags['app-name'] ?? (defn.appName as string),
     runtime: (flags.runtime ?? defn.runtime) as LightningOutOptions['runtime'],
@@ -164,7 +160,7 @@ export function mergeLightningOutInputs(
     access: (flags.access ?? defn.access) as LightningOutOptions['access'],
     outputdir: flags['output-dir'],
   };
-  return { opts, unknownKeys };
+  return { opts, unknownKeys, unknownEcaKeys };
 }
 
 /**
@@ -192,13 +188,16 @@ export function isBelowSitesApi(projApi: string | undefined): boolean {
   return !!projApi && Number(projApi) < SITES_API_VERSION;
 }
 
-/** Warning text for an unrecognized definition-file key, with a "did you mean" when one is close. */
-export function unknownKeyWarning(key: string): string {
-  const [parent, child] = key.startsWith('eca.') ? ['eca.', key.slice(4)] : ['', key];
-  const suggestion = suggestKey(child, parent ? KNOWN_ECA_KEYS : KNOWN_KEYS);
+/**
+ * Warning text for an unrecognized definition-file key, with a "did you mean" when one is close.
+ * `nested` = the key came from inside the `eca` object (suggest among eca.* keys).
+ */
+export function unknownKeyWarning(key: string, nested = false): string {
+  const shown = nested ? `eca.${key}` : key;
+  const suggestion = suggestKey(key, nested ? KNOWN_ECA_KEYS : KNOWN_KEYS);
   return suggestion
-    ? messages.getMessage('warning.unknown-definition-key-suggest', [key, `${parent}${suggestion}`])
-    : messages.getMessage('warning.unknown-definition-key', [key]);
+    ? messages.getMessage('warning.unknown-definition-key-suggest', [shown, nested ? `eca.${suggestion}` : suggestion])
+    : messages.getMessage('warning.unknown-definition-key', [shown]);
 }
 
 /** Names of the eca inputs a guest run ignores, as the user supplied them (flag or definition-file key). */
@@ -284,9 +283,10 @@ export default class LightningOut extends SfCommand<CreateOutput> {
     const { flags } = await this.parse(LightningOut);
     const defn = flags['definition-file'] ? readDefinition(flags['definition-file']) : {};
     validateDefinitionShape(defn, flags);
-    const { opts, unknownKeys } = mergeLightningOutInputs(defn, flags);
+    const { opts, unknownKeys, unknownEcaKeys } = mergeLightningOutInputs(defn, flags);
 
     unknownKeys.forEach((k) => this.warn(unknownKeyWarning(k)));
+    unknownEcaKeys.forEach((k) => this.warn(unknownKeyWarning(k, true)));
 
     const isClwr = opts.runtime === 'CLWR';
     const isGuest = isClwr && opts.access === 'guest';
@@ -296,9 +296,9 @@ export default class LightningOut extends SfCommand<CreateOutput> {
 
     // A CLWR app file without <sites> can unlink the app's site when deployed at 69.0+, so a site is
     // required unless the project is known to be below 69.0 (where <sites> can't be deployed and
-    // Core keeps the link). Checked before generating so no files are written. A blank site is the
-    // generator's error, not this one.
-    if (isClwr && !opts.site && !isBelowSitesApi(projApi)) {
+    // Core keeps the link). Checked before generating so no files are written. A blank or empty site
+    // is the generator's error, not this one.
+    if (isClwr && opts.site === undefined && !isBelowSitesApi(projApi)) {
       throw projApi
         ? messages.createError('error.clwr-site-required', [projApi])
         : messages.createError('error.clwr-site-required-no-project');
@@ -320,9 +320,17 @@ export default class LightningOut extends SfCommand<CreateOutput> {
       templates: getCustomTemplates(this.configAggregator),
     });
 
-    const belowFloor = isBelowApiFloor(projApi);
-    this.warnAfterGenerate(opts, { projApi, belowFloor, isGuest, outputDir, staleFiles });
-    this.printGuidance(opts, { belowFloor, isClwr, isGuest, outputDir });
+    // <sites> raises the deploy floor from 68.0 to 69.0, so with a site the 69.0 warning and pin
+    // replace the 68.0 ones (otherwise the printed deploy command would pin a version that drops <sites>).
+    const pinApi = opts.site
+      ? isBelowSitesApi(projApi)
+        ? '69.0'
+        : undefined
+      : isBelowApiFloor(projApi)
+      ? '68.0'
+      : undefined;
+    this.warnAfterGenerate(opts, { projApi, isGuest, outputDir, staleFiles });
+    this.printGuidance(opts, { pinApi, isClwr, isGuest, outputDir });
 
     return result; // --json returns the full CreateOutput (created[])
   }
@@ -330,12 +338,12 @@ export default class LightningOut extends SfCommand<CreateOutput> {
   /** Post-generate warnings (`this.warn`, so they also appear in the --json `warnings` array). */
   private warnAfterGenerate(
     opts: LightningOutOptions,
-    ctx: { projApi?: string; belowFloor: boolean; isGuest: boolean; outputDir: string; staleFiles: string[] }
+    ctx: { projApi?: string; isGuest: boolean; outputDir: string; staleFiles: string[] }
   ): void {
-    if (ctx.belowFloor) {
+    if (opts.site === undefined && isBelowApiFloor(ctx.projApi)) {
       this.warn(messages.getMessage('warning.source-api-version', [String(ctx.projApi)]));
     }
-    if (opts.site) {
+    if (opts.site !== undefined) {
       if (!ctx.projApi) {
         this.warn(messages.getMessage('warning.site-no-project'));
       } else if (isBelowSitesApi(ctx.projApi)) {
@@ -354,11 +362,11 @@ export default class LightningOut extends SfCommand<CreateOutput> {
   /** Success guidance (log/info are suppressed automatically under --json). */
   private printGuidance(
     opts: LightningOutOptions,
-    ctx: { belowFloor: boolean; isClwr: boolean; isGuest: boolean; outputDir: string }
+    ctx: { pinApi?: string; isClwr: boolean; isGuest: boolean; outputDir: string }
   ): void {
-    // Only pin --api-version to the 68.0 deploy floor when the project is below it; otherwise omit
-    // the optional flag so the user's own (>= floor) project default applies rather than being downgraded.
-    const apiVersionSuffix = ctx.belowFloor ? ' --api-version 68.0' : '';
+    // Only pin --api-version when the project is below the deploy floor (68.0, or 69.0 with a site);
+    // otherwise omit the optional flag so the user's own project default applies rather than being downgraded.
+    const apiVersionSuffix = ctx.pinApi ? ` --api-version ${ctx.pinApi}` : '';
     this.info(messages.getMessage('success.components-exist'));
     this.log(messages.getMessage('success.next-step', [ctx.outputDir, shellQuoteArg(ctx.outputDir), apiVersionSuffix]));
     if (ctx.isClwr) {

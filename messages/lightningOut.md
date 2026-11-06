@@ -114,7 +114,7 @@ A CLWR app needs a site. Specify the name of the Experience Cloud site to link t
 
 # error.clwr-site-required-no-project
 
-A CLWR app needs a site. Specify the name of the Experience Cloud site to link the app to with --site, or with "site" in the definition file. At API version 69.0 and later, deploying a CLWR app without a site can remove the app's existing site link. To generate an app without a site for an earlier API version, run this command in a Salesforce DX project whose sourceApiVersion is earlier than 69.0.
+A CLWR app needs a site. Specify the name of the Experience Cloud site to link the app to with --site, or with "site" in the definition file. At API version 69.0 and later, deploying a CLWR app without a site can remove the app's existing site link. No sourceApiVersion was found, because the current directory isn't in a Salesforce DX project or its sfdx-project.json doesn't set sourceApiVersion. To generate an app without a site for an earlier API version, run this command from a Salesforce DX project whose sourceApiVersion is earlier than 69.0.
 
 # warning.site-api-version
 
@@ -122,7 +122,7 @@ Linking a site requires API version 69.0 or later, but your local project's sour
 
 # warning.site-no-project
 
-Linking a site requires API version 69.0 or later. No Salesforce DX project was found, so make sure that the project you deploy from has sourceApiVersion 69.0 or later.
+Linking a site requires API version 69.0 or later. No sourceApiVersion was found, because the current directory isn't in a Salesforce DX project or its sfdx-project.json doesn't set sourceApiVersion. Make sure that the project you deploy from has sourceApiVersion 69.0 or later.
 
 # warning.guest-eca-ignored
 
@@ -130,7 +130,7 @@ Guest access doesn't use an External Client Application, so these inputs are ign
 
 # warning.guest-stale-files
 
-%s also contains files that guest access doesn't need, such as files from an earlier run. If you deploy the whole directory, they're deployed too: %s
+%s also contains External Client Application, CORS, or org settings files. Guest access doesn't need them, and they might be from an earlier run or belong to other apps. If you deploy the whole directory, they're deployed too, so check them first: %s
 
 # warning.source-api-version
 
