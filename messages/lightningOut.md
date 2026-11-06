@@ -118,7 +118,7 @@ A CLWR app needs a site. Specify the name of the Experience Cloud site to link t
 
 # error.clwr-site-required-cwd
 
-A CLWR app needs a site. Specify the name of the Experience Cloud site to link the app to with --site, or with "site" in the definition file. The current directory is in a different Salesforce DX project from --output-dir, and "sf project deploy start" run from here uses that project's sourceApiVersion (%s; if it isn't set, the org's default API version is used). At API version 69.0 and later, deploying a CLWR app without a site can remove the app's existing site link.
+A CLWR app needs a site. Specify the name of the Experience Cloud site to link the app to with --site, or with "site" in the definition file. The current directory is in a different Salesforce DX project from --output-dir, and "sf project deploy start" run from here uses that project's sourceApiVersion (%s). At API version 69.0 and later, deploying a CLWR app without a site can remove the app's existing site link.
 
 # warning.cwd-api-version
 

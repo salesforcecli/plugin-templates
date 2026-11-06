@@ -330,7 +330,15 @@ export default class LightningOut extends SfCommand<CreateOutput> {
     // project sets none), so a different cwd project must also be known to be below 69.0 before a
     // CLWR app can omit <sites>, and it gets the same version warnings.
     const cwd = path.resolve(outputDir) === process.cwd() ? out : await getProjectApi('.');
-    const cwdOther = cwd.root !== undefined && cwd.root !== out.root;
+    // Compare real paths so a symlinked --output-dir (macOS /tmp -> /private/tmp) isn't "different".
+    const realRoot = (r?: string): string | undefined => {
+      try {
+        return r && fs.realpathSync(r);
+      } catch {
+        return r;
+      }
+    };
+    const cwdOther = cwd.root !== undefined && realRoot(cwd.root) !== realRoot(out.root);
 
     // A CLWR app file without <sites> can unlink the app's site when deployed at 69.0+, so a site is
     // required unless the project is known to be below 69.0 (where <sites> can't be deployed and
@@ -343,7 +351,9 @@ export default class LightningOut extends SfCommand<CreateOutput> {
           : messages.createError('error.clwr-site-required-no-project');
       }
       if (cwdOther && !isBelowSitesApi(cwd.api)) {
-        throw messages.createError('error.clwr-site-required-cwd', [cwd.api ?? 'not set']);
+        throw messages.createError('error.clwr-site-required-cwd', [
+          cwd.api ?? "not set, so the org's default API version is used",
+        ]);
       }
     }
 

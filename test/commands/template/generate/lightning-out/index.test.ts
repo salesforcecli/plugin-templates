@@ -412,7 +412,9 @@ describe('template generate lightning-out (unit)', () => {
       it('CLWR without a site needs a site when the cwd project sets no sourceApiVersion', async () => {
         stubTwoProjects('68.0', undefined);
         const err = await runCwdErr([...base, '--runtime', 'CLWR', '--output-dir', 'other/proj']);
-        expect(err?.message).to.equal(messages.getMessage('error.clwr-site-required-cwd', ['not set']));
+        expect(err?.message).to.equal(
+          messages.getMessage('error.clwr-site-required-cwd', ["not set, so the org's default API version is used"])
+        );
       });
 
       it('CLWR without a site is allowed when both projects are below 69.0', async () => {
