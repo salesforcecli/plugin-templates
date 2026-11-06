@@ -375,6 +375,36 @@ describe('template generate lightning-out (unit)', () => {
         expect(resolveProject.firstCall.args[0]).to.equal(path.resolve('some/out'));
       });
 
+      it('a numeric sourceApiVersion (68, not "68.0") is handled, not a crash', async () => {
+        stubProject(68 as unknown as string);
+        await LightningOut.run([...base, '--runtime', 'CLWR']);
+        expect(create.calledOnce).to.equal(true);
+        expect(cmdStubs.info.args.flat()).to.include(messages.getMessage('success.clwr-site'));
+      });
+
+      it('CLWR without a site needs a site when the cwd project is at 69.0+, even if --output-dir is below', async () => {
+        resolveProject.callsFake((p: string) =>
+          Promise.resolve({
+            resolveProjectConfig: () =>
+              Promise.resolve({ sourceApiVersion: p === path.resolve('other/proj') ? '68.0' : '70.0' }),
+          })
+        );
+        let err: Error | undefined;
+        try {
+          await LightningOut.run([...base, '--runtime', 'CLWR', '--output-dir', 'other/proj']);
+        } catch (e) {
+          err = e as Error;
+        }
+        expect(err?.message).to.equal(messages.getMessage('error.clwr-site-required', ['70.0']));
+        expect(create.called).to.equal(false);
+      });
+
+      it('--site with an unparsable sourceApiVersion warns that the version is not recognized', async () => {
+        stubProject('latest');
+        await LightningOut.run(guest);
+        expect(cmdStubs.warn.args.flat()).to.include(messages.getMessage('warning.site-unknown-version', ['latest']));
+      });
+
       for (const bad of ['latest', '0x40', '1e1', '66.0abc']) {
         it(`CLWR without a site and an unparsable sourceApiVersion ${JSON.stringify(
           bad

@@ -170,11 +170,13 @@ export function mergeLightningOutInputs(
  * site (D3) and drives the API-version warnings. Returns undefined when there's no DX project, so
  * generating outside a project doesn't error.
  */
-async function getSourceApiVersion(outputDir: string): Promise<string | undefined> {
+async function getSourceApiVersion(dir: string): Promise<string | undefined> {
   try {
-    const project = await SfProject.resolve(path.resolve(outputDir));
+    const project = await SfProject.resolve(path.resolve(dir));
     const projectJson = await project.resolveProjectConfig();
-    return projectJson.sourceApiVersion as string | undefined;
+    // sfdx-project.json isn't schema-validated on read, so a bare number (68) can arrive here.
+    const v: unknown = projectJson.sourceApiVersion;
+    return typeof v === 'string' || typeof v === 'number' ? String(v) : undefined;
   } catch (e) {
     return undefined;
   }
@@ -317,15 +319,23 @@ export default class LightningOut extends SfCommand<CreateOutput> {
     const outputDir = opts.outputdir ?? '.';
     // CLI-side sourceApiVersion checks, against the project the files are generated into.
     const projApi = await getSourceApiVersion(outputDir);
+    // `sf project deploy start` takes its version from the cwd's project, so when the cwd is a
+    // different project, it must also be known to be below 69.0 before a CLWR app can omit <sites>.
+    const cwdApi = path.resolve(outputDir) === process.cwd() ? projApi : await getSourceApiVersion('.');
 
     // A CLWR app file without <sites> can unlink the app's site when deployed at 69.0+, so a site is
     // required unless the project is known to be below 69.0 (where <sites> can't be deployed and
     // Core keeps the link). Checked before generating so no files are written. A blank or empty site
     // is the generator's error, not this one.
-    if (isClwr && opts.site === undefined && !isBelowSitesApi(projApi)) {
-      throw projApi
-        ? messages.createError('error.clwr-site-required', [projApi])
-        : messages.createError('error.clwr-site-required-no-project');
+    if (isClwr && opts.site === undefined) {
+      if (!isBelowSitesApi(projApi)) {
+        throw projApi
+          ? messages.createError('error.clwr-site-required', [projApi])
+          : messages.createError('error.clwr-site-required-no-project');
+      }
+      if (cwdApi !== undefined && !isBelowSitesApi(cwdApi)) {
+        throw messages.createError('error.clwr-site-required', [cwdApi]);
+      }
     }
 
     if (isGuest) {
@@ -360,6 +370,8 @@ export default class LightningOut extends SfCommand<CreateOutput> {
     if (opts.site !== undefined) {
       if (!ctx.projApi) {
         this.warn(messages.getMessage('warning.site-no-project'));
+      } else if (Number.isNaN(parseApiVersion(ctx.projApi))) {
+        this.warn(messages.getMessage('warning.site-unknown-version', [ctx.projApi]));
       } else if (isBelowSitesApi(ctx.projApi)) {
         this.warn(messages.getMessage('warning.site-api-version', [ctx.projApi]));
       }

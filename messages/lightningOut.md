@@ -74,7 +74,7 @@ Name of the Experience Cloud site to link a CLWR app to.
 
 # flags.site.description
 
-Use the site name that's shown on the All Sites page in Setup, not the site's URL path prefix. The site must be active and built with the Lightning Out (LWR) template (a Build Your Own (LWR) site is also accepted, but it needs a Lightning Out page to serve the app). Applies only to runtime CLWR. The site is linked when you deploy the app, which requires API version 69.0 or later. At API version 69.0 and later, the flag is required for CLWR, because deploying a CLWR app without a site can remove the app's existing site link. An app can link to only one site.
+Use the site name that's shown on the All Sites page in Setup, not the site's URL path prefix. The site must be active and built with the Lightning Out (LWR) template (a Build Your Own (LWR) site is also accepted, but it needs a Lightning Out page to serve the app). Applies only to runtime CLWR. The site is linked when you deploy the app, which requires API version 69.0 or later. At API version 69.0 and later, or when the project's API version can't be determined, the flag is required for CLWR, because deploying a CLWR app without a site can remove the app's existing site link. An app can link to only one site.
 
 # flags.access.summary
 
@@ -123,6 +123,10 @@ Linking a site requires API version 69.0 or later, but your local project's sour
 # warning.site-no-project
 
 Linking a site requires API version 69.0 or later. No sourceApiVersion was found, because the output directory isn't in a Salesforce DX project or its sfdx-project.json doesn't set sourceApiVersion. Make sure that the project you deploy from has sourceApiVersion 69.0 or later.
+
+# warning.site-unknown-version
+
+Linking a site requires API version 69.0 or later, but your local project's sourceApiVersion "%s" isn't an API version such as 69.0. Set sourceApiVersion to 69.0 or later in sfdx-project.json before you deploy.
 
 # warning.guest-eca-ignored
 
