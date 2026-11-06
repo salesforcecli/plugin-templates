@@ -166,12 +166,12 @@ describe('template generate lightning-out:', () => {
         { ensureExitCode: 0 }
       ).shellOutput;
 
-    it('warns and pins --api-version 68.0 when sourceApiVersion is below the floor', () => {
+    it('warns (without an --api-version pin) when sourceApiVersion is below the floor', () => {
       setSourceApiVersion('64.0');
       const { stdout, stderr } = runNoJson(outDir('floor-below'));
       expect(stderr).to.match(/is below 68\.0/); // floor warning fired
       expect(stdout).to.include('sf project deploy start');
-      expect(stdout).to.include('--api-version 68.0');
+      expect(stdout).to.not.include('--api-version');
     });
 
     it('omits --api-version (lets the project default win) when sourceApiVersion is at or above the floor', () => {
@@ -245,7 +245,7 @@ describe('template generate lightning-out:', () => {
       expect(fs.existsSync(dir)).to.equal(false);
     });
 
-    it('CLWR without a site at 66.0: allowed, pins 68.0, prints the Setup link guidance', () => {
+    it('CLWR without a site at 66.0: allowed, no pin, prints the Setup link guidance', () => {
       setSourceApiVersion('66.0');
       const dir = outDir('site-legacy');
       const { stdout } = execCmd(
@@ -253,18 +253,18 @@ describe('template generate lightning-out:', () => {
         { ensureExitCode: 0 }
       ).shellOutput;
       expect(appXml(dir)).to.not.include('<sites>');
-      expect(stdout).to.include('--api-version 68.0');
+      expect(stdout).to.not.include('--api-version');
       expect(flat(stdout)).to.include('Link the app to your Experience Cloud site after deploying');
     });
 
-    it('site at 66.0: pins 69.0 and warns about the site API version, not the 68.0 floor', () => {
+    it('site at 66.0: no pin, warns about the site API version, not the 68.0 floor', () => {
       setSourceApiVersion('66.0');
       const dir = outDir('site-pin');
       const { stdout, stderr } = execCmd(
         `template generate lightning-out --app-name SiteApp --runtime CLWR --access guest --site S --output-dir ${dir}`,
         { ensureExitCode: 0 }
       ).shellOutput;
-      expect(stdout).to.include('--api-version 69.0');
+      expect(stdout).to.not.include('--api-version');
       expect(flat(stderr)).to.include('Linking a site requires API version 69.0 or later');
       expect(stderr).to.not.match(/is below 68\.0/);
     });

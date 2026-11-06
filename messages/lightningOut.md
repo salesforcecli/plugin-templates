@@ -134,7 +134,7 @@ Guest access doesn't use an External Client Application, so these inputs are ign
 
 # warning.source-api-version
 
-Your local project's sourceApiVersion (%s) is below 68.0, the minimum API version this scaffold supports for deployment. Set sourceApiVersion to 68.0 or later in sfdx-project.json, or pass --api-version 68.0 or later when you deploy.
+Your local project's sourceApiVersion (%s) is below 68.0, the minimum API version this scaffold supports for deployment. Set sourceApiVersion to 68.0 or later in sfdx-project.json before you deploy. The --api-version flag of the deploy command doesn't change the metadata version, so it doesn't help.
 
 # warning.org-settings
 
@@ -142,7 +142,7 @@ Deploying the generated MyDomain and Security settings changes two org-wide sett
 
 # success.next-step
 
-Scaffold generated in %s. Deploy it with: sf project deploy start --source-dir %s%s
+Scaffold generated in %s. Deploy it with: sf project deploy start --source-dir %s
 
 # success.app-id
 

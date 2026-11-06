@@ -55,18 +55,12 @@ describe('template generate lightning-out (unit)', () => {
     expect(LightningOut.hidden).to.not.equal(true);
   });
 
-  it('renders the output dir into success.next-step and includes --api-version only when the suffix is supplied', () => {
+  it('renders the output dir into success.next-step and never suggests --api-version', () => {
     const outputdir = 'force-app/main/default';
-
-    // Below-floor projects get the explicit 68.0 pin.
-    const belowFloor = messages.getMessage('success.next-step', [outputdir, outputdir, ' --api-version 68.0']);
-    expect(belowFloor).to.include(`sf project deploy start --source-dir ${outputdir} --api-version 68.0`);
-    expect(belowFloor).to.not.include('<output-dir>');
-
-    // At/above-floor projects omit the optional flag so the project's own default applies.
-    const atOrAboveFloor = messages.getMessage('success.next-step', [outputdir, outputdir, '']);
-    expect(atOrAboveFloor).to.include(`sf project deploy start --source-dir ${outputdir}`);
-    expect(atOrAboveFloor).to.not.include('--api-version');
+    const msg = messages.getMessage('success.next-step', [outputdir, outputdir]);
+    expect(msg).to.include(`sf project deploy start --source-dir ${outputdir}`);
+    expect(msg).to.not.include('--api-version');
+    expect(msg).to.not.include('<output-dir>');
   });
 
   describe('post-run output', () => {
@@ -345,14 +339,14 @@ describe('template generate lightning-out (unit)', () => {
         expect(cmdStubs.warn.args.flat()).to.not.include(messages.getMessage('warning.org-settings'));
       });
 
-      it('--site at 68.0 pins --api-version 69.0 (the old 68.0 floor would not pin at all)', async () => {
+      it('--site at 68.0 prints no --api-version (it would not change the manifest version)', async () => {
         stubProject('68.0');
         await LightningOut.run(guest);
         const deploy = cmdStubs.log.args
           .flat()
           .map(String)
           .find((m) => m.includes('sf project deploy start'));
-        expect(deploy).to.match(/--api-version 69\.0$/);
+        expect(deploy).to.not.include('--api-version');
       });
 
       it('--site with no project prints no --api-version', async () => {
@@ -365,36 +359,36 @@ describe('template generate lightning-out (unit)', () => {
         expect(deploy).to.not.include('--api-version');
       });
 
-      it('LWR_CORE below 68.0 still pins --api-version 68.0', async () => {
+      it('LWR_CORE below 68.0 prints no --api-version and warns to raise sourceApiVersion', async () => {
         stubProject('66.0');
         await LightningOut.run([...base, '--runtime', 'LWR_CORE']);
         const deploy = cmdStubs.log.args
           .flat()
           .map(String)
           .find((m) => m.includes('sf project deploy start'));
-        expect(deploy).to.match(/--api-version 68\.0$/);
+        expect(deploy).to.not.include('--api-version');
       });
 
-      it('--site below 69.0 pins --api-version 69.0 and drops the 68.0 floor warning', async () => {
+      it('--site below 69.0 prints no --api-version and drops the 68.0 floor warning', async () => {
         stubProject('66.0');
         await LightningOut.run(guest);
         const deploy = cmdStubs.log.args
           .flat()
           .map(String)
           .find((m) => m.includes('sf project deploy start'));
-        expect(deploy).to.match(/--api-version 69\.0$/);
+        expect(deploy).to.not.include('--api-version');
         expect(cmdStubs.warn.args.flat()).to.not.include(messages.getMessage('warning.source-api-version', ['66.0']));
         expect(cmdStubs.warn.args.flat()).to.include(messages.getMessage('warning.site-api-version', ['66.0']));
       });
 
-      it('no site below 68.0 keeps the existing 68.0 pin and warning', async () => {
+      it('no site below 68.0 keeps the 68.0 floor warning and prints no pin', async () => {
         stubProject('66.0');
         await LightningOut.run([...base, '--runtime', 'CLWR']);
         const deploy = cmdStubs.log.args
           .flat()
           .map(String)
           .find((m) => m.includes('sf project deploy start'));
-        expect(deploy).to.match(/--api-version 68\.0$/);
+        expect(deploy).to.not.include('--api-version');
         expect(cmdStubs.warn.args.flat()).to.include(messages.getMessage('warning.source-api-version', ['66.0']));
       });
 

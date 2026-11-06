@@ -330,17 +330,8 @@ export default class LightningOut extends SfCommand<CreateOutput> {
       templates: getCustomTemplates(this.configAggregator),
     });
 
-    // <sites> raises the deploy floor from 68.0 to 69.0, so with a site the 69.0 warning and pin
-    // replace the 68.0 ones (otherwise the printed deploy command would pin a version that drops <sites>).
-    const pinApi = opts.site
-      ? isBelowSitesApi(projApi)
-        ? '69.0'
-        : undefined
-      : isBelowApiFloor(projApi)
-      ? '68.0'
-      : undefined;
     this.warnAfterGenerate(opts, { projApi, isGuest, outputDir, staleFiles });
-    this.printGuidance(opts, { pinApi, isClwr, isGuest, outputDir });
+    this.printGuidance(opts, { isClwr, isGuest, outputDir });
 
     return result; // --json returns the full CreateOutput (created[])
   }
@@ -372,13 +363,10 @@ export default class LightningOut extends SfCommand<CreateOutput> {
   /** Success guidance (log/info are suppressed automatically under --json). */
   private printGuidance(
     opts: LightningOutOptions,
-    ctx: { pinApi?: string; isClwr: boolean; isGuest: boolean; outputDir: string }
+    ctx: { isClwr: boolean; isGuest: boolean; outputDir: string }
   ): void {
-    // Only pin --api-version when the project is below the deploy floor (68.0, or 69.0 with a site);
-    // otherwise omit the optional flag so the user's own project default applies rather than being downgraded.
-    const apiVersionSuffix = ctx.pinApi ? ` --api-version ${ctx.pinApi}` : '';
     this.info(messages.getMessage('success.components-exist'));
-    this.log(messages.getMessage('success.next-step', [ctx.outputDir, shellQuoteArg(ctx.outputDir), apiVersionSuffix]));
+    this.log(messages.getMessage('success.next-step', [ctx.outputDir, shellQuoteArg(ctx.outputDir)]));
     if (ctx.isClwr) {
       if (opts.access === undefined) this.info(messages.getMessage('success.access-default'));
       if (opts.site) {
