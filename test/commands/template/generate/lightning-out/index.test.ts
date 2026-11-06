@@ -17,16 +17,22 @@
 import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
-import { Messages } from '@salesforce/core';
+import { Messages, SfProject } from '@salesforce/core';
 import { TestContext } from '@salesforce/core/testSetup';
 import { expect } from 'chai';
+import type * as sinon from 'sinon';
 import { stubSfCommandUx, stubUx } from '@salesforce/sf-plugins-core';
 import { TemplateService } from '@salesforce/templates';
 import LightningOut, {
+  findAuthOnlyFiles,
+  ignoredGuestEcaInputs,
+  isBelowSitesApi,
   mergeLightningOutInputs,
   readDefinition,
   isBelowApiFloor,
   shellQuoteArg,
+  suggestKey,
+  unknownKeyWarning,
   validateDefinitionShape,
 } from '../../../../../src/commands/template/generate/lightning-out/index.js';
 
@@ -77,16 +83,31 @@ describe('template generate lightning-out (unit)', () => {
       'https://example.com',
     ];
 
+    let create: sinon.SinonStub;
+    /** Stub the DX project lookup; undefined = no project found. */
+    const stubProject = (sourceApiVersion?: string): void => {
+      if (sourceApiVersion === undefined) {
+        $$.SANDBOX.stub(SfProject, 'resolve').rejects(new Error('no project'));
+      } else {
+        $$.SANDBOX.stub(SfProject, 'resolve').resolves({
+          resolveProjectConfig: () => Promise.resolve({ sourceApiVersion }),
+        } as unknown as SfProject);
+      }
+    };
+    const runtimeArgs = (runtime: string): string[] =>
+      runtime === 'CLWR' ? ['--runtime', 'CLWR', '--site', 'My Site'] : ['--runtime', runtime];
+
     beforeEach(() => {
       stubUx($$.SANDBOX);
-      $$.SANDBOX.stub(TemplateService.prototype, 'create').resolves({
+      create = $$.SANDBOX.stub(TemplateService.prototype, 'create').resolves({
         outputDir: '.',
         created: [],
         rawOutput: '',
       });
     });
 
-    it('shows the site-link guidance, and not the App ID line, for CLWR', async () => {
+    it('shows the Setup site-link guidance, and not the App ID line, for CLWR without a site below 69.0', async () => {
+      stubProject('68.0');
       await LightningOut.run([...base, '--runtime', 'CLWR']);
       const info = cmdStubs.info.args.flat();
       expect(info).to.include(messages.getMessage('success.clwr-site'));
@@ -105,7 +126,7 @@ describe('template generate lightning-out (unit)', () => {
       for (const runtime of ['LWR_CORE', 'CLWR']) {
         cmdStubs.info.resetHistory();
         // eslint-disable-next-line no-await-in-loop
-        await LightningOut.run([...base, '--runtime', runtime]);
+        await LightningOut.run([...base, ...runtimeArgs(runtime)]);
         const info = cmdStubs.info.args.flat();
         expect(info).to.include(messages.getMessage('success.dont-delete'));
         expect(info).to.include(messages.getMessage('success.eca-overwrite', ['MyLoAppEca']));
@@ -126,13 +147,179 @@ describe('template generate lightning-out (unit)', () => {
       for (const runtime of ['LWR_CORE', 'CLWR']) {
         cmdStubs.warn.resetHistory();
         // eslint-disable-next-line no-await-in-loop
-        await LightningOut.run([...base, '--runtime', runtime]);
+        await LightningOut.run([...base, ...runtimeArgs(runtime)]);
         const warned = cmdStubs.warn.args.flat();
         expect(warned).to.include(messages.getMessage('warning.org-settings'));
       }
       expect(messages.getMessage('warning.org-settings'))
         .to.include('isFirstPartyCookieUseRequired')
         .and.to.include('enableOauthCorsPolicy');
+    });
+
+    describe('CLWR site and access', () => {
+      const guest = ['--app-name', 'MyLoApp', '--runtime', 'CLWR', '--access', 'guest', '--site', 'My Site'];
+      const passedOpts = (): Record<string, unknown> => create.firstCall.args[1] as Record<string, unknown>;
+
+      for (const [label, api] of [
+        ['sourceApiVersion 69.0', '69.0'],
+        ['sourceApiVersion 70.0', '70.0'],
+        ['no DX project', undefined],
+      ] as Array<[string, string | undefined]>) {
+        it(`errors, without generating, for CLWR without a site (${label})`, async () => {
+          stubProject(api);
+          let err: Error | undefined;
+          try {
+            await LightningOut.run([...base, '--runtime', 'CLWR']);
+          } catch (e) {
+            err = e as Error;
+          }
+          expect(err?.name).to.equal(api ? 'Clwr-site-requiredError' : 'Clwr-site-required-no-projectError');
+          expect(create.called).to.equal(false);
+        });
+      }
+
+      for (const api of ['66.0', '68.0']) {
+        it(`allows CLWR without a site at sourceApiVersion ${api}`, async () => {
+          stubProject(api);
+          await LightningOut.run([...base, '--runtime', 'CLWR']);
+          expect(create.calledOnce).to.equal(true);
+          expect(cmdStubs.info.args.flat()).to.include(messages.getMessage('success.clwr-site'));
+        });
+      }
+
+      it('takes site/access from the definition file and lets flags override them', async () => {
+        stubProject('69.0');
+        const file = path.join(os.tmpdir(), `lo-def-${Date.now()}-${Math.random()}.json`);
+        fs.writeFileSync(file, JSON.stringify({ appName: 'A', runtime: 'CLWR', access: 'guest', site: 'FileSite' }));
+        try {
+          await LightningOut.run(['--definition-file', file]);
+          expect(passedOpts()).to.deep.include({ site: 'FileSite', access: 'guest' });
+          create.resetHistory();
+          await LightningOut.run(['--definition-file', file, '--site', 'FlagSite']);
+          expect(passedOpts()).to.deep.include({ site: 'FlagSite', access: 'guest' });
+        } finally {
+          fs.rmSync(file, { force: true });
+        }
+      });
+
+      it('passes --access with LWR_CORE to the generator, which rejects it', async () => {
+        stubProject('69.0');
+        create.restore();
+        let err: Error | undefined;
+        try {
+          await LightningOut.run([...base, '--runtime', 'LWR_CORE', '--access', 'authenticated']);
+        } catch (e) {
+          err = e as Error;
+        }
+        expect(err?.message).to.match(/access applies only to runtime CLWR/);
+      });
+
+      it('rejects a site/access key with LWR_CORE coming from the definition file', async () => {
+        stubProject('69.0');
+        create.restore();
+        const file = path.join(os.tmpdir(), `lo-def-${Date.now()}-${Math.random()}.json`);
+        fs.writeFileSync(file, JSON.stringify({ site: 'S', access: 'guest' }));
+        let err: Error | undefined;
+        try {
+          await LightningOut.run([...base, '--runtime', 'LWR_CORE', '--definition-file', file]);
+        } catch (e) {
+          err = e as Error;
+        } finally {
+          fs.rmSync(file, { force: true });
+        }
+        expect(err?.message).to.match(/site applies only to runtime CLWR/);
+        expect(err?.message).to.match(/access applies only to runtime CLWR/);
+      });
+
+      it('guest: no org-settings warning and no ECA notes; prints the site and guest guidance', async () => {
+        stubProject('69.0');
+        await LightningOut.run(guest);
+        const warned = cmdStubs.warn.args.flat();
+        const info = cmdStubs.info.args.flat();
+        expect(warned).to.not.include(messages.getMessage('warning.org-settings'));
+        expect(info).to.not.include(messages.getMessage('success.dont-delete'));
+        expect(info.map(String).some((m) => m.includes('External Client Application "'))).to.equal(false);
+        expect(info).to.include(messages.getMessage('success.clwr-site-linked', ['My Site']));
+        expect(info).to.include(messages.getMessage('success.clwr-guest-public'));
+        expect(info).to.include(messages.getMessage('success.site-relink'));
+        expect(info).to.not.include(messages.getMessage('success.access-default'));
+        expect(info).to.not.include(messages.getMessage('success.app-id'));
+      });
+
+      it('guest: warns about ignored eca inputs', async () => {
+        stubProject('69.0');
+        await LightningOut.run([...guest, '--eca-name', 'E', '--eca-contact-email', 'e@e.com']);
+        expect(cmdStubs.warn.args.flat()).to.include(
+          messages.getMessage('warning.guest-eca-ignored', ['--eca-name, --eca-contact-email'])
+        );
+      });
+
+      it('authenticated with a site: access-default info, site guidance, ECA notes, no guest line', async () => {
+        stubProject('69.0');
+        await LightningOut.run([...base, '--runtime', 'CLWR', '--site', ' My Site ']);
+        const info = cmdStubs.info.args.flat();
+        expect(info).to.include(messages.getMessage('success.access-default'));
+        expect(info).to.include(messages.getMessage('success.clwr-site-linked', ['My Site']));
+        expect(info).to.not.include(messages.getMessage('success.clwr-guest-public'));
+        expect(info).to.include(messages.getMessage('success.dont-delete'));
+        expect(cmdStubs.warn.args.flat()).to.include(messages.getMessage('warning.org-settings'));
+      });
+
+      it('explicit --access authenticated suppresses the access-default info', async () => {
+        stubProject('69.0');
+        await LightningOut.run([...base, '--runtime', 'CLWR', '--site', 'S', '--access', 'authenticated']);
+        expect(cmdStubs.info.args.flat()).to.not.include(messages.getMessage('success.access-default'));
+      });
+
+      for (const [api, expected] of [
+        ['66.0', 'site-api-version'],
+        ['68.0', 'site-api-version'],
+        ['69.0', undefined],
+        [undefined, 'site-no-project'],
+      ] as Array<[string | undefined, string | undefined]>) {
+        it(`--site at sourceApiVersion ${String(api)}: ${expected ?? 'no'} version warning`, async () => {
+          stubProject(api);
+          await LightningOut.run(guest);
+          const warned = cmdStubs.warn.args.flat().map(String);
+          const siteApi = api ? messages.getMessage('warning.site-api-version', [api]) : undefined;
+          const noProject = messages.getMessage('warning.site-no-project');
+          expect(siteApi !== undefined && warned.includes(siteApi)).to.equal(expected === 'site-api-version');
+          expect(warned.includes(noProject)).to.equal(expected === 'site-no-project');
+        });
+      }
+
+      it('guest: warns about authenticated-only files already in the output dir', async () => {
+        stubProject('69.0');
+        const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lo-guest-'));
+        try {
+          fs.mkdirSync(path.join(dir, 'externalClientApps'));
+          fs.writeFileSync(path.join(dir, 'externalClientApps', 'Old.eca-meta.xml'), '');
+          await LightningOut.run([...guest, '--output-dir', dir]);
+          const stale = cmdStubs.warn.args
+            .flat()
+            .map(String)
+            .find((m) => m.includes('guest access doesn'));
+          expect(stale).to.include(path.join('externalClientApps', 'Old.eca-meta.xml'));
+        } finally {
+          fs.rmSync(dir, { recursive: true, force: true });
+        }
+      });
+
+      it('warns with a suggestion for a near-miss definition-file key', async () => {
+        stubProject('69.0');
+        const file = path.join(os.tmpdir(), `lo-def-${Date.now()}-${Math.random()}.json`);
+        fs.writeFileSync(file, JSON.stringify({ sites: ['S'], eca: { callbackURL: 'x' } }));
+        try {
+          await LightningOut.run([...guest, '--definition-file', file]);
+        } finally {
+          fs.rmSync(file, { force: true });
+        }
+        const warned = cmdStubs.warn.args.flat();
+        expect(warned).to.include(messages.getMessage('warning.unknown-definition-key-suggest', ['sites', 'site']));
+        expect(warned).to.include(
+          messages.getMessage('warning.unknown-definition-key-suggest', ['eca.callbackURL', 'eca.callbackUrl'])
+        );
+      });
     });
 
     it('points to the App ID location and the app-id attribute', () => {
@@ -144,7 +331,7 @@ describe('template generate lightning-out (unit)', () => {
 
   it('keeps the runtime flag summary short and puts the detail in its description', () => {
     expect(LightningOut.flags.runtime.summary).to.not.include('Setup');
-    expect(LightningOut.flags.runtime.description).to.include('link it to your site in Setup');
+    expect(LightningOut.flags.runtime.description).to.include('--site').and.to.include('--access');
   });
 
   describe('mergeLightningOutInputs', () => {
@@ -154,8 +341,8 @@ describe('template generate lightning-out (unit)', () => {
         { 'app-name': 'FromFlag', 'eca-name': 'EcaFlag' }
       );
       expect(opts.appName).to.equal('FromFlag');
-      expect(opts.eca.name).to.equal('EcaFlag');
-      expect(opts.eca.contactEmail).to.equal('f@f.com'); // unspecified flag falls back to file
+      expect(opts.eca?.name).to.equal('EcaFlag');
+      expect(opts.eca?.contactEmail).to.equal('f@f.com'); // unspecified flag falls back to file
     });
     it('replaces list keys wholesale when the flag layer provides them', () => {
       const { opts } = mergeLightningOutInputs(
@@ -186,6 +373,70 @@ describe('template generate lightning-out (unit)', () => {
       const { opts } = mergeLightningOutInputs({}, {});
       expect(opts.hostDomains).to.deep.equal([]);
       expect(opts.components).to.equal(undefined);
+    });
+  });
+
+  describe('site/access helpers', () => {
+    it('suggestKey: case-insensitive match, then edit distance <= 2, else undefined', () => {
+      const known = ['appName', 'runtime', 'hostDomains', 'components', 'eca', 'site', 'access'];
+      expect(suggestKey('Site', known)).to.equal('site');
+      expect(suggestKey('sites', known)).to.equal('site');
+      expect(suggestKey('hostDomain', known)).to.equal('hostDomains');
+      expect(suggestKey('acess', known)).to.equal('access');
+      expect(suggestKey('bogus', known)).to.equal(undefined);
+    });
+    it('unknownKeyWarning suggests within eca.* for nested keys', () => {
+      expect(unknownKeyWarning('eca.Name')).to.equal(
+        messages.getMessage('warning.unknown-definition-key-suggest', ['eca.Name', 'eca.name'])
+      );
+      expect(unknownKeyWarning('eca.scopes')).to.equal(
+        messages.getMessage('warning.unknown-definition-key', ['eca.scopes'])
+      );
+    });
+    it('mergeLightningOutInputs reports unknown nested eca keys and passes site/access through', () => {
+      const { opts, unknownKeys } = mergeLightningOutInputs(
+        { site: 'S', access: 'guest', eca: { name: 'E', scopes: 'x', distributionState: 'y' } },
+        {}
+      );
+      expect(unknownKeys).to.have.members(['eca.scopes', 'eca.distributionState']);
+      expect(opts).to.deep.include({ site: 'S', access: 'guest' });
+    });
+    it('validateDefinitionShape type-checks site and access (null is not "unlink")', () => {
+      expect(() => validateDefinitionShape({ site: ['a'] }, {})).to.throw(/site/);
+      expect(() => validateDefinitionShape({ site: null }, {})).to.throw(/site/);
+      expect(() => validateDefinitionShape({ access: true }, {})).to.throw(/access/);
+      expect(() => validateDefinitionShape({ site: 1 }, { site: 'ok' })).to.not.throw();
+    });
+    it('isBelowSitesApi', () => {
+      expect(isBelowSitesApi('68.0')).to.equal(true);
+      expect(isBelowSitesApi('69.0')).to.equal(false);
+      expect(isBelowSitesApi('70')).to.equal(false);
+      expect(isBelowSitesApi(undefined)).to.equal(false);
+    });
+    it('ignoredGuestEcaInputs names flags first, else definition-file keys', () => {
+      expect(
+        ignoredGuestEcaInputs({ eca: { name: 'E', callbackUrl: 'u' } }, { 'eca-name': 'F', 'eca-contact-email': 'x' })
+      ).to.deep.equal(['--eca-name', '--eca-contact-email', 'eca.callbackUrl']);
+      expect(ignoredGuestEcaInputs({}, {})).to.deep.equal([]);
+    });
+    it('findAuthOnlyFiles lists only authenticated-only artifacts', () => {
+      const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lo-auth-only-'));
+      try {
+        fs.mkdirSync(path.join(dir, 'corsWhitelistOrigins'));
+        fs.writeFileSync(path.join(dir, 'corsWhitelistOrigins', 'a.corsWhitelistOrigin-meta.xml'), '');
+        fs.mkdirSync(path.join(dir, 'settings'));
+        fs.writeFileSync(path.join(dir, 'settings', 'Security.settings-meta.xml'), '');
+        fs.writeFileSync(path.join(dir, 'settings', 'Other.settings-meta.xml'), '');
+        fs.mkdirSync(path.join(dir, 'lightningOutApps'));
+        fs.writeFileSync(path.join(dir, 'lightningOutApps', 'A.lightningOutApp-meta.xml'), '');
+        expect(findAuthOnlyFiles(dir)).to.deep.equal([
+          path.join('corsWhitelistOrigins', 'a.corsWhitelistOrigin-meta.xml'),
+          path.join('settings', 'Security.settings-meta.xml'),
+        ]);
+        expect(findAuthOnlyFiles(path.join(dir, 'missing'))).to.deep.equal([]);
+      } finally {
+        fs.rmSync(dir, { recursive: true, force: true });
+      }
     });
   });
 
