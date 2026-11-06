@@ -302,7 +302,7 @@ describe('template generate lightning-out:', () => {
       expect(stderr).to.match(/guest, authenticated/);
     });
 
-    it('definition file supplies site/access; --site overrides it; typo keys get a suggestion', () => {
+    it('definition file supplies site/access; --site overrides it; an unrecognized key warns', () => {
       setSourceApiVersion('69.0');
       const def = path.join(session.project.dir, 'lo-site-def.json');
       fs.writeFileSync(
@@ -315,7 +315,7 @@ describe('template generate lightning-out:', () => {
       }).shellOutput;
       expect(listFiles(fromFile)).to.deep.equal([appFile]);
       expect(appXml(fromFile)).to.include('<siteName>FileSite</siteName>');
-      expect(flat(stderr)).to.include('Ignoring unrecognized key "acess" in --definition-file. Did you mean "access"?');
+      expect(flat(stderr)).to.include('Ignoring unrecognized key "acess" in --definition-file.');
 
       const overridden = outDir('def-site-override');
       execCmd(`template generate lightning-out --definition-file ${def} --site FlagSite --output-dir ${overridden}`, {
@@ -411,7 +411,7 @@ describe('template generate lightning-out:', () => {
         expect(all).to.include(path.join('externalClientApps', 'SiteApp_ECA.eca-meta.xml'));
       });
 
-      it('carries unknown-key suggestions and eca.name in guest-eca-ignored', () => {
+      it('carries unknown-key warnings and eca.name in guest-eca-ignored', () => {
         setSourceApiVersion('69.0');
         const def = path.join(session.project.dir, 'lo-json-keys.json');
         fs.writeFileSync(
@@ -430,7 +430,7 @@ describe('template generate lightning-out:', () => {
           { ensureExitCode: 0 }
         );
         const all = flat((out.jsonOutput?.warnings ?? []).join(' | '));
-        expect(all).to.include('Ignoring unrecognized key "sites" in --definition-file. Did you mean "site"?');
+        expect(all).to.include('Ignoring unrecognized key "sites" in --definition-file.');
         expect(all).to.include('Ignoring unrecognized key "eca.scopes" in --definition-file.');
         expect(all).to.include('these inputs are ignored: eca.name');
       });

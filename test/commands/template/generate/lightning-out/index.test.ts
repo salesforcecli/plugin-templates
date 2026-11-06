@@ -31,7 +31,6 @@ import LightningOut, {
   readDefinition,
   isBelowApiFloor,
   shellQuoteArg,
-  suggestKey,
   unknownKeyWarning,
   validateDefinitionShape,
 } from '../../../../../src/commands/template/generate/lightning-out/index.js';
@@ -509,22 +508,6 @@ describe('template generate lightning-out (unit)', () => {
         );
       });
 
-      it('warns with a suggestion for a near-miss definition-file key', async () => {
-        stubProject('69.0');
-        const file = path.join(os.tmpdir(), `lo-def-${Date.now()}-${Math.random()}.json`);
-        fs.writeFileSync(file, JSON.stringify({ sites: ['S'], eca: { callbackURL: 'x' } }));
-        try {
-          await LightningOut.run([...guest, '--definition-file', file]);
-        } finally {
-          fs.rmSync(file, { force: true });
-        }
-        const warned = cmdStubs.warn.args.flat();
-        expect(warned).to.include(messages.getMessage('warning.unknown-definition-key-suggest', ['sites', 'site']));
-        expect(warned).to.include(
-          messages.getMessage('warning.unknown-definition-key-suggest', ['eca.callbackURL', 'eca.callbackUrl'])
-        );
-      });
-
       describe('D3 site-required rule variants', () => {
         const clwr = [...base, '--runtime', 'CLWR'];
         const runErr = async (args: string[]): Promise<Error | undefined> => {
@@ -830,15 +813,13 @@ describe('template generate lightning-out (unit)', () => {
           expect(passedOpts()).to.deep.include({ access: 'guest', site: 'S' });
         });
 
-        it("keys 'Site' and 'Access' warn with a did-you-mean", async () => {
+        it("keys 'Site' and 'Access' (wrong case) are unrecognized and warn", async () => {
           await withDefFile({ Site: 'x', Access: 'guest' }, async (file) => {
             await LightningOut.run([...guest, '--definition-file', file]);
           });
           const warned = cmdStubs.warn.args.flat();
-          expect(warned).to.include(messages.getMessage('warning.unknown-definition-key-suggest', ['Site', 'site']));
-          expect(warned).to.include(
-            messages.getMessage('warning.unknown-definition-key-suggest', ['Access', 'access'])
-          );
+          expect(warned).to.include(messages.getMessage('warning.unknown-definition-key', ['Site']));
+          expect(warned).to.include(messages.getMessage('warning.unknown-definition-key', ['Access']));
         });
 
         it('an unrecognized nested eca key gets the plain unknown-key warning', async () => {
@@ -919,24 +900,11 @@ describe('template generate lightning-out (unit)', () => {
   });
 
   describe('site/access helpers', () => {
-    it('suggestKey: on an edit-distance tie, the first known key wins', () => {
-      expect(suggestKey('ab', ['ac', 'ad'])).to.equal('ac');
-    });
-    it('suggestKey: case-insensitive match, then edit distance <= 2, else undefined', () => {
-      const known = ['appName', 'runtime', 'hostDomains', 'components', 'eca', 'site', 'access'];
-      expect(suggestKey('Site', known)).to.equal('site');
-      expect(suggestKey('sites', known)).to.equal('site');
-      expect(suggestKey('hostDomain', known)).to.equal('hostDomains');
-      expect(suggestKey('acess', known)).to.equal('access');
-      expect(suggestKey('bogus', known)).to.equal(undefined);
-    });
-    it('unknownKeyWarning suggests within eca.* for nested keys', () => {
-      expect(unknownKeyWarning('Name', true)).to.equal(
-        messages.getMessage('warning.unknown-definition-key-suggest', ['eca.Name', 'eca.name'])
-      );
+    it('unknownKeyWarning prefixes nested keys with eca.', () => {
       expect(unknownKeyWarning('scopes', true)).to.equal(
         messages.getMessage('warning.unknown-definition-key', ['eca.scopes'])
       );
+      expect(unknownKeyWarning('scopes')).to.equal(messages.getMessage('warning.unknown-definition-key', ['scopes']));
     });
     it('mergeLightningOutInputs normalizes null site/access to undefined', () => {
       const { opts } = mergeLightningOutInputs({ site: null, access: null }, {});

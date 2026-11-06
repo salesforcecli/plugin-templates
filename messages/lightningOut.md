@@ -104,10 +104,6 @@ Definition file field "%s" must be %s.
 
 Ignoring unrecognized key "%s" in --definition-file.
 
-# warning.unknown-definition-key-suggest
-
-Ignoring unrecognized key "%s" in --definition-file. Did you mean "%s"?
-
 # error.clwr-site-required
 
 A CLWR app needs a site. Specify the name of the Experience Cloud site to link the app to with --site, or with "site" in the definition file. Your local project's sourceApiVersion is %s. At API version 69.0 and later, deploying a CLWR app without a site can remove the app's existing site link.

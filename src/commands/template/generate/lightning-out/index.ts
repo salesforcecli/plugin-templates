@@ -44,37 +44,6 @@ const KNOWN_ECA_KEYS = ['name', 'contactEmail', 'callbackUrl'] as const;
 /** First API version whose LightningOutApp accepts <sites>; at/after it, omitting <sites> can unlink. */
 const SITES_API_VERSION = 69;
 
-/** Levenshtein distance; small inputs only (definition-file keys). */
-function editDistance(a: string, b: string): number {
-  const row = Array.from({ length: b.length + 1 }, (_, j) => j);
-  for (let i = 1; i <= a.length; i++) {
-    let prev = row[0];
-    row[0] = i;
-    for (let j = 1; j <= b.length; j++) {
-      const cur = row[j];
-      row[j] = Math.min(row[j] + 1, row[j - 1] + 1, prev + (a[i - 1] === b[j - 1] ? 0 : 1));
-      prev = cur;
-    }
-  }
-  return row[b.length];
-}
-
-/**
- * Suggest the known key an unrecognized key was probably meant to be: a case-insensitive match, else
- * the closest key within edit distance 2 (e.g. "sites" -> "site", "hostDomain" -> "hostDomains").
- */
-export function suggestKey(key: string, known: readonly string[]): string | undefined {
-  const lower = key.toLowerCase();
-  const exact = known.find((k) => k.toLowerCase() === lower);
-  if (exact) return exact;
-  let best: { k: string; d: number } | undefined;
-  for (const k of known) {
-    const d = editDistance(lower, k.toLowerCase());
-    if (d <= 2 && (!best || d < best.d)) best = { k, d };
-  }
-  return best?.k;
-}
-
 /** Parse the --definition-file JSON, surfacing a clear error on malformed or non-object input. */
 export function readDefinition(file: string): Record<string, unknown> {
   let parsed: unknown;
@@ -210,16 +179,9 @@ export function isBelowSitesApi(projApi: string | undefined): boolean {
   return parseApiVersion(projApi) < SITES_API_VERSION;
 }
 
-/**
- * Warning text for an unrecognized definition-file key, with a "did you mean" when one is close.
- * `nested` = the key came from inside the `eca` object (suggest among eca.* keys).
- */
+/** Warning text for an unrecognized definition-file key (`nested` = the key came from inside `eca`). */
 export function unknownKeyWarning(key: string, nested = false): string {
-  const shown = nested ? `eca.${key}` : key;
-  const suggestion = suggestKey(key, nested ? KNOWN_ECA_KEYS : KNOWN_KEYS);
-  return suggestion
-    ? messages.getMessage('warning.unknown-definition-key-suggest', [shown, nested ? `eca.${suggestion}` : suggestion])
-    : messages.getMessage('warning.unknown-definition-key', [shown]);
+  return messages.getMessage('warning.unknown-definition-key', [nested ? `eca.${key}` : key]);
 }
 
 /** Names of the eca inputs a guest run ignores, as the user supplied them (flag or definition-file key). */
