@@ -69,6 +69,7 @@
     "flagAliases": ["outputdir"],
     "flagChars": ["d"],
     "flags": [
+      "access",
       "app-name",
       "components",
       "definition-file",
@@ -80,7 +81,8 @@
       "json",
       "loglevel",
       "output-dir",
-      "runtime"
+      "runtime",
+      "site"
     ],
     "plugin": "@salesforce/plugin-templates"
   },
