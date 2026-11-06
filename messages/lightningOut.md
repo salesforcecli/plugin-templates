@@ -116,6 +116,14 @@ A CLWR app needs a site. Specify the name of the Experience Cloud site to link t
 
 A CLWR app needs a site. Specify the name of the Experience Cloud site to link the app to with --site, or with "site" in the definition file. At API version 69.0 and later, deploying a CLWR app without a site can remove the app's existing site link. No sourceApiVersion was found, because the output directory isn't in a Salesforce DX project or its sfdx-project.json doesn't set sourceApiVersion. To generate an app without a site for an earlier API version, generate it into a Salesforce DX project whose sourceApiVersion is earlier than 69.0.
 
+# error.clwr-site-required-cwd
+
+A CLWR app needs a site. Specify the name of the Experience Cloud site to link the app to with --site, or with "site" in the definition file. The current directory is in a different Salesforce DX project from --output-dir, and "sf project deploy start" run from here uses that project's sourceApiVersion (%s; if it isn't set, the org's default API version is used). At API version 69.0 and later, deploying a CLWR app without a site can remove the app's existing site link.
+
+# warning.cwd-api-version
+
+The current directory is in a different Salesforce DX project from --output-dir, with sourceApiVersion %s. "sf project deploy start" uses the sourceApiVersion of the project it runs from, and this app needs %s or later, so deploy from the project that contains --output-dir.
+
 # warning.site-api-version
 
 Linking a site requires API version 69.0 or later, but your local project's sourceApiVersion is %s, so deploying the generated app fails. Set sourceApiVersion to 69.0 or later in sfdx-project.json before you deploy. The --api-version flag of the deploy command doesn't change the metadata version, so it doesn't help.

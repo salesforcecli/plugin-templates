@@ -85,6 +85,7 @@ describe('template generate lightning-out (unit)', () => {
         resolveProject.rejects(new Error('no project'));
       } else {
         resolveProject.resolves({
+          getPath: () => '/proj',
           resolveProjectConfig: () => Promise.resolve({ sourceApiVersion }),
         });
       }
@@ -382,21 +383,48 @@ describe('template generate lightning-out (unit)', () => {
         expect(cmdStubs.info.args.flat()).to.include(messages.getMessage('success.clwr-site'));
       });
 
-      it('CLWR without a site needs a site when the cwd project is at 69.0+, even if --output-dir is below', async () => {
-        resolveProject.callsFake((p: string) =>
-          Promise.resolve({
-            resolveProjectConfig: () =>
-              Promise.resolve({ sourceApiVersion: p === path.resolve('other/proj') ? '68.0' : '70.0' }),
-          })
-        );
-        let err: Error | undefined;
+      /** cwd resolves to project "cwd" (cwdApi), --output-dir other/proj to project "out" (outApi). */
+      const stubTwoProjects = (outApi: string | undefined, cwdApi: string | undefined): void => {
+        resolveProject.callsFake((p: string) => {
+          const isOut = p === path.resolve('other/proj');
+          return Promise.resolve({
+            getPath: () => (isOut ? '/out' : '/cwd'),
+            resolveProjectConfig: () => Promise.resolve({ sourceApiVersion: isOut ? outApi : cwdApi }),
+          });
+        });
+      };
+      const runCwdErr = async (args: string[]): Promise<Error | undefined> => {
         try {
-          await LightningOut.run([...base, '--runtime', 'CLWR', '--output-dir', 'other/proj']);
+          await LightningOut.run(args);
         } catch (e) {
-          err = e as Error;
+          return e as Error;
         }
-        expect(err?.message).to.equal(messages.getMessage('error.clwr-site-required', ['70.0']));
+        return undefined;
+      };
+
+      it('CLWR without a site needs a site when the cwd project is at 69.0+, even if --output-dir is below', async () => {
+        stubTwoProjects('68.0', '70.0');
+        const err = await runCwdErr([...base, '--runtime', 'CLWR', '--output-dir', 'other/proj']);
+        expect(err?.message).to.equal(messages.getMessage('error.clwr-site-required-cwd', ['70.0']));
         expect(create.called).to.equal(false);
+      });
+
+      it('CLWR without a site needs a site when the cwd project sets no sourceApiVersion', async () => {
+        stubTwoProjects('68.0', undefined);
+        const err = await runCwdErr([...base, '--runtime', 'CLWR', '--output-dir', 'other/proj']);
+        expect(err?.message).to.equal(messages.getMessage('error.clwr-site-required-cwd', ['not set']));
+      });
+
+      it('CLWR without a site is allowed when both projects are below 69.0', async () => {
+        stubTwoProjects('68.0', '68.0');
+        await LightningOut.run([...base, '--runtime', 'CLWR', '--output-dir', 'other/proj']);
+        expect(create.calledOnce).to.equal(true);
+      });
+
+      it('--site warns when the cwd project is below 69.0 even if --output-dir is at 70.0', async () => {
+        stubTwoProjects('70.0', '66.0');
+        await LightningOut.run([...guest, '--output-dir', 'other/proj']);
+        expect(cmdStubs.warn.args.flat()).to.include(messages.getMessage('warning.cwd-api-version', ['66.0', '69.0']));
       });
 
       it('--site with an unparsable sourceApiVersion warns that the version is not recognized', async () => {
@@ -540,7 +568,7 @@ describe('template generate lightning-out (unit)', () => {
         });
 
         it('a project without sourceApiVersion gets the no-project error', async () => {
-          resolveProject.resolves({ resolveProjectConfig: () => Promise.resolve({}) });
+          resolveProject.resolves({ getPath: () => '/proj', resolveProjectConfig: () => Promise.resolve({}) });
           const err = await runErr(clwr);
           expect(err?.message).to.equal(messages.getMessage('error.clwr-site-required-no-project'));
           expect(create.called).to.equal(false);

@@ -164,21 +164,27 @@ export function mergeLightningOutInputs(
   return { opts, unknownKeys, unknownEcaKeys };
 }
 
+type ProjectApi = { root?: string; api?: string };
+
 /**
- * Resolve `sourceApiVersion` of the DX project that contains `outputDir` (the project the files will
- * be deployed from; the generator itself has no project context). It decides whether CLWR needs a
- * site (D3) and drives the API-version warnings. Returns undefined when there's no DX project, so
- * generating outside a project doesn't error.
+ * Resolve the DX project that contains `dir` and its `sourceApiVersion` (the generator itself has no
+ * project context). `root` is undefined when there's no DX project, so generating outside a project
+ * doesn't error; `api` is undefined when there's no project or it doesn't set sourceApiVersion.
  */
-async function getSourceApiVersion(dir: string): Promise<string | undefined> {
+async function getProjectApi(dir: string): Promise<ProjectApi> {
+  let project: SfProject;
   try {
-    const project = await SfProject.resolve(path.resolve(dir));
+    project = await SfProject.resolve(path.resolve(dir));
+  } catch (e) {
+    return {};
+  }
+  try {
     const projectJson = await project.resolveProjectConfig();
     // sfdx-project.json isn't schema-validated on read, so a bare number (68) can arrive here.
     const v: unknown = projectJson.sourceApiVersion;
-    return typeof v === 'string' || typeof v === 'number' ? String(v) : undefined;
+    return { root: project.getPath(), api: typeof v === 'string' || typeof v === 'number' ? String(v) : undefined };
   } catch (e) {
-    return undefined;
+    return { root: project.getPath() };
   }
 }
 
@@ -318,10 +324,13 @@ export default class LightningOut extends SfCommand<CreateOutput> {
 
     const outputDir = opts.outputdir ?? '.';
     // CLI-side sourceApiVersion checks, against the project the files are generated into.
-    const projApi = await getSourceApiVersion(outputDir);
-    // `sf project deploy start` takes its version from the cwd's project, so when the cwd is a
-    // different project, it must also be known to be below 69.0 before a CLWR app can omit <sites>.
-    const cwdApi = path.resolve(outputDir) === process.cwd() ? projApi : await getSourceApiVersion('.');
+    const out = await getProjectApi(outputDir);
+    const projApi = out.api;
+    // `sf project deploy start` takes its version from the cwd's project (or the org default when that
+    // project sets none), so a different cwd project must also be known to be below 69.0 before a
+    // CLWR app can omit <sites>, and it gets the same version warnings.
+    const cwd = path.resolve(outputDir) === process.cwd() ? out : await getProjectApi('.');
+    const cwdOther = cwd.root !== undefined && cwd.root !== out.root;
 
     // A CLWR app file without <sites> can unlink the app's site when deployed at 69.0+, so a site is
     // required unless the project is known to be below 69.0 (where <sites> can't be deployed and
@@ -333,8 +342,8 @@ export default class LightningOut extends SfCommand<CreateOutput> {
           ? messages.createError('error.clwr-site-required', [projApi])
           : messages.createError('error.clwr-site-required-no-project');
       }
-      if (cwdApi !== undefined && !isBelowSitesApi(cwdApi)) {
-        throw messages.createError('error.clwr-site-required', [cwdApi]);
+      if (cwdOther && !isBelowSitesApi(cwd.api)) {
+        throw messages.createError('error.clwr-site-required-cwd', [cwd.api ?? 'not set']);
       }
     }
 
@@ -353,7 +362,7 @@ export default class LightningOut extends SfCommand<CreateOutput> {
       templates: getCustomTemplates(this.configAggregator),
     });
 
-    this.warnAfterGenerate(opts, { projApi, isGuest, outputDir, staleFiles });
+    this.warnAfterGenerate(opts, { projApi, cwdApi: cwdOther ? cwd.api : undefined, isGuest, outputDir, staleFiles });
     this.printGuidance(opts, { isClwr, isGuest, outputDir });
 
     return result; // --json returns the full CreateOutput (created[])
@@ -362,10 +371,18 @@ export default class LightningOut extends SfCommand<CreateOutput> {
   /** Post-generate warnings (`this.warn`, so they also appear in the --json `warnings` array). */
   private warnAfterGenerate(
     opts: LightningOutOptions,
-    ctx: { projApi?: string; isGuest: boolean; outputDir: string; staleFiles: string[] }
+    ctx: { projApi?: string; cwdApi?: string; isGuest: boolean; outputDir: string; staleFiles: string[] }
   ): void {
     if (opts.site === undefined && isBelowApiFloor(ctx.projApi)) {
       this.warn(messages.getMessage('warning.source-api-version', [String(ctx.projApi)]));
+    }
+    // A different cwd project sets the deploy version, so warn about it too.
+    if (ctx.cwdApi !== undefined) {
+      if (opts.site === undefined && isBelowApiFloor(ctx.cwdApi)) {
+        this.warn(messages.getMessage('warning.cwd-api-version', [ctx.cwdApi, '68.0']));
+      } else if (opts.site !== undefined && isBelowSitesApi(ctx.cwdApi)) {
+        this.warn(messages.getMessage('warning.cwd-api-version', [ctx.cwdApi, '69.0']));
+      }
     }
     if (opts.site !== undefined) {
       if (!ctx.projApi) {
