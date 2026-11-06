@@ -156,8 +156,9 @@ export function mergeLightningOutInputs(
       contactEmail: flags['eca-contact-email'] ?? (ecaDefn.contactEmail as string),
       callbackUrl: flags['eca-callback-url'] ?? (ecaDefn.callbackUrl as string),
     },
-    site: flags.site ?? (defn.site as string | undefined),
-    access: (flags.access ?? defn.access) as LightningOutOptions['access'],
+    // Normalize null to undefined so the `site === undefined` checks (D3, warnings) stay sound.
+    site: flags.site ?? ((defn.site ?? undefined) as string | undefined),
+    access: (flags.access ?? defn.access ?? undefined) as LightningOutOptions['access'],
     outputdir: flags['output-dir'],
   };
   return { opts, unknownKeys, unknownEcaKeys };
@@ -228,16 +229,25 @@ const AUTH_ONLY_FILES = [
   path.join('settings', 'Security.settings-meta.xml'),
 ];
 
-/** Relative paths of authenticated-only files already present in an output dir. */
+/**
+ * Relative paths of authenticated-only metadata files already present in an output dir.
+ * Advisory only: any filesystem error is treated as "nothing found" rather than failing the command.
+ */
 export function findAuthOnlyFiles(outputDir: string): string[] {
-  const found: string[] = [];
-  for (const dir of AUTH_ONLY_DIRS) {
-    const abs = path.join(outputDir, dir);
-    if (fs.existsSync(abs) && fs.statSync(abs).isDirectory()) {
-      for (const f of fs.readdirSync(abs).sort()) found.push(path.join(dir, f));
+  try {
+    const found: string[] = [];
+    for (const dir of AUTH_ONLY_DIRS) {
+      const abs = path.join(outputDir, dir);
+      if (fs.existsSync(abs) && fs.statSync(abs).isDirectory()) {
+        for (const f of fs.readdirSync(abs).sort()) {
+          if (f.endsWith('-meta.xml')) found.push(path.join(dir, f));
+        }
+      }
     }
+    return [...found, ...AUTH_ONLY_FILES.filter((f) => fs.existsSync(path.join(outputDir, f)))];
+  } catch {
+    return [];
   }
-  return [...found, ...AUTH_ONLY_FILES.filter((f) => fs.existsSync(path.join(outputDir, f)))];
 }
 
 /**
@@ -374,12 +384,13 @@ export default class LightningOut extends SfCommand<CreateOutput> {
       if (opts.site) {
         // The site is linked by the deploy itself; the remaining site setup is org-side.
         this.info(messages.getMessage('success.clwr-site-linked', [opts.site.trim()]));
-        if (ctx.isGuest) this.info(messages.getMessage('success.clwr-guest-public'));
         this.info(messages.getMessage('success.site-relink'));
       } else {
         // Below 69.0: <sites> can't be deployed, so the site is linked in Setup.
         this.info(messages.getMessage('success.clwr-site'));
       }
+      // Guests need a public site page whether the link comes from the deploy or from Setup.
+      if (ctx.isGuest) this.info(messages.getMessage('success.clwr-guest-public'));
     } else {
       // CLWR finds the app through the site link; app-id only applies to LWR_CORE.
       this.info(messages.getMessage('success.app-id'));

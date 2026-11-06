@@ -307,6 +307,74 @@ describe('template generate lightning-out (unit)', () => {
         }
       });
 
+      it('guest: no stale-files warning for an empty output dir; authenticated never warns', async () => {
+        const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'lo-guest-'));
+        const stale = (m: unknown): boolean => String(m).includes("Guest access doesn't need them");
+        try {
+          await LightningOut.run([...guest, '--output-dir', dir]);
+          expect(cmdStubs.warn.args.flat().some(stale)).to.equal(false);
+          fs.mkdirSync(path.join(dir, 'externalClientApps'));
+          fs.writeFileSync(path.join(dir, 'externalClientApps', 'Old.eca-meta.xml'), '');
+          await LightningOut.run([...base, '--runtime', 'CLWR', '--site', 'S', '--output-dir', dir]);
+          expect(cmdStubs.warn.args.flat().some(stale)).to.equal(false);
+        } finally {
+          fs.rmSync(dir, { recursive: true, force: true });
+        }
+      });
+
+      it('guest: warns about ignored eca inputs coming from the definition file', async () => {
+        const file = path.join(os.tmpdir(), `lo-def-${Date.now()}-${Math.random()}.json`);
+        fs.writeFileSync(file, JSON.stringify({ eca: { name: 'E', callbackUrl: 'https://x.example.com/cb' } }));
+        try {
+          await LightningOut.run([...guest, '--definition-file', file]);
+        } finally {
+          fs.rmSync(file, { force: true });
+        }
+        expect(cmdStubs.warn.args.flat()).to.include(
+          messages.getMessage('warning.guest-eca-ignored', ['eca.name, eca.callbackUrl'])
+        );
+      });
+
+      it('guest without a site below 69.0: Setup link guidance plus the public-page line, no ECA notes', async () => {
+        stubProject('66.0');
+        await LightningOut.run(['--app-name', 'MyLoApp', '--runtime', 'CLWR', '--access', 'guest']);
+        const info = cmdStubs.info.args.flat();
+        expect(info).to.include(messages.getMessage('success.clwr-site'));
+        expect(info).to.include(messages.getMessage('success.clwr-guest-public'));
+        expect(info).to.not.include(messages.getMessage('success.dont-delete'));
+        expect(cmdStubs.warn.args.flat()).to.not.include(messages.getMessage('warning.org-settings'));
+      });
+
+      it('--site at 68.0 pins --api-version 69.0 (the old 68.0 floor would not pin at all)', async () => {
+        stubProject('68.0');
+        await LightningOut.run(guest);
+        const deploy = cmdStubs.log.args
+          .flat()
+          .map(String)
+          .find((m) => m.includes('sf project deploy start'));
+        expect(deploy).to.match(/--api-version 69\.0$/);
+      });
+
+      it('--site with no project prints no --api-version', async () => {
+        stubProject(undefined);
+        await LightningOut.run(guest);
+        const deploy = cmdStubs.log.args
+          .flat()
+          .map(String)
+          .find((m) => m.includes('sf project deploy start'));
+        expect(deploy).to.not.include('--api-version');
+      });
+
+      it('LWR_CORE below 68.0 still pins --api-version 68.0', async () => {
+        stubProject('66.0');
+        await LightningOut.run([...base, '--runtime', 'LWR_CORE']);
+        const deploy = cmdStubs.log.args
+          .flat()
+          .map(String)
+          .find((m) => m.includes('sf project deploy start'));
+        expect(deploy).to.match(/--api-version 68\.0$/);
+      });
+
       it('--site below 69.0 pins --api-version 69.0 and drops the 68.0 floor warning', async () => {
         stubProject('66.0');
         await LightningOut.run(guest);
@@ -453,6 +521,11 @@ describe('template generate lightning-out (unit)', () => {
         messages.getMessage('warning.unknown-definition-key', ['eca.scopes'])
       );
     });
+    it('mergeLightningOutInputs normalizes null site/access to undefined', () => {
+      const { opts } = mergeLightningOutInputs({ site: null, access: null }, {});
+      expect(opts.site).to.equal(undefined);
+      expect(opts.access).to.equal(undefined);
+    });
     it('mergeLightningOutInputs reports unknown nested eca keys and passes site/access through', () => {
       const { opts, unknownKeys, unknownEcaKeys } = mergeLightningOutInputs(
         { site: 'S', access: 'guest', eca: { name: 'E', scopes: 'x', distributionState: 'y' } },
@@ -497,6 +570,9 @@ describe('template generate lightning-out (unit)', () => {
           path.join('settings', 'Security.settings-meta.xml'),
         ]);
         expect(findAuthOnlyFiles(path.join(dir, 'missing'))).to.deep.equal([]);
+        // non-metadata files such as .DS_Store are not reported
+        fs.writeFileSync(path.join(dir, 'corsWhitelistOrigins', '.DS_Store'), '');
+        expect(findAuthOnlyFiles(dir)).to.have.length(2);
       } finally {
         fs.rmSync(dir, { recursive: true, force: true });
       }
