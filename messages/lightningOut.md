@@ -32,7 +32,7 @@ Generate the required metadata to scaffold a Lightning Out 2.0 app.
 
 Lightning Out 2.0 lets you embed custom Lightning web components (LWCs) into your external, non-Salesforce apps.
 
-This command gets you started by generating the seven metadata artifact types that a Lightning Out 2.0 app requires into your Salesforce DX project: LightningOutApp, MyDomain and Security settings, one CorsWhitelistOrigin per host domain, and the three External Client Application OAuth components (ExternalClientApplication, ExtlClntAppGlobalOauthSettings, ExtlClntAppOauthSettings). For a CLWR app with --access guest, the command generates only the LightningOutApp, because guest users don't sign in. The command only generates files. It doesn't deploy any metadata to an org.
+This command gets you started by generating the seven metadata artifact types that a Lightning Out 2.0 app requires into your Salesforce DX project: LightningOutApp, MyDomain and Security settings, one CorsWhitelistOrigin per host domain, and the three External Client Application OAuth components (ExternalClientApplication, ExtlClntAppGlobalOauthSettings, ExtlClntAppOauthSettings). For a CLWR app with --access guest, the command generates only the LightningOutApp, because guest users don't sign in. The command only generates files. It doesn't deploy any metadata to an org. When you deploy the generated LightningOutApp, its components and host domains replace the app's existing ones in the org, including any that were added in Setup, so list all of them.
 
 Inputs can come from a --definition-file JSON, individual flags, or both. Flag values take precedence over the file on a per-key basis. The command validates the types of definition-file fields; the underlying generator performs the remaining structural validation, such as required fields and formats.
 
@@ -54,7 +54,7 @@ LWR_CORE serves the app from your Salesforce org to authenticated users. CLWR se
 
 # flags.host-domains.summary
 
-HTTP or HTTPS origin of an external host page that embeds the app. Repeat the flag to specify more than one. Replaces, rather than merges with, any hostDomains in the --definition-file. For CLWR apps, host domains are used only for CORS, which authenticated users need, so they're optional with --access guest. Set up framing for the site in Experience Builder.
+HTTP or HTTPS origin of an external host page that embeds the app. Repeat the flag to specify more than one. Replaces, rather than merges with, any hostDomains in the --definition-file. For CLWR apps, host domains are written to the app's allowed domains and, with --access authenticated, to CORS entries. They're optional with --access guest. For CLWR, also add them to the site's trusted domains and set up framing for the site in Experience Builder.
 
 # flags.components.summary
 
@@ -74,7 +74,7 @@ Name of the Experience Cloud site to link a CLWR app to.
 
 # flags.site.description
 
-Use the site name that's shown on the All Sites page in Setup, not the site's URL path prefix. Applies only to runtime CLWR. The site is linked when you deploy the app, which requires API version 69.0 or later. At API version 69.0 and later, the flag is required for CLWR, because deploying a CLWR app without a site can remove the app's existing site link. An app can link to only one site.
+Use the site name that's shown on the All Sites page in Setup, not the site's URL path prefix. The site must be active and built with the Lightning Out (LWR) template (a Build Your Own (LWR) site is also accepted, but it needs a Lightning Out page to serve the app). Applies only to runtime CLWR. The site is linked when you deploy the app, which requires API version 69.0 or later. At API version 69.0 and later, the flag is required for CLWR, because deploying a CLWR app without a site can remove the app's existing site link. An app can link to only one site.
 
 # flags.access.summary
 
@@ -114,15 +114,15 @@ A CLWR app needs a site. Specify the name of the Experience Cloud site to link t
 
 # error.clwr-site-required-no-project
 
-A CLWR app needs a site. Specify the name of the Experience Cloud site to link the app to with --site, or with "site" in the definition file. At API version 69.0 and later, deploying a CLWR app without a site can remove the app's existing site link. No sourceApiVersion was found, because the current directory isn't in a Salesforce DX project or its sfdx-project.json doesn't set sourceApiVersion. To generate an app without a site for an earlier API version, run this command from a Salesforce DX project whose sourceApiVersion is earlier than 69.0.
+A CLWR app needs a site. Specify the name of the Experience Cloud site to link the app to with --site, or with "site" in the definition file. At API version 69.0 and later, deploying a CLWR app without a site can remove the app's existing site link. No sourceApiVersion was found, because the output directory isn't in a Salesforce DX project or its sfdx-project.json doesn't set sourceApiVersion. To generate an app without a site for an earlier API version, generate it into a Salesforce DX project whose sourceApiVersion is earlier than 69.0.
 
 # warning.site-api-version
 
-Linking a site requires API version 69.0 or later, but your local project's sourceApiVersion is %s. Set sourceApiVersion to 69.0 or later in sfdx-project.json before you deploy.
+Linking a site requires API version 69.0 or later, but your local project's sourceApiVersion is %s, so deploying the generated app fails. Set sourceApiVersion to 69.0 or later in sfdx-project.json before you deploy. The --api-version flag of the deploy command doesn't change the metadata version, so it doesn't help.
 
 # warning.site-no-project
 
-Linking a site requires API version 69.0 or later. No sourceApiVersion was found, because the current directory isn't in a Salesforce DX project or its sfdx-project.json doesn't set sourceApiVersion. Make sure that the project you deploy from has sourceApiVersion 69.0 or later.
+Linking a site requires API version 69.0 or later. No sourceApiVersion was found, because the output directory isn't in a Salesforce DX project or its sfdx-project.json doesn't set sourceApiVersion. Make sure that the project you deploy from has sourceApiVersion 69.0 or later.
 
 # warning.guest-eca-ignored
 
@@ -178,4 +178,4 @@ An app can link to only one site. Deploying the app replaces any site that it's 
 
 # success.clwr-site
 
-Link the app to your Experience Cloud site after deploying. From Setup, in the Quick Find box, enter Lightning Out, and then select "Lightning Out 2.0 App Manager". Edit the app, select your site on the "Linked Communities Site" tab, and save. Then follow the steps in the "Complete Deployment in Experience Builder" dialog, which include publishing the site. On your host page, set the "site-prefix" attribute on the <lightning-out-application> tag to your site's URL path prefix, for example "/mysite". For host-page setup, see "Use Components Outside Salesforce with Lightning Out 2.0" in the Lightning Web Components Developer Guide.
+Link the app to your Experience Cloud site after deploying. From Setup, in the Quick Find box, enter Lightning Out, and then select "Lightning Out 2.0 App Manager". Edit the app, select your site on the "Linked Communities Site" tab, and save. Then follow the steps in the "Complete Deployment in Experience Builder" dialog, which include publishing the site. On your host page, set the "site-prefix" attribute on the <lightning-out-application> tag to your site's URL path prefix, for example "/mysite". For host-page setup, see "Use Components Outside Salesforce with Lightning Out 2.0" in the Lightning Web Components Developer Guide. If you later set sourceApiVersion to 69.0 or later, regenerate the app with --site before you redeploy it, because deploying it without a site at API version 69.0 or later removes the site link.

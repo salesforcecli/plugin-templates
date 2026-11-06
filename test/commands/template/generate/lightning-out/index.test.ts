@@ -367,7 +367,29 @@ describe('template generate lightning-out (unit)', () => {
           .map(String)
           .find((m) => m.includes('sf project deploy start'));
         expect(deploy).to.not.include('--api-version');
+        expect(cmdStubs.warn.args.flat()).to.include(messages.getMessage('warning.source-api-version', ['66.0']));
       });
+
+      it('resolves the DX project from --output-dir, not the current directory', async () => {
+        await LightningOut.run([...base, '--runtime', 'LWR_CORE', '--output-dir', 'some/out']);
+        expect(resolveProject.firstCall.args[0]).to.equal(path.resolve('some/out'));
+      });
+
+      for (const bad of ['latest', '0x40', '1e1', '66.0abc']) {
+        it(`CLWR without a site and an unparsable sourceApiVersion ${JSON.stringify(
+          bad
+        )} still needs a site`, async () => {
+          stubProject(bad);
+          let err: Error | undefined;
+          try {
+            await LightningOut.run([...base, '--runtime', 'CLWR']);
+          } catch (e) {
+            err = e as Error;
+          }
+          expect(err?.name).to.equal('Clwr-site-requiredError');
+          expect(create.called).to.equal(false);
+        });
+      }
 
       it('--site below 69.0 prints no --api-version and drops the 68.0 floor warning', async () => {
         stubProject('66.0');
@@ -883,6 +905,9 @@ describe('template generate lightning-out (unit)', () => {
       expect(isBelowSitesApi(undefined)).to.equal(false);
       // non-numeric fails safe: not "below", so CLWR without a site errors
       expect(isBelowSitesApi('latest')).to.equal(false);
+      expect(isBelowSitesApi('0x40')).to.equal(false);
+      expect(isBelowSitesApi('1e1')).to.equal(false);
+      expect(isBelowSitesApi(' 68.0 ')).to.equal(true);
     });
     it('ignoredGuestEcaInputs names flags first, else definition-file keys', () => {
       expect(
@@ -988,9 +1013,10 @@ describe('template generate lightning-out (unit)', () => {
       });
     });
 
-    it('treats non-numeric strings as not below the floor (current behavior)', () => {
-      // current behavior: Number('garbage')=NaN, NaN<68 is false
-      expect(isBelowApiFloor('garbage')).to.equal(false);
+    it('treats unparsable versions as unknown, not below the floor', () => {
+      for (const bad of ['garbage', '0x40', '1e1', '64.0.1']) {
+        expect(isBelowApiFloor(bad)).to.equal(false);
+      }
     });
   });
 

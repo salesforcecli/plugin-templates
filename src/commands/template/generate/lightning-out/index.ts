@@ -165,13 +165,14 @@ export function mergeLightningOutInputs(
 }
 
 /**
- * Resolve the local DX project's `sourceApiVersion`, used only for a CLI-side advisory warning
- * (the generator itself has no project context). Returns undefined when there's no DX project —
- * generating outside a project must not error.
+ * Resolve `sourceApiVersion` of the DX project that contains `outputDir` (the project the files will
+ * be deployed from; the generator itself has no project context). It decides whether CLWR needs a
+ * site (D3) and drives the API-version warnings. Returns undefined when there's no DX project, so
+ * generating outside a project doesn't error.
  */
-async function getSourceApiVersion(): Promise<string | undefined> {
+async function getSourceApiVersion(outputDir: string): Promise<string | undefined> {
   try {
-    const project = await SfProject.resolve();
+    const project = await SfProject.resolve(path.resolve(outputDir));
     const projectJson = await project.resolveProjectConfig();
     return projectJson.sourceApiVersion as string | undefined;
   } catch (e) {
@@ -179,14 +180,26 @@ async function getSourceApiVersion(): Promise<string | undefined> {
   }
 }
 
-/** True when a project sourceApiVersion is present and below the v68.0 deploy floor. Pure; testable. */
-export function isBelowApiFloor(projApi: string | undefined): boolean {
-  return !!projApi && Number(projApi) < 68;
+/**
+ * Strictly parse an API version such as "68.0" or "68". Anything else (for example "latest", "0x44",
+ * or "1e2") is NaN, so callers treat it as unknown and fail closed.
+ */
+function parseApiVersion(projApi: string | undefined): number {
+  const v = projApi?.trim() ?? '';
+  return /^\d+(\.\d+)?$/.test(v) ? Number(v) : NaN;
 }
 
-/** True when a project sourceApiVersion is present and below 69.0, where <sites> isn't deployable. Pure; testable. */
+/** True when a project sourceApiVersion is known and below the v68.0 deploy floor. Pure; testable. */
+export function isBelowApiFloor(projApi: string | undefined): boolean {
+  return parseApiVersion(projApi) < 68;
+}
+
+/**
+ * True when a project sourceApiVersion is known and below 69.0, where <sites> isn't deployable.
+ * An unknown or unparsable version is not "below", so CLWR without a site fails closed. Pure; testable.
+ */
 export function isBelowSitesApi(projApi: string | undefined): boolean {
-  return !!projApi && Number(projApi) < SITES_API_VERSION;
+  return parseApiVersion(projApi) < SITES_API_VERSION;
 }
 
 /**
@@ -301,8 +314,9 @@ export default class LightningOut extends SfCommand<CreateOutput> {
     const isClwr = opts.runtime === 'CLWR';
     const isGuest = isClwr && opts.access === 'guest';
 
-    // CLI-side sourceApiVersion checks (the generator has no project context).
-    const projApi = await getSourceApiVersion();
+    const outputDir = opts.outputdir ?? '.';
+    // CLI-side sourceApiVersion checks, against the project the files are generated into.
+    const projApi = await getSourceApiVersion(outputDir);
 
     // A CLWR app file without <sites> can unlink the app's site when deployed at 69.0+, so a site is
     // required unless the project is known to be below 69.0 (where <sites> can't be deployed and
@@ -319,7 +333,6 @@ export default class LightningOut extends SfCommand<CreateOutput> {
       if (ignored.length) this.warn(messages.getMessage('warning.guest-eca-ignored', [ignored.join(', ')]));
     }
 
-    const outputDir = opts.outputdir ?? '.';
     // Snapshot before generating: a guest run never writes these, so anything found is left over.
     const staleFiles = isGuest ? findAuthOnlyFiles(outputDir) : [];
 
