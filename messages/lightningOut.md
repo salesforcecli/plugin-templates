@@ -54,7 +54,7 @@ LWR_CORE serves the app from your Salesforce org to authenticated users. CLWR se
 
 # flags.host-domains.summary
 
-HTTP or HTTPS origin of an external host page that embeds the app. Repeat the flag to specify more than one. Replaces, rather than merges with, any hostDomains in the --definition-file. For CLWR apps, host domains are written to the app's allowed domains and, with --access authenticated, to CORS entries. They're optional with --access guest. For CLWR, also add them to the site's trusted domains and set up framing for the site in Experience Builder.
+HTTP or HTTPS origin of an external host page that embeds the app. Repeat the flag to specify more than one. Replaces, rather than merges with, any hostDomains in the --definition-file. Optional for CLWR with --access guest.
 
 # flags.components.summary
 
@@ -74,7 +74,7 @@ Name of the Experience Cloud site to link a CLWR app to.
 
 # flags.site.description
 
-Use the site name shown on the All Sites page in Setup, not its URL path prefix. The site must be active and use the Lightning Out (LWR) template. Applies only to runtime CLWR. The deploy links the site, which requires API version 69.0 or later. At 69.0 and later, or when the project's API version is unknown, this flag is required for CLWR, because deploying a CLWR app without a site can remove its existing site link. An app can link to only one site.
+Use the site name shown on the All Sites page in Setup, not its URL path prefix. The site must be active and use the Lightning Out (LWR) template. Applies only to runtime CLWR, and the deploy requires API version 69.0 or later. At 69.0 and later, or when the project's API version is unknown, this flag is required for CLWR, because deploying a CLWR app without a site can remove its existing site link.
 
 # flags.access.summary
 
@@ -106,19 +106,15 @@ Ignoring unrecognized key "%s" in --definition-file.
 
 # error.clwr-site-required
 
-A CLWR app needs a site. Specify the name of the Experience Cloud site to link the app to with --site, or with "site" in the definition file. Your local project's sourceApiVersion is %s. At API version 69.0 and later, deploying a CLWR app without a site can remove the app's existing site link.
-
-# error.clwr-site-required-no-project
-
-A CLWR app needs a site. Specify the name of the Experience Cloud site to link the app to with --site, or with "site" in the definition file. At API version 69.0 and later, deploying a CLWR app without a site can remove the app's existing site link. No sourceApiVersion was found, because the output directory isn't in a Salesforce DX project or its sfdx-project.json doesn't set sourceApiVersion. To generate an app without a site for an earlier API version, generate it into a Salesforce DX project whose sourceApiVersion is earlier than 69.0.
+A CLWR app needs a site. Specify the name of the Experience Cloud site to link the app to with --site, or with "site" in the definition file. Your local project's sourceApiVersion is %s. At API version 69.0 and later, deploying a CLWR app without a site can remove the app's existing site link. To generate an app without a site, set sourceApiVersion in sfdx-project.json to an earlier version.
 
 # warning.site-api-version
 
-Linking a site requires sourceApiVersion 69.0 or later in sfdx-project.json, but your project's sourceApiVersion is "%s", so deploying this app fails. Update sourceApiVersion before you deploy.
+Linking a site requires sourceApiVersion 69.0 or later in sfdx-project.json, but your project's sourceApiVersion is %s, so deploying this app fails. Update sourceApiVersion before you deploy.
 
 # warning.source-api-version
 
-Your local project's sourceApiVersion (%s) is below 68.0, the minimum API version this scaffold supports for deployment. Set sourceApiVersion to 68.0 or later in sfdx-project.json before you deploy. The --api-version flag of the deploy command doesn't change the metadata version, so it doesn't help.
+Your local project's sourceApiVersion (%s) is below 68.0, the minimum API version this scaffold supports for deployment. Set sourceApiVersion to 68.0 or later in sfdx-project.json, or pass --api-version 68.0 or later when you deploy.
 
 # warning.org-settings
 
@@ -126,7 +122,7 @@ Deploying the generated MyDomain and Security settings changes two org-wide sett
 
 # success.next-step
 
-Scaffold generated in %s. Deploy it with: sf project deploy start --source-dir %s
+Scaffold generated in %s. Deploy it with: sf project deploy start --source-dir %s%s
 
 # success.app-id
 

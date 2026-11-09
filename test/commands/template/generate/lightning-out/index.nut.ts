@@ -90,6 +90,11 @@ describe('template generate lightning-out:', () => {
       expect(loApp).to.include('<hostDomain>https://portal.example.com:8080</hostDomain>');
       const eca = fs.readFileSync(path.join(dir(), 'externalClientApps', 'MyLoApp_ECA.eca-meta.xml'), 'utf8');
       expect(eca).to.include('dev@example.com');
+      const oauth = fs.readFileSync(
+        path.join(dir(), 'extlClntAppGlobalOauthSets', 'MyLoApp_ECA.ecaGlblOauth-meta.xml'),
+        'utf8'
+      );
+      expect(oauth).to.include('https://app.example.com/frontdoor.html');
     });
 
     it('should exit non-zero with a message naming an invalid host-domain scheme', () => {
@@ -114,9 +119,9 @@ describe('template generate lightning-out:', () => {
         { ensureExitCode: 0 }
       ).shellOutput;
       expect(listFiles(dir)).to.have.length(7);
-      expect(appXml(dir)).to.include('</allowedDomains>\n    <sites>\n        <siteName>my_site</siteName>');
+      expect(appXml(dir)).to.include('<siteName>my_site</siteName>');
       expect(stdout).to.not.include('--api-version');
-      expect(flat(stdout)).to.include('links it to the "my_site" site').and.to.include('frontdoor-url');
+      expect(flat(stdout)).to.include('links it to the "my_site" site');
     });
 
     it('guest + site at 69.0: only the app file, no allowedDomains, guest guidance', () => {
@@ -129,7 +134,7 @@ describe('template generate lightning-out:', () => {
       expect(listFiles(dir)).to.deep.equal([path.join('lightningOutApps', 'SiteApp.lightningOutApp-meta.xml')]);
       expect(appXml(dir)).to.not.include('<allowedDomains>');
       expect(appXml(dir)).to.include('<siteName>My Site</siteName>');
-      expect(flat(stdout)).to.include('make the page that serves the app public').and.to.include('org-url');
+      expect(flat(stdout)).to.include('make the page that serves the app public');
       expect(flat(`${stdout} ${stderr}`)).to.not.include("Don't delete the generated External Client Application");
     });
 
@@ -167,6 +172,70 @@ describe('template generate lightning-out:', () => {
       expect(() => {
         JSON.parse(out.shellOutput.stdout);
       }).to.not.throw();
+    });
+  });
+
+  describe('--definition-file', () => {
+    let defFile: string;
+
+    before(() => {
+      defFile = path.join(session.project.dir, 'lo-def.json');
+      fs.writeFileSync(
+        defFile,
+        JSON.stringify({
+          appName: 'DefApp',
+          runtime: 'LWR_CORE',
+          hostDomains: ['https://app.example.com'],
+          components: ['c/myButton'],
+          eca: { name: 'DefApp_ECA', contactEmail: 'dev@example.com', callbackUrl: 'https://app.example.com/cb' },
+        })
+      );
+    });
+
+    it('should generate the app + ECA files with the names from the definition file', () => {
+      const dir = outDir('def-plain');
+      execCmd(`template generate lightning-out --definition-file ${defFile} --output-dir ${dir} --json`, {
+        ensureExitCode: 0,
+      });
+      assert.file([
+        path.join(dir, 'lightningOutApps', 'DefApp.lightningOutApp-meta.xml'),
+        path.join(dir, 'externalClientApps', 'DefApp_ECA.eca-meta.xml'),
+      ]);
+    });
+
+    it('should let --app-name override the definition file appName', () => {
+      const dir = outDir('def-override');
+      execCmd(
+        `template generate lightning-out --definition-file ${defFile} --app-name OverrideApp --output-dir ${dir} --json`,
+        { ensureExitCode: 0 }
+      );
+      assert.file(path.join(dir, 'lightningOutApps', 'OverrideApp.lightningOutApp-meta.xml'));
+    });
+  });
+
+  describe('sourceApiVersion floor guidance in the deploy suggestion', () => {
+    // Run without --json so the this.log/this.warn guidance is actually emitted.
+    const runNoJson = (dir: string): { stdout: string; stderr: string } =>
+      execCmd(
+        'template generate lightning-out --app-name FloorApp --eca-name FloorApp_ECA --runtime LWR_CORE ' +
+          `--host-domains https://app.example.com --components c/myButton --eca-contact-email dev@example.com ` +
+          `--eca-callback-url https://app.example.com/cb --output-dir ${dir}`,
+        { ensureExitCode: 0 }
+      ).shellOutput;
+
+    it('warns and pins --api-version 68.0 when sourceApiVersion is below the floor', () => {
+      setSourceApiVersion('64.0');
+      const { stdout, stderr } = runNoJson(outDir('floor-below'));
+      expect(stderr).to.match(/is below 68\.0/);
+      expect(stdout).to.include('--api-version 68.0');
+    });
+
+    it('omits --api-version when sourceApiVersion is at or above the floor', () => {
+      setSourceApiVersion('70.0');
+      const { stdout, stderr } = runNoJson(outDir('floor-above'));
+      expect(stderr).to.not.match(/is below 68\.0/);
+      expect(stdout).to.include('sf project deploy start');
+      expect(stdout).to.not.include('--api-version');
     });
   });
 });

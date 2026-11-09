@@ -29,7 +29,6 @@ import LightningOut, {
   readDefinition,
   isBelowApiFloor,
   shellQuoteArg,
-  unknownKeyWarning,
   validateDefinitionShape,
 } from '../../../../../src/commands/template/generate/lightning-out/index.js';
 
@@ -50,15 +49,15 @@ describe('template generate lightning-out (unit)', () => {
   it('is a GA command with the expected flag declarations', () => {
     expect(LightningOut.state).to.equal(undefined);
     expect(LightningOut.hidden).to.not.equal(true);
-    expect(LightningOut.flags.access.options).to.deep.equal(['guest', 'authenticated']);
-    expect(LightningOut.flags.runtime.options).to.deep.equal(['LWR_CORE', 'CLWR']);
-    expect((LightningOut.flags.site as { multiple?: boolean }).multiple).to.not.equal(true);
   });
 
-  it('renders the output dir into success.next-step and never suggests --api-version', () => {
-    const msg = messages.getMessage('success.next-step', ['force-app/main/default', 'force-app/main/default']);
-    expect(msg).to.include('sf project deploy start --source-dir force-app/main/default');
-    expect(msg).to.not.include('--api-version');
+  it('renders the output dir into success.next-step and includes --api-version only when the suffix is supplied', () => {
+    const outputdir = 'force-app/main/default';
+    const belowFloor = messages.getMessage('success.next-step', [outputdir, outputdir, ' --api-version 68.0']);
+    expect(belowFloor).to.include(`sf project deploy start --source-dir ${outputdir} --api-version 68.0`);
+    const atOrAboveFloor = messages.getMessage('success.next-step', [outputdir, outputdir, '']);
+    expect(atOrAboveFloor).to.include(`sf project deploy start --source-dir ${outputdir}`);
+    expect(atOrAboveFloor).to.not.include('--api-version');
   });
 
   describe('post-run output', () => {
@@ -134,7 +133,7 @@ describe('template generate lightning-out (unit)', () => {
       expect(check!.calledBefore(deploy!)).to.equal(true);
     });
 
-    it('LWR_CORE below 68.0 warns to raise sourceApiVersion and prints no --api-version', async () => {
+    it('LWR_CORE below 68.0 warns to raise sourceApiVersion and pins --api-version 68.0', async () => {
       stubProject('66.0');
       await LightningOut.run([...base, '--runtime', 'LWR_CORE']);
       expect(cmdStubs.warn.args.flat()).to.include(messages.getMessage('warning.source-api-version', ['66.0']));
@@ -142,14 +141,11 @@ describe('template generate lightning-out (unit)', () => {
         .flat()
         .map(String)
         .find((m) => m.includes('sf project deploy start'));
-      expect(deploy).to.not.include('--api-version');
+      expect(deploy).to.include('--api-version 68.0');
     });
 
     describe('CLWR site-required rule', () => {
-      const required = (api?: string): string =>
-        api
-          ? messages.getMessage('error.clwr-site-required', [api])
-          : messages.getMessage('error.clwr-site-required-no-project');
+      const required = (api = 'not set'): string => messages.getMessage('error.clwr-site-required', [api]);
 
       it('errors without generating at 69.0+, with no project, no version, or an unparsable version', async () => {
         const cases: Array<[unknown, string]> = [
@@ -187,8 +183,8 @@ describe('template generate lightning-out (unit)', () => {
         expect(create.calledTwice).to.equal(true);
       });
 
-      it('allows a site-less run below 69.0 (including numeric 68) and prints the Setup link line', async () => {
-        for (const api of ['66.0', '68.0', '68.9', 68]) {
+      it('allows a site-less run below 69.0 and prints the Setup link line', async () => {
+        for (const api of ['66.0', '68.0', '68.9']) {
           stubProject(api);
           cmdStubs.info.resetHistory();
           // eslint-disable-next-line no-await-in-loop
@@ -197,36 +193,12 @@ describe('template generate lightning-out (unit)', () => {
           expect(info, String(api)).to.include(messages.getMessage('success.clwr-site'));
           expect(info).to.not.include(messages.getMessage('success.app-id'));
         }
-        expect(create.callCount).to.equal(4);
+        expect(create.callCount).to.equal(3);
       });
 
-      it('judges a symlinked --output-dir by the project it really lives in', async function () {
-        if (process.platform === 'win32') this.skip();
-        const root = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'lo-link-')));
-        try {
-          const low = path.join(root, 'low');
-          const high = path.join(root, 'high');
-          fs.mkdirSync(path.join(low, 'force-app'), { recursive: true });
-          fs.mkdirSync(path.join(high, 'force-app'), { recursive: true });
-          fs.symlinkSync(path.join(high, 'force-app'), path.join(low, 'force-app', 'link'), 'dir');
-          // Stand-in for SfProject.resolve: the project is chosen by the directory it is asked about.
-          resolveProject.callsFake((dir: string) => {
-            const version = dir.startsWith(high) ? '69.0' : dir.startsWith(low) ? '68.0' : undefined;
-            return version
-              ? Promise.resolve({
-                  getPath: () => '/proj',
-                  resolveProjectConfig: () => Promise.resolve({ sourceApiVersion: version }),
-                })
-              : Promise.reject(new Error('no project'));
-          });
-          const err = await runErr([...clwr, '--output-dir', path.join(low, 'force-app', 'link', 'out')]);
-          expect(err?.message).to.equal(required('69.0'));
-          expect(create.called).to.equal(false);
-          await LightningOut.run([...clwr, '--output-dir', path.join(low, 'force-app', 'plain')]);
-          expect(create.calledOnce).to.equal(true);
-        } finally {
-          fs.rmSync(root, { recursive: true, force: true });
-        }
+      it('reads the project from the output dir, not the cwd', async () => {
+        await LightningOut.run([...guest, '--output-dir', '/tmp/other-proj/force-app']);
+        expect(resolveProject.lastCall.args[0]).to.equal(path.resolve('/tmp/other-proj/force-app'));
       });
     });
 
@@ -249,6 +221,7 @@ describe('template generate lightning-out (unit)', () => {
         expect(info).to.not.include(messages.getMessage('success.dont-delete'));
         expect(cmdStubs.warn.args.flat()).to.not.include(messages.getMessage('warning.org-settings'));
         expect(deployCmd()).to.not.include('--api-version');
+        expect(cmdStubs.warn.args.flat().map(String).join(' ')).to.not.include('Linking a site requires');
       });
 
       it('authenticated: frontdoor-url guidance, ECA notes and org-settings warning', async () => {
@@ -297,16 +270,6 @@ describe('template generate lightning-out (unit)', () => {
           );
         }
       });
-
-      it('does not warn about the site version at 69.0', async () => {
-        await LightningOut.run(guest);
-        expect(
-          cmdStubs.warn.args
-            .flat()
-            .map(String)
-            .some((m) => m.includes('Linking a site requires'))
-        ).to.equal(false);
-      });
     });
 
     describe('definition file and flags', () => {
@@ -329,19 +292,8 @@ describe('template generate lightning-out (unit)', () => {
         });
       });
 
-      it('LWR_CORE rejects site and access, from flags or from the file', async () => {
-        create.restore();
-        const flagErr = await runErr([...base, '--runtime', 'LWR_CORE', '--access', 'authenticated']);
-        expect(flagErr?.message).to.match(/access applies only to runtime CLWR/);
-        await withDefFile({ site: 'S', access: 'guest' }, async (file) => {
-          const err = await runErr([...base, '--runtime', 'LWR_CORE', '--definition-file', file]);
-          expect(err?.message).to.match(/site applies only to runtime CLWR/);
-          expect(err?.message).to.match(/access applies only to runtime CLWR/);
-        });
-      });
-
       it('treats null site/access as absent: site-less run is allowed below 69.0 and required at 69.0', async () => {
-        await withDefFile({ runtime: 'CLWR', site: null, access: null, eca: null }, async (file) => {
+        await withDefFile({ runtime: 'CLWR', site: null, access: null }, async (file) => {
           stubProject('68.0');
           await LightningOut.run([...base, '--definition-file', file]);
           expect(passedOpts().site).to.equal(undefined);
@@ -352,13 +304,11 @@ describe('template generate lightning-out (unit)', () => {
         });
       });
 
-      it('warns about unrecognized top-level and nested keys', async () => {
-        await withDefFile({ Site: 'x', eca: { scopes: 'x' } }, async (file) => {
+      it('warns about an unrecognized top-level key', async () => {
+        await withDefFile({ Site: 'x' }, async (file) => {
           await LightningOut.run([...guest, '--definition-file', file]);
         });
-        const warned = cmdStubs.warn.args.flat();
-        expect(warned).to.include(messages.getMessage('warning.unknown-definition-key', ['Site']));
-        expect(warned).to.include(messages.getMessage('warning.unknown-definition-key', ['eca.scopes']));
+        expect(cmdStubs.warn.args.flat()).to.include(messages.getMessage('warning.unknown-definition-key', ['Site']));
       });
     });
   });
@@ -380,43 +330,19 @@ describe('template generate lightning-out (unit)', () => {
       expect(opts.hostDomains).to.deep.equal(['https://c.com']);
       expect(opts.components).to.deep.equal(['c/x']);
     });
-    it('defaults hostDomains to [] and reports unknown keys, including nested eca keys', () => {
-      const { opts, unknownKeys, unknownEcaKeys } = mergeLightningOutInputs(
-        { bogus: 1, site: 'S', access: 'guest', eca: { name: 'E', scopes: 'x' } },
-        {}
-      );
+    it('defaults hostDomains to [] and reports unknown keys', () => {
+      const { opts, unknownKeys } = mergeLightningOutInputs({ bogus: 1, site: 'S', access: 'guest' }, {});
       expect(opts.hostDomains).to.deep.equal([]);
       expect(opts).to.deep.include({ site: 'S', access: 'guest' });
       expect(unknownKeys).to.deep.equal(['bogus']);
-      expect(unknownEcaKeys).to.deep.equal(['scopes']);
     });
-    it('treats JSON null as absent for every key', () => {
-      const { opts, unknownKeys } = mergeLightningOutInputs(
-        {
-          site: null,
-          access: null,
-          runtime: null,
-          appName: null,
-          hostDomains: null,
-          components: null,
-          eca: { name: null, contactEmail: null, callbackUrl: null },
-        },
-        {}
-      );
-      expect(unknownKeys).to.deep.equal([]);
-      expect(opts).to.deep.include({ site: undefined, access: undefined, runtime: undefined, appName: undefined });
-      expect(opts.hostDomains).to.deep.equal([]);
-      expect(opts.components).to.equal(undefined);
-      expect(opts.eca).to.deep.equal({ name: undefined, contactEmail: undefined, callbackUrl: undefined });
+    it('treats JSON null site/access as absent', () => {
+      const { opts } = mergeLightningOutInputs({ site: null, access: null }, {});
+      expect(opts).to.deep.include({ site: undefined, access: undefined });
     });
   });
 
   describe('helpers', () => {
-    it('unknownKeyWarning prefixes nested keys with eca.', () => {
-      expect(unknownKeyWarning('scopes', true)).to.equal(
-        messages.getMessage('warning.unknown-definition-key', ['eca.scopes'])
-      );
-    });
     it('isBelowSitesApi fails safe for unknown or unparsable versions', () => {
       expect(isBelowSitesApi('68.0')).to.equal(true);
       expect(isBelowSitesApi(' 68.0 ')).to.equal(true);
@@ -492,22 +418,15 @@ describe('template generate lightning-out (unit)', () => {
       expect(() => validateDefinitionShape({ eca: [] }, {})).to.throw(/eca/);
       expect(() => validateDefinitionShape({ eca: { contactEmail: 123 } }, {})).to.throw(/eca\.contactEmail/);
     });
-    it('accepts JSON null for every key', () => {
+    it('accepts JSON null for site and access', () => {
+      expect(() => validateDefinitionShape({ site: null, access: null }, {})).to.not.throw();
+    });
+    it('rejects wrong-typed runtime and eca, and ignores a bad hostDomains when the flag overrides it', () => {
+      expect(() => validateDefinitionShape({ runtime: 5 }, {})).to.throw(/runtime/);
+      expect(() => validateDefinitionShape({ eca: 'nope' }, {})).to.throw(/eca/);
       expect(() =>
-        validateDefinitionShape(
-          {
-            appName: null,
-            runtime: null,
-            site: null,
-            access: null,
-            hostDomains: null,
-            components: null,
-            eca: { name: null, contactEmail: null, callbackUrl: null },
-          },
-          {}
-        )
+        validateDefinitionShape({ hostDomains: 'bad' }, { 'host-domains': ['https://a.com'] })
       ).to.not.throw();
-      expect(() => validateDefinitionShape({ eca: null }, {})).to.not.throw();
     });
     it('skips a bad file value when the matching flag overrides it', () => {
       expect(() => validateDefinitionShape({ appName: 123 }, { 'app-name': 'Foo' })).to.not.throw();

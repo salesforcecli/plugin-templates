@@ -40,7 +40,8 @@ type LightningOutFlags = {
 };
 
 const KNOWN_KEYS = ['appName', 'runtime', 'hostDomains', 'components', 'eca', 'site', 'access'] as const;
-const KNOWN_ECA_KEYS = ['name', 'contactEmail', 'callbackUrl'] as const;
+/** The v68.0 deploy floor for LightningOutApp. */
+const API_FLOOR = 68;
 /** First API version whose LightningOutApp accepts <sites>; at/after it, omitting <sites> can unlink. */
 const SITES_API_VERSION = 69;
 
@@ -68,16 +69,16 @@ function isStringArray(v: unknown): boolean {
  * JSON (e.g. `"appName": 123`) yields an actionable error here rather than an internal TypeError
  * from the generator (which calls `.trim()` on string fields). A field is skipped when the matching
  * flag overrides it, since flags always arrive as strings and win per-key (see mergeLightningOutInputs).
- * An explicit JSON null counts as absent, matching the generator.
+ * An explicit JSON null for `site`/`access` counts as absent, matching the generator.
  */
 export function validateDefinitionShape(defn: Record<string, unknown>, flags: LightningOutFlags): void {
   const requireString = (overridden: boolean, val: unknown, key: string): void => {
-    if (!overridden && val != null && typeof val !== 'string') {
+    if (!overridden && val !== undefined && typeof val !== 'string') {
       throw messages.createError('error.definition-file-field-type', [key, 'a string']);
     }
   };
   const requireStringArray = (overridden: boolean, val: unknown, key: string): void => {
-    if (!overridden && val != null && !isStringArray(val)) {
+    if (!overridden && val !== undefined && !isStringArray(val)) {
       throw messages.createError('error.definition-file-field-type', [key, 'an array of strings']);
     }
   };
@@ -86,11 +87,11 @@ export function validateDefinitionShape(defn: Record<string, unknown>, flags: Li
   requireString(flags.runtime !== undefined, defn.runtime, 'runtime');
   requireStringArray(flags['host-domains'] !== undefined, defn.hostDomains, 'hostDomains');
   requireStringArray(flags.components !== undefined, defn.components, 'components');
-  requireString(flags.site !== undefined, defn.site, 'site');
-  requireString(flags.access !== undefined, defn.access, 'access');
+  requireString(flags.site !== undefined, defn.site ?? undefined, 'site');
+  requireString(flags.access !== undefined, defn.access ?? undefined, 'access');
 
-  if (defn.eca != null) {
-    if (typeof defn.eca !== 'object' || Array.isArray(defn.eca)) {
+  if (defn.eca !== undefined) {
+    if (typeof defn.eca !== 'object' || defn.eca === null || Array.isArray(defn.eca)) {
       throw messages.createError('error.definition-file-field-type', ['eca', 'an object']);
     }
     const eca = defn.eca as Record<string, unknown>;
@@ -109,49 +110,26 @@ export function validateDefinitionShape(defn: Record<string, unknown>, flags: Li
 export function mergeLightningOutInputs(
   defn: Record<string, unknown>,
   flags: LightningOutFlags
-): { opts: LightningOutOptions; unknownKeys: string[]; unknownEcaKeys: string[] } {
+): { opts: LightningOutOptions; unknownKeys: string[] } {
   const known: ReadonlySet<string> = new Set(KNOWN_KEYS);
-  const knownEca: ReadonlySet<string> = new Set(KNOWN_ECA_KEYS);
-  const ecaDefn = (defn.eca ?? {}) as Record<string, unknown>;
-  // Nested eca.* keys are reported too, so a typo like "eca.callbackURL" isn't silently dropped.
   const unknownKeys = Object.keys(defn).filter((k) => !known.has(k));
-  const unknownEcaKeys = Object.keys(ecaDefn).filter((k) => !knownEca.has(k));
-  // An explicit JSON null counts as absent, so the `site === undefined` checks below stay sound.
-  const val = <T>(v: unknown): T | undefined => (v ?? undefined) as T | undefined;
+  const ecaDefn = (defn.eca ?? {}) as Record<string, unknown>;
   const opts: LightningOutOptions = {
-    appName: flags['app-name'] ?? (val<string>(defn.appName) as string),
-    runtime: (flags.runtime ?? val(defn.runtime)) as LightningOutOptions['runtime'],
-    hostDomains: flags['host-domains'] ?? val<string[]>(defn.hostDomains) ?? [],
-    components: flags.components ?? val<string[]>(defn.components),
+    appName: flags['app-name'] ?? (defn.appName as string),
+    runtime: (flags.runtime ?? defn.runtime) as LightningOutOptions['runtime'],
+    hostDomains: flags['host-domains'] ?? (defn.hostDomains as string[]) ?? [],
+    components: flags.components ?? (defn.components as string[]),
     eca: {
-      name: flags['eca-name'] ?? (val<string>(ecaDefn.name) as string),
-      contactEmail: flags['eca-contact-email'] ?? (val<string>(ecaDefn.contactEmail) as string),
-      callbackUrl: flags['eca-callback-url'] ?? (val<string>(ecaDefn.callbackUrl) as string),
+      name: flags['eca-name'] ?? (ecaDefn.name as string),
+      contactEmail: flags['eca-contact-email'] ?? (ecaDefn.contactEmail as string),
+      callbackUrl: flags['eca-callback-url'] ?? (ecaDefn.callbackUrl as string),
     },
-    site: flags.site ?? val<string>(defn.site),
-    access: flags.access ?? val(defn.access),
+    // An explicit JSON null counts as absent, so the `site === undefined` checks stay sound.
+    site: flags.site ?? (defn.site as string | null | undefined) ?? undefined,
+    access: flags.access ?? (defn.access as LightningOutOptions['access'] | null | undefined) ?? undefined,
     outputdir: flags['output-dir'],
   };
-  return { opts, unknownKeys, unknownEcaKeys };
-}
-
-/**
- * Absolute path of `p` with symlinks resolved in its nearest existing ancestor, so a symlinked
- * --output-dir is judged by the project it really lives in (the directory may not exist yet).
- */
-function realExistingPath(p: string): string {
-  let cur = path.resolve(p);
-  const rest: string[] = [];
-  while (!fs.existsSync(cur) && path.dirname(cur) !== cur) {
-    rest.unshift(path.basename(cur));
-    cur = path.dirname(cur);
-  }
-  try {
-    cur = fs.realpathSync(cur);
-  } catch {
-    // keep the lexical path
-  }
-  return path.join(cur, ...rest);
+  return { opts, unknownKeys };
 }
 
 /**
@@ -162,15 +140,13 @@ function realExistingPath(p: string): string {
 async function getProjectApi(dir: string): Promise<string | undefined> {
   let project: SfProject;
   try {
-    project = await SfProject.resolve(realExistingPath(dir));
+    project = await SfProject.resolve(path.resolve(dir));
   } catch (e) {
     return undefined;
   }
   try {
     const projectJson = await project.resolveProjectConfig();
-    // sfdx-project.json isn't schema-validated on read, so a bare number (68) can arrive here.
-    const v: unknown = projectJson.sourceApiVersion;
-    return typeof v === 'string' || typeof v === 'number' ? String(v) : undefined;
+    return projectJson.sourceApiVersion as string | undefined;
   } catch (e) {
     return undefined;
   }
@@ -187,7 +163,7 @@ function parseApiVersion(projApi: string | undefined): number {
 
 /** True when a project sourceApiVersion is known and below the v68.0 deploy floor. Pure; testable. */
 export function isBelowApiFloor(projApi: string | undefined): boolean {
-  return parseApiVersion(projApi) < 68;
+  return parseApiVersion(projApi) < API_FLOOR;
 }
 
 /**
@@ -196,11 +172,6 @@ export function isBelowApiFloor(projApi: string | undefined): boolean {
  */
 export function isBelowSitesApi(projApi: string | undefined): boolean {
   return parseApiVersion(projApi) < SITES_API_VERSION;
-}
-
-/** Warning text for an unrecognized definition-file key (`nested` = the key came from inside `eca`). */
-export function unknownKeyWarning(key: string, nested = false): string {
-  return messages.getMessage('warning.unknown-definition-key', [nested ? `eca.${key}` : key]);
 }
 
 /**
@@ -246,10 +217,9 @@ export default class LightningOut extends SfCommand<CreateOutput> {
     const { flags } = await this.parse(LightningOut);
     const defn = flags['definition-file'] ? readDefinition(flags['definition-file']) : {};
     validateDefinitionShape(defn, flags);
-    const { opts, unknownKeys, unknownEcaKeys } = mergeLightningOutInputs(defn, flags);
+    const { opts, unknownKeys } = mergeLightningOutInputs(defn, flags);
 
-    unknownKeys.forEach((k) => this.warn(unknownKeyWarning(k)));
-    unknownEcaKeys.forEach((k) => this.warn(unknownKeyWarning(k, true)));
+    unknownKeys.forEach((k) => this.warn(messages.getMessage('warning.unknown-definition-key', [k])));
 
     const isClwr = opts.runtime === 'CLWR';
     const isGuest = isClwr && opts.access === 'guest';
@@ -263,9 +233,7 @@ export default class LightningOut extends SfCommand<CreateOutput> {
     // Core keeps the link). Checked before generating so no files are written. A blank or empty site
     // is the generator's error, not this one.
     if (isClwr && opts.site === undefined && !isBelowSitesApi(projApi)) {
-      throw projApi
-        ? messages.createError('error.clwr-site-required', [projApi])
-        : messages.createError('error.clwr-site-required-no-project');
+      throw messages.createError('error.clwr-site-required', [projApi ?? 'not set']);
     }
 
     const result = await runGenerator({
@@ -276,9 +244,9 @@ export default class LightningOut extends SfCommand<CreateOutput> {
     });
 
     // Only a known version below 69.0 is certain to fail; an unknown one may deploy at the org's version.
-    const siteWillFail = opts.site !== undefined && parseApiVersion(projApi) < SITES_API_VERSION;
+    const siteWillFail = opts.site !== undefined && isBelowSitesApi(projApi);
     this.warnAfterGenerate(opts, { projApi, isGuest, siteWillFail });
-    this.printGuidance(opts, { isClwr, isGuest, outputDir, siteWillFail });
+    this.printGuidance(opts, { isClwr, isGuest, outputDir, siteWillFail, belowFloor: isBelowApiFloor(projApi) });
 
     return result; // --json returns the full CreateOutput (created[])
   }
@@ -303,10 +271,12 @@ export default class LightningOut extends SfCommand<CreateOutput> {
   /** Success guidance (log/info are suppressed automatically under --json). */
   private printGuidance(
     opts: LightningOutOptions,
-    ctx: { isClwr: boolean; isGuest: boolean; outputDir: string; siteWillFail: boolean }
+    ctx: { isClwr: boolean; isGuest: boolean; outputDir: string; siteWillFail: boolean; belowFloor: boolean }
   ): void {
     this.info(messages.getMessage('success.components-exist'));
-    this.log(messages.getMessage('success.next-step', [ctx.outputDir, shellQuoteArg(ctx.outputDir)]));
+    // Only pin --api-version to the 68.0 floor when the project is below it and no site is linked.
+    const apiVersionSuffix = ctx.belowFloor && opts.site === undefined ? ' --api-version 68.0' : '';
+    this.log(messages.getMessage('success.next-step', [ctx.outputDir, shellQuoteArg(ctx.outputDir), apiVersionSuffix]));
     if (ctx.isClwr) {
       if (opts.site && !ctx.siteWillFail) {
         // The deploy itself links the site; the rest of the site setup is done in Experience Builder.
