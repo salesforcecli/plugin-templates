@@ -145,16 +145,19 @@ describe('template generate lightning-out (unit)', () => {
     });
 
     describe('CLWR site-required rule', () => {
-      const required = (api = 'not set'): string => messages.getMessage('error.clwr-site-required', [api]);
+      const required = (reasonKey: string, tokens: string[] = []): string =>
+        messages.getMessage('error.clwr-site-required', [messages.getMessage(reasonKey, tokens)]);
+      const atVersion = (api: string): string => required('error.clwr-site-required.version', [api]);
 
       it('errors without generating at 69.0+, with no project, no version, or an unparsable version', async () => {
         const cases: Array<[unknown, string]> = [
-          ['69.0', required('69.0')],
-          ['70.0', required('70.0')],
-          ['69', required('69')],
-          ['latest', required('latest')],
-          [undefined, required()],
-          [null, required()],
+          ['69.0', atVersion('69.0')],
+          ['70.0', atVersion('70.0')],
+          ['69', atVersion('69')],
+          [70, atVersion('70')],
+          ['latest', required('error.clwr-site-required.invalid-version', ['latest'])],
+          [undefined, required('error.clwr-site-required.no-project')],
+          [null, required('error.clwr-site-required.no-version')],
         ];
         for (const [api, message] of cases) {
           stubProject(api);
@@ -167,10 +170,10 @@ describe('template generate lightning-out (unit)', () => {
 
       it('applies to guest and to a runtime coming from the definition file', async () => {
         const err = await runErr(guest.slice(0, -2));
-        expect(err?.message).to.equal(required('69.0'));
+        expect(err?.message).to.equal(atVersion('69.0'));
         await withDefFile({ appName: 'A', runtime: 'CLWR' }, async (file) => {
           const fileErr = await runErr([...base, '--definition-file', file]);
-          expect(fileErr?.message).to.equal(required('69.0'));
+          expect(fileErr?.message).to.equal(atVersion('69.0'));
         });
         expect(create.called).to.equal(false);
       });
@@ -183,8 +186,8 @@ describe('template generate lightning-out (unit)', () => {
         expect(create.calledTwice).to.equal(true);
       });
 
-      it('allows a site-less run below 69.0 and prints the Setup link line', async () => {
-        for (const api of ['66.0', '68.0', '68.9']) {
+      it('allows a site-less run below 69.0 (including a numeric version) and prints the Setup link line', async () => {
+        for (const api of ['66.0', '68.0', '68.9', 66]) {
           stubProject(api);
           cmdStubs.info.resetHistory();
           // eslint-disable-next-line no-await-in-loop
@@ -193,7 +196,18 @@ describe('template generate lightning-out (unit)', () => {
           expect(info, String(api)).to.include(messages.getMessage('success.clwr-site'));
           expect(info).to.not.include(messages.getMessage('success.app-id'));
         }
-        expect(create.callCount).to.equal(3);
+        expect(create.callCount).to.equal(4);
+      });
+
+      it('adds the make-the-page-public step for a site-less guest app below 69.0', async () => {
+        stubProject('66.0');
+        await LightningOut.run(guest.slice(0, -2));
+        const info = cmdStubs.info.args.flat();
+        expect(info).to.include(messages.getMessage('success.clwr-site'));
+        expect(info).to.include(messages.getMessage('success.clwr-site-guest'));
+        cmdStubs.info.resetHistory();
+        await LightningOut.run(clwr);
+        expect(cmdStubs.info.args.flat()).to.not.include(messages.getMessage('success.clwr-site-guest'));
       });
 
       it('reads the project from the output dir, not the cwd', async () => {
@@ -208,7 +222,6 @@ describe('template generate lightning-out (unit)', () => {
           .flat()
           .map(String)
           .find((m) => m.includes('sf project deploy start'));
-      const linkedKeys = ['success.clwr-site-linked-guest', 'success.clwr-site-linked-authenticated'];
 
       it('guest: org-url guidance, no ECA notes and no org-settings warning', async () => {
         await LightningOut.run(guest);
@@ -221,7 +234,7 @@ describe('template generate lightning-out (unit)', () => {
         expect(info).to.not.include(messages.getMessage('success.dont-delete'));
         expect(cmdStubs.warn.args.flat()).to.not.include(messages.getMessage('warning.org-settings'));
         expect(deployCmd()).to.not.include('--api-version');
-        expect(cmdStubs.warn.args.flat().map(String).join(' ')).to.not.include('Linking a site requires');
+        expect(cmdStubs.warn.args.flat().map(String).join(' ')).to.not.include('Deploying a linked site requires');
       });
 
       it('authenticated: frontdoor-url guidance, ECA notes and org-settings warning', async () => {
@@ -235,7 +248,7 @@ describe('template generate lightning-out (unit)', () => {
         expect(cmdStubs.warn.args.flat()).to.include(messages.getMessage('warning.org-settings'));
       });
 
-      it('warns once and prints no linked line when the project is known to be below 69.0', async () => {
+      it('warns once, omits the failing deploy command, and still prints the site steps below 69.0', async () => {
         for (const api of ['66.0', '68.0']) {
           stubProject(api);
           cmdStubs.warn.resetHistory();
@@ -244,11 +257,17 @@ describe('template generate lightning-out (unit)', () => {
           await LightningOut.run(guest);
           const warned = cmdStubs.warn.args.flat();
           expect(warned, api).to.include(messages.getMessage('warning.site-api-version', [api]));
-          expect(warned.map(String).filter((m) => m.includes('Linking a site requires'))).to.have.length(1);
+          expect(warned.map(String).filter((m) => m.includes('Deploying a linked site requires'))).to.have.length(1);
           const info = cmdStubs.info.args.flat();
-          for (const key of linkedKeys) expect(info).to.not.include(messages.getMessage(key, ['My Site']));
-          expect(deployCmd()).to.not.include('--api-version');
+          expect(info).to.include(messages.getMessage('success.clwr-site-linked-guest', ['My Site']));
+          expect(deployCmd(), api).to.equal(undefined);
         }
+        stubProject('66.0');
+        cmdStubs.info.resetHistory();
+        await LightningOut.run([...clwr, '--site', 'My Site']);
+        expect(cmdStubs.info.args.flat()).to.include(
+          messages.getMessage('success.clwr-site-linked-authenticated', ['My Site'])
+        );
       });
 
       it('does not claim failure when the version is unknown, and keeps the setup guidance', async () => {
@@ -262,7 +281,7 @@ describe('template generate lightning-out (unit)', () => {
             cmdStubs.warn.args
               .flat()
               .map(String)
-              .some((m) => m.includes('Linking a site requires')),
+              .some((m) => m.includes('Deploying a linked site requires')),
             String(api)
           ).to.equal(false);
           expect(cmdStubs.info.args.flat()).to.include(
@@ -274,21 +293,15 @@ describe('template generate lightning-out (unit)', () => {
 
     describe('definition file and flags', () => {
       it('takes site/access/runtime from the file and lets each flag override it', async () => {
-        await withDefFile({ appName: 'A', runtime: 'LWR_CORE', access: 'guest', site: 'FileSite' }, async (file) => {
+        await withDefFile({ appName: 'A', runtime: 'CLWR', access: 'guest', site: 'FileSite' }, async (file) => {
           await LightningOut.run(['--definition-file', file]);
-          expect(passedOpts()).to.deep.include({ runtime: 'LWR_CORE', access: 'guest', site: 'FileSite' });
+          expect(passedOpts()).to.deep.include({ runtime: 'CLWR', access: 'guest', site: 'FileSite' });
           create.resetHistory();
-          await LightningOut.run([
-            '--definition-file',
-            file,
-            '--runtime',
-            'CLWR',
-            '--access',
-            'authenticated',
-            '--site',
-            'FlagSite',
-          ]);
+          await LightningOut.run(['--definition-file', file, '--access', 'authenticated', '--site', 'FlagSite']);
           expect(passedOpts()).to.deep.include({ runtime: 'CLWR', access: 'authenticated', site: 'FlagSite' });
+          create.resetHistory();
+          await LightningOut.run(['--definition-file', file, '--runtime', 'LWR_CORE']);
+          expect(passedOpts()).to.deep.include({ runtime: 'LWR_CORE' });
         });
       });
 
@@ -300,7 +313,7 @@ describe('template generate lightning-out (unit)', () => {
           expect(passedOpts().access).to.equal(undefined);
           stubProject('69.0');
           const err = await runErr([...base, '--definition-file', file]);
-          expect(err?.message).to.equal(messages.getMessage('error.clwr-site-required', ['69.0']));
+          expect(err?.message).to.include(messages.getMessage('error.clwr-site-required.version', ['69.0']));
         });
       });
 

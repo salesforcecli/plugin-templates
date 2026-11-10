@@ -145,7 +145,7 @@ describe('template generate lightning-out:', () => {
         `template generate lightning-out --app-name SiteApp --runtime CLWR ${auth} --output-dir ${dir}`,
         { ensureExitCode: 1 }
       ).shellOutput;
-      expect(flat(stderr)).to.include('A CLWR app needs a site');
+      expect(flat(stderr)).to.include('Specify the Experience Cloud site for this CLWR app');
       expect(fs.existsSync(dir)).to.equal(false);
     });
 
@@ -158,7 +158,7 @@ describe('template generate lightning-out:', () => {
       expect(appXml(dir)).to.not.include('<sites>');
     });
 
-    it('--site below 69.0: one site-version warning, no linked guidance, JSON warnings carry it', () => {
+    it('--site below 69.0: one site-version warning, JSON warnings carry it', () => {
       setSourceApiVersion('66.0');
       const out = execCmd(
         `template generate lightning-out --app-name SiteApp --runtime CLWR --access guest --site S --output-dir ${outDir(
@@ -167,8 +167,7 @@ describe('template generate lightning-out:', () => {
         { ensureExitCode: 0 }
       );
       const warnings = flat((out.jsonOutput?.warnings ?? []).join(' | '));
-      expect(warnings).to.include('Linking a site requires sourceApiVersion 69.0 or later');
-      expect(out.shellOutput.stdout).to.not.include('links it to the');
+      expect(warnings).to.include('Deploying a linked site requires sourceApiVersion 69.0 or later');
       expect(() => {
         JSON.parse(out.shellOutput.stdout);
       }).to.not.throw();
@@ -179,6 +178,7 @@ describe('template generate lightning-out:', () => {
     let defFile: string;
 
     before(() => {
+      setSourceApiVersion('70.0');
       defFile = path.join(session.project.dir, 'lo-def.json');
       fs.writeFileSync(
         defFile,

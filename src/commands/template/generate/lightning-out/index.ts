@@ -134,21 +134,23 @@ export function mergeLightningOutInputs(
 
 /**
  * Resolve the DX project that contains `dir` and its `sourceApiVersion` (the generator itself has no
- * project context). Undefined when there's no DX project (so generating outside a project doesn't
- * error) or the project doesn't set sourceApiVersion.
+ * project context). `inProject` is false when `dir` isn't in a DX project, so generating outside a
+ * project doesn't error. `api` is undefined when the version is missing or not a string or number.
  */
-async function getProjectApi(dir: string): Promise<string | undefined> {
+async function getProjectApi(dir: string): Promise<{ inProject: boolean; api?: string }> {
   let project: SfProject;
   try {
     project = await SfProject.resolve(path.resolve(dir));
   } catch (e) {
-    return undefined;
+    return { inProject: false };
   }
   try {
     const projectJson = await project.resolveProjectConfig();
-    return projectJson.sourceApiVersion as string | undefined;
+    // sfdx-project.json isn't schema-validated on read, so a bare number (66) can arrive here.
+    const v: unknown = projectJson.sourceApiVersion;
+    return { inProject: true, api: typeof v === 'string' || typeof v === 'number' ? String(v) : undefined };
   } catch (e) {
-    return undefined;
+    return { inProject: true };
   }
 }
 
@@ -172,6 +174,16 @@ export function isBelowApiFloor(projApi: string | undefined): boolean {
  */
 export function isBelowSitesApi(projApi: string | undefined): boolean {
   return parseApiVersion(projApi) < SITES_API_VERSION;
+}
+
+/** Last sentence of the site-required error: why the project's version didn't exempt the app. */
+function siteRequiredReason(inProject: boolean, projApi: string | undefined): string {
+  if (!inProject) return messages.getMessage('error.clwr-site-required.no-project');
+  if (projApi === undefined) return messages.getMessage('error.clwr-site-required.no-version');
+  if (Number.isNaN(parseApiVersion(projApi))) {
+    return messages.getMessage('error.clwr-site-required.invalid-version', [projApi]);
+  }
+  return messages.getMessage('error.clwr-site-required.version', [projApi]);
 }
 
 /**
@@ -226,14 +238,14 @@ export default class LightningOut extends SfCommand<CreateOutput> {
 
     const outputDir = opts.outputdir ?? '.';
     // CLI-side sourceApiVersion check, against the project the files are generated into.
-    const projApi = await getProjectApi(outputDir);
+    const { inProject, api: projApi } = await getProjectApi(outputDir);
 
     // A CLWR app file without <sites> can unlink the app's site when deployed at 69.0+, so a site is
     // required unless the project is known to be below 69.0 (where <sites> can't be deployed and
     // Core keeps the link). Checked before generating so no files are written. A blank or empty site
     // is the generator's error, not this one.
     if (isClwr && opts.site === undefined && !isBelowSitesApi(projApi)) {
-      throw messages.createError('error.clwr-site-required', [projApi ?? 'not set']);
+      throw messages.createError('error.clwr-site-required', [siteRequiredReason(inProject, projApi)]);
     }
 
     const result = await runGenerator({
@@ -274,17 +286,24 @@ export default class LightningOut extends SfCommand<CreateOutput> {
     ctx: { isClwr: boolean; isGuest: boolean; outputDir: string; siteWillFail: boolean; belowFloor: boolean }
   ): void {
     this.info(messages.getMessage('success.components-exist'));
-    // Only pin --api-version to the 68.0 floor when the project is below it and no site is linked.
-    const apiVersionSuffix = ctx.belowFloor && opts.site === undefined ? ' --api-version 68.0' : '';
-    this.log(messages.getMessage('success.next-step', [ctx.outputDir, shellQuoteArg(ctx.outputDir), apiVersionSuffix]));
+    // A deploy known to fail (site below 69.0) gets no copy-paste command; its warning says how to fix it.
+    if (!ctx.siteWillFail) {
+      // Only pin --api-version to the 68.0 floor when the project is below it and no site is linked.
+      const apiVersionSuffix = ctx.belowFloor && opts.site === undefined ? ' --api-version 68.0' : '';
+      this.log(
+        messages.getMessage('success.next-step', [ctx.outputDir, shellQuoteArg(ctx.outputDir), apiVersionSuffix])
+      );
+    }
     if (ctx.isClwr) {
-      if (opts.site && !ctx.siteWillFail) {
+      if (opts.site) {
         // The deploy itself links the site; the rest of the site setup is done in Experience Builder.
+        // Printed even when the version warning says this deploy fails, so the steps are there once it's fixed.
         const key = ctx.isGuest ? 'success.clwr-site-linked-guest' : 'success.clwr-site-linked-authenticated';
         this.info(messages.getMessage(key, [opts.site.trim()]));
-      } else if (!opts.site) {
+      } else {
         // Below 69.0: <sites> can't be deployed, so the site is linked in Setup.
         this.info(messages.getMessage('success.clwr-site'));
+        if (ctx.isGuest) this.info(messages.getMessage('success.clwr-site-guest'));
       }
     } else {
       // CLWR finds the app through the site link; app-id only applies to LWR_CORE.
