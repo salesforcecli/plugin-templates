@@ -46,7 +46,7 @@ describe('template generate lightning-out (unit)', () => {
     $$.restore();
   });
 
-  it('is a GA command with the expected flag declarations', () => {
+  it('is a GA, visible command', () => {
     expect(LightningOut.state).to.equal(undefined);
     expect(LightningOut.hidden).to.not.equal(true);
   });
@@ -198,7 +198,7 @@ describe('template generate lightning-out (unit)', () => {
         expect(create.callCount).to.equal(4);
       });
 
-      it('adds the make-the-page-public step for a site-less guest app below 69.0', async () => {
+      it('adds the guest or authenticated host-page step for a site-less app below 69.0', async () => {
         stubProject('66.0');
         await LightningOut.run(guest.slice(0, -2));
         const info = cmdStubs.info.args.flat();
@@ -206,7 +206,9 @@ describe('template generate lightning-out (unit)', () => {
         expect(info).to.include(messages.getMessage('success.clwr-site-guest'));
         cmdStubs.info.resetHistory();
         await LightningOut.run(clwr);
-        expect(cmdStubs.info.args.flat()).to.not.include(messages.getMessage('success.clwr-site-guest'));
+        const authInfo = cmdStubs.info.args.flat();
+        expect(authInfo).to.not.include(messages.getMessage('success.clwr-site-guest'));
+        expect(authInfo).to.include(messages.getMessage('success.clwr-site-authenticated'));
       });
 
       it('reads the project from the output dir, not the cwd', async () => {

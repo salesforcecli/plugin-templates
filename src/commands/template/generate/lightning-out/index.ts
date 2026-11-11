@@ -272,7 +272,8 @@ export default class LightningOut extends SfCommand<CreateOutput> {
     opts: LightningOutOptions,
     ctx: { projApi?: string; isClwr: boolean; isGuest: boolean; siteWillFail: boolean }
   ): void {
-    if (opts.site === undefined && isBelowApiFloor(ctx.projApi)) {
+    // Also shown with a site: the site warning's "regenerate without --site" fallback still needs 68.0.
+    if (isBelowApiFloor(ctx.projApi)) {
       this.warn(messages.getMessage('warning.source-api-version', [String(ctx.projApi)]));
     }
     if (ctx.siteWillFail) {
@@ -310,7 +311,7 @@ export default class LightningOut extends SfCommand<CreateOutput> {
       } else {
         // Below 69.0: <sites> can't be deployed, so the site is linked in Setup.
         this.info(messages.getMessage('success.clwr-site'));
-        if (ctx.isGuest) this.info(messages.getMessage('success.clwr-site-guest'));
+        this.info(messages.getMessage(ctx.isGuest ? 'success.clwr-site-guest' : 'success.clwr-site-authenticated'));
       }
     } else {
       // CLWR finds the app through the site link; app-id only applies to LWR_CORE.

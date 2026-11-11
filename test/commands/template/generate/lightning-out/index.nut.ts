@@ -167,7 +167,9 @@ describe('template generate lightning-out:', () => {
         { ensureExitCode: 0 }
       );
       const warnings = flat((out.jsonOutput?.warnings ?? []).join(' | '));
-      expect(warnings).to.include("To deploy an app that's linked to a site, use sourceApiVersion 69.0 or later");
+      expect(warnings.split("To deploy an app that's linked to a site")).to.have.length(2);
+      // Below the 68.0 floor too, so the floor warning also prints.
+      expect(warnings).to.include('which is below 68.0');
       expect(() => {
         JSON.parse(out.shellOutput.stdout);
       }).to.not.throw();
