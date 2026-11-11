@@ -223,11 +223,12 @@ describe('template generate lightning-out:', () => {
         { ensureExitCode: 0 }
       ).shellOutput;
 
-    it('warns and pins --api-version 68.0 when sourceApiVersion is below the floor', () => {
+    it('warns and omits the deploy command when sourceApiVersion is below the floor', () => {
       setSourceApiVersion('64.0');
       const { stdout, stderr } = runNoJson(outDir('floor-below'));
       expect(stderr).to.match(/is below 68\.0/);
-      expect(stdout).to.include('--api-version 68.0');
+      expect(stdout).to.not.include('sf project deploy start');
+      expect(stdout).to.not.include('--api-version');
     });
 
     it('omits --api-version when sourceApiVersion is at or above the floor', () => {

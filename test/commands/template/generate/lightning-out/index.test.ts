@@ -51,13 +51,11 @@ describe('template generate lightning-out (unit)', () => {
     expect(LightningOut.hidden).to.not.equal(true);
   });
 
-  it('renders the output dir into success.next-step and includes --api-version only when the suffix is supplied', () => {
+  it('renders the output dir into success.next-step without --api-version', () => {
     const outputdir = 'force-app/main/default';
-    const belowFloor = messages.getMessage('success.next-step', [outputdir, outputdir, ' --api-version 68.0']);
-    expect(belowFloor).to.include(`sf project deploy start --source-dir ${outputdir} --api-version 68.0`);
-    const atOrAboveFloor = messages.getMessage('success.next-step', [outputdir, outputdir, '']);
-    expect(atOrAboveFloor).to.include(`sf project deploy start --source-dir ${outputdir}`);
-    expect(atOrAboveFloor).to.not.include('--api-version');
+    const next = messages.getMessage('success.next-step', [outputdir, outputdir]);
+    expect(next).to.include(`sf project deploy start --source-dir ${outputdir}`);
+    expect(next).to.not.include('--api-version');
   });
 
   describe('post-run output', () => {
@@ -133,15 +131,13 @@ describe('template generate lightning-out (unit)', () => {
       expect(check!.calledBefore(deploy!)).to.equal(true);
     });
 
-    it('LWR_CORE below 68.0 warns to raise sourceApiVersion and pins --api-version 68.0', async () => {
+    it('LWR_CORE below 68.0 warns to raise sourceApiVersion and omits the failing deploy command', async () => {
       stubProject('66.0');
       await LightningOut.run([...base, '--runtime', 'LWR_CORE']);
       expect(cmdStubs.warn.args.flat()).to.include(messages.getMessage('warning.source-api-version', ['66.0']));
-      const deploy = cmdStubs.log.args
-        .flat()
-        .map(String)
-        .find((m) => m.includes('sf project deploy start'));
-      expect(deploy).to.include('--api-version 68.0');
+      const logged = cmdStubs.log.args.flat().map(String).join(' ');
+      expect(logged).to.not.include('sf project deploy start');
+      expect(logged).to.not.include('--api-version');
     });
 
     describe('CLWR site-required rule', () => {

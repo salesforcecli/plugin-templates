@@ -138,7 +138,7 @@ If you later set sourceApiVersion to 69.0 or later, regenerate the app with --si
 
 # warning.source-api-version
 
-Your local project's sourceApiVersion (%s) is below 68.0, the minimum API version this scaffold supports for deployment. Set sourceApiVersion to 68.0 or later in sfdx-project.json, or pass --api-version 68.0 or later when you deploy.
+Your local project's sourceApiVersion (%s) is below 68.0, the minimum API version for deploying a Lightning Out 2.0 app, so the deploy fails. Set sourceApiVersion to 68.0 or later in sfdx-project.json before you deploy. Passing --api-version when you deploy doesn't change the API version of the deployed metadata.
 
 # warning.org-settings
 
@@ -146,7 +146,7 @@ Deploying the generated MyDomain and Security settings changes two org-wide sett
 
 # success.next-step
 
-Scaffold generated in %s. Deploy it with: sf project deploy start --source-dir %s%s
+Scaffold generated in %s. Deploy it with: sf project deploy start --source-dir %s
 
 # success.app-id
 

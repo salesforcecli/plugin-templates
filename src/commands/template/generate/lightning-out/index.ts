@@ -294,13 +294,10 @@ export default class LightningOut extends SfCommand<CreateOutput> {
     ctx: { isClwr: boolean; isGuest: boolean; outputDir: string; siteWillFail: boolean; belowFloor: boolean }
   ): void {
     this.info(messages.getMessage('success.components-exist'));
-    // A deploy known to fail (site below 69.0) gets no copy-paste command; its warning says how to fix it.
-    if (!ctx.siteWillFail) {
-      // Only pin --api-version to the 68.0 floor when the project is below it and no site is linked.
-      const apiVersionSuffix = ctx.belowFloor && opts.site === undefined ? ' --api-version 68.0' : '';
-      this.log(
-        messages.getMessage('success.next-step', [ctx.outputDir, shellQuoteArg(ctx.outputDir), apiVersionSuffix])
-      );
+    // A deploy known to fail (below the 68.0 floor, or a site below 69.0) gets no copy-paste command; its
+    // warning says how to fix it. --api-version isn't offered: it doesn't change the deployed metadata's version.
+    if (!ctx.siteWillFail && !ctx.belowFloor) {
+      this.log(messages.getMessage('success.next-step', [ctx.outputDir, shellQuoteArg(ctx.outputDir)]));
     }
     if (ctx.isClwr) {
       if (opts.site) {
