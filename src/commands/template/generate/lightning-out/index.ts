@@ -207,7 +207,11 @@ export default class LightningOut extends SfCommand<CreateOutput> {
       summary: messages.getMessage('flags.runtime.summary'),
       description: messages.getMessage('flags.runtime.description'),
     })(),
-    'host-domains': Flags.string({ summary: messages.getMessage('flags.host-domains.summary'), multiple: true }),
+    'host-domains': Flags.string({
+      summary: messages.getMessage('flags.host-domains.summary'),
+      description: messages.getMessage('flags.host-domains.description'),
+      multiple: true,
+    }),
     components: Flags.string({ summary: messages.getMessage('flags.components.summary'), multiple: true }),
     'eca-contact-email': Flags.string({ summary: messages.getMessage('flags.eca-contact-email.summary') }),
     'eca-callback-url': Flags.string({ summary: messages.getMessage('flags.eca-callback-url.summary') }),
@@ -257,7 +261,7 @@ export default class LightningOut extends SfCommand<CreateOutput> {
 
     // Only a known version below 69.0 is certain to fail; an unknown one may deploy at the org's version.
     const siteWillFail = opts.site !== undefined && isBelowSitesApi(projApi);
-    this.warnAfterGenerate(opts, { projApi, isGuest, siteWillFail });
+    this.warnAfterGenerate(opts, { projApi, isClwr, isGuest, siteWillFail });
     this.printGuidance(opts, { isClwr, isGuest, outputDir, siteWillFail, belowFloor: isBelowApiFloor(projApi) });
 
     return result; // --json returns the full CreateOutput (created[])
@@ -266,13 +270,17 @@ export default class LightningOut extends SfCommand<CreateOutput> {
   /** Post-generate warnings (`this.warn`, so they also appear in the --json `warnings` array). */
   private warnAfterGenerate(
     opts: LightningOutOptions,
-    ctx: { projApi?: string; isGuest: boolean; siteWillFail: boolean }
+    ctx: { projApi?: string; isClwr: boolean; isGuest: boolean; siteWillFail: boolean }
   ): void {
     if (opts.site === undefined && isBelowApiFloor(ctx.projApi)) {
       this.warn(messages.getMessage('warning.source-api-version', [String(ctx.projApi)]));
     }
     if (ctx.siteWillFail) {
       this.warn(messages.getMessage('warning.site-api-version', [String(ctx.projApi)]));
+    }
+    // Reaching here with CLWR and no site means the project is below 69.0; a later bump would unlink it.
+    if (ctx.isClwr && opts.site === undefined) {
+      this.warn(messages.getMessage('warning.clwr-site-later'));
     }
     // Guest writes no settings files, so the org-wide settings notice applies only otherwise.
     if (!ctx.isGuest) {
@@ -297,9 +305,11 @@ export default class LightningOut extends SfCommand<CreateOutput> {
     if (ctx.isClwr) {
       if (opts.site) {
         // The deploy itself links the site; the rest of the site setup is done in Experience Builder.
-        // Printed even when the version warning says this deploy fails, so the steps are there once it's fixed.
-        const key = ctx.isGuest ? 'success.clwr-site-linked-guest' : 'success.clwr-site-linked-authenticated';
-        this.info(messages.getMessage(key, [opts.site.trim()]));
+        // Skipped when the version warning says this deploy fails, since the site wouldn't be linked.
+        if (!ctx.siteWillFail) {
+          const key = ctx.isGuest ? 'success.clwr-site-linked-guest' : 'success.clwr-site-linked-authenticated';
+          this.info(messages.getMessage(key, [opts.site.trim()]));
+        }
       } else {
         // Below 69.0: <sites> can't be deployed, so the site is linked in Setup.
         this.info(messages.getMessage('success.clwr-site'));

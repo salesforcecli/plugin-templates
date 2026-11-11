@@ -134,7 +134,7 @@ describe('template generate lightning-out:', () => {
       expect(listFiles(dir)).to.deep.equal([path.join('lightningOutApps', 'SiteApp.lightningOutApp-meta.xml')]);
       expect(appXml(dir)).to.not.include('<allowedDomains>');
       expect(appXml(dir)).to.include('<siteName>My Site</siteName>');
-      expect(flat(stdout)).to.include('make the page that serves the app public');
+      expect(flat(stdout)).to.include("make the site's /lightning-out page public");
       expect(flat(`${stdout} ${stderr}`)).to.not.include("Don't delete the generated External Client Application");
     });
 
@@ -167,7 +167,7 @@ describe('template generate lightning-out:', () => {
         { ensureExitCode: 0 }
       );
       const warnings = flat((out.jsonOutput?.warnings ?? []).join(' | '));
-      expect(warnings).to.include('Deploying a linked site requires sourceApiVersion 69.0 or later');
+      expect(warnings).to.include("To deploy an app that's linked to a site, use sourceApiVersion 69.0 or later");
       expect(() => {
         JSON.parse(out.shellOutput.stdout);
       }).to.not.throw();

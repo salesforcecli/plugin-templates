@@ -190,11 +190,14 @@ describe('template generate lightning-out (unit)', () => {
         for (const api of ['66.0', '68.0', '68.9', 66]) {
           stubProject(api);
           cmdStubs.info.resetHistory();
+          cmdStubs.warn.resetHistory();
           // eslint-disable-next-line no-await-in-loop
           await LightningOut.run(clwr);
           const info = cmdStubs.info.args.flat();
           expect(info, String(api)).to.include(messages.getMessage('success.clwr-site'));
           expect(info).to.not.include(messages.getMessage('success.app-id'));
+          // The redeploy-after-bump caveat is a warning, so --json still carries it.
+          expect(cmdStubs.warn.args.flat(), String(api)).to.include(messages.getMessage('warning.clwr-site-later'));
         }
         expect(create.callCount).to.equal(4);
       });
@@ -234,7 +237,9 @@ describe('template generate lightning-out (unit)', () => {
         expect(info).to.not.include(messages.getMessage('success.dont-delete'));
         expect(cmdStubs.warn.args.flat()).to.not.include(messages.getMessage('warning.org-settings'));
         expect(deployCmd()).to.not.include('--api-version');
-        expect(cmdStubs.warn.args.flat().map(String).join(' ')).to.not.include('Deploying a linked site requires');
+        expect(cmdStubs.warn.args.flat().map(String).join(' ')).to.not.include(
+          "To deploy an app that's linked to a site"
+        );
       });
 
       it('authenticated: frontdoor-url guidance, ECA notes and org-settings warning', async () => {
@@ -248,7 +253,7 @@ describe('template generate lightning-out (unit)', () => {
         expect(cmdStubs.warn.args.flat()).to.include(messages.getMessage('warning.org-settings'));
       });
 
-      it('warns once, omits the failing deploy command, and still prints the site steps below 69.0', async () => {
+      it('warns once and omits the failing deploy command and the site-linked steps below 69.0', async () => {
         for (const api of ['66.0', '68.0']) {
           stubProject(api);
           cmdStubs.warn.resetHistory();
@@ -257,17 +262,21 @@ describe('template generate lightning-out (unit)', () => {
           await LightningOut.run(guest);
           const warned = cmdStubs.warn.args.flat();
           expect(warned, api).to.include(messages.getMessage('warning.site-api-version', [api]));
-          expect(warned.map(String).filter((m) => m.includes('Deploying a linked site requires'))).to.have.length(1);
+          expect(
+            warned.map(String).filter((m) => m.includes("To deploy an app that's linked to a site"))
+          ).to.have.length(1);
           const info = cmdStubs.info.args.flat();
-          expect(info).to.include(messages.getMessage('success.clwr-site-linked-guest', ['My Site']));
+          expect(info).to.not.include(messages.getMessage('success.clwr-site-linked-guest', ['My Site']));
           expect(deployCmd(), api).to.equal(undefined);
+          expect(warned).to.not.include(messages.getMessage('warning.clwr-site-later'));
         }
         stubProject('66.0');
         cmdStubs.info.resetHistory();
         await LightningOut.run([...clwr, '--site', 'My Site']);
-        expect(cmdStubs.info.args.flat()).to.include(
-          messages.getMessage('success.clwr-site-linked-authenticated', ['My Site'])
-        );
+        const info = cmdStubs.info.args.flat();
+        expect(info).to.not.include(messages.getMessage('success.clwr-site-linked-authenticated', ['My Site']));
+        // The ECA notes still print; only the site-linked steps are skipped.
+        expect(info).to.include(messages.getMessage('success.dont-delete'));
       });
 
       it('does not claim failure when the version is unknown, and keeps the setup guidance', async () => {
@@ -281,7 +290,7 @@ describe('template generate lightning-out (unit)', () => {
             cmdStubs.warn.args
               .flat()
               .map(String)
-              .some((m) => m.includes('Deploying a linked site requires')),
+              .some((m) => m.includes("To deploy an app that's linked to a site")),
             String(api)
           ).to.equal(false);
           expect(cmdStubs.info.args.flat()).to.include(
