@@ -311,7 +311,7 @@ export default class LightningOut extends SfCommand<CreateOutput> {
       } else {
         // Below 69.0: <sites> can't be deployed, so the site is linked in Setup.
         this.info(messages.getMessage('success.clwr-site'));
-        this.info(messages.getMessage(ctx.isGuest ? 'success.clwr-site-guest' : 'success.clwr-site-authenticated'));
+        if (ctx.isGuest) this.info(messages.getMessage('success.clwr-site-guest'));
       }
     } else {
       // CLWR finds the app through the site link; app-id only applies to LWR_CORE.

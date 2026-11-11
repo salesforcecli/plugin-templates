@@ -132,17 +132,13 @@ The command can't check the API version because the output directory isn't in a 
 
 To deploy an app that's linked to a site, use sourceApiVersion 69.0 or later. The project's sourceApiVersion is %s, so the deploy fails. Set sourceApiVersion to 69.0 or later in sfdx-project.json, or regenerate the app without --site and link the site in Setup after you deploy.
 
-# success.clwr-site-authenticated
-
-For authenticated users, on your host page, also set "frontdoor-url" on the <lightning-out-application> tag to the frontdoor_uri that your host app gets for the logged-in user from the site's /services/oauth2/lightningoutsingleaccess endpoint.
-
 # warning.clwr-site-later
 
 If you later set sourceApiVersion to 69.0 or later, regenerate the app with --site before you redeploy. Otherwise, the deploy removes the app's site link.
 
 # warning.source-api-version
 
-The project's sourceApiVersion is %s, which is below 68.0, the minimum API version for deploying a Lightning Out 2.0 app, so the deploy fails. Set sourceApiVersion to 68.0 or later in sfdx-project.json before you deploy. Passing --api-version when you deploy doesn't change the API version of the deployed metadata.
+Your local project's sourceApiVersion (%s) is below 68.0, the minimum API version for deploying a Lightning Out 2.0 app, so the deploy fails. Set sourceApiVersion to 68.0 or later in sfdx-project.json before you deploy. Passing --api-version when you deploy doesn't change the API version of the deployed metadata.
 
 # warning.org-settings
 
@@ -178,8 +174,8 @@ Deploying the app links it to the "%s" site and replaces the app's current site 
 
 # success.clwr-site
 
-Link the app to your Experience Cloud site after deploying. From Setup, in the Quick Find box, enter Lightning Out, and then select "Lightning Out 2.0 App Manager". Edit the app, select your site on the "Linked Communities Site" tab, and save. Then, in Experience Builder for the site, go to Settings > Security & Privacy and set "Clickjack Protection Level" to "Allow framing of site pages on external domains". The "Complete Deployment in Experience Builder" dialog doesn't include this step. Then follow the steps in the dialog, which include adding your host domains to the site's trusted domains and publishing the site. On your host page, set the "site-prefix" attribute on the <lightning-out-application> tag to your site's URL path prefix, for example "/mysite". For a site at the root of its domain, set "site-prefix" to "". For host-page setup, see "Use Components Outside Salesforce with Lightning Out 2.0" in the Lightning Web Components Developer Guide.
+Link the app to your Experience Cloud site after deploying. From Setup, in the Quick Find box, enter Lightning Out, and then select "Lightning Out 2.0 App Manager". Edit the app, select your site on the "Linked Communities Site" tab, and save. Then follow the steps in the "Complete Deployment in Experience Builder" dialog, which include adding your host domains to the site's trusted domains and publishing the site. Before you publish, also go to Settings > Security & Privacy in Experience Builder and set "Clickjack Protection Level" to "Allow framing of site pages on external domains", because the dialog doesn't include that step. On your host page, set the "site-prefix" attribute on the <lightning-out-application> tag to your site's URL path prefix, for example "/mysite". For a site at the root of its domain, set "site-prefix" to "". For host-page setup, see "Use Components Outside Salesforce with Lightning Out 2.0" in the Lightning Web Components Developer Guide.
 
 # success.clwr-site-guest
 
-For guest users, don't skip the dialog's Guest User Mode step for the site's /lightning-out page. On your host page, also set "org-url" on the <lightning-out-application> tag to the site's origin without its path prefix, for example "https://example.my.site.com".
+For guest users, also make the site's /lightning-out page public in Experience Builder, and then publish the site again. On your host page, also set "org-url" on the <lightning-out-application> tag to the site's origin without its path prefix, for example "https://example.my.site.com".
