@@ -1,3 +1,22 @@
+# [57.7.0](https://github.com/salesforcecli/plugin-templates/compare/57.6.1...57.7.0) (2026-11-13)
+
+### Bug Fixes
+
+- **lightning-out:** address review copy and guidance feedback @W-24812375@ ([cfaffb3](https://github.com/salesforcecli/plugin-templates/commit/cfaffb3f5d0b5bc31b41d9603c197dd27f17a45b))
+- **lightning-out:** drop the --api-version deploy hint @W-24812375@ ([c245a70](https://github.com/salesforcecli/plugin-templates/commit/c245a706917415626babf7a8adb2630a44a41ed2))
+- **lightning-out:** numeric sourceApiVersion and clearer site copy @W-24812375@ ([4dd0754](https://github.com/salesforcecli/plugin-templates/commit/4dd07545dc10b7f7cf4cf3a65f96af99dfcdf447))
+- **lightning-out:** order below-69.0 site steps and add missing guidance @W-24812375@ ([4574498](https://github.com/salesforcecli/plugin-templates/commit/4574498f470254fef1c8b8723e5126d5b3a448df))
+- **lightning-out:** restore below-69.0 site copy per review @W-24812375@ ([03424c2](https://github.com/salesforcecli/plugin-templates/commit/03424c289f7d442a23233c8c2013503c70b905a5))
+- **lightning-out:** use exact Experience Builder security labels @W-24812375@ ([a942c18](https://github.com/salesforcecli/plugin-templates/commit/a942c18c5a9e2a86e41a4fbd4d7543a5ff4e4793))
+
+### Features
+
+- **lightning-out:** @W-24812375@ add --site and --access for CLWR apps ([86f5ab6](https://github.com/salesforcecli/plugin-templates/commit/86f5ab66d4d797fc5bcd9edfb482ccec3cc07cc5))
+
+### Reverts
+
+- **lightning-out:** restore reviewed copy from 4574498 @W-24812375@ ([a69f2cf](https://github.com/salesforcecli/plugin-templates/commit/a69f2cfda33fe0c6ca31a8cffbecdc660ad0441b))
+
 ## [57.6.1](https://github.com/salesforcecli/plugin-templates/compare/57.6.0...57.6.1) (2026-11-08)
 
 ### Bug Fixes
