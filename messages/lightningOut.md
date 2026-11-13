@@ -12,9 +12,13 @@
 
   <%= config.bin %> <%= command.id %> --definition-file lo-def.json --output-dir force-app/main/default
 
-- Generate a CLWR app for an Experience Cloud site using a definition file:
+- Generate a CLWR app for authenticated users (the default) of the Experience Cloud site named "My Site", using a definition file for the other values:
 
-  <%= config.bin %> <%= command.id %> --runtime CLWR --definition-file lo-def.json
+  <%= config.bin %> <%= command.id %> --runtime CLWR --site "My Site" --definition-file lo-def.json
+
+- Generate a CLWR app for guest users of the Experience Cloud site named "My Site":
+
+  <%= config.bin %> <%= command.id %> --app-name MyLoApp --runtime CLWR --access guest --site "My Site" --components c/myHeader
 
 - Generate the app using most of the values from a definition file, but the --host-domains value overrides its equivalent in the file:
 
@@ -28,7 +32,7 @@ Generate the required metadata to scaffold a Lightning Out 2.0 app.
 
 Lightning Out 2.0 lets you embed custom Lightning web components (LWCs) into your external, non-Salesforce apps.
 
-This command gets you started by generating the seven metadata artifact types that a Lightning Out 2.0 app requires into your Salesforce DX project: LightningOutApp, MyDomain and Security settings, one CorsWhitelistOrigin per host domain, and the three External Client Application OAuth components (ExternalClientApplication, ExtlClntAppGlobalOauthSettings, ExtlClntAppOauthSettings). The command only generates files. It doesn't deploy any metadata to an org.
+This command gets you started by generating the seven metadata artifact types that a Lightning Out 2.0 app requires into your Salesforce DX project: LightningOutApp, MyDomain and Security settings, one CorsWhitelistOrigin per host domain, and the three External Client Application OAuth components (ExternalClientApplication, ExtlClntAppGlobalOauthSettings, ExtlClntAppOauthSettings). For a CLWR app with --access guest, the command generates only the LightningOutApp, because guest users don't log in. The command only generates files. It doesn't deploy any metadata to an org. When you deploy the generated LightningOutApp, its components and host domains replace the app's existing ones in the org, including any added in Setup. List every component and host domain the app needs, not just the new ones.
 
 Inputs can come from a --definition-file JSON, individual flags, or both. Flag values take precedence over the file on a per-key basis. The command validates the types of definition-file fields; the underlying generator performs the remaining structural validation, such as required fields and formats.
 
@@ -46,11 +50,15 @@ Runtime that serves the app.
 
 # flags.runtime.description
 
-LWR_CORE serves the app from your Salesforce org to authenticated users. CLWR serves it from an Experience Cloud site to guest and authenticated users. After you deploy a CLWR app, link it to your site in Setup.
+LWR_CORE serves the app from your Salesforce org to authenticated users. CLWR serves it from an Experience Cloud site to guest and authenticated users. For CLWR, specify the site with --site and the type of user with --access.
 
 # flags.host-domains.summary
 
-HTTP or HTTPS origin of an external host page that embeds the app. Repeat the flag to specify more than one. Replaces, rather than merges with, any hostDomains in the --definition-file. For CLWR apps, host domains are used only for CORS, which authenticated users need. Set up framing for the site in Experience Builder.
+HTTP or HTTPS origin of an external host page that embeds the app.
+
+# flags.host-domains.description
+
+Repeat the flag to specify more than one. Replaces, rather than merges with, any hostDomains in the --definition-file. Not used for CLWR with --access guest.
 
 # flags.components.summary
 
@@ -63,6 +71,22 @@ Contact email for the External Client Application.
 # flags.eca-callback-url.summary
 
 OAuth callback URL for the External Client Application.
+
+# flags.site.summary
+
+Name of the Experience Cloud site to link a CLWR app to.
+
+# flags.site.description
+
+Use the site name shown on the All Sites page in Setup, not its URL path prefix. The site must be active and use the Lightning Out (LWR) or Build Your Own (LWR) template. Used only with --runtime CLWR. To deploy an app that's linked to a site, use API version 69.0 or later. This flag is required for CLWR unless the project's sourceApiVersion is below 69.0, because deploying a CLWR app without a site at 69.0 or later removes the app's existing site link.
+
+# flags.access.summary
+
+Type of Experience Cloud site user who accesses a CLWR app.
+
+# flags.access.description
+
+Valid values are "authenticated" (default) and "guest". With "authenticated", the command generates the app plus the External Client Application, CORS, and MyDomain and Security settings that site users need to log in. With "guest", the command generates only the app, because guest users don't log in. Used only with --runtime CLWR.
 
 # flags.definition-file.summary
 
@@ -84,9 +108,41 @@ Definition file field "%s" must be %s.
 
 Ignoring unrecognized key "%s" in --definition-file.
 
+# error.clwr-site-required
+
+Specify the Experience Cloud site for this CLWR app with --site or with "site" in the definition file. Without a site, deploying the app at API version 69.0 or later removes the app's existing site link. %s
+
+# error.clwr-site-required.version
+
+The project's sourceApiVersion is %s.
+
+# error.clwr-site-required.no-version
+
+The command can't check the API version because sfdx-project.json doesn't set sourceApiVersion.
+
+# error.clwr-site-required.invalid-version
+
+The command can't check the API version because the project's sourceApiVersion, "%s", isn't valid.
+
+# error.clwr-site-required.no-project
+
+The command can't check the API version because the output directory isn't in a Salesforce DX project.
+
+# warning.site-api-version
+
+To deploy an app that's linked to a site, use sourceApiVersion 69.0 or later. The project's sourceApiVersion is %s, so the deploy fails. Set sourceApiVersion to 69.0 or later in sfdx-project.json, or regenerate the app without --site and link the site in Setup after you deploy.
+
+# success.clwr-site-authenticated
+
+For authenticated users, on your host page, also set "frontdoor-url" on the <lightning-out-application> tag to the frontdoor_uri that your host app gets for the logged-in user from the site's /services/oauth2/lightningoutsingleaccess endpoint.
+
+# warning.clwr-site-later
+
+If you later set sourceApiVersion to 69.0 or later, regenerate the app with --site before you redeploy. Otherwise, the deploy removes the app's site link.
+
 # warning.source-api-version
 
-Your local project's sourceApiVersion (%s) is below 68.0, the minimum API version this scaffold supports for deployment. Set sourceApiVersion to 68.0 or later in sfdx-project.json, or pass --api-version 68.0 or later when you deploy.
+The project's sourceApiVersion is %s, which is below 68.0, the minimum API version for deploying a Lightning Out 2.0 app, so the deploy fails. Set sourceApiVersion to 68.0 or later in sfdx-project.json before you deploy. Passing --api-version when you deploy doesn't change the API version of the deployed metadata.
 
 # warning.org-settings
 
@@ -94,7 +150,7 @@ Deploying the generated MyDomain and Security settings changes two org-wide sett
 
 # success.next-step
 
-Scaffold generated in %s. Deploy it with: sf project deploy start --source-dir %s%s
+Scaffold generated in %s. Deploy it with: sf project deploy start --source-dir %s
 
 # success.app-id
 
@@ -112,6 +168,18 @@ Re-running this command overwrites the generated files for the "%s" External Cli
 
 Verify that every component you referenced already exists and is exposed for Lightning Out 2.0 before deploying.
 
+# success.clwr-site-linked-guest
+
+Deploying the app links it to the "%s" site and replaces the app's current site link, if it has one. After you deploy, in Experience Builder for the site, go to Settings > Security & Privacy, set "Clickjack Protection Level" to "Allow framing of site pages on external domains", and add your host domains to "Trusted Domains for Inline Framing". Then make the site's /lightning-out page public, and publish the site. On your host page, set "org-url" to the site's origin without its path prefix, for example "https://example.my.site.com", and "site-prefix" to the URL path prefix, for example "/mysite", on the <lightning-out-application> tag. For a site at the root of its domain, set "site-prefix" to "". For host-page setup, see "Use Components Outside Salesforce with Lightning Out 2.0" in the Lightning Web Components Developer Guide.
+
+# success.clwr-site-linked-authenticated
+
+Deploying the app links it to the "%s" site and replaces the app's current site link, if it has one. After you deploy, in Experience Builder for the site, go to Settings > Security & Privacy, set "Clickjack Protection Level" to "Allow framing of site pages on external domains", and add your host domains to "Trusted Domains for Inline Framing". Then publish the site. On your host page, set "frontdoor-url" to the frontdoor_uri that your host app gets for the logged-in user from the site's /services/oauth2/lightningoutsingleaccess endpoint, and set "site-prefix" to the site's URL path prefix, for example "/mysite", on the <lightning-out-application> tag. For a site at the root of its domain, set "site-prefix" to "". For host-page setup, see "Use Components Outside Salesforce with Lightning Out 2.0" in the Lightning Web Components Developer Guide.
+
 # success.clwr-site
 
-Link the app to your Experience Cloud site after deploying. From Setup, in the Quick Find box, enter Lightning Out, and then select "Lightning Out 2.0 App Manager". Edit the app, select your site on the "Linked Communities Site" tab, and save. Then follow the steps in the "Complete Deployment in Experience Builder" dialog, which include publishing the site. On your host page, set the "site-prefix" attribute on the <lightning-out-application> tag to your site's URL path prefix, for example "/mysite". For host-page setup, see "Use Components Outside Salesforce with Lightning Out 2.0" in the Lightning Web Components Developer Guide.
+Link the app to your Experience Cloud site after deploying. From Setup, in the Quick Find box, enter Lightning Out, and then select "Lightning Out 2.0 App Manager". Edit the app, select your site on the "Linked Communities Site" tab, and save. Then, in Experience Builder for the site, go to Settings > Security & Privacy and set "Clickjack Protection Level" to "Allow framing of site pages on external domains". The "Complete Deployment in Experience Builder" dialog doesn't include this step. Then follow the steps in the dialog, which include adding your host domains to the site's trusted domains and publishing the site. On your host page, set the "site-prefix" attribute on the <lightning-out-application> tag to your site's URL path prefix, for example "/mysite". For a site at the root of its domain, set "site-prefix" to "". For host-page setup, see "Use Components Outside Salesforce with Lightning Out 2.0" in the Lightning Web Components Developer Guide.
+
+# success.clwr-site-guest
+
+For guest users, don't skip the dialog's Guest User Mode step for the site's /lightning-out page. On your host page, also set "org-url" on the <lightning-out-application> tag to the site's origin without its path prefix, for example "https://example.my.site.com".

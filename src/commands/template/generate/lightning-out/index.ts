@@ -15,6 +15,7 @@
  */
 
 import * as fs from 'node:fs';
+import * as path from 'node:path';
 import { Flags, loglevel, SfCommand, Ux } from '@salesforce/sf-plugins-core';
 import { CreateOutput, LightningOutOptions, TemplateType } from '@salesforce/templates';
 import { Messages, SfProject } from '@salesforce/core';
@@ -33,8 +34,16 @@ type LightningOutFlags = {
   components?: string[];
   'eca-contact-email'?: string;
   'eca-callback-url'?: string;
+  site?: string;
+  access?: 'guest' | 'authenticated';
   'output-dir'?: string;
 };
+
+const KNOWN_KEYS = ['appName', 'runtime', 'hostDomains', 'components', 'eca', 'site', 'access'] as const;
+/** The v68.0 deploy floor for LightningOutApp. */
+const API_FLOOR = 68;
+/** First API version whose LightningOutApp accepts <sites>; at/after it, omitting <sites> can unlink. */
+const SITES_API_VERSION = 69;
 
 /** Parse the --definition-file JSON, surfacing a clear error on malformed or non-object input. */
 export function readDefinition(file: string): Record<string, unknown> {
@@ -60,6 +69,7 @@ function isStringArray(v: unknown): boolean {
  * JSON (e.g. `"appName": 123`) yields an actionable error here rather than an internal TypeError
  * from the generator (which calls `.trim()` on string fields). A field is skipped when the matching
  * flag overrides it, since flags always arrive as strings and win per-key (see mergeLightningOutInputs).
+ * An explicit JSON null for `site`/`access` counts as absent, matching the generator.
  */
 export function validateDefinitionShape(defn: Record<string, unknown>, flags: LightningOutFlags): void {
   const requireString = (overridden: boolean, val: unknown, key: string): void => {
@@ -77,6 +87,8 @@ export function validateDefinitionShape(defn: Record<string, unknown>, flags: Li
   requireString(flags.runtime !== undefined, defn.runtime, 'runtime');
   requireStringArray(flags['host-domains'] !== undefined, defn.hostDomains, 'hostDomains');
   requireStringArray(flags.components !== undefined, defn.components, 'components');
+  requireString(flags.site !== undefined, defn.site ?? undefined, 'site');
+  requireString(flags.access !== undefined, defn.access ?? undefined, 'access');
 
   if (defn.eca !== undefined) {
     if (typeof defn.eca !== 'object' || defn.eca === null || Array.isArray(defn.eca)) {
@@ -99,7 +111,7 @@ export function mergeLightningOutInputs(
   defn: Record<string, unknown>,
   flags: LightningOutFlags
 ): { opts: LightningOutOptions; unknownKeys: string[] } {
-  const known = new Set(['appName', 'runtime', 'hostDomains', 'components', 'eca']);
+  const known: ReadonlySet<string> = new Set(KNOWN_KEYS);
   const unknownKeys = Object.keys(defn).filter((k) => !known.has(k));
   const ecaDefn = (defn.eca ?? {}) as Record<string, unknown>;
   const opts: LightningOutOptions = {
@@ -112,29 +124,66 @@ export function mergeLightningOutInputs(
       contactEmail: flags['eca-contact-email'] ?? (ecaDefn.contactEmail as string),
       callbackUrl: flags['eca-callback-url'] ?? (ecaDefn.callbackUrl as string),
     },
+    // An explicit JSON null counts as absent, so the `site === undefined` checks stay sound.
+    site: flags.site ?? (defn.site as string | null | undefined) ?? undefined,
+    access: flags.access ?? (defn.access as LightningOutOptions['access'] | null | undefined) ?? undefined,
     outputdir: flags['output-dir'],
   };
   return { opts, unknownKeys };
 }
 
 /**
- * Resolve the local DX project's `sourceApiVersion`, used only for a CLI-side advisory warning
- * (the generator itself has no project context). Returns undefined when there's no DX project —
- * generating outside a project must not error.
+ * Resolve the DX project that contains `dir` and its `sourceApiVersion` (the generator itself has no
+ * project context). `inProject` is false when `dir` isn't in a DX project, so generating outside a
+ * project doesn't error. `api` is undefined when the version is missing or not a string or number.
  */
-async function getSourceApiVersion(): Promise<string | undefined> {
+async function getProjectApi(dir: string): Promise<{ inProject: boolean; api?: string }> {
+  let project: SfProject;
   try {
-    const project = await SfProject.resolve();
-    const projectJson = await project.resolveProjectConfig();
-    return projectJson.sourceApiVersion as string | undefined;
+    project = await SfProject.resolve(path.resolve(dir));
   } catch (e) {
-    return undefined;
+    return { inProject: false };
+  }
+  try {
+    const projectJson = await project.resolveProjectConfig();
+    // sfdx-project.json isn't schema-validated on read, so a bare number (66) can arrive here.
+    const v: unknown = projectJson.sourceApiVersion;
+    return { inProject: true, api: typeof v === 'string' || typeof v === 'number' ? String(v) : undefined };
+  } catch (e) {
+    return { inProject: true };
   }
 }
 
-/** True when a project sourceApiVersion is present and below the v68.0 deploy floor. Pure; testable. */
+/**
+ * Strictly parse an API version such as "68.0" or "68". Anything else (for example "latest", "0x44",
+ * or "1e2") is NaN, so callers treat it as unknown and fail closed.
+ */
+function parseApiVersion(projApi: string | undefined): number {
+  const v = projApi?.trim() ?? '';
+  return /^\d+(\.\d+)?$/.test(v) ? Number(v) : NaN;
+}
+
+/** True when a project sourceApiVersion is known and below the v68.0 deploy floor. Pure; testable. */
 export function isBelowApiFloor(projApi: string | undefined): boolean {
-  return !!projApi && Number(projApi) < 68;
+  return parseApiVersion(projApi) < API_FLOOR;
+}
+
+/**
+ * True when a project sourceApiVersion is known and below 69.0, where <sites> isn't deployable.
+ * An unknown or unparsable version is not "below", so CLWR without a site fails closed. Pure; testable.
+ */
+export function isBelowSitesApi(projApi: string | undefined): boolean {
+  return parseApiVersion(projApi) < SITES_API_VERSION;
+}
+
+/** Last sentence of the site-required error: why the project's version didn't exempt the app. */
+function siteRequiredReason(inProject: boolean, projApi: string | undefined): string {
+  if (!inProject) return messages.getMessage('error.clwr-site-required.no-project');
+  if (projApi === undefined) return messages.getMessage('error.clwr-site-required.no-version');
+  if (Number.isNaN(parseApiVersion(projApi))) {
+    return messages.getMessage('error.clwr-site-required.invalid-version', [projApi]);
+  }
+  return messages.getMessage('error.clwr-site-required.version', [projApi]);
 }
 
 /**
@@ -158,10 +207,23 @@ export default class LightningOut extends SfCommand<CreateOutput> {
       summary: messages.getMessage('flags.runtime.summary'),
       description: messages.getMessage('flags.runtime.description'),
     })(),
-    'host-domains': Flags.string({ summary: messages.getMessage('flags.host-domains.summary'), multiple: true }),
+    'host-domains': Flags.string({
+      summary: messages.getMessage('flags.host-domains.summary'),
+      description: messages.getMessage('flags.host-domains.description'),
+      multiple: true,
+    }),
     components: Flags.string({ summary: messages.getMessage('flags.components.summary'), multiple: true }),
     'eca-contact-email': Flags.string({ summary: messages.getMessage('flags.eca-contact-email.summary') }),
     'eca-callback-url': Flags.string({ summary: messages.getMessage('flags.eca-callback-url.summary') }),
+    site: Flags.string({
+      summary: messages.getMessage('flags.site.summary'),
+      description: messages.getMessage('flags.site.description'),
+    }),
+    access: Flags.option({
+      options: ['guest', 'authenticated'] as const,
+      summary: messages.getMessage('flags.access.summary'),
+      description: messages.getMessage('flags.access.description'),
+    })(),
     'definition-file': Flags.file({ exists: true, summary: messages.getMessage('flags.definition-file.summary') }),
     'output-dir': outputDirFlagLightning,
     loglevel,
@@ -175,6 +237,21 @@ export default class LightningOut extends SfCommand<CreateOutput> {
 
     unknownKeys.forEach((k) => this.warn(messages.getMessage('warning.unknown-definition-key', [k])));
 
+    const isClwr = opts.runtime === 'CLWR';
+    const isGuest = isClwr && opts.access === 'guest';
+
+    const outputDir = opts.outputdir ?? '.';
+    // CLI-side sourceApiVersion check, against the project the files are generated into.
+    const { inProject, api: projApi } = await getProjectApi(outputDir);
+
+    // A CLWR app file without <sites> can unlink the app's site when deployed at 69.0+, so a site is
+    // required unless the project is known to be below 69.0 (where <sites> can't be deployed and
+    // Core keeps the link). Checked before generating so no files are written. A blank or empty site
+    // is the generator's error, not this one.
+    if (isClwr && opts.site === undefined && !isBelowSitesApi(projApi)) {
+      throw messages.createError('error.clwr-site-required', [siteRequiredReason(inProject, projApi)]);
+    }
+
     const result = await runGenerator({
       templateType: TemplateType.LightningOut,
       opts,
@@ -182,32 +259,67 @@ export default class LightningOut extends SfCommand<CreateOutput> {
       templates: getCustomTemplates(this.configAggregator),
     });
 
-    // CLI-side sourceApiVersion floor check (the generator has no project context).
-    const projApi = await getSourceApiVersion();
-    const belowFloor = isBelowApiFloor(projApi);
-    if (belowFloor) {
-      this.warn(messages.getMessage('warning.source-api-version', [String(projApi)]));
-    }
-
-    // The org-wide settings notice is a warning, so it also appears in the --json `warnings` array.
-    this.warn(messages.getMessage('warning.org-settings'));
-
-    // Success guidance (log/info are suppressed automatically under --json).
-    // Only pin --api-version to the 68.0 deploy floor when the project is below it; otherwise omit
-    // the optional flag so the user's own (>= floor) project default applies rather than being downgraded.
-    const outputDir = opts.outputdir ?? '.';
-    const apiVersionSuffix = belowFloor ? ' --api-version 68.0' : '';
-    this.info(messages.getMessage('success.components-exist'));
-    this.log(messages.getMessage('success.next-step', [outputDir, shellQuoteArg(outputDir), apiVersionSuffix]));
-    // CLWR finds the app through the site link; app-id only applies to LWR_CORE.
-    if (opts.runtime === 'CLWR') {
-      this.info(messages.getMessage('success.clwr-site'));
-    } else {
-      this.info(messages.getMessage('success.app-id'));
-    }
-    this.info(messages.getMessage('success.dont-delete'));
-    this.info(messages.getMessage('success.eca-overwrite', [opts.eca.name ?? '']));
+    // Only a known version below 69.0 is certain to fail; an unknown one may deploy at the org's version.
+    const siteWillFail = opts.site !== undefined && isBelowSitesApi(projApi);
+    this.warnAfterGenerate(opts, { projApi, isClwr, isGuest, siteWillFail });
+    this.printGuidance(opts, { isClwr, isGuest, outputDir, siteWillFail, belowFloor: isBelowApiFloor(projApi) });
 
     return result; // --json returns the full CreateOutput (created[])
+  }
+
+  /** Post-generate warnings (`this.warn`, so they also appear in the --json `warnings` array). */
+  private warnAfterGenerate(
+    opts: LightningOutOptions,
+    ctx: { projApi?: string; isClwr: boolean; isGuest: boolean; siteWillFail: boolean }
+  ): void {
+    // Also shown with a site: the site warning's "regenerate without --site" fallback still needs 68.0.
+    if (isBelowApiFloor(ctx.projApi)) {
+      this.warn(messages.getMessage('warning.source-api-version', [String(ctx.projApi)]));
+    }
+    if (ctx.siteWillFail) {
+      this.warn(messages.getMessage('warning.site-api-version', [String(ctx.projApi)]));
+    }
+    // Reaching here with CLWR and no site means the project is below 69.0; a later bump would unlink it.
+    if (ctx.isClwr && opts.site === undefined) {
+      this.warn(messages.getMessage('warning.clwr-site-later'));
+    }
+    // Guest writes no settings files, so the org-wide settings notice applies only otherwise.
+    if (!ctx.isGuest) {
+      this.warn(messages.getMessage('warning.org-settings'));
+    }
+  }
+
+  /** Success guidance (log/info are suppressed automatically under --json). */
+  private printGuidance(
+    opts: LightningOutOptions,
+    ctx: { isClwr: boolean; isGuest: boolean; outputDir: string; siteWillFail: boolean; belowFloor: boolean }
+  ): void {
+    this.info(messages.getMessage('success.components-exist'));
+    // A deploy known to fail (below the 68.0 floor, or a site below 69.0) gets no copy-paste command; its
+    // warning says how to fix it. --api-version isn't offered: it doesn't change the deployed metadata's version.
+    if (!ctx.siteWillFail && !ctx.belowFloor) {
+      this.log(messages.getMessage('success.next-step', [ctx.outputDir, shellQuoteArg(ctx.outputDir)]));
+    }
+    if (ctx.isClwr) {
+      if (opts.site) {
+        // The deploy itself links the site; the rest of the site setup is done in Experience Builder.
+        // Skipped when the version warning says this deploy fails, since the site wouldn't be linked.
+        if (!ctx.siteWillFail) {
+          const key = ctx.isGuest ? 'success.clwr-site-linked-guest' : 'success.clwr-site-linked-authenticated';
+          this.info(messages.getMessage(key, [opts.site.trim()]));
+        }
+      } else {
+        // Below 69.0: <sites> can't be deployed, so the site is linked in Setup.
+        this.info(messages.getMessage('success.clwr-site'));
+        this.info(messages.getMessage(ctx.isGuest ? 'success.clwr-site-guest' : 'success.clwr-site-authenticated'));
+      }
+    } else {
+      // CLWR finds the app through the site link; app-id only applies to LWR_CORE.
+      this.info(messages.getMessage('success.app-id'));
+    }
+    if (!ctx.isGuest) {
+      this.info(messages.getMessage('success.dont-delete'));
+      this.info(messages.getMessage('success.eca-overwrite', [opts.eca?.name ?? '']));
+    }
   }
 }
