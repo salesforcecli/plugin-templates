@@ -1,3 +1,9 @@
+# [57.8.0](https://github.com/salesforcecli/plugin-templates/compare/57.7.5...57.8.0) (2026-11-23)
+
+### Features
+
+- **project:** @W-24953181@ add vueexternalapp template option ([#1110](https://github.com/salesforcecli/plugin-templates/issues/1110)) ([16673d5](https://github.com/salesforcecli/plugin-templates/commit/16673d559a70d3823fcf670f469b78221138b90d))
+
 ## [57.7.5](https://github.com/salesforcecli/plugin-templates/compare/57.7.4...57.7.5) (2026-11-23)
 
 ### Bug Fixes
