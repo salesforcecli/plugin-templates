@@ -864,8 +864,9 @@ Generate a Salesforce DX project.
 ```
 USAGE
   $ sf template generate project -n <value> [--json] [--flags-dir <value>] [-t
-    standard|empty|analytics|reactinternalapp|reactexternalapp|angularinternalapp|angularexternalapp|vueinternalapp|agen
-    t] [-d <value>] [-s <value>] [-p <value>] [-x] [--lwc-language javascript|typescript] [--api-version <value>]
+    standard|empty|analytics|reactinternalapp|reactexternalapp|angularinternalapp|angularexternalapp|vueinternalapp|vuee
+    xternalapp|agent] [-d <value>] [-s <value>] [-p <value>] [-x] [--lwc-language javascript|typescript] [--api-version
+    <value>]
 
 FLAGS
   -d, --output-dir=<value>           [default: .] Directory for saving the created files.
@@ -874,7 +875,7 @@ FLAGS
   -s, --namespace=<value>            Namespace associated with this project and any connected scratch orgs.
   -t, --template=<option>            [default: standard] Template to use for project creation.
                                      <options: standard|empty|analytics|reactinternalapp|reactexternalapp|angularinterna
-                                     lapp|angularexternalapp|vueinternalapp|agent>
+                                     lapp|angularexternalapp|vueinternalapp|vueexternalapp|agent>
   -x, --manifest                     Generate a manifest (package.xml) for change-set based development.
       --api-version=<value>          Will set this version as sourceApiVersion in the sfdx-project.json file
       --lwc-language=<option>        Language of the Lightning Web Components. If not specified, "javascript" is used.
@@ -935,7 +936,7 @@ FLAG DESCRIPTIONS
 
     Metadata items such as classes and Lightning bundles are placed inside this folder.
 
-  -t, --template=standard|empty|analytics|reactinternalapp|reactexternalapp|angularinternalapp|angularexternalapp|vueinternalapp|agent
+  -t, --template=standard|empty|analytics|reactinternalapp|reactexternalapp|angularinternalapp|angularexternalapp|vueinternalapp|vueexternalapp|agent
 
     Template to use for project creation.
 
@@ -967,7 +968,8 @@ FLAG DESCRIPTIONS
     The angularinternalapp and angularexternalapp templates provide Angular-based project scaffolding for internal and
     external UI bundle use cases.
 
-    The vueinternalapp template provides Vue-based project scaffolding for internal UI bundle use cases.
+    The vueinternalapp and vueexternalapp templates provide Vue-based project scaffolding for internal and external UI
+    bundle use cases.
 
     The agent template provides project scaffolding for building Agentforce agents and includes a sample agent called
     Local Info Agent.

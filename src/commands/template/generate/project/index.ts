@@ -51,6 +51,7 @@ export default class Project extends SfCommand<CreateOutput> {
         'angularinternalapp',
         'angularexternalapp',
         'vueinternalapp',
+        'vueexternalapp',
         'agent',
       ] as const,
     })(),
