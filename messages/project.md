@@ -66,7 +66,7 @@ The reactinternalapp and reactexternalapp templates provide React-based project 
 
 The angularinternalapp and angularexternalapp templates provide Angular-based project scaffolding for internal and external UI bundle use cases.
 
-The vueinternalapp template provides Vue-based project scaffolding for internal UI bundle use cases.
+The vueinternalapp and vueexternalapp templates provide Vue-based project scaffolding for internal and external UI bundle use cases.
 
 The agent template provides project scaffolding for building Agentforce agents and includes a sample agent called Local Info Agent.
 

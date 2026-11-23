@@ -362,6 +362,28 @@ describe('template generate project:', () => {
       assert.fileContent(uiBundleMetaPath, alphanumericName);
     });
 
+    it('should create project with vueexternalapp template', () => {
+      const projectName = 'vue-externalapp-test';
+      const alphanumericName = 'vueexternalapptest';
+      execCmd(`template generate project --projectname ${projectName} --template vueexternalapp`, {
+        ensureExitCode: 0,
+      });
+      const projectDir = path.join(session.project.dir, projectName);
+      assert.file([path.join(projectDir, 'sfdx-project.json')]);
+      assert.fileContent(path.join(projectDir, 'sfdx-project.json'), 'sourceApiVersion');
+      const uiBundleMetaPath = path.join(
+        projectDir,
+        'force-app',
+        'main',
+        'default',
+        'uiBundles',
+        alphanumericName,
+        `${alphanumericName}.uibundle-meta.xml`
+      );
+      assert.file([uiBundleMetaPath]);
+      assert.fileContent(uiBundleMetaPath, alphanumericName);
+    });
+
     it('should create project with agent template', () => {
       execCmd('template generate project --projectname agent1 --template agent --manifest', {
         ensureExitCode: 0,
