@@ -53,6 +53,7 @@ export default class Project extends SfCommand<CreateOutput> {
         'vueinternalapp',
         'vueexternalapp',
         'agent',
+        'compute',
       ] as const,
     })(),
     'output-dir': outputDirFlag,
@@ -88,6 +89,11 @@ export default class Project extends SfCommand<CreateOutput> {
       description: messages.getMessage('flags.lwc-language.description'),
       options: ['javascript', 'typescript'] as const,
     })(),
+    'compute-language': Flags.option({
+      summary: messages.getMessage('flags.compute-language.summary'),
+      description: messages.getMessage('flags.compute-language.description'),
+      options: ['node', 'python'] as const,
+    })(),
     loglevel,
     'api-version': Flags.orgApiVersion({
       summary: messages.getMessage('flags.api-version.summary'),
@@ -95,6 +101,13 @@ export default class Project extends SfCommand<CreateOutput> {
   };
   public async run(): Promise<CreateOutput> {
     const { flags } = await this.parse(Project);
+
+    if (flags.template === 'compute' && !flags['compute-language']) {
+      throw messages.createError('ComputeLanguageRequired');
+    }
+    if (flags.template !== 'compute' && flags['compute-language']) {
+      throw messages.createError('ComputeLanguageRequiresComputeTemplate');
+    }
 
     const flagsAsOptions: ProjectOptions = {
       projectname: flags.name,
@@ -110,6 +123,10 @@ export default class Project extends SfCommand<CreateOutput> {
 
     if (flags['lwc-language']) {
       flagsAsOptions.lwcLanguage = flags['lwc-language'];
+    }
+
+    if (flags['compute-language']) {
+      flagsAsOptions.computeLanguage = flags['compute-language'];
     }
 
     void Lifecycle.getInstance().emitTelemetry({ eventName: 'project_template_flag_value', template: flags.template });

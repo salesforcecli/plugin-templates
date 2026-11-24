@@ -133,6 +133,7 @@
     "flagChars": ["d", "l", "n", "p", "s", "t", "x"],
     "flags": [
       "api-version",
+      "compute-language",
       "default-package-dir",
       "flags-dir",
       "json",
