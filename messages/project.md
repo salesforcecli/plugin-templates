@@ -30,6 +30,10 @@ By default, the generated sfdx-project.json file sets the sourceApiVersion prope
 
   <%= config.bin %> <%= command.id %> --name mywork --lwc-language typescript
 
+- Generate a project that contains a Node.js compute app called "mycompute":
+
+  <%= config.bin %> <%= command.id %> --name mycompute --template compute --compute-language node
+
 # flags.name.summary
 
 Name of the generated project.
@@ -70,6 +74,8 @@ The vueinternalapp and vueexternalapp templates provide Vue-based project scaffo
 
 The agent template provides project scaffolding for building Agentforce agents and includes a sample agent called Local Info Agent.
 
+The compute template provides a project that contains a starter compute app, named after the project, that runs on Heroku. You must also specify the language of the app with --compute-language.
+
 # flags.namespace.summary
 
 Namespace associated with this project and any connected scratch orgs.
@@ -109,3 +115,19 @@ Language of the Lightning Web Components. If not specified, "javascript" is used
 # flags.lwc-language.description
 
 When set to `'typescript'`, generates TypeScript configuration files (tsconfig.json, package.json with TypeScript dependencies, and TypeScript-aware ESLint config). When you deploy the TypeScript-based Lightning Web Components, the TypeScript files are first compiled locally for validation and then the `.ts` files are deployed to your org for server-side type stripping.
+
+# flags.compute-language.summary
+
+Language of the compute app. Required when you specify the compute template.
+
+# flags.compute-language.description
+
+Choose "node" for a Node.js app or "python" for a Python app. This flag is valid only with the compute template and has no default value.
+
+# ComputeLanguageRequired
+
+The compute template requires the --compute-language flag. Specify one of: node, python.
+
+# ComputeLanguageRequiresComputeTemplate
+
+The --compute-language flag is valid only with --template compute.

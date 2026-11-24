@@ -53,6 +53,7 @@ const vscodearray = ['extensions', 'launch', 'settings'];
 
 Messages.importMessagesDirectory(path.dirname(url.fileURLToPath(import.meta.url)));
 const messages = Messages.loadMessages('@salesforce/plugin-templates', 'messages');
+const projectMessages = Messages.loadMessages('@salesforce/plugin-templates', 'project');
 
 describe('template generate project:', () => {
   let session: TestSession;
@@ -384,6 +385,28 @@ describe('template generate project:', () => {
       assert.fileContent(uiBundleMetaPath, alphanumericName);
     });
 
+    (
+      [
+        { language: 'node', marker: 'package.json', absent: 'requirements.txt' },
+        { language: 'python', marker: 'requirements.txt', absent: 'package.json' },
+      ] as const
+    ).forEach(({ language, marker, absent }) => {
+      it(`should create project with compute template and ${language} language`, () => {
+        const projectName = `Compute${language}App`;
+        execCmd(`template generate project --name ${projectName} --template compute --compute-language ${language}`, {
+          ensureExitCode: 0,
+        });
+        const projectDir = path.join(session.project.dir, projectName);
+        assert.file([path.join(projectDir, 'sfdx-project.json')]);
+        assert.fileContent(path.join(projectDir, 'sfdx-project.json'), 'sourceApiVersion');
+        const appDir = path.join(projectDir, 'force-app', 'main', 'default', 'computeApps', projectName);
+        const metaPath = path.join(appDir, `${projectName}.computeApp-meta.xml`);
+        assert.file([metaPath, path.join(appDir, 'Procfile'), path.join(appDir, marker)]);
+        assert.fileContent(metaPath, projectName);
+        assert.noFile([path.join(appDir, absent)]);
+      });
+    });
+
     it('should create project with agent template', () => {
       execCmd('template generate project --projectname agent1 --template agent --manifest', {
         ensureExitCode: 0,
@@ -601,6 +624,24 @@ describe('template generate project:', () => {
     it('should throw invalid template name error', () => {
       const stderr = execCmd('template generate project --projectname foo --template foo').shellOutput.stderr;
       expect(stderr).to.contain(messages.getMessage('InvalidTemplate'));
+    });
+
+    it('should throw error when the compute template is used without compute-language', () => {
+      const stderr = execCmd('template generate project --name foo --template compute').shellOutput.stderr;
+      expect(stderr).to.contain(projectMessages.getMessage('ComputeLanguageRequired'));
+    });
+
+    it('should throw error for invalid compute-language value', () => {
+      const stderr = execCmd('template generate project --name foo --template compute --compute-language ruby')
+        .shellOutput.stderr;
+      expect(stderr).to.contain('Expected --compute-language');
+      expect(stderr).to.match(/(node|python)/);
+    });
+
+    it('should throw error when compute-language is used with another template', () => {
+      const stderr = execCmd('template generate project --name foo --template empty --compute-language node')
+        .shellOutput.stderr;
+      expect(stderr).to.contain(projectMessages.getMessage('ComputeLanguageRequiresComputeTemplate'));
     });
 
     it('should throw error for invalid lwc-language value', () => {
